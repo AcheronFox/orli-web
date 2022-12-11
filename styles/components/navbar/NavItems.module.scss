@@ -1,0 +1,76 @@
+.Item {
+  height: 100%;
+  font-size: calc($default-font * 1.1);
+  padding: 0 1rem 0 1rem;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 15vw;
+  justify-content: flex-end;
+  color: $grey-5;
+
+  text-transform: uppercase;
+
+  position: relative;	
+	cursor: pointer;
+	user-select: none;
+
+  transition: color .5s;
+
+  @include respond(tab-land) {
+    font-size: calc($default-font * 0.8125);
+  }
+  @include respond(big-desktop) {
+    padding: 0 1.75rem 0 1.75rem;
+    font-size: calc($default-font * 1.25);
+  }
+  @include respond(huge-desktop) {
+    padding: 0 2.5rem 0 2.5rem;
+    font-size: calc($default-font * 2);
+  }
+
+  &:link {
+    color: $grey-5;
+  }
+  &:visited {
+    color: $grey-5;
+  }
+
+  &:before,
+  &:after {
+    left: 0;
+    height: 0;
+    width: 100%;
+    content: '';
+    position: absolute;	
+    transition: inherit;
+    z-index: -1;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 3px;
+    background: linear-gradient(70deg, $primary-color, $secondary-color);
+    transform: scaleY(0);
+  
+    transition: transform .2s, width .4s .2s cubic-bezier(1, 0, 0, 1), background .1s, color .2s;
+  }
+
+  &:active {
+    color: $grey-7 !important;
+  }
+
+  &:hover:before,
+  &:hover:after {
+    transform: scaleY(1);
+    width: 100%;
+  }
+  
+  &:hover {
+    color: $white;
+  }
+}
