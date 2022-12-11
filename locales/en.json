@@ -1,0 +1,216 @@
+{
+  "SECTION": "--------------------NAVBAR-------------------------",
+
+  "menu": "Menu Items",
+  "lang": "🇭🇺",
+  "registration": "Registration",
+  "signIn": "Sign in",
+  "007Fursang": "007 Fursang",
+  "generalInfo": "Info",
+  "location": "Location",
+  "rules": "Rules",
+  "faq": "Frequently asked questions",
+  "furryConv": "Furry Convention",
+  "programs": "Programs",
+  "prices": "Prices",
+  "accomodation": "Accomodation",
+  "shop": "Shop",
+  "history": "History",
+  "aboutFursang": "About Fursang",
+  "aboutUs": "About Us",
+  "profile": "Profile",
+  "logout": "Logout",
+  "locSuitWalk": "Suitwalk - buses path",
+  "locExternal": "External locations",
+  "locPlan": "Floor plan",
+  "locGettingThere": "Getting there",
+
+  "SECTION": "--------------------WARNINGS-------------------------",
+
+  "overloadWarning": "The server is experiencing higher load than usual, please wait...",
+
+  "SECTION": "--------------------INDEX-------------------------",
+
+  "pathOwOGenLoose": "PathOwOgen broke loose!",
+  "hotel": "Hotel",
+  "test": "EN Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque animi fugiat labore asperiores? Animi provident nesciunt natus voluptates maiores autem dolore quaerat cum? Minus modi necessitatibus eligendi quas, nihil maxime sint est minima animi quaerat alias dolorum rem velit dolor? Voluptates perspiciatis quisquam nisi sit dolor, eos explicabo aspernatur quo ipsum atque voluptatibus perferendis itaque sed quibusdam ea delectus, ipsa harum. Dolor, tenetur? Eum eos mollitia quas eveniet cum aut obcaecati culpa voluptatibus error neque vero dolores, sed, soluta eligendi laboriosam aliquid dignissimos corrupti similique, tempore porro iusto cupiditate incidunt pariatur saepe. Officiis harum assumenda perferendis eaque magnam vel quia?",
+  "scrollDown": "Scroll Down",
+
+  "SECTION": "--------------------DATEPICKER-------------------------",
+
+  "dateFormat": "dd/mm/yyyy",
+
+  "SECTION": "--------------------REGISTRATION-------------------------",
+
+  "firstname": "First name",
+  "lastname": "Last name",
+  "fursonaName": "Name of your fursona",
+  "email": "E-mail address",
+  "password": "Password",
+  "passwordConfirm": "Confirm password",
+  "dob": "Date of Birth",
+  "country": "Country",
+  "species": "Species of your fursona",
+  "fursuiterCheckbox": "I will be fursuiting",
+  "agent": "Agent",
+  "nationality":"Nationality",
+  "registrationTextAgreeToTerms": "Please note, that with the registration you accept the Fursang event's rules and the fursang.hu website's data storage and management policy.",
+  "registrationReadAboutIn1": "You could read about this earlier in the",
+  "registrationReadAboutIn2": "...",
+  "registrationButton": "Please sign on the line",
+  "searchablePlaceholder": "Type here to search",
+  "pleaseSelect": "Please select",
+
+  "SECTION": "--------------------REGISTRATION MESSAGES-------------------------",
+
+  "regWait": "Registrating...",
+  "firstNameError": "Please add your First Name",
+  "lastNameError": "Please add your Last Name",
+  "emailError": "Please add a valid e-mail address",
+  "sonaNameError": "Please add your Fursona's name",
+  "sonaSpeciesError": "Please add your Fursona's species",
+  "dateError": "Please add a valid date",
+  "underAgeError": "You must be over 18 years old to registrate",
+  "invalidAgeError": "Please add a valid date of birth",
+  "nationalityError": "Please add your nationality",
+  "passError": "Password must be at least 8 characters long, contain at least one upper and lower case characters, one number and one special character",
+  "passConfError": "Passwords do not match",
+
+  "SECTION": "--------------------REGISTRATION SUCCESS-------------------------",
+
+  "RSucTitle": "Registration Succesful!",
+  "RSucWelcome": "Welcome,",
+  "RSucAgent": "Agent",
+  "RSucDesc1": "We will notify you on",
+  "RSucDesc2": "when your registration has been reviewed.",
+  "RSucOutro": "Until then feel free to return to the",
+  "RSucButton": "Home Page.",
+
+  "SECTION": "--------------------LOGIN-------------------------",
+
+  "loginRemember": "Remember Me",
+  "loginWait": "Logging in...",
+  "loginEmailError": "Please enter your e-mail address",
+  "loginPassError": "Please enter your password",
+  "loginForgotPass": "Forgot password",
+
+  "SECTION": "--------------------Profile-------------------------",
+
+  "updWait": "Saving...",
+  "updSuccess": "Changes saved",
+
+  "SECTION": "--------------------ERRORS------------------------",
+
+  "loginPassErr": "Oops! Please check if the given password is correct.",
+  "loginErrNotFound": "Oops! There is no account under that e-mail address.",
+  "errDefault": "Oops! Something went wrong. Please try again.",
+  "RegErrConf": "Oops! This e-mail address is already registrated.",
+  "errBR": "Oops! There has been an issue with the data. Please try again.",
+  "profileLoginAgain": "Your session has expired, please log in again.",
+
+  "SECTION": "--------------------GENERAL INFO-------------------------",
+
+  "furryConvention": [
+    {
+      "id": 0,
+      "question": "FURRY?",
+      "answer": "It's an international subculture based on the internet, whose members draw inspiration from the fauna of the world to create fictitious characters, or their very own imaginary alternative. The community thus created flees from everyday life into this theoretical world and spends their free time with each others."
+    },
+    {
+      "id": 1,
+      "question": "CONVENTION?",
+      "answer": "Typically this is how we refer to the large, international meeting of the furry subculture, where the members of the community can physically interact with other participants, creations, prominent figures, and traditional programs of the subculture."
+    },
+    {
+      "id": 2,
+      "question": "F-TERMINAL?",
+      "answer": "This is an initiative that plays an important role in the organization of the Hungarian furry events."
+    },
+    {
+      "id": 3,
+      "question": "FURSANG?",
+      "answer": "The name of the largest Hungarian meeting of the local furry community, which is held every year in the middle of winter."
+    },
+    {
+      "id": 4,
+      "question": "WHAT'S NEXT?",
+      "answer": "If you got interested, you have plenty of opportunities to join our community and follow our events! You can find the furry fandom on every community sites or creator collection portals. If you want to know more about the community, check out the WikiFur website. Or if you're interested in the event, consider Registration.",
+      "LinkName": "Wikifur Furry Central",
+      "LinkURL": "http://en.wikifur.com/wiki/WikiFur_Furry_Central",
+      "differentTab": true
+    }
+  ],
+  "faqList": [
+    {
+      "id": 0,
+      "question": "What is Fursang?",
+      "answer": "Fursang is a multi-day meetup for enthusiast of the furry subculture and their friends. The meetup consists of several events taking place at different locations. It is organized annually during the late winter/early spring “farsang” carnival in Budapest. The name is a wordplay on the hungarian name of the carnival and the name of the subculture."
+    },
+    {
+      "id": 1,
+      "question": "Do I have to register?",
+      "answer": "Yes. It is important for us to know that which program(s) you are planning to attend so we can organize them accordingly. Your registration does not oblige you to attend."
+    },
+    {
+      "id": 2,
+      "question": "Can I attend the events even if I didn't register?",
+      "answer": "We cannot and will not forbid you from attending the public events (suitwalk, spa). However, several of the programs take place in locations with limited capacity where reservations are necessary. We strongly recommend you to register. Otherwise, it is likely that you will miss these programs."
+    },
+    {
+      "id": 3,
+      "question": "Do I have to give my real personal details during registration?",
+      "answer": "Yes, it is really important to enter your real name and birth date, and a valid e-mail address (or Facebook account) you use frequently. You can find more information about the data management and storing under the Rules menu. All the other informations are optional, which is used to help the other attendees recognize you.",
+      "LinkName": "Rules",
+      "LinkURL":"/rules"
+    },
+    {
+      "id": 4,
+      "question": "Is there a minimum age limit for attendees?",
+      "answer": "Yes. You must be at least 16 years old to attend to Fursang, and 18 to be able to join us at specific programs. The only exception is the suitwalk where there’s no age limit at all."
+    },{
+      "id": 5,
+      "question": "Is there an obligatory attendance fee?",
+      "answer": "Yes. The programs of the meeting will be held at a private venue, with the cost of rent and any expenses incurred by the participants being shared. The only exception is the suitwalk, it’s completely free for everyone to attend."
+    },
+    {
+      "id": 6,
+      "question": "How can I support the event?",
+      "answer": "The organizers welcome any kind of support, be it monetary, material or non-material. Besides this you’ll have the opportunity to buy sponsor tickets or other products distributed by us. The income will be used to cover organizational expenses."
+    },
+    {
+      "id": 7,
+      "question": "Can I bring pets to the events?",
+      "answer": "No. It's not allowed to bring pets to the place of the event."
+    },
+    {
+      "id": 8,
+      "question": "How will we travel in the city?",
+      "answer": "Between the gathering locations and event locations sometimes we will take public transport services. It is the responsibility of the attendees to travel with a valid ticket or pass. You can purchase these from vending machines or vendor points. It is recommended to use the vending machines as their systems are translated into well-known languages. If you travel without a valid ticket or pass, you may be fined or removed from the vehicle by ticket controllers. Be aware that if this happens the organizers will not delay the program for you, and you will have to link up with the group on your own."
+    },
+    {
+      "id": 9,
+      "question": "Will the organizers provide accommodation?",
+      "answer": "Yes. You can find more information about it in the Accommodation menu.",
+      "LinkName": "Information about accomodation",
+      "LinkURL": "/fursang#accomodation"
+    },
+    {
+      "id": 10,
+      "question": "Can I withdraw or change my event registration?",
+      "answer": "No. If you have already paid the price of the chosen programs, we cannot provide you a refund."
+    },
+    {
+      "id": 11,
+      "question": "Can I transfer my registration?",
+      "answer": "Yes. In that case you already paid the prices of the event, but you cannot attend, you can transfer your registration to someone else. If you want to do this, you and the person you want to come instead of you both have to contact Maszat about the exchange."
+    }
+  ],
+  "faqShort": "F.A.Q",
+
+  "SECTION": "--------------------PROFILE-------------------------",
+  
+  "profileResolution": "The resolution of the picture must be at least 1000*1000 pixels. It is recommended to use PNG format with alpha channel added and the background removed. Avoid increasing the size of small pictures. This may result in poor quality in print. The maximum size of the picture is 16 MB. If you have any problems uploading a picture please contact the organizers.",
+  "profilePublicPfp": "Your profile picture that will be displayed on the website is automatically generated from your uploaded picture. You can customize your profile picture but remember, for the badge the original will be used!",
+  "profileAboutMe": "Here you can write a short introduction of yourself which will help you make new friends easier and share some information with the other attendees (max. 150 characters). The shared informations will be visible by others after the payment process is complete.",
+  "uploadText": "Click here to upload an image"
+}
