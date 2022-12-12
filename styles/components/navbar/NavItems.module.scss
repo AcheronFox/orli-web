@@ -1,3 +1,8 @@
+.Active {
+  color: $white !important;
+  background: linear-gradient(90deg, rgba($primary-color, .5), transparent);
+}
+
 .Item {
   height: 100%;
   font-size: calc($default-font * 1.1);
@@ -6,16 +11,31 @@
   align-items: center;
   box-sizing: border-box;
   width: 15vw;
-  justify-content: flex-end;
   color: $grey-5;
 
   text-transform: uppercase;
+  justify-content: flex-end;
 
   position: relative;	
 	cursor: pointer;
 	user-select: none;
 
   transition: color .5s;
+
+  .ContentWrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    .IconWrapper {
+      display: flex;
+      align-items: center;
+      
+      color: $primary-color;
+      transition: color .5s;
+    }
+  }
 
   @include respond(tab-land) {
     font-size: calc($default-font * 0.8125);
@@ -60,7 +80,7 @@
     transition: transform .2s, width .4s .2s cubic-bezier(1, 0, 0, 1), background .1s, color .2s;
   }
 
-  &:active {
+  &:active, &:active .IconWrapper {
     color: $grey-7 !important;
   }
 
@@ -70,7 +90,7 @@
     width: 100%;
   }
   
-  &:hover {
+  &:hover, &:hover .IconWrapper {
     color: $white;
   }
 }

@@ -8,8 +8,9 @@ type Props = {
   children: React.ReactNode;
   link: string;
   CustomStyle?: string;
-  onClick?: ((e: any) => (void | undefined)) | (() => Promise<AxiosResponse<any, any>>) | (()=> Promise<void>),
-  shouldOverwrite?: boolean
+  onClick?: ((e: any) => (void | undefined)) | (() => Promise<AxiosResponse<any, any>>) | (()=> Promise<void>);
+  shouldOverwrite?: boolean;
+  icon?: JSX.Element;
 };
 
 const NavItem: NextPage<Props> = ({
@@ -18,11 +19,15 @@ const NavItem: NextPage<Props> = ({
   CustomStyle,
   onClick,
   shouldOverwrite = true,
+  icon,
 }: Props) => {
 
   return (
     <Link href={link} className={shouldOverwrite? CustomStyle ?? (styles.Item) : `${(styles.Item)} ${CustomStyle}`} onClick={onClick}>
-      <span className={styles.ItemName}>{children}</span>
+      <div className={styles.ContentWrapper}>
+        {icon && <div className={styles.IconWrapper}>{icon}</div>}
+        <span className={styles.ItemName}>{children}</span>
+      </div>
     </Link>
   );
 };

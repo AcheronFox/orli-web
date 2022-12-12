@@ -5,18 +5,18 @@ import styles from "@/styles/components/navbar/NavDropDown.module.scss";
 type Props = {
   children?: React.ReactNode;
   dropDownName: string;
-  Icon?: React.ReactNode;
   classname?: string;
   classnameItems?: string;
   mainclassname?: string;
+  icon?: JSX.Element;
 };
 
 const NavDropdown: NextPage<Props> = ({
   children,
   dropDownName,
-  Icon,
   classnameItems,
   mainclassname,
+  icon,
 }: Props) => {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const dropDownMenu = useRef<HTMLAnchorElement>(null);
@@ -44,25 +44,25 @@ const NavDropdown: NextPage<Props> = ({
   }, [showDropDown]);
 
   return (
-    <span
-      className={`${styles.DropDown} ${mainclassname}`}
-      onClick={(e) => toggleDropDown()}
-      ref={dropDownMenu}
-    >
-      <span className={classnameItems}>
-        <span className={styles.Name}>{dropDownName}</span>
-        <span>{Icon}</span>
+    <div className={styles.Wrapper}>
+      <span
+        className={`${styles.DropDown} ${mainclassname} ${showDropDown && styles.MainOpen}`}
+        onClick={(e) => toggleDropDown()}
+        ref={dropDownMenu}
+      >
+        <div className={styles.ContentWrapper}>
+          {icon && <div className={`${styles.IconWrapper} ${showDropDown && styles.MainOpen}`}>{icon}</div>}
+          <span className={classnameItems}>
+            <span className={styles.Name}>{dropDownName}</span>
+          </span>
+        </div>
       </span>
-      {
-        <div
-          className={`${styles.DropDownMenu} ${
-            showDropDown && styles.MenuOpen
-          }`}
-        >
+      {true && (
+        <div className={`${styles.DropDownMenu} ${showDropDown && styles.MenuOpen}`}>
           {children}
         </div>
-      }
-    </span>
+      )}
+    </div>
   );
 };
 

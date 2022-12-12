@@ -1,90 +1,75 @@
 {
   "SECTION": "--------------------NAVBAR-------------------------",
 
-  "menu": "Menűpontok",
-  "lang": "🇬🇧",
-  "registration": "Regisztráció",
-  "signIn": "Bejelentkezés",
-  "007Fursang": "007 Fursang",
-  "generalInfo": "Tudnivalók",
-  "location": "Helyszín",
-  "rules": "Házirend",
-  "faq": "Gyakran ismételt kérdések",
-  "furryConv": "Furry Convention",
-  "programs": "Programok",
-  "prices": "Árak",
-  "accomodation": "Szállás",
-  "shop": "Bolt",
-  "history": "Történelem",
-  "aboutFursang": "A Fursangról",
-  "aboutUs": "Rólunk",
-  "profile": "Profil",
-  "logout": "Kijelentkezés",
-  "locSuitWalk": "Suitwalk - buszok útvonala",
-  "locExternal": "Külső helyszínek",
-  "locPlan": "Alaprajz",
-  "locGettingThere": "Odajutás",
+  "navLang": "🇬🇧",
+  "navRegistration": "Regisztráció",
+  "navSignIn": "Bejelentkezés",
+  "navLocation": "Helyszín",
 
   "SECTION": "--------------------WARNINGS-------------------------",
 
-  "overloadWarning": "A szerver a szokásosnál nagyobb terhelést tapasztal, kérlek várj...",
+  "warnOverload": "A szerver a szokásosnál nagyobb terhelést tapasztal, kérlek várj...",
+
+  "SECTION": "--------------------ERRORS------------------------",
+
+  "errLoginPass": "Oops! Kérlek ellenőrízd hogy jól írtad be a jelszót.",
+  "errLoginNotFound": "Oops! Nincs fiók a megadott e-mail cím alatt.",
+  "errDefault": "Oops! Valami hiba történt. Kérlek próbáld újra.",
+  "errRegErrConflict": "Oops! Ez az e-mail cím már regisztrálva van.",
+  "errBadRequest": "Oops! Probléma merült fel az adatokkal kapcsolatosan. Kérlek próbáld újra.",
+  "errProfileLoginAgain": "A munkameneted lejárt, kérlek jelentkezz be újra.",
 
   "SECTION": "--------------------INDEX-------------------------",
 
-  "pathOwOGenLoose": "OwOgén elszabadult!",
-  "hotel": "Hotel",
-  "test": "HU Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque animi fugiat labore asperiores? Animi provident nesciunt natus voluptates maiores autem dolore quaerat cum? Minus modi necessitatibus eligendi quas, nihil maxime sint est minima animi quaerat alias dolorum rem velit dolor? Voluptates perspiciatis quisquam nisi sit dolor, eos explicabo aspernatur quo ipsum atque voluptatibus perferendis itaque sed quibusdam ea delectus, ipsa harum. Dolor, tenetur? Eum eos mollitia quas eveniet cum aut obcaecati culpa voluptatibus error neque vero dolores, sed, soluta eligendi laboriosam aliquid dignissimos corrupti similique, tempore porro iusto cupiditate incidunt pariatur saepe. Officiis harum assumenda perferendis eaque magnam vel quia?",
-  "scrollDown": "Görgess Lejjebb",
-
   "SECTION": "--------------------DATEPICKER-------------------------",
 
-  "dateFormat": "nn/hh/éééé",
+  "dateFormat": "éééé/hh/nn",
 
   "SECTION": "--------------------REGISTRATION-------------------------",
 
-  "firstname": "Keresztnév",
-  "lastname": "Vezetéknév",
-  "fursonaName": "Fursona neve",
-  "email": "E-mail cím",
-  "password": "Jelszó",
-  "passwordConfirm": "Jelszó megerősítése",
-  "dob": "Születési Dátum",
-  "country": "Ország",
-  "species": "Fursona faj",
-  "fursuiterCheckbox": "Fursuitolni fogok",
-  "agent": "Ügynök",
-  "nationality":"Nemzetiség",
-  "registrationTextAgreeToTerms": "Ne feledd, a regisztrációval elfogadod a Fursang rendezvény valamennyi szabályát, valamint a fursang.hu weboldal adatkezelési irányelveit.",
-  "registrationReadAboutIn1": "Mindezekről a",
-  "registrationReadAboutIn2": "pontban már olvashattál...",
-  "registrationButton": "Kérlek írd alá a vonalon",
-  "searchablePlaceholder": "Írj ide a kereséshez",
-  "pleaseSelect": "Kérlek válasz",
+  "regFirstname": "Keresztnév",
+  "regLastname": "Vezetéknév",
+  "regFursonaName": "Fursona neve",
+  "regEmail": "E-mail cím",
+  "regPassword": "Jelszó",
+  "regPasswordConfirm": "Jelszó megerősítése",
+  "regDob": "Születési Dátum",
+  "regCountry": "Ország",
+  "regSpecies": "Fursona faj",
+  "regFursuiterCheckbox": "Fursuitolni fogok",
+  "regAgent": "Ügynök",
+  "regNationality":"Nemzetiség",
+  "regAgreeToTerms": "Ne feledd, a regisztrációval elfogadod a Fursang rendezvény valamennyi szabályát, valamint a fursang.hu weboldal adatkezelési irányelveit.",
+  "regReadAboutIn1": "Mindezekről a",
+  "regReadAboutIn2": "pontban már olvashattál...",
+  "regButton": "Kérlek írd alá a vonalon",
+  "regSearchablePlaceholder": "Írj ide a kereséshez",
+  "regPleaseSelect": "Kérlek válasz",
 
   "SECTION": "--------------------REGISTRATION MESSAGES-------------------------",
 
   "regWait": "Regisztrálás...",
-  "firstNameError": "Kérlek add meg a Keresztneved",
-  "lastNameError": "Kérlek add meg a vezetékneved",
-  "emailError": "Kérlek adj meg egy érvényes e-mail címet",
-  "sonaNameError": "Kérlek add meg a Fursonád nevét",
-  "sonaSpeciesError": "Kérlek add meg a Fursonád faját",
-  "dateError": "Kérlek adj meg egy érvényes dátumot",
-  "underAgeError": "18 év felett kell lenned hogy regisztrálni tudj",
-  "invalidAgeError": "Kérled adj meg egy érvényes születési dátumot",
-  "nationalityError": "Kérlek add meg a nemzetiségedet",
-  "passError": "Jelszónak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell legalább egy nagy és egy kis betűt, egy számot és egy speciális karaktert",
-  "passConfError": "Jelszók nem egyeznek",
+  "regFirstNameError": "Kérlek add meg a Keresztneved",
+  "regLastNameError": "Kérlek add meg a vezetékneved",
+  "regEmailError": "Kérlek adj meg egy érvényes e-mail címet",
+  "regSonaNameError": "Kérlek add meg a Fursonád nevét",
+  "regSonaSpeciesError": "Kérlek add meg a Fursonád faját",
+  "regDateError": "Kérlek adj meg egy érvényes dátumot",
+  "regUnderAgeError": "18 év felett kell lenned hogy regisztrálni tudj",
+  "regInvalidAgeError": "Kérled adj meg egy érvényes születési dátumot",
+  "regNationalityError": "Kérlek add meg a nemzetiségedet",
+  "regPassError": "Jelszónak legalább 8 karakter hosszúnak kell lennie, tartalmaznia kell legalább egy nagy és egy kis betűt, egy számot és egy speciális karaktert",
+  "regPassConfError": "Jelszók nem egyeznek",
 
   "SECTION": "--------------------REGISTRATION SUCCESS-------------------------",
 
-  "RSucTitle": "Sikeres Regisztráció!",
-  "RSucWelcome": "Üdvözlet,",
-  "RSucAgent": "Ügynök",
-  "RSucDesc1": "Értesíteni fogunk a",
-  "RSucDesc2": "címen amikor a regisztrációdat átnéztük.",
-  "RSucOutro": "Addig nyugodtan visszatérhetsz a",
-  "RSucButton": "Fő Oldalra.",
+  "regSucTitle": "Sikeres Regisztráció!",
+  "regSucWelcome": "Üdvözlet,",
+  "regSucAgent": "Ügynök",
+  "regSucDesc1": "Értesíteni fogunk a",
+  "regSucDesc2": "címen amikor a regisztrációdat átnéztük.",
+  "regSucOutro": "Addig nyugodtan visszatérhetsz a",
+  "regSucButton": "Fő Oldalra.",
 
   "SECTION": "--------------------LOGIN-------------------------",
 
@@ -96,122 +81,11 @@
 
   "SECTION": "--------------------Profile-------------------------",
 
-  "updWait": "Mentés...",
-  "updSuccess": "Változtatások elmentve",
-
-  "SECTION": "--------------------ERRORS------------------------",
-
-  "loginPassErr": "Oops! Kérlek ellenőrízd hogy jól írtad be a jelszót.",
-  "loginErrNotFound": "Oops! Nincs fiók a megadott e-mail cím alatt.",
-  "errDefault": "Oops! Valami hiba történt. Kérlek próbáld újra.",
-  "RegErrConf": "Oops! Ez az e-mail cím már regisztrálva van.",
-  "errBR": "Oops! Probléma merült fel az adatokkal kapcsolatosan. Kérlek próbáld újra.",
-  "profileLoginAgain": "A munkameneted lejárt, kérlek jelentkezz be újra.",
+  "ProfWait": "Mentés...",
+  "ProfSuccess": "Változtatások elmentve",
 
   "SECTION": "--------------------GENERAL INFO-------------------------",
 
-  "furryConvention": [
-    {
-      "id": 0,
-      "question": "FURRY?",
-      "answer": "Egy alapvetően interneten terjedő nemzetközi szubkultúra, melynek tagjai az állatvilágból merítenek ihletet egy fiktív karakter, vagy saját maguk képzeletbeli alternatívájának a megteremtéséhez. Az így létrejött közösség egy önmaguk által kialakított normák szerinti elméleti világba menekül a hétköznapokból, ott tölti szabadidejét vagy éli mindennapjait."
-    },
-    {
-      "id": 1,
-      "question": "CONVENTION?",
-      "answer": "Jellemzően a furry szubkultúra nagy létszámú, nemzetközi találkozóit illetik ezzel a kifejezéssel, ahol a közösség résztvevői fizikailag is kapcsolatba kerülhetnek a szubkultúra más résztvevőivel, alkotásaival, kiemelkedő személyeivel és hagyományos programjaival."
-    },
-    {
-      "id": 2,
-      "question": "F-TERMINAL?",
-      "answer": "Egy kezdeményezés, mely a hazai furry rendezvények szervezésében játszik jelentős szerepet."
-    },
-    {
-      "id": 3,
-      "question": "FURSANG?",
-      "answer": "A magyarországi furry közösség jelenleg legnagyobb tömegét megmozgató találkozója minden év farsangi időszakában."
-    },
-    {
-      "id": 4,
-      "question": "HOGYAN TOVÁBB?",
-      "answer": "Ha megtetszett, számos módon tudsz csatlakozni a közösséghez és követni az eseményeit. Valamennyi közösségi oldalon, alkotói gyűjtőportálon vagy értékesítői felületen megtalálhatók a fandom képviselői. Ha több információra szomjazol, látogasd meg a WikiFur tudástárat. Ha érdekel a találkozó, regisztrálj!",
-      "LinkName": "Wikifur kezdőlapja",
-      "LinkURL": "http://hu.wikifur.com/wiki/Kezd%C5%91lap",
-      "differentTab": true
-    }
-  ],
-  "faqList": [
-    {
-      "id": 0,
-      "question": "Mi a Fursang?",
-      "answer": "A Fursang a furry szubkultúra iránt érdeklődők számára megszervezett találkozó, illetve több napos programsorozat, melynek minden év farsangi időszakában Budapest ad otthont."
-    },
-    {
-      "id": 1,
-      "question": "Kell-e regisztrálni?",
-      "answer": "Igen. Fontos számunkra, hogy jelezd, mely napokon, illetve program(ok)on szeretnél részt venni, mivel a foglalásokat ehhez tudjuk igazítani. Azonban a regisztráció nem kötelez téged a részvételre. A regisztrációddal kijelented, hogy elfogadod a házirendben foglalt szabályokat."
-    },
-    {
-      "id": 2,
-      "question": "Akkor is mehetek a programokra, ha nem regisztráltam?",
-      "answer": "A találkozó programjai többnyire egy privát helyszínen lesznek megtartva, ahova csak regisztráció után léphetsz be. Ez alól kivételt képez a suitwalk és a fürdőzés, melyekhez regisztráció nélkül is tudsz csatlakozni."
-    },
-    {
-      "id": 3,
-      "question": "Szükséges-e valós adatokat megadnom a regisztráció során?",
-      "answer": "Igen. Fontos, hogy a polgári neved és a születési dátumod hiteles információ legyen, valamint rendelkezz egy érvényes e-mail címmel (vagy Facebook fiókkal). Ezek kezeléséről a Házirend menüben olvashatsz részletesebben. Minden más adat tetszőleges, azok a találkozó résztvevőit segítik egymás felismerésében, illetve a szervezőket a rendezvény problémamentes lebonyolításában.",
-      "LinkName": "Házirend",
-      "LinkURL":"/rules"
-    },
-    {
-      "id": 4,
-      "question": "Van-e alsó korhatár?",
-      "answer": "Van. Az alsó korhatár a találkozó kezdetéig betöltött 16. életév, illetve egyes programokon 18. Ez alól kivételt képez a suitwalk, melyhez korhatár nélkül lehet csatlakozni."
-    },{
-      "id": 5,
-      "question": "Van-e kötelező részvételi díj?",
-      "answer": "Van. A találkozó programjai többnyire egy privát helyszínen lesznek megtartva, melynek bérleti költségein és az esetlegesen felmerülő kiadásokon a résztvevők osztoznak. Ez alól kivételt képez a suitwalk, melyen a részvétel ingyenes."
-    },
-    {
-      "id": 6,
-      "question": "Hogyan tudom támogatni a rendezvényt?",
-      "answer": "A szervezők örömmel vesznek bármilyen felajánlást, legyen az anyagi, erkölcsi, vagy akár fizikai jellegű. Emellett lehetőséged lesz támogatói jegyet váltani a rendezvényre, illetve a rendezvény által forgalmazott termékek vásárlásával is a kezdeményezést szponzorálod."
-    },
-    {
-      "id": 7,
-      "question": "Hozható a találkozóra házikedvenc?",
-      "answer": "Nem. A rendezvény helyszínére háziállat nem hozható be."
-    },
-    {
-      "id": 8,
-      "question": "Hogyan közlekedünk majd a városban?",
-      "answer": "A rendezvény fő helyszíne és a különböző programhelyszínek között előfordul, hogy tömegközlekedési eszközöket veszünk igénybe. Mindenkinek saját felelőssége a megfelelő és érvényes jegy, bérlet vagy igazolvány beszerzése az adott viszonylatra. Az ennek hiányából származó károkért és időveszteségért a szervezők semmilyen felelősségre nem vonhatóak."
-    },
-    {
-      "id": 9,
-      "question": "Lesz-e szervezett szállás a rendezvény idejére?",
-      "answer": "Lesz! Erről bővebben a Szállás menüpont alatt adunk információt.",
-      "LinkName": "Szállásról való információk",
-      "LinkURL": "/fursang#accomodation"
-    },
-    {
-      "id": 10,
-      "question": "Utólag le tudom-e mondani a programot, amire jelentkeztem?",
-      "answer": "Nem. Amennyiben már kifizetted a választott opciók díját, már nem tudunk visszatérítést biztosítani."
-    },
-    {
-      "id": 11,
-      "question": "Átruházható-e a regisztráció?",
-      "answer": "Igen. Abban az esetben, ha már befizetted a díjakat, de úgy alakult, hogy mégsem tudsz a találkozón megjelenni, lehetőséged van megegyezés alapján másra átruházni a regisztrációd. Ebben az esetben mindketten vegyétek fel a kapcsolatot Maszattal."
-    }
-  ],
-  "faqShort": "Gy.I.K",
-
-
-  "SECTION": "--------------------PROFILE-------------------------",
+  "SECTION": "--------------------PROFILE-------------------------"
   
-  "profileResolution": "A feltöltött kép mérete minimálisan 1000*1000 pixel nagyságú legyen! Áttetsző hátterű PNG képformátum az ajánlott! Kerüld a kép nagyítását feltöltés előtt! A fájl mérete ne legyen nagyobb, mint 16 MB! A feltöltésnél jelentkező probléma esetén vedd fel a kapcsolatot a szervezőkkel!",
-  "profilePublicPfp": "A feltöltött kép alapján automatikusan elkészül a profilképed is, mely az oldalon fog megjelenni. A profilképed lehetőséged van testreszabni, viszont a badge készítésénél az eredeti képet fogjuk felhasználni!",
-  "profileAboutMe": "Itt egy rövid, maximum 150 karakter hosszú bemutatkozással megkönnyítheted az ismerkedést és információkat oszthatsz meg magadról. A megadott információk csak fizetés után válnak láthatóvá.",
-  "uploadText": "Kattints ide, hogy feltölts egy képet"
 }
