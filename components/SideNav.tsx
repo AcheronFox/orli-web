@@ -18,6 +18,7 @@ import { RiMapPin2Line } from "react-icons/ri";
 import { RiMapLine } from "react-icons/ri";
 import { RiCloseFill } from "react-icons/ri";
 import { RiHome2Line } from "react-icons/ri";
+import { RiCamera3Line } from "react-icons/ri";
 
 import { useRouter } from "next/router";
 import { SingletonRouter, withRouter } from "next/router";
@@ -163,7 +164,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/fursang#programs"
               )}`}
             >
-              Prog
+              {t("navPrograms")}
             </NavItem>
             <NavItem
               link="/fursang#prices"
@@ -171,7 +172,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/fursang#prices"
               )}`}
             >
-              Pri
+              {t("navPrices")}
             </NavItem>
             <NavItem
               link="/fursang#accomodation"
@@ -179,31 +180,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/fursang#accomodation"
               )}`}
             >
-              Acc
-            </NavItem>
-            <NavItem
-              link="/about#history"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/about#history"
-              )}`}
-            >
-              His
-            </NavItem>
-            <NavItem
-              link="/about#aboutFursang"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/about#fursang"
-              )}`}
-            >
-              Abo
-            </NavItem>
-            <NavItem
-              link="/about#aboutUs"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/about#aboutUs"
-              )}`}
-            >
-              Abo2
+              {t("navAccom")}
             </NavItem>
           </NavDropdown>
 
@@ -218,7 +195,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/location#gettingThere"
               )}`}
             >
-              loc
+              {t("navGetting")}
             </NavItem>
             <NavItem
               link="/location#floorPlan"
@@ -226,23 +203,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/location#floorPlan"
               )}`}
             >
-              plan
-            </NavItem>
-            <NavItem
-              link="/location#external"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/location#external"
-              )}`}
-            >
-              ext
-            </NavItem>
-            <NavItem
-              link="/location#suitwalk"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/location#suitwalk"
-              )}`}
-            >
-              sui
+              {t("navPoi")}
             </NavItem>
           </NavDropdown>
 
@@ -260,7 +221,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/information#FurryConvention"
               )}`}
             >
-              conv
+              {t("navTos")}
             </NavItem>
             <NavItem
               link="/information#FAQ"
@@ -268,15 +229,24 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/information#FAQ"
               )}`}
             >
-              faq
+              {t("navRules")}
             </NavItem>
             <NavItem
               link="/rules"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute("/rules")}`}
             >
-              rul
+              {t("navData")}
             </NavItem>
           </NavDropdown>
+
+          <NavItem
+              link="/gallery"
+              shouldOverwrite={false}
+              CustomStyle={`${evalRoute("/gallery", "item")}`}
+              icon={<RiCamera3Line />}
+            >
+              {t("navGallery")}
+            </NavItem>
         </div>
       </div>
     </nav>

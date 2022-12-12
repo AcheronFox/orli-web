@@ -128,21 +128,21 @@
     filter: drop-shadow(0rem 0.7rem 0.4rem rgba($black, 0.25));
     flex-direction: column;
 
-    background: linear-gradient(90deg, rgba($primary-color, .40), rgba($secondary-color, .40));
+    background: rgba($black, .2);
     margin-left: 2rem;
     transition: all .5s ease-in-out;
 
     .Item {
-      font-size: $default-font;
       padding: .5rem 2rem;
       display: flex;
       position: relative;
       z-index: 10;
       transition: background .5s;
       color: $grey-5;
+      font-size: $default-font;
 
       @include respond(big-desktop) {
-        font-size: calc($default-font * 1.125);
+        font-size: calc($default-font * 1.0);
       }
     
       @include respond(huge-desktop) {
@@ -214,6 +214,14 @@
     max-height: 100vh;
     opacity: 1;
     visibility: visible;
+  }
+
+  .MenuOpen .Name::after {
+    display: none;
+  }
+
+  .MenuOpen .Name {
+    margin-right: 1.21rem;
   }
 
   .MainOpen:before,

@@ -62,7 +62,7 @@
       display: flex;
       margin-bottom: 3rem;
       width: 100%;
-      border-bottom: 1px solid $primary-color;
+      border-bottom: .2rem solid lighten($primary-color, 5%);
       box-shadow: 0 1rem 1rem 0 rgba($primary-color, 0.75);
       justify-content: space-between;
       align-items: center;
@@ -94,11 +94,15 @@
       .CloseBtn {
         @include TopItem;
         color: $primary-color;
+        padding-top: .9rem;
+        align-self: stretch;
       }
 
       .HomeBtn {
         @include TopItem;
         color: $primary-color;
+        padding-top: .9rem;
+        align-self: stretch
       }
 
       .LanguageChanger {
