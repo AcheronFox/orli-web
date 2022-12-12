@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/styles/components/navbar/Navbar.module.scss";
 import DropDownStyle from "@/styles/components/navbar/NavDropDown.module.scss";
+import NavItemStyle from "@/styles/components/navbar/NavItems.module.scss";
 import axiosInstance from "../utils/axiosConfig";
 import NavDropdown from "./NavDropdown";
 import NavItem from "./NavItem";
@@ -10,8 +11,17 @@ import { useTranslate } from "@/hooks/useTranslate";
 import { getCookie } from "cookies-next";
 import jwt_decode from "jwt-decode";
 
+import { RiUserAddLine } from "react-icons/ri";
+import { RiLoginBoxLine } from "react-icons/ri";
+import { RiInformationLine } from "react-icons/ri";
+import { RiMapPin2Line } from "react-icons/ri";
+import { RiMapLine } from "react-icons/ri";
+import { RiCloseFill } from "react-icons/ri";
+import { RiHome2Line } from "react-icons/ri";
+
 import { useRouter } from "next/router";
 import { SingletonRouter, withRouter } from "next/router";
+import Link from "next/link";
 
 type Props = {
   router: SingletonRouter;
@@ -23,7 +33,6 @@ type PublicData = {
 };
 
 const Navbar: NextPage<Props> = (props: Props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [_document, set_document] = useState<any>(null);
   const [_window, set_window] = useState<any>(null);
   const [publicData, setPublicData] = useState<PublicData>({
@@ -67,32 +76,46 @@ const Navbar: NextPage<Props> = (props: Props) => {
 
   const evalRoute = (route: string, type = "dropDown") => {
     if (type == "dropDown") {
-      return routerPath == route && DropDownStyle.Active;
-    } else if (type == "contain") {
+      return routerPath == route && NavItemStyle.Active;
+    } else {
       return routerPath.includes(route) && DropDownStyle.MainActive;
     }
   };
 
+  const closeNavBar = () => {
+    console.log("close")
+  }
+
   return (
     <nav className={styles.nav}>
       <div className={styles.ItemWrappers}>
-        <div
-          className={`${styles.ItemContainer} ${isOpen ? styles.Opened : ""}`}
-        >
-          <button
-            className={styles.LanguageChanger}
-            onClick={() => changeLanguage(locale == "en" ? "hu" : "en")}
-          >
-            {t("lang")}
-          </button>
+        <div className={`${styles.ItemContainer}`}>
+          <div className={styles.TopContainer}>
+            <button
+              className={styles.CloseBtn}
+              onClick={() => closeNavBar()}
+            >
+              <RiCloseFill/>
+            </button>
+            <Link href={"/"} className={styles.HomeBtn}>
+              <RiHome2Line/>
+            </Link>
+            <button
+              className={styles.LanguageChanger}
+              onClick={() => changeLanguage(locale == "en" ? "hu" : "en")}
+            >
+              {t("navLang")}
+            </button>
+          </div>
 
           {!publicData.fursonaName && (
             <NavItem
               link="/login"
               shouldOverwrite={false}
               CustomStyle={`${evalRoute("/login", "item")}`}
+              icon={<RiLoginBoxLine />}
             >
-              {t("signIn")}
+              {t("navSignIn")}
             </NavItem>
           )}
           {publicData.fursonaName && (
@@ -105,14 +128,14 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 link="/profile"
                 CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile")}`}
               >
-                {t("profile")}
+                Profile
               </NavItem>
               <NavItem
                 link=""
                 onClick={async () => await logout()}
                 CustomStyle={`${DropDownStyle.Item} ${DropDownStyle.LogoutButton}`}
               >
-                {t("logout")}
+                Logout
               </NavItem>
             </NavDropdown>
           )}
@@ -121,16 +144,18 @@ const Navbar: NextPage<Props> = (props: Props) => {
             link="/registration"
             shouldOverwrite={false}
             CustomStyle={`${evalRoute("/registration", "item")}`}
+            icon={<RiUserAddLine />}
           >
-            {t("registration")}
+            {t("navRegistration")}
           </NavItem>
 
           <NavDropdown
-            dropDownName={t("007Fursang")}
+            dropDownName={"Örli"}
             mainclassname={`${evalRoute("/fursang", "contain")} ${evalRoute(
               "/about",
               "contain"
             )}`}
+            icon={<RiMapLine />}
           >
             <NavItem
               link="/fursang#programs"
@@ -138,7 +163,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/fursang#programs"
               )}`}
             >
-              {t("programs")}
+              Prog
             </NavItem>
             <NavItem
               link="/fursang#prices"
@@ -146,7 +171,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/fursang#prices"
               )}`}
             >
-              {t("prices")}
+              Pri
             </NavItem>
             <NavItem
               link="/fursang#accomodation"
@@ -154,7 +179,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/fursang#accomodation"
               )}`}
             >
-              {t("accomodation")}
+              Acc
             </NavItem>
             <NavItem
               link="/about#history"
@@ -162,7 +187,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/about#history"
               )}`}
             >
-              {t("history")}
+              His
             </NavItem>
             <NavItem
               link="/about#aboutFursang"
@@ -170,7 +195,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/about#fursang"
               )}`}
             >
-              {t("aboutFursang")}
+              Abo
             </NavItem>
             <NavItem
               link="/about#aboutUs"
@@ -178,13 +203,14 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/about#aboutUs"
               )}`}
             >
-              {t("aboutUs")}
+              Abo2
             </NavItem>
           </NavDropdown>
 
           <NavDropdown
-            dropDownName={t("location")}
+            dropDownName={t("navLocation")}
             mainclassname={`${evalRoute("/location", "contain")}`}
+            icon={<RiMapPin2Line />}
           >
             <NavItem
               link="/location#gettingThere"
@@ -192,7 +218,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/location#gettingThere"
               )}`}
             >
-              {t("locGettingThere")}
+              loc
             </NavItem>
             <NavItem
               link="/location#floorPlan"
@@ -200,7 +226,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/location#floorPlan"
               )}`}
             >
-              {t("locPlan")}
+              plan
             </NavItem>
             <NavItem
               link="/location#external"
@@ -208,7 +234,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/location#external"
               )}`}
             >
-              {t("locExternal")}
+              ext
             </NavItem>
             <NavItem
               link="/location#suitwalk"
@@ -216,16 +242,17 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/location#suitwalk"
               )}`}
             >
-              {t("locSuitWalk")}
+              sui
             </NavItem>
           </NavDropdown>
 
           <NavDropdown
-            dropDownName={t("generalInfo")}
+            dropDownName={"Info"}
             mainclassname={`${evalRoute("/information", "contain")} ${evalRoute(
               "/rules",
               "contain"
             )}`}
+            icon={<RiInformationLine />}
           >
             <NavItem
               link="/information#FurryConvention"
@@ -233,7 +260,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/information#FurryConvention"
               )}`}
             >
-              {t("furryConv")}
+              conv
             </NavItem>
             <NavItem
               link="/information#FAQ"
@@ -241,13 +268,13 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 "/information#FAQ"
               )}`}
             >
-              {t("faq")}
+              faq
             </NavItem>
             <NavItem
               link="/rules"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute("/rules")}`}
             >
-              {t("rules")}
+              rul
             </NavItem>
           </NavDropdown>
         </div>

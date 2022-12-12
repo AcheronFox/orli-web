@@ -18,6 +18,14 @@
     position: relative;
     z-index: 10;
     box-shadow: 1rem -.1rem 3rem 0 rgba($black, .25);
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     @include respond(tab-port) {
       transform-style: preserve-3d;
@@ -33,6 +41,10 @@
       flex-direction: column;
       flex: 1;
 
+      & > * {
+        padding: .5rem 1rem;
+      }
+
       @include respond(tab-port) {
         width: 100%;
         height: auto;
@@ -46,56 +58,25 @@
       }
     }
 
-    .Active {
-      margin-top: .2rem;
-      border-bottom: .2rem solid $white;
-    }
-
-    .right {
-      height: 100%;
+    .TopContainer {
       display: flex;
+      margin-bottom: 3rem;
+      width: 100%;
+      border-bottom: 1px solid $primary-color;
+      box-shadow: 0 1rem 1rem 0 rgba($primary-color, 0.75);
+      justify-content: space-between;
       align-items: center;
-      position: absolute;
-      right: 2.5%;
 
-      .profile {
-        font-size: calc($default-font * 0.9375);
-        position: relative;
+      @mixin TopItem {
         display: flex;
-        align-items: center;
-        height: 100%;
-        gap: 1rem;
-      
-        @include respond(big-desktop) {
-          font-size: calc($default-font * 1.125); //1rem = 12px, 12/16 = 75%
-        }
-      
-        @include respond(huge-desktop) {
-          font-size: calc($default-font * 1.875); //1rem = 12px, 12/16 = 75%
-        }
-
-        .icon {
-          position: relative;
-          display: flex;
-          height: 4rem;
-          border: .2rem solid $white;
-          border-radius: 50%;
-          box-shadow: 0 0 .1rem $white;
-
-          @include respond(tab-land) {
-            height: calc($default-font * 1.875);
-          }
-        }
-      }
-
-      .LanguageChanger {
         user-select: none;
         cursor: pointer;
         font-size: 3rem;
-        filter: drop-shadow(0rem 0.4rem 0.4rem rgba($black, 0.25));
         margin: 0 1rem;
         padding: .5rem;
         border-radius: .5rem;
+        background: none;
+        border: none;
         transition: all .2s linear;
 
         @include respond(tab-land) {
@@ -106,10 +87,30 @@
         }
 
         &:hover {
-          background-color: $grey-1;
+          background-color: rgba($primary-color, .3);
         }
       }
+
+      .CloseBtn {
+        @include TopItem;
+        color: $primary-color;
+      }
+
+      .HomeBtn {
+        @include TopItem;
+        color: $primary-color;
+      }
+
+      .LanguageChanger {
+        @include TopItem;
+      }
     }
+
+    .Active {
+      margin-top: .2rem;
+      border-bottom: .2rem solid $white;
+    }
+
     .ItemsButton {
       display: none;
 
