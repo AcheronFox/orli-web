@@ -52,8 +52,8 @@ const NavDropdown: NextPage<Props> = ({
       >
         <div className={styles.ContentWrapper}>
           {icon && <div className={`${styles.IconWrapper} ${showDropDown && styles.MainOpen}`}>{icon}</div>}
-          <span className={classnameItems}>
-            <span className={styles.Name}>{dropDownName}</span>
+          <span className={`${classnameItems} ${showDropDown && styles.MenuOpen}`}>
+            <span className={`${styles.Name}`}>{dropDownName}</span>
           </span>
         </div>
       </span>
