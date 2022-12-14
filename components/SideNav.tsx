@@ -108,7 +108,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
             >
               <RiCloseFill/>
             </button>
-            <Link href={"/"} className={styles.HomeBtn}>
+            <Link href={"/"} className={styles.HomeBtn} onClick={() => toggleNavBar()}>
               <RiHome2Line/>
             </Link>
             <button
@@ -125,6 +125,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
               shouldOverwrite={false}
               CustomStyle={`${evalRoute("/login", "item")}`}
               icon={<RiLoginBoxLine />}
+              onClick={() => toggleNavBar()}
             >
               {t("navSignIn")}
             </NavItem>
@@ -156,6 +157,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
             shouldOverwrite={false}
             CustomStyle={`${evalRoute("/registration", "item")}`}
             icon={<RiUserAddLine />}
+            onClick={() => toggleNavBar()}
           >
             {t("navRegistration")}
           </NavItem>
@@ -167,25 +169,22 @@ const Navbar: NextPage<Props> = (props: Props) => {
           >
             <NavItem
               link="/orli#programs"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/orli#programs"
-              )}`}
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/orli#programs")}`}
+              onClick={() => toggleNavBar()}
             >
               {t("navPrograms")}
             </NavItem>
             <NavItem
               link="/orli#prices"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/orli#prices"
-              )}`}
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/orli#prices")}`}
+              onClick={() => toggleNavBar()}
             >
               {t("navPrices")}
             </NavItem>
             <NavItem
               link="/orli#accomodation"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/orli#accomodation"
-              )}`}
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/orli#accomodation")}`}
+              onClick={() => toggleNavBar()}
             >
               {t("navAccom")}
             </NavItem>
@@ -198,17 +197,15 @@ const Navbar: NextPage<Props> = (props: Props) => {
           >
             <NavItem
               link="/location#route"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/location#route"
-              )}`}
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/location#route")}`}
+              onClick={() => toggleNavBar()}
             >
               {t("navGetting")}
             </NavItem>
             <NavItem
               link="/location#poi"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/location#poi"
-              )}`}
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/location#poi")}`}
+              onClick={() => toggleNavBar()}
             >
               {t("navPoi")}
             </NavItem>
@@ -221,23 +218,22 @@ const Navbar: NextPage<Props> = (props: Props) => {
           >
             <NavItem
               link="/info#tos"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/info#tos"
-              )}`}
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/info#tos")}`}
+              onClick={() => toggleNavBar()}
             >
               {t("navTos")}
             </NavItem>
             <NavItem
               link="/info#rules"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/info#rules"
-              )}`}
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/info#rules")}`}
+              onClick={() => toggleNavBar()}
             >
               {t("navRules")}
             </NavItem>
             <NavItem
               link="/info#data"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute("/info#data")}`}
+              onClick={() => toggleNavBar()}
             >
               {t("navData")}
             </NavItem>
@@ -248,6 +244,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
               shouldOverwrite={false}
               CustomStyle={`${evalRoute("/gallery", "item")}`}
               icon={<RiCamera3Line />}
+              onClick={() => toggleNavBar()}
             >
               {t("navGallery")}
             </NavItem>
