@@ -1,3 +1,27 @@
+@mixin TopItem {
+  display: flex;
+  user-select: none;
+  cursor: pointer;
+  font-size: 3rem;
+  margin: 0 1rem;
+  padding: .5rem;
+  border-radius: .5rem;
+  background: none;
+  border: none;
+  transition: all .2s linear;
+
+  @include respond(tab-land) {
+    font-size: calc($default-font * 1.5);
+  }
+  @include respond(big-desktop) {
+    font-size: calc($default-font * 1.5625);
+  }
+
+  &:hover {
+    background-color: rgba($primary-color, .3);
+  }
+}
+
 .nav {
   display: flex;
   position: fixed;
@@ -10,6 +34,47 @@
 
   flex-direction: column;
 
+  .MainButtonWrapper {
+    pointer-events: all;
+    display: flex;
+    position: fixed;
+    z-index: 101;
+    filter: drop-shadow(0 0 2rem rgba($primary-color, .5));
+
+    opacity: .9;
+    transform: scaleY(100%);
+
+    transition: all .2s .4s;
+    
+    .MainButton {
+      @include TopItem;
+      border-radius: 0;
+      margin: 0;
+      color: $primary-color;
+      top: 2px;
+      left: 2px;
+      padding: .9rem 1.5rem 2rem 1.5rem;
+
+      background-color: $grey-2;
+      clip-path: polygon(0 0, 100% 0, 100% 75%, 0 100%);
+
+      align-self: stretch;
+
+      font-size: 4rem;
+    }
+  }
+
+  .MainButtonClosed {
+    opacity: 0;
+    transform: scaleY(0);
+    transition-delay: .0s;
+  }
+
+  .BarClosed {
+    opacity: 0 !important;
+    transform: translateX(-15vw) !important;
+  }
+
   .ItemWrappers {
     pointer-events: all;
     width: 15vw;
@@ -20,12 +85,16 @@
     box-shadow: 1rem -.1rem 3rem 0 rgba($black, .25);
     overflow-x: hidden;
     overflow-y: auto;
+    transform: translateX(0);
+    opacity: 1;
 
     scrollbar-width: none;
     -ms-overflow-style: none;
     &::-webkit-scrollbar {
       display: none;
     }
+
+    transition: all .4s cubic-bezier(.5,-0.05,.5,1.05);
 
     @include respond(tab-port) {
       transform-style: preserve-3d;
@@ -37,12 +106,13 @@
       align-items: flex-start;
       position: absolute;
       box-sizing: border-box;
+      width: 100%;
 
       flex-direction: column;
-      flex: 1;
 
       & > * {
         padding: .5rem 1rem;
+        flex: 1;
       }
 
       @include respond(tab-port) {
@@ -66,30 +136,6 @@
       box-shadow: 0 1rem 1rem 0 rgba($primary-color, 0.75);
       justify-content: space-between;
       align-items: center;
-
-      @mixin TopItem {
-        display: flex;
-        user-select: none;
-        cursor: pointer;
-        font-size: 3rem;
-        margin: 0 1rem;
-        padding: .5rem;
-        border-radius: .5rem;
-        background: none;
-        border: none;
-        transition: all .2s linear;
-
-        @include respond(tab-land) {
-          font-size: calc($default-font * 1.5);
-        }
-        @include respond(big-desktop) {
-          font-size: calc($default-font * 1.5625);
-        }
-
-        &:hover {
-          background-color: rgba($primary-color, .3);
-        }
-      }
 
       .CloseBtn {
         @include TopItem;
