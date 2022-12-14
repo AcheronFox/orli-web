@@ -19,6 +19,7 @@ import { RiMapLine } from "react-icons/ri";
 import { RiCloseFill } from "react-icons/ri";
 import { RiHome2Line } from "react-icons/ri";
 import { RiCamera3Line } from "react-icons/ri";
+import { RiMenuLine } from "react-icons/ri";
 
 import { useRouter } from "next/router";
 import { SingletonRouter, withRouter } from "next/router";
@@ -36,6 +37,7 @@ type PublicData = {
 const Navbar: NextPage<Props> = (props: Props) => {
   const [_document, set_document] = useState<any>(null);
   const [_window, set_window] = useState<any>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [publicData, setPublicData] = useState<PublicData>({
     fursonaName: "",
     imgPath: "",
@@ -83,18 +85,26 @@ const Navbar: NextPage<Props> = (props: Props) => {
     }
   };
 
-  const closeNavBar = () => {
-    console.log("close")
+  const toggleNavBar = () => {
+    setIsOpen((o) => !o);
   }
 
   return (
     <nav className={styles.nav}>
-      <div className={styles.ItemWrappers}>
+      <div className={`${styles.MainButtonWrapper} ${isOpen && styles.MainButtonClosed}`}>
+        <button
+          className={styles.MainButton}
+          onClick={() => toggleNavBar()}
+        >
+          <RiMenuLine/>
+        </button>
+      </div>
+      <div className={`${styles.ItemWrappers} ${!isOpen && styles.BarClosed}`}>
         <div className={`${styles.ItemContainer}`}>
           <div className={styles.TopContainer}>
             <button
               className={styles.CloseBtn}
-              onClick={() => closeNavBar()}
+              onClick={() => toggleNavBar()}
             >
               <RiCloseFill/>
             </button>
@@ -152,32 +162,29 @@ const Navbar: NextPage<Props> = (props: Props) => {
 
           <NavDropdown
             dropDownName={"Örli"}
-            mainclassname={`${evalRoute("/fursang", "contain")} ${evalRoute(
-              "/about",
-              "contain"
-            )}`}
+            mainclassname={`${evalRoute("/orli", "contain")}`}
             icon={<RiMapLine />}
           >
             <NavItem
-              link="/fursang#programs"
+              link="/orli#programs"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/fursang#programs"
+                "/orli#programs"
               )}`}
             >
               {t("navPrograms")}
             </NavItem>
             <NavItem
-              link="/fursang#prices"
+              link="/orli#prices"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/fursang#prices"
+                "/orli#prices"
               )}`}
             >
               {t("navPrices")}
             </NavItem>
             <NavItem
-              link="/fursang#accomodation"
+              link="/orli#accomodation"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/fursang#accomodation"
+                "/orli#accomodation"
               )}`}
             >
               {t("navAccom")}
@@ -190,17 +197,17 @@ const Navbar: NextPage<Props> = (props: Props) => {
             icon={<RiMapPin2Line />}
           >
             <NavItem
-              link="/location#gettingThere"
+              link="/location#route"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/location#gettingThere"
+                "/location#route"
               )}`}
             >
               {t("navGetting")}
             </NavItem>
             <NavItem
-              link="/location#floorPlan"
+              link="/location#poi"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/location#floorPlan"
+                "/location#poi"
               )}`}
             >
               {t("navPoi")}
@@ -209,31 +216,28 @@ const Navbar: NextPage<Props> = (props: Props) => {
 
           <NavDropdown
             dropDownName={"Info"}
-            mainclassname={`${evalRoute("/information", "contain")} ${evalRoute(
-              "/rules",
-              "contain"
-            )}`}
+            mainclassname={`${evalRoute("/info", "contain")}`}
             icon={<RiInformationLine />}
           >
             <NavItem
-              link="/information#FurryConvention"
+              link="/info#tos"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/information#FurryConvention"
+                "/info#tos"
               )}`}
             >
               {t("navTos")}
             </NavItem>
             <NavItem
-              link="/information#FAQ"
+              link="/info#rules"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute(
-                "/information#FAQ"
+                "/info#rules"
               )}`}
             >
               {t("navRules")}
             </NavItem>
             <NavItem
-              link="/rules"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/rules")}`}
+              link="/info#data"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/info#data")}`}
             >
               {t("navData")}
             </NavItem>
