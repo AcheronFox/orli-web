@@ -41,10 +41,10 @@
     z-index: 101;
     filter: drop-shadow(0 0 2rem rgba($primary-color, .5));
 
-    opacity: .9;
-    transform: scaleY(100%);
+    opacity: .99;
+    transform: translateX(0);
 
-    transition: all .2s .4s;
+    transition: all .2s .35s;
     
     .MainButton {
       @include TopItem;
@@ -66,7 +66,7 @@
 
   .MainButtonClosed {
     opacity: 0;
-    transform: scaleY(0);
+    transform: translateX(-15vw);
     transition-delay: .0s;
   }
 
@@ -79,7 +79,7 @@
     pointer-events: all;
     width: 15vw;
     height: 100vh;
-    background-color: rgba($grey-2, .8);
+    background-color: rgba($grey-2, .99);
     position: relative;
     z-index: 10;
     box-shadow: 1rem -.1rem 3rem 0 rgba($black, .25);
