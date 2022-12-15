@@ -2,7 +2,7 @@
   display: flex;
   user-select: none;
   cursor: pointer;
-  font-size: 3rem;
+  font-size: calc($default-font * 1.15);
   margin: 0 1rem;
   padding: .5rem;
   border-radius: .5rem;
@@ -10,11 +10,29 @@
   border: none;
   transition: all .2s linear;
 
-  @include respond(tab-land) {
-    font-size: calc($default-font * 1.5);
+
+  @include respond(small-desktop) {
+    font-size: calc($default-font * 1);
   }
+
+  @include respond(tiny-desktop) {
+    font-size: calc($default-font * 1.2);
+  }
+
+  @include respond(phone) {
+    font-size: calc($default-font * 1.4);
+  }
+
+  @include respond(small-phone) {
+    font-size: calc($default-font * 1.6);
+  }
+
   @include respond(big-desktop) {
-    font-size: calc($default-font * 1.5625);
+    font-size: calc($default-font * 1.25);
+  }
+
+  @include respond(4k-desktop) {
+    font-size: calc($default-font * 2);
   }
 
   &:hover {
@@ -73,6 +91,22 @@
   .BarClosed {
     opacity: 0 !important;
     transform: translateX(-15vw) !important;
+
+    @include respond(small-desktop) {
+      transform: translateX(-20vw) !important;
+    }
+  
+    @include respond(tiny-desktop) {
+      transform: translateX(-40vw) !important;
+    }
+  
+    @include respond(phone) {
+      transform: translateX(-60vw) !important;
+    }
+  
+    @include respond(small-phone) {
+      transform: translateX(-100vw) !important;
+    }  
   }
 
   .ItemWrappers {
@@ -94,12 +128,29 @@
       display: none;
     }
 
-    transition: all .4s cubic-bezier(.5,-0.05,.5,1.05);
-
-    @include respond(tab-port) {
-      transform-style: preserve-3d;
-      height: 100%;
+    @include respond(small-desktop) {
+      width: 20vw;
     }
+
+    @include respond(tiny-desktop) {
+      width: 40vw;
+    }
+
+    @include respond(phone) {
+      width: 60vw;
+      scrollbar-width: initial;
+      -ms-overflow-style: initial;
+
+      &::-webkit-scrollbar {
+        display: initial;
+      }
+    }
+
+    @include respond(small-phone) {
+      width: 100vw;
+    }
+
+    transition: all .4s cubic-bezier(.5,-0.05,.5,1.05);
 
     .ItemContainer {
       display: flex;
@@ -113,18 +164,6 @@
       & > * {
         padding: .5rem 1rem;
         flex: 1;
-      }
-
-      @include respond(tab-port) {
-        width: 100%;
-        height: auto;
-        display: flex;
-        align-items: center;
-        flex-direction: column !important;
-        transform: translateY(28%);
-        background-color: $grey-2;
-        left: 0;
-        padding: 1rem;
       }
     }
 
@@ -163,31 +202,6 @@
 
     .ItemsButton {
       display: none;
-
-      @include respond(tab-port) {
-        width: 40%;
-        height: 80%;
-        clip-path: polygon(65% 0, 100% 0, 99% 100%, 0 100%, 0 25%, 54% 25%);
-        background-color: $grey-1;
-        position: absolute;
-        right: 5%;
-        top: 5%;
-
-        transition: 50ms ease-in-out;
-        filter: drop-shadow(0rem 0rem 0.3rem rgba($black, 0.25));
-        display: flex !important;
-        align-items: center;
-        user-select: none;
-
-        @include respond(tab-port) {
-          .ItemsButtonText {
-            position: relative;
-            top: 10%;
-            left: 10%;
-            font-size: calc($default-font * 1.1);
-          }
-        }
-      }
     }
   }
 }

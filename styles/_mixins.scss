@@ -1,3 +1,77 @@
+// TITLES, TEXTS, TYPOGRAPHY
+@mixin PrimaryTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+        font-size: calc($default-font * 3);
+        text-align: center;
+        background-image: linear-gradient(90deg, $primary-color, $secondary-color);
+        background-clip: text;
+        color: transparent;
+        letter-spacing: .5rem;
+
+        @include respond(big-desktop) {
+            font-size: calc($default-font * 3.5);
+        }
+        
+        @include respond(4k-desktop) {
+            font-size: calc($default-font * 5);
+        }
+    }
+}
+
+@mixin SecondaryTitle {
+    font-size: calc($default-font * 2);
+    background-clip: text;
+    background-image: linear-gradient(90deg, $primary-color, $secondary-color);
+    color: transparent;
+    letter-spacing: .3rem;
+    text-align: left;
+
+    border-bottom: .2rem solid white;
+    border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
+    word-wrap: break-word;
+    hyphens: manual;
+
+
+    @include respond(big-desktop) {
+        font-size: calc($default-font * 2.5);
+    }
+
+    @include respond(4k-desktop) {
+        font-size: calc($default-font * 4);
+    }
+}
+
+// SECTIONS, SHADOWS
+@mixin SectionShadowDefaults {
+    &:before {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-radius: inherit;
+    }
+    &::after {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: inherit;
+        border-radius: inherit;
+    }
+}
+
+// UTILS
+
 @mixin clearfix {
     &::after {
         content: "";
@@ -9,69 +83,55 @@
 // MEDIA QUERY MANAGER
 /*
 0 - 400px Small Phone Portrait [WIDTH]
-0 - 400px Small Phone Landscape [HEIGHT]
 400px - 600px Phone Portrait [WIDTH]
-400px - 600px Phone Landscape [HEIGHT]
-600 - 900px Tablet Portrait [WIDTH]
-900 - 1200px Tablet Landscape [WIDTH]
-[1200 - 1800px] Desktop (Normal styles apply)
-1800px - 3000px Big Desktop [WIDTH]
+600px - 1000px Small Desktop [WIDTH]
+1000px - 1400px Small Desktop [WIDTH]
+[1400 - 2000px] Desktop (Normal styles apply)
+2000px - 3000px Big Desktop [WIDTH]
 3000px + Huge Desktop [WIDTH]
 
 $breakpoint argument choices:
-- tab-land
-- tab-port
-- phone-land
-- phone-port
-- small-phone-land
-- small-phone-port
+- small-desktop
+- tiny-desktop
+- phone
+- small-phone
 - big-desktop
-- huge-desktop
+- 4k-desktop
 
-ORDER: 
-tab-land
-tab-port
-phone-land
-phone-port
-small-phone-land
-small-phone-port
+ORDER:
+small-desktop
+tiny-desktop
+phone
+small-phone
 [default] - no responsivity needed
 big-desktop
-huge-desktop
+4k-desktop
 
 1em = 16px
 */
 
 @mixin respond($breakpoint) {
-    @if $breakpoint == small-phone-port {
+    @if $breakpoint == small-phone {
         @media only screen and (max-width: 25em) { @content };
     };
-
-    @if $breakpoint == small-phone-land {
-        @media only screen and (max-height: 25em) { @content };
-    };
     
-    @if $breakpoint == phone-port {
+    @if $breakpoint == phone {
         @media only screen and (max-width: 37.5em) { @content };
     };
 
-    @if $breakpoint == phone-land {
-        @media only screen and (max-height: 37.5em) { @content };
+    @if $breakpoint == tiny-desktop {
+        @media only screen and (max-width: 62.5em) { @content };
     };
 
-    @if $breakpoint == tab-port {
-        @media only screen and (max-width: 56.25em) { @content };
-    };
-
-    @if $breakpoint == tab-land {
-        @media only screen and (max-width: 75em) { @content };
+    @if $breakpoint == small-desktop {
+        @media only screen and (max-width: 87.5em) { @content };
     };
 
     @if $breakpoint == big-desktop {
         @media only screen and (min-width: 125em) { @content };
     };
 
-    @if $breakpoint == huge-desktop {
+    @if $breakpoint == 4k-desktop {
         @media only screen and (min-width: 187.5em) { @content };
     };
 }

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
 import React, { useEffect, useRef } from "react";
-import styles from "@/styles/components/floatingMessage/FloatingMessage.module.scss"
+import styles from "@/styles/components/FloatingMessage.module.scss"
 import {unmountComponentAtNode, findDOMNode} from "react-dom"
 
 type Props = {

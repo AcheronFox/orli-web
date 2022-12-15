@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import type { NextPage } from "next";
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import styles from "@/styles/components/scrollbar/Scrollbar.module.scss";
+import styles from "@/styles/components/Scrollbar.module.scss";
 
 const SCROLL_BOX_MIN_HEIGHT = 20;
 

@@ -8,7 +8,7 @@
 
 
   .DropDown {
-    font-size: calc($default-font * 1.1);
+    font-size: calc($default-font * 1.15);
     padding: .5rem 1rem;
     user-select: none;
     position: relative;
@@ -42,17 +42,33 @@
       }
     }
   
-    @include respond(tab-land) {
-      font-size: calc($default-font * 0.8125);
+    @include respond(small-desktop) {
+      width: 20vw;
+      font-size: calc($default-font * 1);
+    }
+  
+    @include respond(tiny-desktop) {
+      width: 40vw;
+      font-size: calc($default-font * 1.2);
+    }
+  
+    @include respond(phone) {
+      width: 60vw;
+      font-size: calc($default-font * 1.4);
+    }
+  
+    @include respond(small-phone) {
+      width: 100vw;
+      font-size: calc($default-font * 1.6);
     }
   
     @include respond(big-desktop) {
-      padding: .5rem 1.75rem;
+      padding: 0 1.75rem 0 1.75rem;
       font-size: calc($default-font * 1.25);
     }
   
-    @include respond(huge-desktop) {
-      padding: .5rem 2rem;
+    @include respond(4k-desktop) {
+      padding: 0 2.5rem 0 2.5rem;
       font-size: calc($default-font * 2);
     }
   
@@ -139,14 +155,28 @@
       z-index: 10;
       transition: background .5s;
       color: $grey-5;
-      font-size: $default-font;
+      font-size: calc($default-font * 1.15);
+
+      @include respond(small-desktop) {
+        font-size: calc($default-font * 1);
+      }
+
+      @include respond(phone) {
+        font-size: calc($default-font * 1.4);
+      }
+
+      @include respond(small-phone) {
+        font-size: calc($default-font * 1.6);
+      }
 
       @include respond(big-desktop) {
-        font-size: calc($default-font * 1.0);
+        padding: .5rem 1.75rem;
+        font-size: calc($default-font * 1.25);
       }
     
-      @include respond(huge-desktop) {
-        font-size: calc($default-font * 1.875);
+      @include respond(4k-desktop) {
+        padding: .5rem 2rem;
+        font-size: calc($default-font * 2);
       }
 
       &:link {

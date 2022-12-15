@@ -15,15 +15,15 @@ html {
   // This defines what 1rem is
   font-size: 62.5%; // 1 rem = 10px/16px = 62.5%
 
-  @include respond(tab-land) {
+  @include respond(small-desktop) {
     font-size: 56.25%; //1rem = 9px, 9/16 = 56.25%
   }
 
-  @include respond(tab-port) {
+  @include respond(phone) {
     font-size: 50%; //1rem = 8px, 8/16 = 50%
   }
 
-  @include respond(big-desktop) {
+  @include respond(4k-desktop) {
     font-size: 75%; //1rem = 12px, 12/16 = 75%
   }
 
@@ -44,14 +44,14 @@ html {
   scrollbar-width: none;
   -ms-overflow-style: none;
 
-  @include respond(tab-port) {
+  @include respond(phone) {
     scrollbar-width: initial;
   }
 
   &::-webkit-scrollbar {
     display: none;
 
-    @include respond(tab-port) {
+    @include respond(phone) {
       display: initial;
     }
   }
@@ -63,13 +63,17 @@ body {
 
   box-sizing: border-box;
 
-  @include respond(tab-port) {
+  @include respond(phone) {
     padding: 0;
   }
 }
 
+html, body { 
+  scroll-behavior: smooth !important;
+}
+
 ::selection {
-  background-color: $background-color;
+  background-color: $secondary-color;
   color: $white;
 }
 
