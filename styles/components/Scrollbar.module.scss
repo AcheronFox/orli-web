@@ -22,7 +22,7 @@
   opacity: 1;
   top: 0;
 
-  @include respond(tab-port) {
+  @include respond(phone) {
     display: none;
     visibility: hidden;
   }
@@ -36,7 +36,7 @@
   box-shadow: 0.3rem 0.3rem 0.3rem 0.3rem rgba($black, 0.45);
   clip-path: polygon(0 2%, 100% 0, 100% 100%, 0 98%);
 
-  @include respond(tab-port) {
+  @include respond(phone) {
     display: none;
     visibility: hidden;
   }

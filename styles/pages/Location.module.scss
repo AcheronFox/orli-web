@@ -1,0 +1,59 @@
+.MainWrapper {
+    color: $white;
+    min-height: 100vh;
+    padding: 5rem 10rem;
+
+    @include respond(small-desktop) {
+        padding: 4rem 8rem;
+    }
+    
+    @include respond(tiny-desktop) {
+        padding: 3rem 6rem;
+    }
+    
+    @include respond(phone) {
+        padding: 1rem 2rem;
+    }
+    
+    @include respond(small-phone) {
+        padding: none;
+    }
+
+    .Title {
+        @include PrimaryTitle;
+        margin-bottom: 3rem;
+    }
+
+    .Location {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        justify-content: space-between;
+
+        & > * {
+            &:not(:nth-child(1)) {
+                margin-top: 5rem;
+            }
+            &:not(:last-child) {
+                margin-bottom: 5rem;
+            }
+        }
+
+        &__Map {
+            width: 100%;
+            height: 40rem;
+
+            @include respond(big-desktop) {
+                height: 60rem;
+            }
+        
+            @include respond(4k-desktop) {
+                height: 80rem;
+            }
+            
+            border: .2rem solid white;
+            border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
+        }
+    }
+}

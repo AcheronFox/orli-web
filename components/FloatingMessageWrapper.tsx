@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import React, { useCallback, useEffect, useState } from "react";
 
-import styles from "@/styles/components/floatingMessage/FloatingMessage.module.scss";
+import styles from "@/styles/components/FloatingMessage.module.scss";
 import FloatingMessage from "./FloatingMessage";
 import { FloatingMessageContext } from "./FloatingMessageContext";
 
