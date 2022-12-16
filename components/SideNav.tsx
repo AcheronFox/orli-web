@@ -182,11 +182,11 @@ const Navbar: NextPage<Props> = (props: Props) => {
               {t("navPrices")}
             </NavItem>
             <NavItem
-              link="/orli#accomodation"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/orli#accomodation")}`}
+              link="/participants"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/participants")}`}
               onClick={() => toggleNavBar()}
             >
-              {t("navAccom")}
+              {t("navParticipants")}
             </NavItem>
           </NavDropdown>
 
@@ -195,6 +195,13 @@ const Navbar: NextPage<Props> = (props: Props) => {
             mainclassname={`${evalRoute("/location", "contain")}`}
             icon={<RiMapPin2Line />}
           >
+            <NavItem
+              link="/location#accomodation"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/location#accomodation")}`}
+              onClick={() => toggleNavBar()}
+            >
+              {t("navAccom")}
+            </NavItem>
             <NavItem
               link="/location#route"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute("/location#route")}`}

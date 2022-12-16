@@ -1,9 +1,9 @@
 import styles from "@/styles/pages/Home.module.scss"
 
-export default function Orli() {
+export default function Participants() {
   return (
     <div className={styles.Home}>
-      Orli
+      Participants
     </div>
   )
 }

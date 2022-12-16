@@ -14,6 +14,7 @@
   "navTos": "Terms of Service",
   "navRules": "Rules",
   "navData": "Data Handling",
+  "navParticipants": "Participants",
 
   "SECTION": "--------------------WARNINGS-------------------------",
 
@@ -28,7 +29,12 @@
   "errBadRequest": "Oops! There has been an issue with the data. Please try again.",
   "errProfileLoginAgain": "Your session has expired, please log in again.",
 
-  "SECTION": "--------------------INDEX-------------------------",
+  "SECTION": "--------------------LOCATION-------------------------",
+
+  "paragraph1": "By train:",
+  "locGettingThere1": " (from Budapest) Trains starts from Budapest-Déli or Budapest-Kelenföld. Getting off the train is suggested at 'Agárd' station, then it's around 1,5km, or around 18-20 minutes of walk until the consite.",
+  "paragraph2": "By car, on motorway, from the direction of Budapest(M7/E71):",
+  "locGettingThere2": " Get of the motorway at exit no.57, before Székesfehérvár, then follow road no.7 until Agárd. Before reaching Agárd, turn left to Chernel István road and after aprx. 2,5km you arrive at the consite.",
 
   "SECTION": "--------------------DATEPICKER-------------------------",
 

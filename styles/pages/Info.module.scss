@@ -44,33 +44,5 @@
                 margin-bottom: 5rem;
             }
         }
-
-        &__Text {
-            letter-spacing: .2rem;
-        }
-
-        &__Map {
-            width: 100%;
-            height: 40rem;
-
-            @include respond(big-desktop) {
-                height: 60rem;
-            }
-        
-            @include respond(4k-desktop) {
-                height: 80rem;
-            }
-            
-            border: .2rem solid white;
-            border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
-        }
-
-        &__Paragraph {
-            font-size: calc($default-font * 1.2);
-        }
-
-        &__Btn {
-            display: flex;
-        }
     }
 }
