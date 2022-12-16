@@ -14,6 +14,7 @@
   "navTos": "Használati Feltételek",
   "navRules": "Szabályzat",
   "navData": "Adatkezelés",
+  "navParticipants": "Résztvevők",
 
   "SECTION": "--------------------WARNINGS-------------------------",
 
@@ -28,7 +29,12 @@
   "errBadRequest": "Oops! Probléma merült fel az adatokkal kapcsolatosan. Kérlek próbáld újra.",
   "errProfileLoginAgain": "A munkameneted lejárt, kérlek jelentkezz be újra.",
 
-  "SECTION": "--------------------INDEX-------------------------",
+  "SECTION": "--------------------LOCATION-------------------------",
+
+  "paragraph1": "Vonattal:",
+  "locGettingThere1": " (Budapesti indulás esetén) Budapest-Déli fejpályaudvarról, vagy Budapest-Kelenföldről. Leszállni 'Agárd' megállóhelynél ajánlott, majd onnan 1,5km(18-20 perc gyalog).",
+  "paragraph2": "Autóval, autópályán, budapest (M7/E71) irányából:",
+  "locGettingThere2": " Letérés az autópáláyról a 57-es számú kijáratnál Székesfehérvár előtt, majd a 7-es úton Agárdig, majd Agárd előtt balra fordulni a Chernel István útra, majd onnann ~2,5km múlva megérkeztél.",
 
   "SECTION": "--------------------DATEPICKER-------------------------",
 

@@ -1,23 +1,20 @@
 import styles from "@/styles/pages/Location.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import Section from "@/comp/Section";
-import GoogleMapReact from 'google-map-react';
+import PrimaryButton from "@/comp/PrimaryButton";
 
 export default function Location() {
   const { t } = useTranslate();
 
-  const defaultNav = {
-    center: {
-      lat: 10.99835602,
-      lng: 77.01502627
-    },
-    zoom: 11
-  };
+  const handleButton = () => {
+    console.log("press")
+  }
 
   return (
     <>
-      <a id="route"></a>
+      <a id="accomodation"></a>
       <div className={styles.MainWrapper}>
+        <div className={styles.BG__Img}></div>
         <div className={styles.Title}>
           <h1>
             {t("navLocation")}
@@ -25,12 +22,23 @@ export default function Location() {
         </div>
         <div className={styles.Location}>
           <Section
+            title={t("navAccom")}
+            text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo, iste aut, fuga, vero at et eius beatae voluptate a nam dolores nesciunt placeat quos atque incidunt accusantium ad ipsa fugiat?"
+          >
+          </Section>
+          <Section
+            id="route"
             title={t("navGetting")}
-            text="Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim voluptate ullam perferendis eligendi dicta debitis, molestias, quia assumenda, temporibus reiciendis facilis aspernatur. Neque esse dolore debitis eos tempora expedita optio!"
+            text={<span className={styles.Location__Text}><span className={styles.Location__Paragraph}>{t("paragraph1")}</span><br/>{t("locGettingThere1")}<br/><br/><span className={styles.Location__Paragraph}>{t("paragraph2")}</span><br/>{t("locGettingThere2")}</span>}
           >
             <iframe className={styles.Location__Map} loading="lazy" allowFullScreen id="page"
               src="api-key">
             </iframe>
+            <div className={styles.Location__Btn}>
+              <PrimaryButton text="TESTTESTTESTTEST" onClick={handleButton} type="left"></PrimaryButton>
+              <PrimaryButton text="TESTTESTTESTTEST" onClick={handleButton} type="center"></PrimaryButton>
+              <PrimaryButton text="TESTTESTTESTTEST" onClick={handleButton} type="right"></PrimaryButton>
+            </div>
           </Section>
           <Section
             id="poi"

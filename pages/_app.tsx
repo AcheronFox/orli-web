@@ -4,13 +4,14 @@ import Head from "next/head";
 import Navbar from "@/comp/SideNav";
 import { useEffect, useState } from "react";
 import styles from "@/styles/LoginTemp.module.scss";
+import style from "@/styles/global.module.scss";
 import crypto from "crypto";
 import React from "react";
-//import Footer from "@/comp/Footer";
 import axiosInstance from "@/utils/axiosConfig";
 import TranslateProvider from "@/hooks/TranslateProvider";
 import CustomScrollBar from "@/comp/Scrollbar";
 import FloatingMessageWrapper from "@/comp/FloatingMessageWrapper";
+import Footer from "@/comp/Footer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [loggedIn, setLoggedIn] = useState<boolean>(
@@ -90,7 +91,9 @@ function MyApp({ Component, pageProps }: AppProps) {
               <Head>
                 <title>Örli Försztivál | Agárd Hungary</title>
               </Head>
+              <div className={style.BG__Img}></div>
               <Component {...pageProps} />
+              <Footer />
             </FloatingMessageWrapper>
           </>
         </TranslateProvider>
@@ -101,7 +104,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div className={styles.container}>
         {!isLocked && (
           <div className={styles.inner}>
-            <p style={{ color: "red" }}>Fursang Test Server Login:</p>
+            <p style={{ color: "red" }}>Orli Test Server Login:</p>
             <input
               ref={usernameElement}
               className={styles.content}

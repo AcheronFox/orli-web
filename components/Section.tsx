@@ -5,7 +5,7 @@ import styles from "@/styles/components/Section.module.scss"
 type Props = {
     id?: string;
     title: string;
-    text?: string;
+    text?: string | React.ReactNode;
     children?: React.ReactNode;
 };
 

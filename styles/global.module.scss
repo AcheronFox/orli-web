@@ -1,0 +1,10 @@
+.BG__Img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    min-width: 100vw;
+    background: url("../public/orli.png") no-repeat;
+    background-size: cover;
+    z-index: -10;
+}

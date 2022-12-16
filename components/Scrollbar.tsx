@@ -139,12 +139,8 @@ const CustomScrollBar: NextPage<Props> = ({children}: Props) => {
     handleResize()
     window.addEventListener('resize', handleResize)
 
-
-
-  const resizeObserver = new ResizeObserver(entries => 
-    handleResize()
-  )
-  resizeObserver.observe(document.body)
+    const resizeObserver = new ResizeObserver(entries => handleResize())
+    resizeObserver.observe(document.body)
 
     return function cleanup() {
         window.removeEventListener('resize', handleResize)
