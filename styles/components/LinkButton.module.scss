@@ -1,0 +1,88 @@
+.Button {
+    color: $secondary-color;
+    text-decoration: none;
+    border-bottom: .2rem solid $secondary-color;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    transition: all .2s;
+
+    &:link,
+    &:visited {
+        text-decoration: none;
+    }
+
+    &__Icon, &__ExternalIcon, &__Text {
+        color: inherit;
+        transition: all .2s;
+    }
+
+    &__Icon, &__ExternalIcon {
+        display: flex;
+    }
+
+    &__Icon {
+        align-self: center;
+        padding-right: .5rem;
+        font-size: calc($default-font / 1.6);
+
+        @include respond(big-desktop) {
+            font-size: calc($default-font / 1.2);
+        }
+        
+        @include respond(4k-desktop) {
+            font-size: calc($default-font * 1);
+        }
+    }
+
+    &__Text {
+        font-size: calc($default-font / 1.4);
+        letter-spacing: .1rem;
+
+        @include respond(big-desktop) {
+            font-size: calc($default-font / 1.2);
+        }
+        
+        @include respond(4k-desktop) {
+            font-size: calc($default-font * 1.2);
+        }
+    }
+
+    &__ExternalIcon {
+        align-self: flex-end;
+        font-size: calc($default-font / 2);
+        padding: 0 0 .4rem .5rem;
+
+        @include respond(big-desktop) {
+            font-size: calc($default-font / 1.4);
+        }
+        
+        @include respond(4k-desktop) {
+            font-size: calc($default-font * 1);
+        }
+    }
+
+    &:hover, &:focus-visible {
+        color: $grey-6;
+        border-bottom: .2rem solid $grey-6;
+    }
+    &:hover &__ExternalIcon,
+    &:focus-visible &__ExternalIcon,
+    &:hover &__Icon,
+    &:focus-visible &__Icon {
+        color: $grey-6;
+    }
+
+    &:active {
+        color: $grey-5;
+        border-bottom: .2rem solid $grey-5;
+    }
+    &:active &__ExternalIcon {
+        color: $grey-5;
+    }
+    &:active &__Icon {
+        color: $grey-5;
+    }
+}

@@ -1,14 +1,11 @@
 import styles from "@/styles/pages/Location.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import Section from "@/comp/Section";
-import PrimaryButton from "@/comp/PrimaryButton";
+import LinkButton from "@/comp/LinkButton";
+import { RiMapPin2Line } from "react-icons/ri";
 
 export default function Location() {
   const { t } = useTranslate();
-
-  const handleButton = () => {
-    console.log("press")
-  }
 
   return (
     <>
@@ -35,9 +32,7 @@ export default function Location() {
               src="api-key">
             </iframe>
             <div className={styles.Location__Btn}>
-              <PrimaryButton text="TESTTESTTESTTEST" onClick={handleButton} type="left"></PrimaryButton>
-              <PrimaryButton text="TESTTESTTESTTEST" onClick={handleButton} type="center"></PrimaryButton>
-              <PrimaryButton text="TESTTESTTESTTEST" onClick={handleButton} type="right"></PrimaryButton>
+              <LinkButton text={t("locMapOpen")} link="https://goo.gl/maps/UpJbVx4yDh77Lypv8" icon={<RiMapPin2Line />}></LinkButton>
             </div>
           </Section>
           <Section

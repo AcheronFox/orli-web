@@ -45,6 +45,32 @@
     }
 }
 
+@mixin TertriaryTitle {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    h3 {
+        font-size: calc($default-font * 1.1);
+        background-image: linear-gradient(90deg, $primary-color, $secondary-color);
+        background-clip: text;
+        color: transparent;
+        letter-spacing: .2rem;
+
+        word-wrap: break-word;
+        hyphens: manual;
+
+
+        @include respond(big-desktop) {
+            font-size: calc($default-font * 1.5);
+        }
+
+        @include respond(4k-desktop) {
+            font-size: calc($default-font * 2);
+        }
+    }
+}
+
 // SECTIONS, SHADOWS
 @mixin SectionShadowDefaults {
     &:before {
