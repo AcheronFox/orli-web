@@ -48,6 +48,7 @@ const Footer: NextPage<Props> = (props: Props) => {
                     </div>
                 </div>
             </div>
+            <div className={styles.Footer__Break}></div>
             <div className={styles.Footer__Item}>
                 <div>
                     <div className={styles.Footer__Item__Title}>
