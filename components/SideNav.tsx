@@ -244,6 +244,13 @@ const Navbar: NextPage<Props> = (props: Props) => {
             >
               {t("navData")}
             </NavItem>
+            <NavItem
+              link="/faq"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/faq")}`}
+              onClick={() => toggleNavBar()}
+            >
+              {t("navFaq")}
+            </NavItem>
           </NavDropdown>
 
           <NavItem

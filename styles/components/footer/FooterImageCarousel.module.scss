@@ -1,35 +1,38 @@
-.ImageCarouselWrapper {
-    width: 20rem;
-    height: 10rem;
-    background-color: $background-color;
-    
-  .ImageCarousel {
-    position: relative;
-    width: 20rem;
-    height: 10rem;
+.ImageCarousel {
+  position: relative;
+  width: 16rem;
+  height: 9rem;
+  overflow: hidden;
+
+  &__ImageWrapper {
     overflow: hidden;
+    max-width: 16rem;
+    max-height: 9rem;
+    transition: unset;
+    position: relative;
+  }
 
-    .ImageWrapper {
-      width: 20rem;
-      height: 10rem;
-      transition: unset;
-      position: relative;
-      
-      .Image {
-        width: 100%;
-        height: 100%;
-      }
+  &__Image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
 
-      &.switching {
-        transform: translateY(100%);
-        transition: all 200ms ease-in-out;
-      }
+  &__Switching {
+    backface-visibility: hidden;
+    transform: translateX(-100%);
+    box-shadow: -1rem 0 2rem rgba($black, 5);
 
-      &.NextImageIndex {
-        z-index: 2;
-        position: absolute;
-        top: -100%;
-      }
-    }
+    transition: transform .5s cubic-bezier(.5,.6,.7,1), box-shadow 0s;
+  }
+
+  &__NextImage {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    z-index: 2;
+    position: absolute;
+    right: -100%;
+    top: 0;
   }
 }

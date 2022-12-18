@@ -14,7 +14,23 @@
   "navTos": "Használati Feltételek",
   "navRules": "Szabályzat",
   "navData": "Adatkezelés",
+  "navFaq": "GYIK",
   "navParticipants": "Résztvevők",
+
+  "SECTION": "--------------------FOOTER-------------------------",
+
+  "footerHelp": "Segítség",
+  "footerLegal": "Jogi",
+  "footerPartners": "Partnerek",
+  "footerOrli": "Örli",
+  "footerFind": "Elérhetőségünk",
+
+  "footerFaq": "Gyakran Ismételt Kérdések (GYIK)",
+  "footerContact": "Lépjen Velünk Kapcsolatba",
+  "footerData": "Adatkezelés",
+  "footerRules": "Szabályzat",
+  "footerTos": "Használati Feltételek",
+  "footerOrliText": "Orli",
 
   "SECTION": "--------------------WARNINGS-------------------------",
 
@@ -35,6 +51,7 @@
   "locGettingThere1": " (Budapesti indulás esetén) Budapest-Déli fejpályaudvarról, vagy Budapest-Kelenföldről. Leszállni 'Agárd' megállóhelynél ajánlott, majd onnan 1,5km(18-20 perc gyalog).",
   "paragraph2": "Autóval, autópályán, budapest (M7/E71) irányából:",
   "locGettingThere2": " Letérés az autópáláyról a 57-es számú kijáratnál Székesfehérvár előtt, majd a 7-es úton Agárdig, majd Agárd előtt balra fordulni a Chernel István útra, majd onnann ~2,5km múlva megérkeztél.",
+  "locMapOpen": "Kattints ide a Google Térkép megnyitásához.",
 
   "SECTION": "--------------------DATEPICKER-------------------------",
 
@@ -99,7 +116,7 @@
   "ProfWait": "Mentés...",
   "ProfSuccess": "Változtatások elmentve",
 
-  "SECTION": "--------------------GENERAL INFO-------------------------",
+  "SECTION": "--------------------INFO-------------------------",
 
   "SECTION": "--------------------PROFILE-------------------------"
   

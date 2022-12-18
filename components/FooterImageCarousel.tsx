@@ -29,8 +29,6 @@ const FooterImageCarousel: NextPage<Props> = ({
   const [isSwitching, setIsSwitching] = useState<boolean>(false);
 
   const SwitchImages = () => {
-    //comment bad, makes code readable
-    //there's only one person in this world who know what this does.. ME
     if (indexOfNextImage == undefined || indexOfNextImage == null) return;
 
     setIsSwitching(true);
@@ -44,7 +42,7 @@ const FooterImageCarousel: NextPage<Props> = ({
         setIndexOfNextImage(indexOfNextImage + 1);
       }
       setIsSwitching(false);
-    }, 200);
+    }, 500);
   };
 
   useEffect(() => {
@@ -68,34 +66,29 @@ const FooterImageCarousel: NextPage<Props> = ({
   });
 
   return (
-    <div className={styles.ImageCarouselWrapper}>
-      <div className={styles.ImageCarousel}>
-        <div
-          className={`${styles.ImageWrapper} ${styles.NextImageIndex} ${
-            isSwitching && styles.switching
-          }`}
-        >
-          <Link href={imgPaths[indexOfNextImage ?? 0].link} target={"_blank"}>
-            <div  className={styles.Link}>
-              <Picture
-                defaultSrc={imgPaths[indexOfNextImage ?? 0].imgPath}
-                className={`${styles.Image}`}
-              ></Picture>
-            </div>
-          </Link>
-        </div>
-        <div className={styles.ImageWrapper}>
-          <Link href={imgPaths[indexOfShownImage].link} target={"_blank"}>
-            <div className={styles.Link}>
-              <Picture
-                defaultSrc={imgPaths[indexOfShownImage].imgPath}
-                className={styles.Image}
-              ></Picture>
-            </div>
-          </Link>
-        </div>
+    <div className={styles.ImageCarousel}>
+      <div
+        className={`${styles.ImageCarousel__ImageWrapper} ${styles.ImageCarousel__NextImage} ${isSwitching && styles.ImageCarousel__Switching}`}
+      >
+        <Link href={imgPaths[indexOfNextImage ?? 0].link} target={"_blank"} rel="noopener noreferrer">
+          <div>
+            <Picture
+              defaultSrc={imgPaths[indexOfNextImage ?? 0].imgPath}
+              className={`${styles.ImageCarousel__Image}`}
+            ></Picture>
+          </div>
+        </Link>
       </div>
-      <div className={styles.TimeToNextImage}></div>
+      <div className={styles.ImageCarousel__Wrapper}>
+        <Link href={imgPaths[indexOfShownImage].link} target={"_blank"} rel="noopener noreferrer">
+          <div>
+            <Picture
+              defaultSrc={imgPaths[indexOfShownImage].imgPath}
+              className={styles.ImageCarousel__Image}
+            ></Picture>
+          </div>
+        </Link>
+      </div>
     </div>
   );
 };
