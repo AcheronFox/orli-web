@@ -59,6 +59,7 @@ const nextConfig = {
   env: {
     DOMAIN_ROOT: process.env.DOMAIN_ROOT,
     API_SECRET: process.env.API_SECRET,
+    TEMP_LOGIN_STATE: process.env.TEMP_LOGIN_STATE
   },
 }
 

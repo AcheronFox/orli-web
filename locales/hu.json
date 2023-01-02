@@ -32,6 +32,14 @@
   "footerTos": "Használati Feltételek",
   "footerOrliText": "Orli",
 
+  "footerFacebook": "Facebook Esemény",
+  "footerTelegramChat": "Telegram Csoport",
+  "footerTelegramAnnounce": "Telegram Hírfolyam",
+
+  "SECTION": "--------------------INFOCARD-------------------------",
+
+  "infoCardButton": "Tekintsd meg Google Térképen",
+
   "SECTION": "--------------------WARNINGS-------------------------",
 
   "warnOverload": "A szerver a szokásosnál nagyobb terhelést tapasztal, kérlek várj...",

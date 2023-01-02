@@ -11,15 +11,7 @@ import { useTranslate } from "@/hooks/useTranslate";
 import { getCookie } from "cookies-next";
 import jwt_decode from "jwt-decode";
 
-import { RiUserAddLine } from "react-icons/ri";
-import { RiLoginBoxLine } from "react-icons/ri";
-import { RiInformationLine } from "react-icons/ri";
-import { RiMapPin2Line } from "react-icons/ri";
-import { RiMapLine } from "react-icons/ri";
-import { RiCloseFill } from "react-icons/ri";
-import { RiHome2Line } from "react-icons/ri";
-import { RiCamera3Line } from "react-icons/ri";
-import { RiMenuLine } from "react-icons/ri";
+import { RiUserAddLine, RiLoginBoxLine, RiInformationLine, RiMapPin2Line, RiMapLine, RiCloseFill, RiHome2Line, RiCamera3Line, RiMenuLine } from "react-icons/ri";
 
 import { useRouter } from "next/router";
 import { SingletonRouter, withRouter } from "next/router";

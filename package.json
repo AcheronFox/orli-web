@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tippyjs/react": "^4.2.6",
     "@types/glob": "^8.0.0",
     "@types/google-map-react": "^2.1.7",
     "@types/node": "18.11.13",

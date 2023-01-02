@@ -15,32 +15,62 @@ export default function Gallery() {
             <div className={styles.Gallery}>
                 <div className={styles.Gallery__Item}>
                     <div className={styles.Gallery__Item__Img}>
-                        <Picture defaultSrc="gallery/_89716241_thinkstockphotos-523060154.jpg"></Picture>
+                        <Picture defaultSrc="gallery/blue/P1000188.jpg"></Picture>
                     </div>
                 </div>
                 <div className={styles.Gallery__Item}>
                     <div className={styles.Gallery__Item__Img}>
-                        <Picture defaultSrc="gallery/_89716241_thinkstockphotos-523060154.jpg"></Picture>
+                        <Picture defaultSrc="gallery/blue/P1000203.jpg"></Picture>
                     </div>
                 </div>
                 <div className={styles.Gallery__Item}>
                     <div className={styles.Gallery__Item__Img}>
-                        <Picture defaultSrc="gallery/_89716241_thinkstockphotos-523060154.jpg"></Picture>
+                        <Picture defaultSrc="gallery/blue/P1000205.jpg"></Picture>
                     </div>
                 </div>
                 <div className={styles.Gallery__Item}>
                     <div className={styles.Gallery__Item__Img}>
-                        <Picture defaultSrc="gallery/_89716241_thinkstockphotos-523060154.jpg"></Picture>
+                        <Picture defaultSrc="gallery/blue/P1000367.jpg"></Picture>
                     </div>
                 </div>
                 <div className={styles.Gallery__Item}>
                     <div className={styles.Gallery__Item__Img}>
-                        <Picture defaultSrc="gallery/_89716241_thinkstockphotos-523060154.jpg"></Picture>
+                        <Picture defaultSrc="gallery/blue/P1000380.jpg"></Picture>
                     </div>
                 </div>
                 <div className={styles.Gallery__Item}>
                     <div className={styles.Gallery__Item__Img}>
-                        <Picture defaultSrc="gallery/_89716241_thinkstockphotos-523060154.jpg"></Picture>
+                        <Picture defaultSrc="gallery/blue/P1000429.jpg"></Picture>
+                    </div>
+                </div>
+                <div className={styles.Gallery__Item}>
+                    <div className={styles.Gallery__Item__Img}>
+                        <Picture defaultSrc="gallery/Makron/photo_2022-06-21_03-06-16.jpg"></Picture>
+                    </div>
+                </div>
+                <div className={styles.Gallery__Item}>
+                    <div className={styles.Gallery__Item__Img}>
+                        <Picture defaultSrc="gallery/Makron/photo_2022-06-21_03-06-18.jpg"></Picture>
+                    </div>
+                </div>
+                <div className={styles.Gallery__Item}>
+                    <div className={styles.Gallery__Item__Img}>
+                        <Picture defaultSrc="gallery/Marty/ÖFF-0416.jpg"></Picture>
+                    </div>
+                </div>
+                <div className={styles.Gallery__Item}>
+                    <div className={styles.Gallery__Item__Img}>
+                        <Picture defaultSrc="gallery/Marty/ÖFF-0433.jpg"></Picture>
+                    </div>
+                </div>
+                <div className={styles.Gallery__Item}>
+                    <div className={styles.Gallery__Item__Img}>
+                        <Picture defaultSrc="gallery/Marty/ÖFF-0406.jpg"></Picture>
+                    </div>
+                </div>
+                <div className={styles.Gallery__Item}>
+                    <div className={styles.Gallery__Item__Img}>
+                        <Picture defaultSrc="gallery/Marty/ÖFF-0483.jpg"></Picture>
                     </div>
                 </div>
             </div>
