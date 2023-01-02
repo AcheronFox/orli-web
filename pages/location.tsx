@@ -46,9 +46,27 @@ export default function Location() {
             text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo, iste aut, fuga, vero at et eius beatae voluptate a nam dolores nesciunt placeat quos atque incidunt accusantium ad ipsa fugiat?"
           >
             <div className={styles.Location__Poi}>
-              <InfoCard title="test" buttonAction={handleButton}></InfoCard>
-              <InfoCard title="test" buttonAction={handleButton}></InfoCard>
-              <InfoCard title="test" buttonAction={handleButton}></InfoCard>
+              <InfoCard
+                title="Lidl"
+                description="Élelmiszerbolt"
+                time={<span><p>H-Sz: 7-21</p><p>V: 7-19</p></span>}
+                text={<span><p>Cím: Gárdony, Akácfa utca 2</p><p>Távolság: ~27 perc (gyalog)</p></span>}
+                link="https://google.com">
+              </InfoCard>
+              <InfoCard
+                title="Lidl"
+                description="Élelmiszerbolt"
+                time={<span><p>H-Sz: 7-21</p><p>V: 7-19</p></span>}
+                text={<span><p>Cím: Gárdony, Akácfa utca 2</p><p>Távolság: ~27 perc (gyalog)</p></span>}
+                link="https://google.com">
+              </InfoCard>
+              <InfoCard
+                title="Lidl"
+                description="Élelmiszerbolt"
+                time={<span><p>H-Sz: 7-21</p><p>V: 7-19</p></span>}
+                text={<span><p>Cím: Gárdony, Akácfa utca 2</p><p>Távolság: ~27 perc (gyalog)</p></span>}
+                link="https://google.com">
+              </InfoCard>
             </div>
           </Section>
         </div>

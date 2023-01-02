@@ -1,11 +1,15 @@
 .InfoCard {
-    background-color: rgba($grey-1, .6);
+    background-color: rgba($grey-1, .5);
     border-radius: 2rem;
     padding: 1.5rem;
     backdrop-filter: blur(1rem);
-    box-shadow:
-    0 .5rem 1rem 1rem rgba($black, .5);
+    box-shadow: 0 .5rem 1rem 1rem rgba($black, .5);
+    max-width: max-content;
 
+    @include respond(tiny-desktop) {
+        width: 100%;
+    }
+    
     &__Title {
         @include SecondaryTitle;
         font-size: $default-font;
@@ -14,9 +18,43 @@
     &__Content {
         display: flex;
         flex-direction: column;
+        margin-top: .5rem;
+
+        @include respond(big-desktop) {
+            font-size: calc($default-font * 1.6);
+        }
+
+        @include respond(4k-desktop) {
+            font-size: calc($default-font * 2.2);
+        }
+
+        &__Time {
+            margin: 1.5rem 0;
+        }
+
+        &__Text {
+            margin: 1.5rem 0;
+        }
     }
 
     &__Button {
-        margin: 0 6rem 2rem 6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5rem 2rem 5rem;
+
+        flex: 1;
+
+        @include respond(small-phone) {
+            margin: 0 5rem 3rem 5rem;
+        }
+
+        @include respond(tiny-desktop) {
+            margin: 0 5rem 2rem 5rem;
+        }
+
+        @include respond(small-desktop) {
+            margin: 0 5rem 3rem 5rem;
+        }
     }
 }
