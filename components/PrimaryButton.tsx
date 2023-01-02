@@ -4,21 +4,23 @@ import styles from "@/styles/components/PrimaryButton.module.scss";
 
 type Props = {
   text: string;
-  onClick: Function;
+  onClick?: Function;
   type?: string;
+  link?: string;
 };
 
 const PrimaryButton: NextPage<Props> = ({
   text,
   onClick,
-  type
+  type,
+  link
 }: Props) => {
 
 
     return (
-        <button onClick={() => onClick()} className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right}`}>
+        <a onClick={() => onClick? onClick() : {}} href={link} className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right}`}>
             <span className={styles.Button__Text}>{text}</span>
-        </button>
+        </a>
     );
 };
 
