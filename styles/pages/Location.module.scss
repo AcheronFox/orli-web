@@ -72,5 +72,11 @@
         &__Btn {
             display: flex;
         }
+
+        &__Poi {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
     }
 }

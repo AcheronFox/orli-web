@@ -4,12 +4,9 @@ import styles from "styles/components/footer/Footer.module.scss"
 import FooterImageCarousel from './FooterImageCarousel'
 import { useTranslate } from "@/hooks/useTranslate";
 import LinkButton from './LinkButton'
+import SocialMediaButton from './SocialMediaButton';
 
-import { RiQuestionLine } from "react-icons/ri";
-import { RiMailLine } from "react-icons/ri";
-import { RiInformationLine } from "react-icons/ri";
-import { RiFileList3Line } from "react-icons/ri";
-import { RiDatabase2Line } from "react-icons/ri";
+import { RiQuestionLine, RiMailLine, RiInformationLine, RiFileList3Line, RiDatabase2Line, RiFacebookCircleLine, RiTelegramLine, RiDiscussLine, RiNotification2Line } from "react-icons/ri";
 
 type Props = {}
 
@@ -44,7 +41,9 @@ const Footer: NextPage<Props> = (props: Props) => {
                         <h3>{t("footerFind")}</h3>
                     </div>
                     <div className={styles.Footer__Item__Find}>
-                        Hi
+                        <SocialMediaButton link='#' icon={<RiFacebookCircleLine />} label={t("footerFacebook")}/>
+                        <SocialMediaButton link='https://t.me/orliforstivalHU' icon={<RiTelegramLine />} icon2={<RiDiscussLine />} label={t("footerTelegramChat")}/>
+                        <SocialMediaButton link='https://t.me/orliforsztival' icon={<RiTelegramLine />} icon2={<RiNotification2Line />} label={t("footerTelegramAnnounce")}/>
                     </div>
                 </div>
             </div>

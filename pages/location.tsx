@@ -3,9 +3,14 @@ import { useTranslate } from "@/hooks/useTranslate";
 import Section from "@/comp/Section";
 import LinkButton from "@/comp/LinkButton";
 import { RiMapPin2Line } from "react-icons/ri";
+import InfoCard from "@/comp/InfoCard";
 
 export default function Location() {
   const { t } = useTranslate();
+
+  const handleButton = () => {
+    window.open('http://www.google.com', '_blank')
+  }
 
   return (
     <>
@@ -40,6 +45,11 @@ export default function Location() {
             title={t("navPoi")}
             text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo, iste aut, fuga, vero at et eius beatae voluptate a nam dolores nesciunt placeat quos atque incidunt accusantium ad ipsa fugiat?"
           >
+            <div className={styles.Location__Poi}>
+              <InfoCard title="test" buttonAction={handleButton}></InfoCard>
+              <InfoCard title="test" buttonAction={handleButton}></InfoCard>
+              <InfoCard title="test" buttonAction={handleButton}></InfoCard>
+            </div>
           </Section>
         </div>
       </div>

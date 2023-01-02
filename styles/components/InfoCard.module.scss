@@ -1,0 +1,22 @@
+.InfoCard {
+    background-color: rgba($grey-1, .6);
+    border-radius: 2rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(1rem);
+    box-shadow:
+    0 .5rem 1rem 1rem rgba($black, .5);
+
+    &__Title {
+        @include SecondaryTitle;
+        font-size: $default-font;
+    }
+
+    &__Content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__Button {
+        margin: 0 6rem 2rem 6rem;
+    }
+}

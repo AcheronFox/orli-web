@@ -32,6 +32,14 @@
   "footerTos": "Terms of Service (TOS)",
   "footerOrliText": "Örli", 
 
+  "footerFacebook": "Facebook Event",
+  "footerTelegramChat": "Telegram Group",
+  "footerTelegramAnnounce": "Telegram Announcements",
+
+  "SECTION": "--------------------INFOCARD-------------------------",
+
+  "infoCardButton": "View on Google Maps",
+
   "SECTION": "--------------------WARNINGS-------------------------",
 
   "warnOverload": "The server is experiencing higher load than usual, please wait...",
