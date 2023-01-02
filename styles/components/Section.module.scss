@@ -17,6 +17,15 @@
     &__Text {
         padding-top: 3rem;
         letter-spacing: .1rem;
+        font-size: $default-font;
+
+        @include respond(big-desktop) {
+            font-size: calc($default-font * 1.6);
+        }
+
+        @include respond(4k-desktop) {
+            font-size: calc($default-font * 2.2);
+        }
     }
 
     &__Border {
