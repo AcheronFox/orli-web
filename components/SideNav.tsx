@@ -125,7 +125,6 @@ const Navbar: NextPage<Props> = (props: Props) => {
           {publicData.fursonaName && (
             <NavDropdown
               mainclassname={`${evalRoute("/profile", "contain")}`}
-              classnameItems={styles.profile}
               dropDownName={publicData.fursonaName}
             >
               <NavItem
@@ -212,26 +211,26 @@ const Navbar: NextPage<Props> = (props: Props) => {
 
           <NavDropdown
             dropDownName={"Info"}
-            mainclassname={`${evalRoute("/info", "contain")}`}
+            mainclassname={`${evalRoute("/legal", "contain")} ${evalRoute("/faq")}`}
             icon={<RiInformationLine />}
           >
             <NavItem
-              link="/info#tos"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/info#tos")}`}
+              link="/legal/tos"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/legal/tos")}`}
               onClick={() => toggleNavBar()}
             >
               {t("navTos")}
             </NavItem>
             <NavItem
-              link="/info#rules"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/info#rules")}`}
+              link="/legal/rules"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/legal/rules")}`}
               onClick={() => toggleNavBar()}
             >
               {t("navRules")}
             </NavItem>
             <NavItem
-              link="/info#data"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/info#data")}`}
+              link="/legal/data"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/legal/data")}`}
               onClick={() => toggleNavBar()}
             >
               {t("navData")}

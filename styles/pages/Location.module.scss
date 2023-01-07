@@ -14,7 +14,7 @@
     
     @include respond(phone) {
         padding: 1rem 2rem;
-        margin-bottom: 5rem;
+        margin: 5rem 0;
     }
     
     @include respond(small-phone) {

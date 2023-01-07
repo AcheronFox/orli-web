@@ -33,7 +33,7 @@
     "./models/**/*",
     "./hooks/**/*",
     "./utils/**/*",
-    "./public/**/*"
+    "./public/**/*",
   ],
   "exclude": ["node_modules"]
 }

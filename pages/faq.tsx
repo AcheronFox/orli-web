@@ -1,9 +1,42 @@
-import styles from "@/styles/pages/Home.module.scss"
+import InfoPanel from "@/comp/InfoPanel"
+import Section from "@/comp/Section"
+import styles from "@/styles/pages/Faq.module.scss"
+import { useTranslate } from "@/hooks/useTranslate";
 
-export default function Home() {
+export default function FAQ() {
+  const { t } = useTranslate();
+
   return (
-    <div className={styles.Home}>
-      FAQ
+    <div className={styles.MainWrapper}>
+      <div className={styles.Title}>
+          <h1>
+            {t("footerFaq")}
+          </h1>
+        </div>
+      <div className={styles.Content}>
+        <Section title="">
+          <div className={styles.Content__Questions}>
+            <InfoPanel title="test">
+              test
+            </InfoPanel>
+            <InfoPanel title="test">
+              test
+            </InfoPanel>
+            <InfoPanel title="test">
+              test
+            </InfoPanel>
+            <InfoPanel title="test">
+              test
+            </InfoPanel>
+            <InfoPanel title="test">
+              testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
+            </InfoPanel>
+            <InfoPanel title="test">
+              test
+            </InfoPanel>
+          </div>
+        </Section>
+      </div>
     </div>
   )
 }

@@ -8,15 +8,10 @@ import InfoCard from "@/comp/InfoCard";
 export default function Location() {
   const { t } = useTranslate();
 
-  const handleButton = () => {
-    window.open('http://www.google.com', '_blank')
-  }
-
   return (
     <>
       <a id="accomodation"></a>
       <div className={styles.MainWrapper}>
-        <div className={styles.BG__Img}></div>
         <div className={styles.Title}>
           <h1>
             {t("navLocation")}
