@@ -34,7 +34,7 @@ const headers = async() => {
   ];
 }
 
-const webpack = (config) => {
+const webpack = (config) => {  
   if (!production) return config;
   config.output.crossOriginLoading = "anonymous";
   config.plugins.push(

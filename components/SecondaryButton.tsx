@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/components/SecondaryButton.module.scss";
 
 type Props = {
-  text: string;
+  text: string | React.ReactNode;
   onClick: Function;
   type?: string;
 };
