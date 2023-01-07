@@ -12,6 +12,10 @@
         color: transparent;
         letter-spacing: .5rem;
 
+        @include respond(phone) {
+            font-size: calc($default-font * 1.5);
+        }
+
         @include respond(big-desktop) {
             font-size: calc($default-font * 3.5);
         }

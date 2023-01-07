@@ -4,7 +4,7 @@ import styles from "@/styles/components/Section.module.scss"
 
 type Props = {
     id?: string;
-    title: string;
+    title?: string;
     text?: string | React.ReactNode;
     children?: React.ReactNode;
 };
@@ -13,8 +13,8 @@ const Section: NextPage<Props> = (props: Props) => {
 
   return (
     <section className={styles.Section} id={props.id}>
-        <h2 className={styles.Section__Title}>{props.title}</h2>
-        <p className={styles.Section__Text}>{props.text}</p>
+        {props.title && <h2 className={styles.Section__Title}>{props.title}</h2>}
+        {props.text && <p className={styles.Section__Text}>{props.text}</p>}
         {props.children && <div className={styles.Section__Border}>
             {props.children}
         </div>}

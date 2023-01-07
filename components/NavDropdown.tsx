@@ -6,7 +6,6 @@ type Props = {
   children?: React.ReactNode;
   dropDownName: string;
   classname?: string;
-  classnameItems?: string;
   mainclassname?: string;
   icon?: JSX.Element;
 };
@@ -14,7 +13,6 @@ type Props = {
 const NavDropdown: NextPage<Props> = ({
   children,
   dropDownName,
-  classnameItems,
   mainclassname,
   icon,
 }: Props) => {
@@ -44,25 +42,21 @@ const NavDropdown: NextPage<Props> = ({
   }, [showDropDown]);
 
   return (
-    <div className={styles.Wrapper}>
+    <>
       <span
-        className={`${styles.DropDown} ${mainclassname} ${showDropDown && styles.MainOpen}`}
-        onClick={(e) => toggleDropDown()}
+        className={`${styles.DropDown} ${mainclassname} ${showDropDown && styles.DropDown__Open}`}
+        onClick={() => toggleDropDown()}
         ref={dropDownMenu}
       >
-        <div className={styles.ContentWrapper}>
-          {icon && <div className={`${styles.IconWrapper} ${showDropDown && styles.MainOpen}`}>{icon}</div>}
-          <span className={`${classnameItems} ${showDropDown && styles.MenuOpen}`}>
-            <span className={`${styles.Name}`}>{dropDownName}</span>
-          </span>
+        <div className={styles.DropDown__Content}>
+          {icon && <div className={`${styles.DropDown__Content__Icon} ${showDropDown && styles.DropDown__Content__Open}`}>{icon}</div>}
+          <span className={`${styles.DropDown__Content__Name} ${showDropDown && styles.DropDown__Content__Open}`}>{dropDownName}</span>
         </div>
       </span>
-      {true && (
-        <div className={`${styles.DropDownMenu} ${showDropDown && styles.MenuOpen}`}>
-          {children}
-        </div>
-      )}
-    </div>
+      <div className={`${styles.Menu} ${showDropDown && styles.Menu__Open}`}>
+        {children}
+      </div>
+    </>
   );
 };
 
