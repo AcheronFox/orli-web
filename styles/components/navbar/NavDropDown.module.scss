@@ -134,6 +134,26 @@
   @include responsivity();
   @include animation();
 
+  @include respond(small-desktop) {
+    width: 20vw;
+    font-size: calc($default-font * 1);
+  }
+  
+  @include respond(tiny-desktop) {
+    width: 40vw;
+    font-size: calc($default-font * 1.2);
+  }
+  
+  @include respond(phone) {
+    width: 60vw;
+    font-size: calc($default-font * 1.4);
+  }
+  
+  @include respond(small-phone) {
+    width: 100vw;
+    font-size: calc($default-font * 1.6);
+  }
+
   &:link, &:visited {
     color: $grey-5;
   }
