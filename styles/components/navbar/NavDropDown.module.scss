@@ -211,12 +211,12 @@
     @include respond(min-phone) {
       @include animation();
       &:hover, &:focus-visible {
-        color: $white;
+        color: $white !important;
       }
     }
 
     &:link, &:visited {
-      color: $grey-6;
+      color: $grey-5;
     }
 
     &:active {
