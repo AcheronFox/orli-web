@@ -64,15 +64,17 @@
         }
     }
 
-    &:hover, &:focus-visible {
-        color: $grey-6;
-        border-bottom: .2rem solid $grey-6;
-    }
-    &:hover &__ExternalIcon,
-    &:focus-visible &__ExternalIcon,
-    &:hover &__Icon,
-    &:focus-visible &__Icon {
-        color: $grey-6;
+    @include respond(min-phone) {
+        &:hover, &:focus-visible {
+            color: $grey-6;
+            border-bottom: .2rem solid $grey-6;
+        }
+        &:hover &__ExternalIcon,
+        &:focus-visible &__ExternalIcon,
+        &:hover &__Icon,
+        &:focus-visible &__Icon {
+            color: $grey-6;
+        }
     }
 
     &:active {

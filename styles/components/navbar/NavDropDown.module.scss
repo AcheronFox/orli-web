@@ -121,9 +121,11 @@
       transform: rotate(90deg);
     }
 
-    &:hover, &:hover &__Icon,
-    &:focus-visible, &:focus-visible &__Icon {
-      color: $white;
+    @include respond(min-phone) {
+      &:hover, &:hover &__Icon,
+      &:focus-visible, &:focus-visible &__Icon {
+        color: $white;
+      }
     }
 
     &:active, &:active &__Icon, &:active &__Name {
@@ -135,6 +137,13 @@
 
   @include respond(min-phone) {
     @include animation();
+
+    &__Open:before,
+    &__Open:after {
+      filter: drop-shadow(0rem 0.7rem 0.4rem rgba($black, 0.25));
+      transform: scaleY(1);
+      width: 100%;
+    }
   }
   
   @include respond(small-desktop) {
@@ -163,13 +172,6 @@
 
   &:link, &:visited {
     color: $grey-5;
-  }
-
-  &__Open:before,
-  &__Open:after {
-    filter: drop-shadow(0rem 0.7rem 0.4rem rgba($black, 0.25));
-    transform: scaleY(1);
-    width: 100%;
   }
 }
 
@@ -208,14 +210,13 @@
     @include responsivity();
     @include respond(min-phone) {
       @include animation();
+      &:hover, &:focus-visible {
+        color: $white;
+      }
     }
 
     &:link, &:visited {
       color: $grey-6;
-    }
-
-    &:hover, &:focus-visible {
-      color: $white;
     }
 
     &:active {

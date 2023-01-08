@@ -70,7 +70,8 @@
                 }
             }
             @include respond(phone) {
-                display: none
+                display: none;
+                visibility: hidden;
             }
         }
 
@@ -85,7 +86,8 @@
                 }
             }
             @include respond(phone) {
-                display: none
+                display: none;
+                visibility: hidden;
             }
         }
 
@@ -100,7 +102,8 @@
                 }
             }
             @include respond(phone) {
-                display: none
+                display: none;
+                visibility: hidden;
             }
         }
     }
