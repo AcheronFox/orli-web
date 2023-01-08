@@ -36,9 +36,13 @@
   }
 
   @include respond(min-phone) {
-    &:hover {
+    &:hover, &:focus-visible {
       background-color: rgba($primary-color, .3);
     }
+  }
+
+  &:active {
+    background-color: rgba($primary-color, .5);
   }
 }
 

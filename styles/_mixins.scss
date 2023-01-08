@@ -11,6 +11,7 @@
         background-clip: text;
         color: transparent;
         letter-spacing: .5rem;
+        padding: 0 1rem;
 
         @include respond(phone) {
             font-size: calc($default-font * 1.5);

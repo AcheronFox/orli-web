@@ -81,10 +81,7 @@
         color: $grey-5;
         border-bottom: .2rem solid $grey-5;
     }
-    &:active &__ExternalIcon {
-        color: $grey-5;
-    }
-    &:active &__Icon {
+    &:active &__ExternalIcon, &:active &__Icon {
         color: $grey-5;
     }
 }
