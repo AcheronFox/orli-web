@@ -6,7 +6,10 @@
     border-top-left-radius: 2.5rem;
     border-top-right-radius: 2.5rem;
     position: relative;
-    backdrop-filter: blur(.5rem);
+
+    @include respond(min-phone) {
+        backdrop-filter: blur(.5rem);
+    }
 
     box-shadow: rgba($black, .8) 0 -.5rem 2.5rem;
 
@@ -57,32 +60,47 @@
         }
 
         &__3 {
-            @include SectionShadowDefaults;
-            &:before {
-                background: linear-gradient(90deg, $primary-color, $secondary-color);
-                transform: translate3d(0, 1.5rem, 0) scale(1);
-                opacity: .2;
-                height: 1.5rem;
+            @include respond(min-phone) {
+                @include SectionShadowDefaults;
+                &:before {
+                    background: linear-gradient(90deg, $primary-color, $secondary-color);
+                    transform: translate3d(0, 1.5rem, 0) scale(1);
+                    opacity: .2;
+                    height: 1.5rem;
+                }
+            }
+            @include respond(phone) {
+                display: none
             }
         }
 
         &__4 {
-            @include SectionShadowDefaults;
-            &:before {
-                background: linear-gradient(90deg, $primary-color, $secondary-color);
-                transform: translate3d(0, 2rem, 0) scale(1);
-                opacity: .1;
-                height: 2rem;
+            @include respond(min-phone) {
+                @include SectionShadowDefaults;
+                &:before {
+                    background: linear-gradient(90deg, $primary-color, $secondary-color);
+                    transform: translate3d(0, 2rem, 0) scale(1);
+                    opacity: .1;
+                    height: 2rem;
+                }
+            }
+            @include respond(phone) {
+                display: none
             }
         }
 
         &__5 {
-            @include SectionShadowDefaults;
-            &:before {
-                background: linear-gradient(90deg, $primary-color, $secondary-color);
-                transform: translate3d(0, 2.5rem, 0) scale(1);
-                opacity: .05;
-                height: 2.5rem;
+            @include respond(min-phone) {
+                @include SectionShadowDefaults;
+                &:before {
+                    background: linear-gradient(90deg, $primary-color, $secondary-color);
+                    transform: translate3d(0, 2.5rem, 0) scale(1);
+                    opacity: .05;
+                    height: 2.5rem;
+                }
+            }
+            @include respond(phone) {
+                display: none
             }
         }
     }

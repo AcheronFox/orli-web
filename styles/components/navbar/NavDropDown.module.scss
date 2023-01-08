@@ -132,8 +132,11 @@
   }
 
   @include responsivity();
-  @include animation();
 
+  @include respond(min-phone) {
+    @include animation();
+  }
+  
   @include respond(small-desktop) {
     width: 20vw;
     font-size: calc($default-font * 1);
@@ -147,6 +150,10 @@
   @include respond(phone) {
     width: 60vw;
     font-size: calc($default-font * 1.4);
+
+    &:hover, &:focus-visible {
+      background-color: $background-color;
+    }
   }
   
   @include respond(small-phone) {
@@ -174,7 +181,8 @@
   max-height: 0;
   width: 100%;
   white-space: nowrap;
-  visibility: hidden;
+  visibility: visible;
+  overflow: hidden;
 
   filter: drop-shadow(0rem 0.7rem 0.4rem rgba($black, 0.25));
   flex-direction: column;
@@ -186,7 +194,6 @@
   &__Open {
     max-height: 100vh;
     opacity: 1;
-    visibility: visible;
   }
 
   .Item {
@@ -199,7 +206,9 @@
     font-size: calc($default-font * 0.95);
 
     @include responsivity();
-    @include animation();
+    @include respond(min-phone) {
+      @include animation();
+    }
 
     &:link, &:visited {
       color: $grey-6;
