@@ -78,13 +78,15 @@
                 transition: all .3s, border .5s;
                 background-clip: padding-box;
 
-                &:hover {
-                    border: 1rem solid white;
-                    border-image: linear-gradient(135deg, $primary-color, $secondary-color) 20 stretch;
-
-                    transform: scale(1.075);
-                    filter: drop-shadow(0 2.5rem 4rem rgba($black, .5));
-                    z-index: 20;
+                @include respond(min-phone) {
+                    &:hover {
+                        border: 1rem solid white;
+                        border-image: linear-gradient(135deg, $primary-color, $secondary-color) 20 stretch;
+    
+                        transform: scale(1.075);
+                        filter: drop-shadow(0 2.5rem 4rem rgba($black, .5));
+                        z-index: 20;
+                    }
                 }
             }
         }

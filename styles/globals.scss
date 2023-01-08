@@ -21,6 +21,8 @@ html {
 
   @include respond(phone) {
     font-size: 50%; //1rem = 8px, 8/16 = 50%
+
+    scrollbar-width: initial;
   }
 
   @include respond(4k-desktop) {
@@ -43,10 +45,6 @@ html {
 
   scrollbar-width: none;
   -ms-overflow-style: none;
-
-  @include respond(phone) {
-    scrollbar-width: initial;
-  }
 
   &::-webkit-scrollbar {
     display: none;

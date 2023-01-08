@@ -39,6 +39,9 @@
     word-wrap: break-word;
     hyphens: manual;
 
+    @include respond(phone) {
+        font-size: calc($default-font * 1.3);
+    }
 
     @include respond(big-desktop) {
         font-size: calc($default-font * 2.5);
@@ -146,6 +149,9 @@ big-desktop
     
     @if $breakpoint == phone {
         @media only screen and (max-width: 37.5em) { @content };
+    };
+    @if $breakpoint == min-phone {
+        @media only screen and (min-width: 37.5em) { @content };
     };
 
     @if $breakpoint == tiny-desktop {

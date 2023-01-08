@@ -60,6 +60,11 @@
     filter: drop-shadow(0 0 2rem rgba($primary-color, .5));
 
     opacity: .95;
+
+    @include respond(phone) {
+      opacity: 1;
+    }
+
     transform: translateX(0);
 
     transition: all .2s .35s;
@@ -120,7 +125,10 @@
     overflow-x: hidden;
     overflow-y: auto;
     transform: translateX(0);
-    opacity: 1;
+
+    @include respond(phone) {
+      background-color: $grey-2;
+    }
 
     scrollbar-width: none;
     -ms-overflow-style: none;

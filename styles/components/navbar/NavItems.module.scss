@@ -74,44 +74,46 @@
     color: $grey-5;
   }
 
-  &:before,
-  &:after {
-    left: 0;
-    height: 0;
-    width: 100%;
-    content: '';
-    position: absolute;	
-    transition: inherit;
-    z-index: -1;
-  }
+  @include respond(min-phone) {
+    &:before,
+    &:after {
+      left: 0;
+      height: 0;
+      width: 100%;
+      content: '';
+      position: absolute;	
+      transition: inherit;
+      z-index: -1;
+    }
 
-  &:before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 3px;
-    background: linear-gradient(70deg, $primary-color, $secondary-color);
-    transform: scaleY(0);
-  
-    transition: transform .2s, width .4s .2s cubic-bezier(1, 0, 0, 1), background .1s, color .2s;
-  }
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 3px;
+      background: linear-gradient(70deg, $primary-color, $secondary-color);
+      transform: scaleY(0);
+    
+      transition: transform .2s, width .4s .2s cubic-bezier(1, 0, 0, 1), background .1s, color .2s;
+    }
 
-  &:active, &:active .IconWrapper {
-    color: $grey-7 !important;
-  }
+    &:active, &:active .IconWrapper {
+      color: $grey-7 !important;
+    }
 
-  &:hover:before,
-  &:hover:after,
-  &:focus-visible:before,
-  &:focus-visible:after {
-    transform: scaleY(1);
-    width: 100%;
-  }
-  
-  &:hover, &:hover .IconWrapper,
-  &:focus-visible, &:focus-visible .IconWrapper {
-    color: $white;
+    &:hover:before,
+    &:hover:after,
+    &:focus-visible:before,
+    &:focus-visible:after {
+      transform: scaleY(1);
+      width: 100%;
+    }
+    
+    &:hover, &:hover .IconWrapper,
+    &:focus-visible, &:focus-visible .IconWrapper {
+      color: $white;
+    }
   }
 }
