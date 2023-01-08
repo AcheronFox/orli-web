@@ -26,8 +26,11 @@
         margin-bottom: 3rem;
         background: rgba($grey-2, .9);
         border-radius: 2.5rem;
-        backdrop-filter: blur(.5rem);
         box-shadow: 0 1rem 1rem rgba($black, .5);
+
+        @include respond(min-phone) {
+            backdrop-filter: blur(.5rem);
+        }
     }
 
     .Location {

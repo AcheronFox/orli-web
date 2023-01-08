@@ -35,8 +35,10 @@
     font-size: calc($default-font * 2);
   }
 
-  &:hover {
-    background-color: rgba($primary-color, .3);
+  @include respond(min-phone) {
+    &:hover {
+      background-color: rgba($primary-color, .3);
+    }
   }
 }
 
@@ -59,10 +61,8 @@
     z-index: 101;
     filter: drop-shadow(0 0 2rem rgba($primary-color, .5));
 
-    opacity: .95;
-
-    @include respond(phone) {
-      opacity: 1;
+    @include respond(min-phone) {
+      opacity: .95;
     }
 
     transform: translateX(0);
