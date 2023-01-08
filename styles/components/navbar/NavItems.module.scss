@@ -67,10 +67,7 @@
     font-size: calc($default-font * 2);
   }
 
-  &:link {
-    color: $grey-5;
-  }
-  &:visited {
+  &:link, &:visited {
     color: $grey-5;
   }
 
