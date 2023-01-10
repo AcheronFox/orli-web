@@ -1,0 +1,41 @@
+.IconCard {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
+    background-color: $grey-2;
+    padding: 5rem 3rem;
+    border-radius: 2rem;
+    border: .2rem solid transparent;
+
+    box-shadow: 0 1rem 2rem .5rem rgba($black, .5);
+
+    transition: all .2s ease-in-out;
+
+    &__Icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-height: 20rem;
+    }
+
+    &__Title {
+        @include SecondaryTitle();
+        margin-top: 1rem;
+        width: 100%;
+
+        h3 {
+            text-align: center;
+        }
+    }
+
+    &:hover, &:focus-visible {
+        background-color: rgba($grey-2, .7);
+        border: .2rem solid $primary-color;
+        box-shadow:
+        0 1rem 2rem .5rem rgba($black, .5),
+        inset 0 0 2rem .5rem rgba($primary-color, .5);
+    }
+}

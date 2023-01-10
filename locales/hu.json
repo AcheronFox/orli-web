@@ -11,9 +11,7 @@
   "navAccom": "Szállás",
   "navGetting": "Odajutás",
   "navPoi": "Érdekességek",
-  "navTos": "Használati Feltételek",
-  "navRules": "Szabályzat",
-  "navData": "Adatkezelés",
+  "navLegal": "Jogi",
   "navFaq": "GYIK",
   "navParticipants": "Résztvevők",
 
@@ -53,6 +51,12 @@
   "errRegErrConflict": "Oops! Ez az e-mail cím már regisztrálva van.",
   "errBadRequest": "Oops! Probléma merült fel az adatokkal kapcsolatosan. Kérlek próbáld újra.",
   "errProfileLoginAgain": "A munkameneted lejárt, kérlek jelentkezz be újra.",
+
+  "SECTION": "--------------------LEGAL-------------------------",
+
+  "legalTos": "Használati Feltételek",
+  "legalRules": "Szabályzat",
+  "legalData": "Adatkezelés",
 
   "SECTION": "--------------------LOCATION-------------------------",
 

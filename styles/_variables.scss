@@ -27,3 +27,8 @@ $background-color: #1a1818;
 $default-error: rgb(105, 27, 27);
 $default-ok: rgb(58, 121, 21);
 $default-info: rgb(190, 190, 190);
+
+:export {
+    primaryColor: $primary-color;
+    secondaryColor: $secondary-color;
+}
