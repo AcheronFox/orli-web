@@ -93,6 +93,10 @@
         width: 1fr;
         gap: 10rem;
 
+        @include respond(small-desktop) {
+            gap: 5rem;
+        }
+ 
         @include respond(tiny-desktop) {
             width: 100%;
             grid-template-columns: repeat(1, minmax(0, 1fr));
