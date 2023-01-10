@@ -11,9 +11,7 @@
   "navAccom": "Accomodation",
   "navGetting": "Getting There",
   "navPoi": "Points of Interest",
-  "navTos": "Terms of Service",
-  "navRules": "Rules",
-  "navData": "Data Handling",
+  "navLegal": "Legal",
   "navFaq": "FAQ",
   "navParticipants": "Participants",
 
@@ -53,6 +51,12 @@
   "errRegErrConflict": "Oops! This e-mail address is already registrated.",
   "errBadRequest": "Oops! There has been an issue with the data. Please try again.",
   "errProfileLoginAgain": "Your session has expired, please log in again.",
+
+  "SECTION": "--------------------LEGAL-------------------------",
+
+  "legalTos": "Terms of Service",
+  "legalRules": "Rules",
+  "legalData": "Data Handling",
 
   "SECTION": "--------------------LOCATION-------------------------",
 

@@ -10,7 +10,7 @@ export default function Info() {
       <div className={styles.MainWrapper}>
         <div className={styles.Content}>
           <Section
-            title={t("navData")}
+            title={t("legalData")}
             text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo, iste aut, fuga, vero at et eius beatae voluptate a nam dolores nesciunt placeat quos atque incidunt accusantium ad ipsa fugiat?"
           >
           </Section>
