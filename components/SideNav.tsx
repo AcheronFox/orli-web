@@ -215,25 +215,11 @@ const Navbar: NextPage<Props> = (props: Props) => {
             icon={<RiInformationLine />}
           >
             <NavItem
-              link="/legal/tos"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/legal/tos")}`}
+              link="/legal"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/legal/data")} ${evalRoute("/legal/rules")} ${evalRoute("/legal/tos")}`}
               onClick={() => toggleNavBar()}
             >
-              {t("navTos")}
-            </NavItem>
-            <NavItem
-              link="/legal/rules"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/legal/rules")}`}
-              onClick={() => toggleNavBar()}
-            >
-              {t("navRules")}
-            </NavItem>
-            <NavItem
-              link="/legal/data"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/legal/data")}`}
-              onClick={() => toggleNavBar()}
-            >
-              {t("navData")}
+              {t("navLegal")}
             </NavItem>
             <NavItem
               link="/faq"

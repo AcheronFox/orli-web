@@ -2,6 +2,7 @@
     position: relative;
     color: $white;
     min-height: 100vh;
+    height: 100%;
     padding: 5rem 10rem;
     background-color: $background-color;
 
@@ -14,11 +15,11 @@
     }
     
     @include respond(phone) {
-        padding: 1rem 2rem;
+        padding: 5rem 2rem;
     }
     
     @include respond(small-phone) {
-        padding: none;
+        padding: 5rem 1rem;
     }
 
     .Title {
@@ -48,6 +49,59 @@
             &:not(:last-child) {
                 margin-bottom: 5rem;
             }
+        }
+    }
+}
+
+
+.Hub {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;
+    color: $white;
+    min-height: 100vh;
+    height: 100%;
+    padding: 5rem 10rem;
+    background-color: $background-color;
+
+    @include respond(small-desktop) {
+        padding: 4rem 8rem;
+    }
+    
+    @include respond(tiny-desktop) {
+        padding: 3rem 6rem;
+    }
+    
+    @include respond(phone) {
+        padding: 5rem 2rem;
+    }
+    
+    @include respond(small-phone) {
+        padding: 5rem 1rem;
+    }
+
+    &__Title {
+        @include PrimaryTitle();
+    }
+
+    &__Content {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-auto-rows: 1fr;
+        width: 100%;
+        height: 100%;
+        gap: 5rem;
+
+        & * > {
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        @include respond(tiny-desktop) {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+            grid-template-rows: repeat(3, minmax(0, 1fr));
         }
     }
 }

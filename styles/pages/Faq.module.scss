@@ -13,12 +13,11 @@
     }
     
     @include respond(phone) {
-        padding: 1rem 2rem;
-        margin: 5rem 0;
+        padding: 5rem 2rem;
     }
     
     @include respond(small-phone) {
-        padding: none;
+        padding: 5rem 1rem;
     }
 
     .Title {
