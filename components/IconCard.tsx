@@ -15,9 +15,9 @@ const IconCard: NextPage<Props> = (props: Props) => {
                 {props.icon}
             </div>
             <div className={styles.IconCard__Title}>
-                <h3>
+                <h2>
                     {props.title}
-                </h3>
+                </h2>
             </div>
         </a>
     );

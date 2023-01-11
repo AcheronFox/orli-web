@@ -65,14 +65,25 @@
     }
 
     @include respond(min-phone) {
-        &:hover, &:focus-visible {
+        @supports selector(:focus-visible) {
+            &:focus-visible {
+                color: $grey-6;
+                border-bottom: .2rem solid $grey-6;
+            }
+
+            &:focus-visible &__ExternalIcon,
+            &:focus-visible &__Icon {
+                color: $grey-6;
+            }
+        }
+
+        &:hover {
             color: $grey-6;
             border-bottom: .2rem solid $grey-6;
         }
+
         &:hover &__ExternalIcon,
-        &:focus-visible &__ExternalIcon,
-        &:hover &__Icon,
-        &:focus-visible &__Icon {
+        &:hover &__Icon {
             color: $grey-6;
         }
     }
