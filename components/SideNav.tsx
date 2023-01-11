@@ -12,6 +12,7 @@ import { getCookie } from "cookies-next";
 import jwt_decode from "jwt-decode";
 
 import { RiUserAddLine, RiLoginBoxLine, RiInformationLine, RiMapPin2Line, RiMapLine, RiCloseFill, RiHome2Line, RiCamera3Line, RiMenuLine } from "react-icons/ri";
+import ReactCountryFlag from "react-country-flag"
 
 import { useRouter } from "next/router";
 import { SingletonRouter, withRouter } from "next/router";
@@ -106,8 +107,8 @@ const Navbar: NextPage<Props> = (props: Props) => {
             <button
               className={styles.LanguageChanger}
               onClick={() => changeLanguage(locale == "en" ? "hu" : "en")}
-            >
-              {t("navLang")}
+            > 
+              <ReactCountryFlag countryCode={ locale == "hu"? "gb" : "hu" } svg />
             </button>
           </div>
 

@@ -43,8 +43,15 @@
             filter: blur(1rem);
         }
 
-        &:hover &__Text,
-        &:focus-visible &__Text {
+        @supports selector(:focus-visible) {
+            &:focus-visible &__Text {
+                text-shadow:
+                0 0 1.5rem rgba($white, .3),
+                0 0 1rem $secondary-color;
+            }
+        }
+
+        &:hover &__Text {
             text-shadow:
             0 0 1.5rem rgba($white, .3),
             0 0 1rem $secondary-color;
