@@ -52,10 +52,17 @@
     transition: transform .2s, width .4s .2s cubic-bezier(1, 0, 0, 1), background .1s, color .2s;
   }
 
+  @supports selector(:focus-visible) {
+    //Retarded safari support
+    &:focus-visible:before,
+    &:focus-visible:after {
+        transform: scaleY(1);
+        width: 100%;
+    }
+  }
+
   &:hover:before,
-  &:hover:after,
-  &:focus-visible:before,
-  &:focus-visible:after {
+  &:hover:after {
     transform: scaleY(1);
     width: 100%;
   }
@@ -122,8 +129,13 @@
     }
 
     @include respond(min-phone) {
-      &:hover, &:hover &__Icon,
-      &:focus-visible, &:focus-visible &__Icon {
+      @supports selector(:focus-visible) {  
+        &:focus-visible, &:focus-visible &__Icon {
+          color: $white;
+        }
+      }
+
+      &:hover, &:hover &__Icon {
         color: $white;
       }
     }
@@ -160,7 +172,13 @@
     width: 60vw;
     font-size: calc($default-font * 1.4);
 
-    &:hover, &:focus-visible {
+    @supports selector(:focus-visible) {  
+      &:focus-visible {
+        background-color: $background-color;
+      }
+    }
+
+    &:hover {
       background-color: $background-color;
     }
   }
@@ -210,7 +228,14 @@
     @include responsivity();
     @include respond(min-phone) {
       @include animation();
-      &:hover, &:focus-visible {
+
+      @supports selector(:focus-visible) {  
+        &:focus-visible {
+          color: $white !important;
+        }
+      }
+
+      &:hover {
         color: $white !important;
       }
     }

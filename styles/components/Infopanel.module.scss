@@ -24,8 +24,9 @@
 
     &::after {
       content: "";
-      display: block;
       position: absolute;
+      display: block;
+      top: 30%;
       left: 1.5rem;
 
       width: 0;
@@ -67,7 +68,10 @@
   }
 
   &__OpenTitle {
-    border-bottom: .2rem solid white;
     border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
+    //Safari support 
+    border-width: 0 0 .2rem 0;
+    border-style: solid;
+    border-color: $white;
   }
 }

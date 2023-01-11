@@ -36,7 +36,13 @@
   }
 
   @include respond(min-phone) {
-    &:hover, &:focus-visible {
+    @supports selector(:focus-visible) {
+      &:focus-visible {
+        background-color: rgba($primary-color, .3);
+      }
+    }
+
+    &:hover {
       background-color: rgba($primary-color, .3);
     }
   }
@@ -199,11 +205,13 @@
         @include TopItem;
         color: $primary-color;
         padding-top: .9rem;
-        align-self: stretch
+        align-self: stretch;
       }
 
       .LanguageChanger {
         @include TopItem;
+        padding-top: .9rem;
+        align-self: stretch;
       }
     }
 

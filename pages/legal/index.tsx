@@ -24,7 +24,7 @@ export default function Info() {
                     <stop stopColor={styles.secondaryColor} offset="100%" />
                 </linearGradient>
                 </svg>
-                <RiInformationLine style={{ fill: "url(#tos-gradient)" }} size={"75%"}></RiInformationLine>
+                <RiInformationLine style={{ fill: "url(#tos-gradient)" }} size={"80%"}></RiInformationLine>
             </>
             } title={t("legalTos")} link="/legal/tos"
             />
@@ -37,7 +37,7 @@ export default function Info() {
                         <stop stopColor={styles.secondaryColor} offset="100%" />
                     </linearGradient>
                     </svg>
-                    <RiFileList3Line style={{ fill: "url(#rule-gradient)" }} size={"75%"}></RiFileList3Line>
+                    <RiFileList3Line style={{ fill: "url(#rule-gradient)" }} size={"80%"}></RiFileList3Line>
                 </>
             } title={t("legalRules")} link="/legal/rules"
             />
@@ -51,7 +51,7 @@ export default function Info() {
                         <stop stopColor={styles.secondaryColor} offset="100%" />
                     </linearGradient>
                     </svg>
-                    <RiDatabase2Line style={{ fill: "url(#data-gradient)" }} size={"75%"}></RiDatabase2Line>
+                    <RiDatabase2Line style={{ fill: "url(#data-gradient)" }} size={"80%"}></RiDatabase2Line>
                 </>
             } title={t("legalData")} link="/legal/data"
             />
