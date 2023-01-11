@@ -37,11 +37,12 @@
     letter-spacing: .3rem;
     text-align: left;
 
-    border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
+    
     //Safari support 
     border-width: 0 0 .2rem 0;
     border-style: solid;
     border-color: $white;
+    border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
     
     word-wrap: break-word;
     hyphens: manual;
