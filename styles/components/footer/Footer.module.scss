@@ -68,7 +68,13 @@
     }
 
     &__Orli {
+      font-size: calc($default-font / 1.4);
+      color: $white;
+      text-shadow: -.1rem -.1rem 0 $black, .1rem -.1rem 0 $black, -.1rem .1rem 0 $black, .1rem .1rem 0 $black;
 
+      @include respond(phone) {
+        font-size: calc($default-font / 1.2);
+      }
     }
 
     &__Partners {

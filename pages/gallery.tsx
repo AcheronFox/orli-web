@@ -1,4 +1,3 @@
-import Picture from "@/comp/Picture";
 import styles from "@/styles/pages/Gallery.module.scss";
 import { useTranslate } from "@/hooks/useTranslate";
 

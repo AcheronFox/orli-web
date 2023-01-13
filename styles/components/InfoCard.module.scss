@@ -6,7 +6,7 @@
     max-width: max-content;
 
     @include respond(min-phone) {
-        backdrop-filter: blur(1rem);
+        backdrop-filter: blur(.2rem);
     }
 
     @include respond(tiny-desktop) {
