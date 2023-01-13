@@ -174,6 +174,13 @@ const Navbar: NextPage<Props> = (props: Props) => {
               {t("navPrices")}
             </NavItem>
             <NavItem
+              link="/staff"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/staff")}`}
+              onClick={() => toggleNavBar()}
+            >
+              {t("navStaff")}
+            </NavItem>
+            <NavItem
               link="/participants"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute("/participants")}`}
               onClick={() => toggleNavBar()}
