@@ -11,20 +11,13 @@
 
   flex-wrap: wrap;
 
-  @include respond(small-desktop) {
-    padding: .25rem 1rem 2rem .25rem;
-  }
-  @include respond(tiny-desktop) {
-    padding: .25rem 1rem 0 .25rem;
-  }
   @include respond(phone) {
-    padding: 0;
     flex-direction: column;
   }
 
   &__Item {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     justify-content: center;
     flex-wrap: wrap;
 
@@ -68,18 +61,23 @@
     }
 
     &__Orli {
-      font-size: calc($default-font / 1.4);
+      font-size: calc($default-font / 1.6);
+      letter-spacing: .15rem;
       color: $white;
-      text-shadow: -.1rem -.1rem 0 $black, .1rem -.1rem 0 $black, -.1rem .1rem 0 $black, .1rem .1rem 0 $black;
 
       @include respond(phone) {
         font-size: calc($default-font / 1.2);
+      }
+
+      &__Copy {
+        color: $grey-4;
       }
     }
 
     &__Partners {
       display: flex;
       justify-content: center;
+      align-items: center;
     }
 
     &__Find {
@@ -104,7 +102,7 @@
     &__Legal {
       display: flex;
       flex-direction: column;
-
+      justify-content: center;
       align-items: flex-start;
     }
   }
