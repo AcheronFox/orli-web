@@ -21,7 +21,9 @@ const Footer: NextPage<Props> = (props: Props) => {
                         <h3>{t("footerOrli")}</h3>
                     </div>
                     <div className={styles.Footer__Item__Orli}>
-                        {t("footerOrliText")}
+                        {t("footerOrliText")}<br />
+                        {t("footerOrliText2")}<br />
+                        {t("footerOrliText3")}
                     </div>
                 </div>
             </div>
