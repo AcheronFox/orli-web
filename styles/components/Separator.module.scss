@@ -1,0 +1,72 @@
+.Separator {
+  font-size: calc($default-font / 1.2);
+  filter: drop-shadow(0 .5rem .5rem rgba($black, 1));
+
+  @include respond(big-desktop) {
+    font-size: $default-font;
+  }
+
+  @include respond(huge-desktop) {
+    font-size: calc($default-font * 1.2);
+  }
+
+  width: 100%;
+  position: relative;
+  margin: 5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__Left,
+  &__Right {
+    width: 43%;
+    height: .4rem;
+
+    @include respond(big-desktop) {
+      height: .6rem;
+    }
+
+    @include respond(huge-desktop) {
+      height: .8rem;
+    }
+  }
+
+  &__Left {
+    left: .5%;
+    background: linear-gradient(270deg, $primary-color, $secondary-color);
+  }
+
+  &__Right {
+    right: .5%;
+    background: linear-gradient(90deg, $primary-color, $secondary-color);
+  }
+
+  &__Middle {
+    color: $primary-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    &__Icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      width: calc($default-font * 2);
+      height: $default-font;;
+      padding: 0 -1rem;
+      margin: 0 1rem;
+
+      & > * {
+        min-width: 100%;
+        min-height: 100%;
+      }
+    }
+  }
+
+  &__Text {
+    width: 100%;
+    text-align: center;
+  }
+}
