@@ -57,6 +57,7 @@
             0 0 1rem $secondary-color;
         }
         &:hover:after {
+            visibility: visible;
             opacity: 1;
         }
         &:active:before {
@@ -66,6 +67,7 @@
 
     &:after {
         content: "";
+        visibility: hidden;
         position: absolute;
 
         top: 0;
@@ -80,7 +82,7 @@
         z-index: -1;
         opacity: 0;
 
-        transition: opacity .3s;
+        transition: opacity .3s, visibility .3s;
     }
 
     &:active {
@@ -140,5 +142,22 @@
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
+    }
+}
+
+@keyframes fadeInFromNone {
+    0% {
+        content: none;
+        opacity: 0;
+    }
+
+    1% {
+        content: "";
+        opacity: 0;
+    }
+
+    100% {
+        content: "";
+        opacity: 1;
     }
 }
