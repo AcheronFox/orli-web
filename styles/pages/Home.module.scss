@@ -16,9 +16,7 @@
         bottom: 30%;
         left: 0;
         right: 0;
-        margin:auto;
-        //transform: translateX(-50%);
-        //margin: 15rem 0;
+        margin: auto;
         background-color: rgba($background-color, .5);
         border-radius: 2rem;
         box-shadow: rgba($black, .8) 0 0 2.5rem;
@@ -29,6 +27,8 @@
         }
 
         @include respond(phone) {
+            padding: 1rem 2rem;
+            top: 10%;
             width: 100%;
         }
 
@@ -38,6 +38,34 @@
 
         @include respond(4k-desktop) {
             font-size: calc($default-font * 2.2);
+        }
+
+        &__Content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 2rem 0;
+
+            & > * {
+                width: 64rem;
+                height: 36rem;
+
+                @include respond(phone) {
+                    width: 48rem;
+                    height: 27rem;
+                }
+
+                @include respond(big-desktop) {
+                    width: 80rem;
+                    height: 45rem;
+                }
+
+                @include respond(4k-desktop) {
+                    width: 96rem;
+                    height: 54rem;
+                }
+            }
         }
   
         &__Btn {
@@ -56,21 +84,6 @@
             @include respond(4k-desktop) {
                 margin-bottom: 3rem;
             }
-        }
-    }
-
-    &__Separator {
-        width: 50%;
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-
-        @include respond(phone) {
-            width: 80%;
-        }
-        @include respond(small-phone) {
-            width: 100%;
         }
     }
 }
