@@ -61,6 +61,10 @@
   "legalRules": "Szabályzat",
   "legalData": "Adatkezelés",
 
+  "SECTION": "--------------------HOME-------------------------",
+
+  "homeReg": "Regisztrálás",
+
   "SECTION": "--------------------LOCATION-------------------------",
 
   "paragraph1": "Vonattal:",

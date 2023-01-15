@@ -2,7 +2,7 @@ import styles from "@/styles/pages/Legal.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import Section from "@/comp/Section";
 
-export default function Info() {
+export default function Data() {
   const { t } = useTranslate();
 
   return (
