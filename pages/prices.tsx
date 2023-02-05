@@ -1,8 +1,11 @@
 import PriceCard from "@/comp/PriceCard"
 import { useTranslate } from "@/hooks/useTranslate";
 import styles from "@/styles/pages/Prices.module.scss"
+import { NextPage } from "next";
 
-export default function Prices() {
+type Props = {}
+
+const Prices: NextPage<Props> = (props: Props) => {
     const { t } = useTranslate();
 
     return (
@@ -32,3 +35,5 @@ export default function Prices() {
         </div>
     )
 }
+
+export default Prices;

@@ -1,0 +1,74 @@
+.DatePicker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+
+    label {
+        font-size: calc($default-font-size * 1.2);
+
+        @include respond(big-desktop) {
+            font-size: calc($default-font-size * 1.4);
+        }
+      
+        @include respond(4k-desktop) {
+            font-size: calc($default-font-size * 1.6);
+        }
+    }
+
+    &__InputWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex: 1;
+    }
+
+    &__Input {
+        flex: 1;
+    }
+
+    &__Wrapper {
+        visibility: visible;
+        opacity: 1;
+        z-index: 1003;
+        transition: all .2s;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        position: fixed;
+
+        left: 50%;
+        top: 25%;
+        width: 50rem;
+        transform: translateX(-50%);
+
+        &__Btn {
+            cursor: pointer;
+            background: rgba($black, .5);
+            box-shadow: 0 0 2rem 1rem rgba($black, .5);
+            border: none;
+            color: $default-red;
+            align-self: flex-end;
+            border-top-right-radius: .5rem;
+            border-top-left-radius: .5rem;
+
+            transition: all 0.2s;
+
+            &:hover {
+                color: lighten($default-red, 20%);
+            }
+        }
+
+        &__Hidden {
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s 0.2s, opacity 0.2s linear;
+        }
+
+        @include respond(phone) {
+            width: 95%;
+        }
+    }
+}

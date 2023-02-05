@@ -3,21 +3,30 @@
     color: $white;
     min-height: 100vh;
     padding: 5rem 10rem;
+    width: 65%;
+    margin: auto;
 
     @include respond(small-desktop) {
         padding: 4rem 8rem;
+        width: 70%;
     }
     
     @include respond(tiny-desktop) {
         padding: 3rem 6rem;
+        width: 90%;
     }
     
     @include respond(phone) {
         padding: 5rem 2rem;
+        width: 100%;
     }
     
     @include respond(small-phone) {
         padding: 5rem 1rem;
+    }
+
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
     }
 
     .Title {
@@ -73,7 +82,16 @@
         }
 
         &__Paragraph {
-            font-size: calc($default-font * 1.2);
+            font-weight: 600;
+            font-size: calc($default-font-size * 1.2);
+
+            @include respond(big-desktop) {
+                font-size: calc($default-font-size * 1.8);
+            }
+    
+            @include respond(4k-desktop) {
+                font-size: calc($default-font-size * 2);
+            }
         }
 
         &__Btn {
@@ -84,6 +102,7 @@
             display: flex;
             justify-content: space-around;
             align-items: stretch;
+            flex-wrap: wrap;
 
             & > * {
                 &:not(:nth-child(1)) {

@@ -1,5 +1,5 @@
 .Footer {
-  font-size: $default-font;
+  font-size: $default-font-size;
   max-width: 100%;
   background-color: $grey-2;
   box-shadow: 0 -2rem 2rem rgba($black, .5);
@@ -61,12 +61,12 @@
     }
 
     &__Orli {
-      font-size: calc($default-font / 1.6);
+      font-size: calc($default-font-size / 1.2);
       letter-spacing: .15rem;
       color: $white;
 
       @include respond(phone) {
-        font-size: calc($default-font / 1.2);
+        font-size: calc($default-font-size / 1.4);
       }
 
       &__Copy {

@@ -30,10 +30,10 @@ const SecondaryButton: NextPage<Props> = ({
     }
 
     return (
-        <button onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={(e) => handleMouseOut(e)} ref={buttonRef} onClick={() => onClick()}
-            className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right}`}>
-            <span className={styles.Button__Text}>{text}</span>
-        </button>
+      <button onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={(e) => handleMouseOut(e)} ref={buttonRef} onClick={() => onClick()}
+        className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right}`}>
+        <span className={styles.Button__Text}>{text}</span>
+      </button>
     );
 };
 

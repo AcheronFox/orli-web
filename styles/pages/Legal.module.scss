@@ -6,22 +6,6 @@
     padding: 5rem 10rem;
     background-color: $background-color;
 
-    @include respond(small-desktop) {
-        padding: 4rem 8rem;
-    }
-    
-    @include respond(tiny-desktop) {
-        padding: 3rem 6rem;
-    }
-    
-    @include respond(phone) {
-        padding: 5rem 2rem;
-    }
-    
-    @include respond(small-phone) {
-        padding: 5rem 1rem;
-    }
-
     .Title {
         @include PrimaryTitle;
         margin-bottom: 3rem;
@@ -41,6 +25,32 @@
         width: 100%;
         height: 100%;
         justify-content: space-between;
+
+        width: 65%;
+        margin: auto;
+
+        @include respond(small-desktop) {
+            padding: 4rem 8rem;
+            width: 70%;
+        }
+        
+        @include respond(tiny-desktop) {
+            padding: 3rem 6rem;
+            width: 90%;
+        }
+        
+        @include respond(phone) {
+            padding: 5rem 2rem;
+            width: 100%;
+        }
+        
+        @include respond(small-phone) {
+            padding: 5rem 1rem;
+        }
+
+        @include respond(big-desktop) {
+            padding: 10rem 10rem;
+        }
 
         & > * {
             &:not(:nth-child(1)) {
