@@ -92,6 +92,8 @@ const Navbar: NextPage<Props> = (props: Props) => {
   useEffect(() => {
     if (width > parseInt(styles.tinyDesktop)) {
       setIsOpen(true)
+    } else {
+      setIsOpen(false)
     }
   }, [width])
 

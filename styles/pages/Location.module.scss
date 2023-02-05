@@ -7,12 +7,12 @@
     margin: auto;
 
     @include respond(small-desktop) {
-        padding: 4rem 8rem;
+        padding: 4rem 10rem;
         width: 70%;
     }
     
     @include respond(tiny-desktop) {
-        padding: 3rem 6rem;
+        padding: 3rem 10rem;
         width: 90%;
     }
     
@@ -105,18 +105,14 @@
             flex-wrap: wrap;
 
             & > * {
-                &:not(:nth-child(1)) {
-                    margin-left: 1rem;
-                }
-                &:not(:last-child) {
-                    margin-right: 1rem;
-                }
+                margin: 1rem;
             }
 
             @include respond(tiny-desktop) {
                 flex-direction: column;
 
                 & > * {
+                    margin: 0;
                     min-width: 100%;
                     &:not(:nth-child(1)) {
                         margin-top: 1rem;

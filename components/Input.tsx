@@ -25,6 +25,7 @@ type Props = {
   onClick?: React.MouseEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onFocus?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
   placeholder?: string;
   inputLabelClass?: string;
   disabled?: boolean;
@@ -52,7 +53,8 @@ const Input = React.forwardRef(
       inputLabelClass,
       disabled,
       maxlength,
-      checked
+      checked,
+      onKeyDown,
     }: Props,
     ref: React.Ref<HTMLInputElement>
   ) => {
@@ -82,7 +84,7 @@ const Input = React.forwardRef(
               onBlur={onBlur}
               placeholder={placeholder}
               disabled={disabled}
-              
+              onKeyDown={onKeyDown}
             ></input>
           </div>
         );
