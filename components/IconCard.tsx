@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import React from "react";
 import styles from "@/styles/components/IconCard.module.scss"
+import Link from "next/link";
 
 type Props = {
     title: string;
@@ -10,7 +11,7 @@ type Props = {
 
 const IconCard: NextPage<Props> = (props: Props) => {
     return (
-        <a href={props.link} className={styles.IconCard}>
+        <Link href={props.link} className={styles.IconCard}>
             <div className={styles.IconCard__Icon}>
                 {props.icon}
             </div>
@@ -19,7 +20,7 @@ const IconCard: NextPage<Props> = (props: Props) => {
                     {props.title}
                 </h2>
             </div>
-        </a>
+        </Link>
     );
 };
 
