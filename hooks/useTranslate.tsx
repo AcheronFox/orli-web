@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { i18n } from "../i18n";
+import React, { useContext } from "react";
 import { TranslateContext } from "./TranslateContext";
 
 export const useTranslate = () => {

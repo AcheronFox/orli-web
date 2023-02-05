@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import React from "react";
 import styles from "@/styles/components/PrimaryButton.module.scss";
+import Link from "next/link";
 
 type Props = {
   text: string | React.ReactNode;
@@ -18,13 +19,33 @@ const PrimaryButton: NextPage<Props> = ({
   disabled
 }: Props) => {
 
-
+  if (link) {
     return (
-        <a onClick={() => onClick? onClick() : {}} href={link} className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right}`}
-          style={disabled? {"pointerEvents": "none"} : {} }>
-            <span className={styles.Button__Text}>{text}</span>
-        </a>
+      <Link onClick={() => onClick? onClick() : {}} href={link}
+        className={`
+        ${styles.Button}
+        ${type == "left" && styles.Button_left}
+        ${type == "center" && styles.Button_center}
+        ${type == "right" && styles.Button_right}
+        ${disabled? styles.Button__Disabled : ''} 
+        `}>
+          <span className={`${styles.Button__Text} ${disabled? styles.Button__Text__Disabled : ''} `}>{text}</span>
+      </Link>
     );
+  } else {
+    return (
+      <div onClick={() => onClick? onClick() : {}}
+        className={`
+        ${styles.Button}
+        ${type == "left" && styles.Button_left}
+        ${type == "center" && styles.Button_center}
+        ${type == "right" && styles.Button_right}
+        ${disabled? styles.Button__Disabled : ''} 
+        `}>
+          <span className={`${styles.Button__Text} ${disabled? styles.Button__Text__Disabled : ''} `}>{text}</span>
+      </div>
+    );
+  }
 };
 
 export default PrimaryButton;

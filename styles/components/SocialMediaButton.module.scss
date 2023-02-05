@@ -7,6 +7,7 @@
     border-radius: 50%;
     font-size: 3rem;
     color: $grey-5;
+    cursor: pointer;
 
     justify-content: center;
     align-items: center;
@@ -87,17 +88,6 @@
 }
 
 .Tooltip {
-    font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    Fira Sans,
-    Droid Sans,
-    Helvetica Neue,
-    sans-serif;
-    font-size: calc($default-font / 2) !important;
+    font-family: $default-font-family;
+    font-size: $default-font-size !important;
 }

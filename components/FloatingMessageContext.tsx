@@ -1,6 +1,6 @@
-import React, {createContext, SetStateAction, useState} from "react"
+import React, { createContext } from "react"
 interface FloatingMessage {
-    type: "Error" | "OK" | "Info";
+    type: "Error" | "Success" | "Info";
     message: string;
     duration?: number;
     autocloses?: boolean;

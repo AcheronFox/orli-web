@@ -2,8 +2,11 @@ import PrimaryButton from "@/comp/PrimaryButton"
 import styles from "@/styles/pages/Home.module.scss"
 import { RiArrowDownSLine } from "react-icons/ri";
 import { useTranslate } from "@/hooks/useTranslate";
+import { NextPage } from "next";
 
-export default function Home() {
+type Props = {}
+
+const Home: NextPage<Props> = (props: Props) => {
   const { t } = useTranslate();
 
   return (
@@ -28,3 +31,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default Home;

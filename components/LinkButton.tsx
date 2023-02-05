@@ -18,14 +18,24 @@ const LinkButton: NextPage<Props> = ({
   icon
 }: Props) => {
 
-
+  if (isInternal) {
     return (
-        <Link href={link} className={styles.Button} target={isInternal? "_parent" : "_blank"} rel={isInternal? "" : "noopener noreferrer"}>
-            {icon && <span className={styles.Button__Icon}>{icon}</span>}
-            <span className={styles.Button__Text}>{text}</span>
-            <span className={styles.Button__ExternalIcon}><RiExternalLinkLine /></span>
-        </Link>
+      <Link href={link} className={styles.Button}>
+        {icon && <span className={styles.Button__Icon}>{icon}</span>}
+        <span className={styles.Button__Text}>{text}</span>
+        <span className={styles.Button__ExternalIcon}><RiExternalLinkLine /></span>
+      </Link>
     );
+  }
+  else {
+    return (
+      <Link href={link} className={styles.Button} target={"_blank"} rel={"noopener noreferrer"}>
+        {icon && <span className={styles.Button__Icon}>{icon}</span>}
+        <span className={styles.Button__Text}>{text}</span>
+        <span className={styles.Button__ExternalIcon}><RiExternalLinkLine /></span>
+      </Link>
+    );
+  }
 };
 
 export default LinkButton;

@@ -11,7 +11,6 @@
     align-items: center;
     padding: .5rem 1rem;
     padding-left: 4rem;
-    font-size: $default-font;
     background-color: $grey-2;
     position: relative;
     cursor: pointer;
@@ -19,8 +18,17 @@
     border-bottom: .2rem solid transparent;
     border-top-left-radius: .5rem;
     border-top-right-radius: .5rem;
+    font-size: calc($default-font-size * 1.2);
 
     transition: all .4s;
+
+    @include respond(big-desktop) {
+      font-size: calc($default-font-size * 1.4);
+    }
+
+    @include respond(4k-desktop) {
+      font-size: calc($default-font-size * 1.6);
+    }
 
     &::after {
       content: "";
@@ -51,6 +59,7 @@
     word-wrap: break-word;
     transform: scaleY(0);
     transform-origin: top;
+    font-size: $default-font-size;
 
     transition: all .4s ease-in-out, max-height .4s;
   }

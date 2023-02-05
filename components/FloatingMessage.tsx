@@ -2,10 +2,10 @@
 import { NextPage } from "next";
 import React, { useEffect, useRef } from "react";
 import styles from "@/styles/components/FloatingMessage.module.scss"
-import {unmountComponentAtNode, findDOMNode} from "react-dom"
+import { RiCloseFill } from "react-icons/ri";
 
 type Props = {
-  type: "Error" | "OK" | "Info";
+  type: "Error" | "Success" | "Info";
   message: string;
   duration?: number;
   autocloses?: boolean;
@@ -19,28 +19,26 @@ const FloatingMessage: NextPage<Props> = ({
   message,
   closable = true,
   autocloses = false,
-  duration = 5,
+  duration = 10,
   onClose,
   id
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
 
-  const CheckType = (typeL: "Error" | "OK" | "Info") => {
+  const CheckType = (typeL: "Error" | "Success" | "Info") => {
     switch (typeL) {
       case "Error":
         return styles.error;
       case "Info":
         return styles.info;
-      case "OK":
-        return styles.ok;
+      case "Success":
+        return styles.success;
     }
   };
 
   const close = () => {
     divRef.current?.classList.remove(styles.open);
-    setTimeout(() => {
-      onClose(id || 0);
-    }, 400);
+    onClose(id || 0);
   };
 
   useEffect(() => {
@@ -48,6 +46,7 @@ const FloatingMessage: NextPage<Props> = ({
       divRef.current?.classList.add(styles.open);
     }
   }, [divRef]);
+
   useEffect(() => {
     if (autocloses) {
       const closeTimeOut = setTimeout(() => {
@@ -60,14 +59,15 @@ const FloatingMessage: NextPage<Props> = ({
 
   return (
     <div
+      id={`floatingMsg_${id?.toString()}`}
       ref={divRef}
-      className={`${styles.messageBoxWrapper} ${CheckType(type)}`}
+      className={`${styles.MessageBox}`}
     >
-      <div className={styles.MessageBox}>
-        {message}{" "}
+      <div className={`${styles.MessageBox__Content} ${CheckType(type)}`}>
+        <span className={styles.MessageBox__Text}>{message}{" "}</span>
         {closable && (
-          <span onClick={() => close()} className={styles.closebtn}>
-            X
+          <span onClick={() => close()} className={styles.MessageBox__Btn}>
+            <RiCloseFill size={24}></RiCloseFill>
           </span>
         )}
       </div>

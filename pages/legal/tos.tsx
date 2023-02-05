@@ -1,8 +1,11 @@
 import styles from "@/styles/pages/Legal.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import Section from "@/comp/Section";
+import { NextPage } from "next";
 
-export default function Tos() {
+type Props = {}
+
+const Tos: NextPage<Props> = (props: Props) => {
   const { t } = useTranslate();
 
   return (
@@ -19,3 +22,5 @@ export default function Tos() {
     </>
   )
 }
+
+export default Tos;

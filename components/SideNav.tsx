@@ -17,6 +17,7 @@ import ReactCountryFlag from "react-country-flag"
 import { useRouter } from "next/router";
 import { SingletonRouter, withRouter } from "next/router";
 import Link from "next/link";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 type Props = {
   router: SingletonRouter;
@@ -31,6 +32,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
   const [_document, set_document] = useState<any>(null);
   const [_window, set_window] = useState<any>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { width } = useWindowDimensions(); 
   const [publicData, setPublicData] = useState<PublicData>({
     fursonaName: "",
     imgPath: "",
@@ -79,28 +81,45 @@ const Navbar: NextPage<Props> = (props: Props) => {
   };
 
   const toggleNavBar = () => {
-    setIsOpen((o) => !o);
+    if (width > parseInt(styles.tinyDesktop)) {
+      setIsOpen(true)
+    }
+    else {
+      setIsOpen((o) => !o);
+    }
   }
+
+  useEffect(() => {
+    if (width > parseInt(styles.tinyDesktop)) {
+      setIsOpen(true)
+    }
+  }, [width])
 
   return (
     <nav className={styles.nav}>
-      <div className={`${styles.MainButtonWrapper} ${isOpen && styles.MainButtonClosed}`}>
-        <button
-          className={styles.MainButton}
-          onClick={() => toggleNavBar()}
-        >
-          <RiMenuLine/>
-        </button>
-      </div>
+      {
+        width != 0 && width <= parseInt(styles.tinyDesktop) &&
+        <div className={`${styles.MainButtonWrapper} ${isOpen && styles.MainButtonClosed}`}>
+          <button
+            className={styles.MainButton}
+            onClick={() => toggleNavBar()}
+          >
+            <RiMenuLine/>
+          </button>
+        </div>
+      }
       <div className={`${styles.ItemWrappers} ${!isOpen && styles.BarClosed}`}>
         <div className={`${styles.ItemContainer}`}>
           <div className={styles.TopContainer}>
-            <button
-              className={styles.CloseBtn}
-              onClick={() => toggleNavBar()}
-            >
-              <RiCloseFill/>
-            </button>
+            {
+              width != 0 && width <= parseInt(styles.tinyDesktop) &&
+              <button
+                className={styles.CloseBtn}
+                onClick={() => toggleNavBar()}
+              >
+                <RiCloseFill/>
+              </button>
+            }
             <Link href={"/"} className={styles.HomeBtn} onClick={() => toggleNavBar()}>
               <RiHome2Line/>
             </Link>
@@ -161,7 +180,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
           >
             <NavItem
               link="/programs"
-              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/programs")}`}
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/programs", "dropdown")}`}
               onClick={() => toggleNavBar()}
             >
               {t("navPrograms")}

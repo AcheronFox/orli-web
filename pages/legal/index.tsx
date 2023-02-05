@@ -2,9 +2,11 @@ import styles from "@/styles/pages/Legal.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import IconCard from "@/comp/IconCard";
 import { RiDatabase2Line, RiInformationLine, RiFileList3Line } from "react-icons/ri";
+import { NextPage } from "next";
 
+type Props = {}
 
-export default function Info() {
+const Legal: NextPage<Props> = (props: Props) => {
   const { t } = useTranslate();
 
   return (
@@ -60,3 +62,5 @@ export default function Info() {
     </>
   )
 }
+
+export default Legal;

@@ -2,8 +2,11 @@ import InfoPanel from "@/comp/InfoPanel"
 import Section from "@/comp/Section"
 import styles from "@/styles/pages/Faq.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
+import { NextPage } from "next";
 
-export default function FAQ() {
+type Props = {}
+
+const FAQ: NextPage<Props> = (props: Props) => {
   const { t } = useTranslate();
 
   return (
@@ -40,3 +43,5 @@ export default function FAQ() {
     </div>
   )
 }
+
+export default FAQ;

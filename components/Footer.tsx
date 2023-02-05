@@ -14,7 +14,7 @@ const Footer: NextPage<Props> = (props: Props) => {
     const { t } = useTranslate();
     
     return (
-        <footer id="footer" className={styles.Footer}>
+        <footer className={styles.Footer}>
             <div className={styles.Footer__Item}>
                 <div>
                     <div className={styles.Footer__Item__Title}>
@@ -60,7 +60,7 @@ const Footer: NextPage<Props> = (props: Props) => {
                     </div>
                     <div className={styles.Footer__Item__Help}>
                         <LinkButton text={t("footerFaq")} link={"/faq"} icon={<RiQuestionLine />} isInternal={true}></LinkButton>
-                        <LinkButton text={t("footerContact")} link={"test"} icon={<RiMailLine />} isInternal={true}></LinkButton>
+                        <LinkButton text={t("footerContact")} link={"/test"} icon={<RiMailLine />} isInternal={true}></LinkButton>
                     </div>
                 </div>
             </div>
