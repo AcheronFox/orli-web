@@ -126,14 +126,14 @@ export default async function handler(
             return await new Promise<boolean>(async (mainResolve) => {
                 database.getConnection((err, connection) => {
                     if (err) {
-                        sendResponse(500, { message: "Unknown Error", e_code: "upd_1" });
+                        sendResponse(500, { message: "Unknown Error", e_code: "reg_8" });
                         mainResolve(false);
                     }
                     connection.beginTransaction(async (err) => {
                         if (err) {
                             console.log("ERROR: ", err);
                             connection.release();
-                            sendResponse(500, { message: "Error while creating the transaction.", e_code: "upd_2" });
+                            sendResponse(500, { message: "Error while creating the transaction.", e_code: "reg_9" });
                             mainResolve(false);
                         }
                         const rollback = (con: mysql.PoolConnection) => {
@@ -149,7 +149,7 @@ export default async function handler(
                                         (typeof data[k] == 'string')? (data[k] = data[k].trim()) : {};
                                     } catch {
                                         rollback(connection);
-                                        sendResponse(500, {message: "Unknown Error", e_code: "reg_9"});
+                                        sendResponse(500, {message: "Unknown Error", e_code: "reg_10"});
                                         resolve(false);
                                     }
                                 })
@@ -168,7 +168,7 @@ export default async function handler(
                                 });
                             }).catch(() => {
                                 rollback(connection);
-                                sendResponse(500, {message: "Unknown Error", e_code: "reg_13"});
+                                sendResponse(500, {message: "Unknown Error", e_code: "reg_12"});
                                 return false;
                             });
                         }
@@ -183,7 +183,7 @@ export default async function handler(
                                         (typeof data[k] == 'string')? (data[k] = data[k].trim()) : {};
                                     } catch {
                                         rollback(connection);
-                                        sendResponse(500, {message: "Unknown Error", e_code: "reg_10"});
+                                        sendResponse(500, {message: "Unknown Error", e_code: "reg_13"});
                                         resolve(false);
                                     }
                                 })
@@ -192,7 +192,7 @@ export default async function handler(
                                     if (err) {
                                         console.log("ERROR: ", err);
                                         rollback(connection);
-                                        sendResponse(500, {message: "Unknown Error", e_code: "reg_12"});
+                                        sendResponse(500, {message: "Unknown Error", e_code: "reg_14"});
                                         resolve(false);
                                         return;
                                     }
@@ -202,7 +202,7 @@ export default async function handler(
                                 });
                             }).catch(() => {
                                 rollback(connection);
-                                sendResponse(500, { message: "Unknown Error", e_code: "upd_6" });
+                                sendResponse(500, { message: "Unknown Error", e_code: "reg_15" });
                                 return false;
                             });
                         }
@@ -210,7 +210,7 @@ export default async function handler(
                         const encryptedPass = await bcrypt.hash(req.body.password, 12);
                         if (!encryptedPass) {
                             rollback(connection);
-                            sendResponse(500, { message: "Couldn't hash password", e_code: "reg_8", });
+                            sendResponse(500, { message: "Couldn't hash password", e_code: "reg_16", });
                             return;
                         }
 
@@ -240,7 +240,7 @@ export default async function handler(
                                 if (err) {
                                     console.log(err)
                                     connection.rollback(function () {
-                                        sendResponse(500, { message: "Error While Committing", e_code: "upd_7" });
+                                        sendResponse(500, { message: "Error While Committing", e_code: "reg_17" });
                                         mainResolve(false);
                                     });
                                 } else {
@@ -263,5 +263,5 @@ export default async function handler(
             }
         }
     }
-    else sendResponse(400, {message: "Malformed request:", e_code: "reg_14", data: req.body});
+    else sendResponse(400, {message: "Malformed request:", e_code: "reg_18", data: req.body});
 }
