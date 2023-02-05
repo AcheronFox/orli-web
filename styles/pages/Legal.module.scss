@@ -74,11 +74,11 @@
     flex-direction: column;
 
     @include respond(small-desktop) {
-        padding: 4rem 8rem;
+        padding: 4rem 10rem;
     }
     
     @include respond(tiny-desktop) {
-        padding: 3rem 6rem;
+        padding: 3rem 10rem;
     }
     
     @include respond(phone) {
