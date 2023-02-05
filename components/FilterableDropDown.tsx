@@ -195,7 +195,7 @@ const FilterableDropDown: NextPage<Props> = ({
             >
             {({ index, style }) => (
               <div style={style} className={styles.Selector__Item} 
-                onClick={() => {
+                onMouseDown={() => {
                   setValue(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);
                   setSelected(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);
                   setOpen(false);

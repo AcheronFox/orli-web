@@ -166,6 +166,11 @@ const CustomDatePicker = React.forwardRef(
       updateGui(e);
     };
 
+    const disableKeyStroke = (e: any) => {
+      const disallowedKeys = [37, 38, 39, 40]
+      if (disallowedKeys.includes(e.keyCode)) e.preventDefault()
+    }
+
     return (
       <div className={`${styles.DatePicker} ${className}`}>
         <label htmlFor={id}>
@@ -186,6 +191,7 @@ const CustomDatePicker = React.forwardRef(
             ref={ref}
             onBlur={onBlur}
             inputClass={inputClass}
+            onKeyDown={disableKeyStroke}
           ></Input>
           <div ref={refButton}>
             <SecondaryButton text={<RiCalendar2Fill size={24} />} onClick={() => handleClick()}></SecondaryButton>

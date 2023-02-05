@@ -24,7 +24,7 @@ const TranslateProvider: NextPage<Props> = ({ children }: Props) => {
     const langNew: string = lang.slice(0, 2);
     setLocale(localStorage.getItem("locale") ?? i18n.defaultLocale)
     setShouldChangeState(localStorage.getItem("locale") ? false : true)
-    if (i18n.locales.includes(langNew) && shouldChange) {
+    if (i18n.locales.includes(langNew) && (localStorage.getItem("locale") ? false : true)) {
       localStorage.setItem("locale", langNew);
       setLocale(langNew);
     }
