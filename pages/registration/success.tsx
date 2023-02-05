@@ -32,8 +32,8 @@ const RegSuccess: NextPage<Props> = (props: Props) => {
         );
     } else {
         return (
-            <div className={styles.Registration}>
-                <div className={styles.Registration__Success}>
+            <div className={`${styles.Registration} ${styles.Registration__Success}`}>
+                <div className={styles.Registration__Center}>
                     <Section title={t("regSuccessTitle")}>
                         <div className={styles.Registration__Success__Content}>
                             <span>
