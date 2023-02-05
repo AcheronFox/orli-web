@@ -20,6 +20,10 @@
         padding: none;
     }
 
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
+    }
+
     .Title {
         @include PrimaryTitle;
     }

@@ -20,6 +20,10 @@
         padding: 5rem 1rem;
     }
 
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
+    }
+
     &__Title {
         @include PrimaryTitle;
         margin-bottom: 3rem;
