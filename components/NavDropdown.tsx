@@ -1,6 +1,7 @@
 import { NextPage } from "next";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/components/navbar/NavDropDown.module.scss";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 type Props = {
   children?: React.ReactNode;
@@ -18,6 +19,7 @@ const NavDropdown: NextPage<Props> = ({
 }: Props) => {
   const [showDropDown, setShowDropDown] = useState<boolean>(false);
   const dropDownMenu = useRef<HTMLAnchorElement>(null);
+  const { width } = useWindowDimensions();  
 
   const toggleDropDown = () => {
     setShowDropDown(!showDropDown);
@@ -52,10 +54,19 @@ const NavDropdown: NextPage<Props> = ({
           {icon && <div className={`${styles.DropDown__Content__Icon} ${showDropDown && styles.DropDown__Content__Open}`}>{icon}</div>}
           <span className={`${styles.DropDown__Content__Name} ${showDropDown && styles.DropDown__Content__Open}`}>{dropDownName}</span>
         </div>
+        {
+          width > parseInt(styles.tinyDesktop) &&
+          <div className={`${styles.Menu} ${showDropDown && styles.Menu__Open}`}>
+            {children}
+          </div>
+        }
       </span>
-      <div className={`${styles.Menu} ${showDropDown && styles.Menu__Open}`}>
-        {children}
-      </div>
+      {
+        width <= parseInt(styles.tinyDesktop) &&
+        <div className={`${styles.Menu} ${showDropDown && styles.Menu__Open}`}>
+          {children}
+        </div>
+      }
     </>
   );
 };

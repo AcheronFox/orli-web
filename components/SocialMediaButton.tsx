@@ -20,14 +20,14 @@ const SocialMediaButton: NextPage<Props> = ({
 }: Props) => {
 
 
-    return (
-        <Tippy className={styles.Tooltip} content={label}>
-            <Link id="social" href={link} className={styles.Button} target={"_blank"} rel={"noopener noreferrer"}>
-                <span className={`${styles.Button__Icon} ${icon2? styles.Button__Icon_1 : ''}`}>{icon}</span>
-                <span className={`${styles.Button__Icon_2} ${styles.Button__Icon}`}>{icon2}</span>
-            </Link>
-        </Tippy>
-    );
+  return (
+    <Tippy className={styles.Tooltip} content={label}>
+      <Link id="social" href={link} className={styles.Button} target={"_blank"} rel={"noopener noreferrer"}>
+        <span className={`${styles.Button__Icon} ${icon2? styles.Button__Icon_1 : ''}`}>{icon}</span>
+        <span className={`${styles.Button__Icon_2} ${styles.Button__Icon}`}>{icon2}</span>
+      </Link>
+    </Tippy>
+  );
 };
 
 export default SocialMediaButton;

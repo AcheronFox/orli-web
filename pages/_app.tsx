@@ -13,7 +13,7 @@ import CustomScrollBar from "@/comp/Scrollbar";
 import FloatingMessageWrapper from "@/comp/FloatingMessageWrapper";
 import Footer from "@/comp/Footer";
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
     process.env.TEMP_LOGIN_STATE?.toLowerCase() == "enabled" ? false : true
   );

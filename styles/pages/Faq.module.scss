@@ -3,21 +3,30 @@
     color: $white;
     min-height: 100vh;
     padding: 5rem 10rem;
+    width: 65%;
+    margin: auto;
 
     @include respond(small-desktop) {
         padding: 4rem 8rem;
+        width: 70%;
     }
     
     @include respond(tiny-desktop) {
         padding: 3rem 6rem;
+        width: 90%;
     }
     
     @include respond(phone) {
         padding: 5rem 2rem;
+        width: 100%;
     }
     
     @include respond(small-phone) {
         padding: 5rem 1rem;
+    }
+
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
     }
 
     .Title {

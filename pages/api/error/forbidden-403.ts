@@ -8,7 +8,7 @@ export default async function handler(
   const body = `
   ERROR 403
   Forbidden
-  You are attempting to access operational data, please return to ${req.headers.host}
+  You seem lost, please return to ${req.headers.host}
   `
   res.status(403).send(body)
 }

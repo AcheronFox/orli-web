@@ -2,37 +2,39 @@
   display: flex;
   user-select: none;
   cursor: pointer;
-  font-size: calc($default-font * 1.15);
-  margin: 0 1rem;
-  padding: .5rem;
+  font-size: calc($styled-font-size * 1.15);
   border-radius: .5rem;
   background: none;
   border: none;
   transition: all .2s linear;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 
 
   @include respond(small-desktop) {
-    font-size: calc($default-font * 1);
+    font-size: calc($styled-font-size * 1);
   }
 
   @include respond(tiny-desktop) {
-    font-size: calc($default-font * 1.2);
+    font-size: calc($styled-font-size * 1.2);
   }
 
   @include respond(phone) {
-    font-size: calc($default-font * 1.4);
+    font-size: calc($styled-font-size * 1.4);
   }
 
   @include respond(small-phone) {
-    font-size: calc($default-font * 1.6);
+    font-size: calc($styled-font-size * 1.6);
   }
 
   @include respond(big-desktop) {
-    font-size: calc($default-font * 1.25);
+    font-size: calc($styled-font-size * 1.25);
   }
 
   @include respond(4k-desktop) {
-    font-size: calc($default-font * 2);
+    font-size: calc($styled-font-size * 2);
   }
 
   @include respond(min-phone) {
@@ -81,6 +83,7 @@
     
     .MainButton {
       @include TopItem;
+
       border-radius: 0;
       margin: 0;
       color: $primary-color;
@@ -104,15 +107,13 @@
   }
 
   .BarClosed {
-    opacity: 0 !important;
-    transform: translateX(-15vw) !important;
-
-    @include respond(small-desktop) {
-      transform: translateX(-20vw) !important;
-    }
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transform: translateX(0) !important;
   
     @include respond(tiny-desktop) {
       transform: translateX(-40vw) !important;
+      opacity: 0 !important;
     }
   
     @include respond(phone) {
@@ -126,14 +127,12 @@
 
   .ItemWrappers {
     pointer-events: all;
-    width: 15vw;
-    height: 100vh;
+    width: 100vw;
+    height: 5vh;
     background-color: rgba($grey-2, .95);
     position: relative;
     z-index: 10;
-    box-shadow: 1rem -.1rem 3rem 0 rgba($black, .25);
-    overflow-x: hidden;
-    overflow-y: auto;
+    box-shadow: 0 1rem 2rem 1rem rgba($black, .25);
     transform: translateX(0);
 
     @include respond(phone) {
@@ -146,12 +145,12 @@
       display: none;
     }
 
-    @include respond(small-desktop) {
-      width: 20vw;
-    }
-
     @include respond(tiny-desktop) {
       width: 40vw;
+      height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      box-shadow: 1rem -.1rem 3rem 0 rgba($black, .25);
     }
 
     @include respond(phone) {
@@ -176,42 +175,77 @@
       position: absolute;
       box-sizing: border-box;
       width: 100%;
+      height: 100%;
 
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-around;
+
+      @include respond(tiny-desktop) {
+        flex-direction: column;
+        justify-content: unset;
+        height: unset;
+      }
 
       & > * {
         padding: .5rem 1rem;
         flex: 1;
+        &:not(:first-child) {
+          border-right: .1rem solid $grey-1;
+        }
+
+        @include respond(tiny-desktop) {
+          &:not(:first-child) {
+            border-right: none;
+          }
+        }
       }
     }
 
     .TopContainer {
       display: flex;
-      margin-bottom: 3rem;
       width: 100%;
-      border-bottom: .2rem solid lighten($primary-color, 5%);
-      box-shadow: 0 1rem 1rem 0 rgba($primary-color, 0.75);
+      border-right: .2rem solid lighten($primary-color, 5%);
+      box-shadow: .5rem 0 1rem 0 rgba($primary-color, 0.75);
+      clip-path: inset(0 -1rem 0 0);
       justify-content: space-between;
       align-items: center;
+      height: 100%;
 
+      @include respond(tiny-desktop) {
+        border-right: none;
+        border-bottom: .2rem solid lighten($primary-color, 5%);
+        box-shadow: 0 1rem 1rem 0 rgba($primary-color, 0.75);
+        margin-bottom: 3rem;
+        clip-path: unset;
+      }
+ 
       .CloseBtn {
         @include TopItem;
         color: $primary-color;
-        padding-top: .9rem;
         align-self: stretch;
+
+        @include respond(tiny-desktop) {
+          padding-top: .9rem;
+        }
       }
 
       .HomeBtn {
         @include TopItem;
         color: $primary-color;
-        padding-top: .9rem;
         align-self: stretch;
+
+        @include respond(tiny-desktop) {
+          padding-top: .9rem;
+        }
       }
 
       .LanguageChanger {
         @include TopItem;
-        padding-top: .9rem;
         align-self: stretch;
+
+        @include respond(tiny-desktop) {
+          padding-top: .9rem;
+        }
       }
     }
 

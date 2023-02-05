@@ -1,7 +1,10 @@
 import styles from "@/styles/pages/Gallery.module.scss";
 import { useTranslate } from "@/hooks/useTranslate";
+import { NextPage } from "next";
 
-export default function Gallery() {
+type Props = {}
+
+const Gallery: NextPage<Props> = (props: Props) => {
     const { t } = useTranslate();
 
     return (
@@ -88,3 +91,5 @@ export default function Gallery() {
         </div>
     );
 }
+
+export default Gallery;

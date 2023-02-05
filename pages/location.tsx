@@ -4,8 +4,11 @@ import Section from "@/comp/Section";
 import LinkButton from "@/comp/LinkButton";
 import { RiMapPin2Line } from "react-icons/ri";
 import InfoCard from "@/comp/InfoCard";
+import { NextPage } from "next";
 
-export default function Location() {
+type Props = {}
+
+const Location: NextPage<Props> = (props: Props) => {
   const { t } = useTranslate();
 
   return (
@@ -69,3 +72,5 @@ export default function Location() {
     </>
   )
 }
+
+export default Location;

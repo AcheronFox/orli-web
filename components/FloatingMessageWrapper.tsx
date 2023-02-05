@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import styles from "@/styles/components/FloatingMessage.module.scss";
 import FloatingMessage from "./FloatingMessage";
@@ -10,25 +10,27 @@ type Props = {
 };
 
 interface FloatingMessage {
-  type: "Error" | "OK" | "Info";
+  type: "Error" | "Success" | "Info";
   message: string;
   duration?: number;
   autocloses?: boolean;
   closable?: boolean;
   id?: number;
 }
-function useForceUpdate() {
-  let [value, setState] = useState(true);
-  return () => setState(!value);
-}
 
 const FloatingMessageWrapper: NextPage<Props> = ({ children }: Props) => {
-  const handleForceupdateMethod = useForceUpdate();
   const [floatingmsgs, setFloatingMsgs] = useState<any>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(true);
 
   const HandleClose = useCallback((index: number) => {
-    setFloatingMsgs((fl: [FloatingMessage]) => fl.filter((x, i) => x.id != index));
+    if (index == undefined) return;
+    const result = document.getElementById(`floatingMsg_${index.toString()}`)
+    if (result) {
+      result.classList.add(styles.close);
+      result.classList.remove(styles.open);
+      setTimeout(() => {
+        setFloatingMsgs((fl: [FloatingMessage]) => fl.filter((x, i) => x.id != index));
+      }, 400);
+    }
   }, []);
 
   return (
@@ -44,7 +46,7 @@ const FloatingMessageWrapper: NextPage<Props> = ({ children }: Props) => {
       }}
     >
       <>
-        <div className={styles.FloatingMessageWrapper}>
+        <div className={styles.Wrapper}>
           {floatingmsgs?.map((x: FloatingMessage, i: number) => {
             return (
               <FloatingMessage
