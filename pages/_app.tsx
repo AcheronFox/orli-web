@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "@/styles/globals.scss";
 import type { AppProps } from "next/app";
 import Head from "next/head";
@@ -10,8 +11,9 @@ import React from "react";
 import axiosInstance from "@/utils/axiosConfig";
 import TranslateProvider from "@/hooks/TranslateProvider";
 import CustomScrollBar from "@/comp/Scrollbar";
-import FloatingMessageWrapper from "@/comp/FloatingMessageWrapper";
+import FloatingMessageWrapper from "@/hooks/FloatingMessageWrapper";
 import Footer from "@/comp/Footer";
+import AuthProvider from "@/hooks/AuthProvider";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
@@ -85,17 +87,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     return (
       <CustomScrollBar>
         <TranslateProvider>
-          <>
-            <Navbar></Navbar>
-            <FloatingMessageWrapper>
-              <Head>
-                <title>Örli Försztivál | Agárd Hungary</title>
-              </Head>
-              <div className={style.BG__Img}></div>
-              <Component {...pageProps} />
-              <Footer />
-            </FloatingMessageWrapper>
-          </>
+          <FloatingMessageWrapper>
+            <AuthProvider>
+              <>
+                <Navbar></Navbar>
+                <Head>
+                  <title>Örli Försztivál | Agárd Hungary</title>
+                </Head>
+                <div className={style.BG__Img}></div>
+                <Component {...pageProps} />
+                <Footer />
+              </>
+            </AuthProvider>
+          </FloatingMessageWrapper>
         </TranslateProvider>
       </CustomScrollBar>
     );

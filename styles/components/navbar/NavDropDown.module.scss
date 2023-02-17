@@ -134,6 +134,41 @@
       transition: color .5s;
     }
 
+    &__Picture {
+      display: inline-block;
+      position: relative;
+      width: 4vh;
+      height: 4vh;
+
+      @include respond(phone) {
+        width: 5rem;
+        height: 5rem;
+      }
+
+      @include respond(tiny-desktop) {
+        width: 4rem;
+        height: 4rem;
+      }
+
+      picture {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 100%;
+        max-height: 100%;
+
+        img {
+            display: inline-block;
+            max-height: 100%;
+            max-width: 100%;
+            border-radius: 1rem;
+
+            border: .1rem solid $primary-color;
+            object-fit: cover;
+        }
+      }
+    }
+
     &__Name {
       transition: color .5s;
       color: inherit;
@@ -256,6 +291,16 @@
   &__Open {
     max-height: 100vh;
     opacity: 1;
+  }
+
+  .LogoutButton {
+    color: darken($default-red, 15%) !important;
+    border-top: .1rem solid $default-red;
+    margin-top: 2rem;
+
+    &:link, &:visited {
+      color: darken($default-red, 15%) !important;
+    }
   }
 
   .Item {

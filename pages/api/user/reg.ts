@@ -5,6 +5,7 @@ import database from '@/utils/mysql'
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import * as mysql from "mysql";
+import isMethodAllowed from '@/utils/isMethodAllowed';
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
@@ -20,6 +21,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+    const isAllowed = await isMethodAllowed(req, res, 'POST')
+    if (!isAllowed) return
+    
     const sendResponse = (code: number, data: Object | String = '') => {
         res.status(code).json(data)
     }
@@ -33,7 +37,8 @@ export default async function handler(
             typeof x.dateOfBirth === 'string' &&
             typeof x.age === 'number' &&
             typeof x.password === 'string' &&
-            typeof x.nationality === 'string') {
+            typeof x.nationality === 'string' &&
+            typeof x.contact === 'string') {
                 return true
             }
         else return false
@@ -48,7 +53,8 @@ export default async function handler(
             x.dateOfBirth != null &&
             x.age != 0 &&
             x.password != '' &&
-            x.nationality != '') {
+            x.nationality != '' &&
+            x.contact != '') {
                 return true
             }
         else return false

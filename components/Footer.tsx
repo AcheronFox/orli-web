@@ -70,7 +70,6 @@ const Footer: NextPage<Props> = (props: Props) => {
                         <h3>{t("footerLegal")}</h3>
                     </div>
                     <div className={styles.Footer__Item__Legal}>
-                        <LinkButton text={t("footerTos")} link={"/legal/tos"} icon={<RiInformationLine />} isInternal={true}></LinkButton>
                         <LinkButton text={t("footerRules")} link={"/legal/rules"} icon={<RiFileList3Line />} isInternal={true}></LinkButton>
                         <LinkButton text={t("footerData")} link={"/legal/data"} icon={<RiDatabase2Line />} isInternal={true}></LinkButton>
                     </div>
