@@ -47,8 +47,9 @@ const NationalitySelector: NextPage<Props> = ({
   useEffect(() => {
     if (Codes && value) {
       const id = Codes.findIndex((x:Codes) => x.alpha2 == value);
-      if (id > 0) {
+      if (id >= 0) {
         setSelected(Codes[id].name);
+        setVal(Codes[id].name)
       }
     }
   }, [Codes]);
@@ -73,7 +74,6 @@ const NationalitySelector: NextPage<Props> = ({
   };
 
   return (
-    <>
     <FilterableDropDown
       label={label}
       onChange={onChange}
@@ -91,7 +91,6 @@ const NationalitySelector: NextPage<Props> = ({
       dataValue={"alpha2"}
       disabled={disabled}
     />
-    </>
   );
 };
 

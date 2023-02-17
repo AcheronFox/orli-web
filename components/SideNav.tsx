@@ -4,73 +4,29 @@ import React, { useEffect, useState } from "react";
 import styles from "@/styles/components/navbar/Navbar.module.scss";
 import DropDownStyle from "@/styles/components/navbar/NavDropDown.module.scss";
 import NavItemStyle from "@/styles/components/navbar/NavItems.module.scss";
-import axiosInstance from "../utils/axiosConfig";
 import NavDropdown from "./NavDropdown";
 import NavItem from "./NavItem";
 import { useTranslate } from "@/hooks/useTranslate";
-import { getCookie } from "cookies-next";
-import jwt_decode from "jwt-decode";
 
 import { RiUserAddLine, RiLoginBoxLine, RiInformationLine, RiMapPin2Line, RiMapLine, RiCloseFill, RiHome2Line, RiCamera3Line, RiMenuLine } from "react-icons/ri";
 import ReactCountryFlag from "react-country-flag"
 
-import { useRouter } from "next/router";
 import { SingletonRouter, withRouter } from "next/router";
 import Link from "next/link";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
+import { useUser } from "@/hooks/useUser";
 
 type Props = {
   router: SingletonRouter;
 };
 
-type PublicData = {
-  fursonaName: string;
-  imgPath: string;
-};
-
 const Navbar: NextPage<Props> = (props: Props) => {
-  const [_document, set_document] = useState<any>(null);
-  const [_window, set_window] = useState<any>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { width } = useWindowDimensions(); 
-  const [publicData, setPublicData] = useState<PublicData>({
-    fursonaName: "",
-    imgPath: "",
-  });
+  const { user, logout } = useUser()
+  const { width } = useWindowDimensions();
 
   const { t, changeLanguage, locale } = useTranslate();
   const routerPath = props.router.asPath;
-
-  const updateCookie = () => {
-    const ck = getCookie("publicToken");
-    if (ck && typeof ck == "string") {
-      setPublicData(jwt_decode(ck));
-    } else {
-      setPublicData({
-        fursonaName: "",
-        imgPath: "",
-      });
-    }
-  };
-
-  useEffect(() => {
-    if (document) updateCookie();
-  }, [_document]);
-
-  useEffect(() => {
-    setInterval(() => {
-      updateCookie();
-    }, 1000);
-    set_document(document);
-    set_window(window);
-  }, []);
-
-  const router = useRouter();
-
-  const logout = async () => {
-    await axiosInstance.get("api/logout");
-    if (router.pathname == "/profile") router.push("/");
-  };
 
   const evalRoute = (route: string, type = "dropDown") => {
     if (type == "dropDown") {
@@ -133,7 +89,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
             </button>
           </div>
 
-          {!publicData.fursonaName && (
+          {!user && (
             <NavItem
               link="/login"
               shouldOverwrite={false}
@@ -144,23 +100,30 @@ const Navbar: NextPage<Props> = (props: Props) => {
               {t("navSignIn")}
             </NavItem>
           )}
-          {publicData.fursonaName && (
+          {user && (
             <NavDropdown
               mainclassname={`${evalRoute("/profile", "contain")}`}
-              dropDownName={publicData.fursonaName}
+              dropDownName={t("navProfile")}
             >
               <NavItem
                 link="/profile"
                 CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile")}`}
               >
-                Profile
+                {t("navProfile")}
               </NavItem>
+              {user.isAdmin == true &&
+                <NavItem
+                  link="/admin"
+                  CustomStyle={`${DropDownStyle.Item} ${evalRoute("/admin", 'contain')}`}
+                >
+                  {t("navAdmin")}
+                </NavItem>
+              }
               <NavItem
-                link=""
                 onClick={async () => await logout()}
                 CustomStyle={`${DropDownStyle.Item} ${DropDownStyle.LogoutButton}`}
               >
-                Logout
+                {t("navLogout")}
               </NavItem>
             </NavDropdown>
           )}

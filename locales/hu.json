@@ -1,7 +1,6 @@
 {
   "SECTION": "--------------------NAVBAR-------------------------",
 
-  "navLang": "🇬🇧",
   "navRegistration": "Regisztráció",
   "navSignIn": "Bejelentkezés",
   "navLocation": "Helyszín",
@@ -15,6 +14,9 @@
   "navFaq": "GYIK",
   "navParticipants": "Résztvevők",
   "navStaff": "A csapat",
+  "navProfile": "Profil",
+  "navAdmin": "Admin",
+  "navLogout": "Kijelentkezés",
 
   "SECTION": "--------------------FOOTER-------------------------",
 
@@ -25,7 +27,7 @@
   "footerFind": "Elérhetőségünk",
 
   "footerFaq": "Gyakran Ismételt Kérdések (GYIK)",
-  "footerContact": "Lépjen Velünk Kapcsolatba",
+  "footerContact": "Lépj Velünk Kapcsolatba",
   "footerData": "Adatkezelés",
   "footerRules": "Szabályzat",
   "footerTos": "Használati Feltételek",
@@ -48,8 +50,6 @@
 
   "SECTION": "--------------------ERRORS------------------------",
 
-  "errLoginPass": "Oops! Kérlek ellenőrízd hogy jól írtad be a jelszót.",
-  "errLoginNotFound": "Oops! Nincs fiók a megadott e-mail cím alatt.",
   "errDefault": "Oops! Valami hiba történt. Kérlek próbáld újra.",
   "errRegErrConflict": "Ez az e-mail cím már regisztrálva van.",
   "errBadRequest": "Oops! Probléma merült fel az adatokkal kapcsolatosan. Kérlek próbáld újra.",
@@ -97,6 +97,13 @@
   "regButton": "Regisztrálás",
   "regSearchablePlaceholder": "Írj ide a kereséshez",
   "regPleaseSelect": "Kérlek válasz",
+  "regRule1": "Elolvastam, megértettem és elfogadom a",
+  "regRule2": "foglaltakat.",
+  "regRuleBtn": "Szabályzatban",
+  "regData1": "Elolvastam és elfogadom az ",
+  "regDataBtn": "Adatkezelési Szabályzatot.",
+  "regContact": "Telegram vagy Telefon",
+  "regContactExp": "a",
 
   "SECTION": "--------------------REGISTRATION MESSAGES-------------------------",
 
@@ -113,6 +120,7 @@
   "regNationalityError": "Kérlek add meg a nemzetiségedet",
   "regPassError": "Jelszónak legalább 6 karakter hosszúnak kell lennie, tartalmaznia kell legalább egy nagy és egy kis betűt, egy számot",
   "regPassConfError": "Jelszók nem egyeznek",
+  "regContactErr": "Kérlek add meg a Telegramod vagy a telefon számod",
 
   "SECTION": "--------------------REGISTRATION SUCCESS-------------------------",
 
@@ -123,13 +131,28 @@
   "regSuccessOutro": "Addig nyugodtan visszatérhetsz a",
   "regSuccessButton": "Fő Oldalra.",
 
+  "SECTION": "--------------------PARTICIPANTS-------------------------",
+
+  "partNationality": "Nemzetiség",
+  "partCounterAll": "Résztvevők:",
+  "partCounterSuit": "Fursuiterek:",
+  "partSuiter": "Fursuiter",
+  "partSponsor": "Szponzor",
+
   "SECTION": "--------------------LOGIN-------------------------",
 
   "loginRemember": "Emlékezz Rám",
   "loginWait": "Bejelentkezés...",
   "loginEmailError": "Kérlek add meg az e-mail címed",
-  "loginPassError": "Kérlek add meg a jelszódat",
+  "loginPassError": "Kérlek add meg a jelszavad",
   "loginForgotPass": "Elfelejtett jelszó",
+  "loginButton": "Bejelentkezés",
+
+  "SECTION": "--------------------LOGIN MESSAGES-------------------------",
+
+  "loginPassErr": "Oops! Kérlek ellenőrízd hogy jól írtad be a jelszót.",
+  "loginErrNotFound": "Oops! Nincs fiók a megadott e-mail cím alatt.",
+  "loginUnverifiedErr": "A regisztrációd még nincs leelenőrízve. Kérlek várj, emailen fogunk értesíteni.",
 
   "SECTION": "--------------------Profile-------------------------",
 
@@ -139,5 +162,4 @@
   "SECTION": "--------------------INFO-------------------------",
 
   "SECTION": "--------------------PROFILE-------------------------"
-  
 }
