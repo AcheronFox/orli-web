@@ -1,0 +1,31 @@
+.Home {
+    min-height: 100vh;
+    height: 100%;
+    padding: 2rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    
+    @include respond(phone) {
+        flex-wrap: wrap;
+    }
+
+    &__Item {
+        background-color: rgba($grey-2, .75);
+        backdrop-filter: blur(.2rem);
+        box-shadow: 0 2rem 1rem .5rem rgba($black, .8);
+        border-radius: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        margin: 3rem;
+
+        @include respond(small-desktop) {
+            flex-direction: column;
+        }
+
+        @include PrimaryTitle;
+    }
+}

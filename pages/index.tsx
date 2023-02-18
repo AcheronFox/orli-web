@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import styles from "@/styles/pages/Home.module.scss"
-import SocialMediaButton from "../components/SocialMediaButton";
+import SocialMediaButton from "@/comp/SocialMediaButton";
 import { RiTelegramLine, RiNotification3Line, RiDiscussLine } from 'react-icons/ri';
 
 type Props = {}
