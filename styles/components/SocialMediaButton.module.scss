@@ -1,0 +1,93 @@
+.Button {
+    position: relative;
+    display: flex;
+    width: 5rem;
+    height: 5rem;
+    background: $background-color;
+    border-radius: 50%;
+    font-size: 3rem;
+    color: $grey-5;
+    cursor: pointer;
+
+    justify-content: center;
+    align-items: center;
+
+    transition: all .5s;
+
+    @include respond(phone) {
+        width: 6rem;
+        height: 6rem;
+        font-size: 4rem;
+    }
+    @include respond(big-desktop) {
+        width: 8rem;
+        height: 8rem;
+        font-size: 6rem;
+    }
+
+    @include respond(min-phone) {
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: $secondary-color;
+            transition: .5s;
+            transform: scale(.9);
+            z-index: -1;
+        }
+    
+        &:hover:before {
+            transform: scale(1.2);
+            box-shadow: 0 0 1.5rem $secondary-color;
+            filter: blur(3px);
+        }
+    
+        &:hover {
+            color: lighten($secondary-color, 10%);
+            box-shadow: 0 0 1.5rem $secondary-color;
+            text-shadow: 0 0 1.5rem $secondary-color;
+        }
+    }
+
+    &__Icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &_1 {
+            font-size: 2.5rem;
+            transform: translateX(-15%) translateY(10%);
+
+            @include respond(phone) {
+                font-size: 3rem;
+            }
+            @include respond(big-desktop) {
+                font-size: 5rem;
+            }
+        }
+
+        &_2 {
+            position: absolute;
+            top: 25%;
+            left: 55%;
+            font-size: 1.5rem;
+            z-index: 10;
+
+            @include respond(phone) {
+                font-size: 2rem;
+            }
+            @include respond(big-desktop) {
+                font-size: 2.5rem;
+            }
+        }
+    }
+}
+
+.Tooltip {
+    font-family: $default-font-family;
+    font-size: $default-font-size !important;
+}
