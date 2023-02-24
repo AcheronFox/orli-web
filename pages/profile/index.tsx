@@ -307,7 +307,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                   {
                     uploadProgress &&
                     <div className={styles.Profile__Header__Picture__Overlay}>
-                      <ProgressBar completed={uploadProgress} bgColor={styles.primaryColor} baseBgColor={styles.grey2}/>
+                      <ProgressBar completed={uploadProgress} bgColor={styles.primaryColor} baseBgColor={styles.grey2} customLabel={uploadProgress == 100? t("profProcessing") : undefined}/>
                     </div>
                   }
               </picture>
