@@ -33,7 +33,7 @@ sans-serif;
 
 // MEDIA QUERY MANAGER
 $tiny-desktop: 1000; // For dynamic change of navbar
-
+$phone: 600;
 
 // COLORS
 $black: #000000;
@@ -55,7 +55,7 @@ $primary-color: #F741D5;
 $secondary-color: #0BBFFC;
 
 // SITE
-$background-color: #1a1818;
+$background-color: #181818;
 
 // FLOATING MESSAGE
 $default-error: #ff0000;
@@ -63,7 +63,9 @@ $default-success: #00ff00;
 $default-info: #ffffff;
 
 :export {
+    phone: $phone;
     tinyDesktop: $tiny-desktop;
     primaryColor: $primary-color;
     secondaryColor: $secondary-color;
+    grey2: $grey-2;
 }

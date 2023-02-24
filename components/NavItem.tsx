@@ -6,7 +6,7 @@ import { AxiosResponse } from "axios";
 
 type Props = {
   children: React.ReactNode;
-  link: string;
+  link?: string;
   CustomStyle?: string;
   onClick?: ((e: any) => (void | undefined)) | (() => Promise<AxiosResponse<any, any>>) | (()=> Promise<void>);
   shouldOverwrite?: boolean;
@@ -23,7 +23,7 @@ const NavItem: NextPage<Props> = ({
 }: Props) => {
 
   return (
-    <Link href={link} className={shouldOverwrite? CustomStyle ?? (styles.Item) : `${(styles.Item)} ${CustomStyle}`} onClick={onClick}>
+    <Link href={link? link : {}} className={shouldOverwrite? CustomStyle ?? (styles.Item) : `${(styles.Item)} ${CustomStyle}`} onClick={onClick}>
       <div className={styles.ContentWrapper}>
         {icon && <div className={styles.IconWrapper}>{icon}</div>}
         <span className={styles.ItemName}>{children}</span>

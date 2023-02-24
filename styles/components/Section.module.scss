@@ -39,11 +39,11 @@
         font-size: $default-font-size;
 
         @include respond(big-desktop) {
-            font-size: calc($default-font-size * 1.6);
+            font-size: calc($default-font-size * 1.4);
         }
 
         @include respond(4k-desktop) {
-            font-size: calc($default-font-size * 1.8);
+            font-size: calc($default-font-size * 1.6);
         }
     }
 

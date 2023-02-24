@@ -5,6 +5,7 @@ import database from '@/utils/mysql'
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import * as mysql from "mysql";
+import isMethodAllowed from '@/utils/isMethodAllowed';
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
@@ -15,11 +16,30 @@ const toSqlDatetime = (inputDate: Date) => {
         .replace('T', ' ')
 }
 
+const hasLowerCase = (str: string) => {
+    return str.toUpperCase() != str;
+};
+const hasUpperCase = (str: string) => {
+    return str.toLowerCase() != str;
+};
+const hasNumber = (str: string) => {
+    return /\d/.test(str);
+};
+const isLongerThanSix = (str: string) => {
+    return str.length >= 6;
+};
+
+const isPassValid = (password: string) => {
+    return (!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password))
+}
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+    const isAllowed = await isMethodAllowed(req, res, 'POST')
+    if (!isAllowed) return
+    
     const sendResponse = (code: number, data: Object | String = '') => {
         res.status(code).json(data)
     }
@@ -33,7 +53,8 @@ export default async function handler(
             typeof x.dateOfBirth === 'string' &&
             typeof x.age === 'number' &&
             typeof x.password === 'string' &&
-            typeof x.nationality === 'string') {
+            typeof x.nationality === 'string' &&
+            typeof x.contact === 'string') {
                 return true
             }
         else return false
@@ -48,7 +69,8 @@ export default async function handler(
             x.dateOfBirth != null &&
             x.age != 0 &&
             x.password != '' &&
-            x.nationality != '') {
+            x.nationality != '' &&
+            x.contact != '') {
                 return true
             }
         else return false
@@ -207,10 +229,16 @@ export default async function handler(
                             });
                         }
 
+                        if (!isPassValid) {
+                            rollback(connection);
+                            sendResponse(500, { message: "Password doesn't comply regulations", e_code: "reg_16", });
+                            return;
+                        }
+
                         const encryptedPass = await bcrypt.hash(req.body.password, 12);
                         if (!encryptedPass) {
                             rollback(connection);
-                            sendResponse(500, { message: "Couldn't hash password", e_code: "reg_16", });
+                            sendResponse(500, { message: "Couldn't hash password", e_code: "reg_17", });
                             return;
                         }
 
@@ -223,6 +251,7 @@ export default async function handler(
                             nationality: req.body.nationality,
                             dateOfBirth: toSqlDatetime(req.body.dateOfBirth.trim()),
                             age: req.body.age,
+                            contact: req.body.contact
                         }
                         const userPayload: any = {
                             UserKey: newUserKey,
@@ -233,14 +262,15 @@ export default async function handler(
                         }
 
                         const accountInsertionState: boolean = await createAccount(accountPayload);
-                        const userInsertionState: boolean = await createUser(userPayload);
+                        let userInsertionState: boolean = false
+                        if (accountInsertionState) userInsertionState = await createUser(userPayload);
             
                         if (accountInsertionState && userInsertionState) {
                             connection.commit(function (err) {
                                 if (err) {
                                     console.log(err)
                                     connection.rollback(function () {
-                                        sendResponse(500, { message: "Error While Committing", e_code: "reg_17" });
+                                        sendResponse(500, { message: "Error While Committing", e_code: "reg_18" });
                                         mainResolve(false);
                                     });
                                 } else {
@@ -263,5 +293,5 @@ export default async function handler(
             }
         }
     }
-    else sendResponse(400, {message: "Malformed request:", e_code: "reg_18", data: req.body});
+    else sendResponse(400, {message: "Malformed request:", e_code: "reg_19", data: req.body});
 }

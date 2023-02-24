@@ -5,6 +5,7 @@ import { VariableSizeList as List } from "react-window";
 import SecondaryButton from "./SecondaryButton";
 import Input from "./Input";
 import styles from "@/styles/components/FilterableDropDown.module.scss";
+import UseWindowDimensions from "@/hooks/useWindowDimensions";
 
 type Props = {
   label: string;
@@ -24,31 +25,6 @@ type Props = {
   dataDisplayVal: string;
   dataValue: string;
   inputClass?: string;
-};
-
-const useWindowSize = () => {
-  const [windowSize, setWindowSize] = useState({
-    width: 0,
-    height: 0,
-  });
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const handleResize = () => {
-        setWindowSize({
-          width: window.innerWidth,
-          height: window.innerHeight,
-        });
-      };
-
-      window.addEventListener("resize", handleResize);
-
-      handleResize();
-
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, []);
-  return windowSize;
 };
 
 const FilterableDropDown: NextPage<Props> = ({
@@ -72,7 +48,7 @@ const FilterableDropDown: NextPage<Props> = ({
   const [open, setOpen] = useState<boolean>(false);
   const [switchFlyOut, setSwitchFlyOut] = useState<boolean>(false);
   const InputRef = useRef<HTMLDivElement>(null);
-  const size = useWindowSize();
+  const size = UseWindowDimensions();
   const dropdownAnchor = useRef<any>()
 
   const sizeMap = useRef<any>();
@@ -199,7 +175,7 @@ const FilterableDropDown: NextPage<Props> = ({
                   setValue(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);
                   setSelected(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);
                   setOpen(false);
-                  onChange(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataValue]);
+                  onChange(filteredData?.length? filteredData[index][dataValue] : data[index][dataValue]);
                 }}>
                   <Row
                   index={index}

@@ -8,4 +8,5 @@ export interface IRegistrationForm {
     age: number;
     nationality: string;
     password: string;
+    contact: string;
 }

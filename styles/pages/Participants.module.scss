@@ -1,0 +1,120 @@
+.Participants {
+    color: $white;
+    position: relative;
+    height: 100%;
+    min-height: 100vh;
+    padding: 7rem 10rem;
+
+    width: 65%;
+    margin: auto;
+
+    @include respond(small-desktop) {
+        padding: 4rem 10rem;
+        width: 70%;
+    }
+    
+    @include respond(tiny-desktop) {
+        padding: 3rem 10rem;
+        width: 90%;
+    }
+    
+    @include respond(phone) {
+        padding: 5rem 2rem;
+        width: 100%;
+    }
+    
+    @include respond(small-phone) {
+        padding: 5rem 1rem;
+    }
+
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
+    }
+
+    &__Title {
+        @include PrimaryTitle;
+        margin-bottom: 3rem;
+        background: rgba($grey-2, .9);
+        border-radius: 2.5rem;
+        box-shadow: 0 1rem 1rem rgba($black, .5);
+
+        @include respond(min-phone) {
+            backdrop-filter: blur(.2rem);
+        }
+    }
+
+    &__Counter {
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+
+        @include respond(tiny-desktop) {
+            flex-direction: column;
+        }
+
+        &__Title {
+            @include SecondaryTitle;
+            background-image: none;
+            color: $primary-color;
+            border-image: none;
+            border-color: $primary-color;
+        }
+
+        &__Count {
+            @include TertiaryTitle;
+            
+            h3 {
+                background-image: none;
+                color: $primary-color;
+            }
+
+            font-family: $default-font-family;
+            justify-content: center;
+        }
+    }
+
+    &__Chart {
+        height: 8rem;
+
+        @include respond(tiny-desktop) {
+            height: 10rem;
+        }
+        @include respond(phone) {
+            height: 20rem;
+        }
+    }
+    
+    &__List {
+        margin-top: 5rem;
+
+        &__Overwrite {
+            height: 100% !important;
+        }
+    }
+
+    &__Item {
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+        
+        & > * {
+            max-width: 50%;
+            margin: 2rem;
+
+            @include respond(small-desktop) {
+                max-width: 15rem;
+                margin: 1rem;
+            }
+
+            @include respond(tiny-desktop) {
+                max-width: 16rem;
+                margin: 1rem;
+            }
+
+            @include respond(phone) {
+                max-width: 100%;
+                margin: 0;
+            }
+        }
+    }
+}

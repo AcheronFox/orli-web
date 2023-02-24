@@ -14,7 +14,9 @@ import { IRegistrationForm } from "@/models/registration-form.model";
 import LinkButton from "@/comp/LinkButton";
 import { NextPage } from "next";
 import LoadingOverlay from "@/comp/LoadingOverlay";
-import { FloatingMessageContext } from "@/comp/FloatingMessageContext";
+import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
+import { RiQuestionLine } from "react-icons/ri"
+import Tippy from "@tippyjs/react";
 
 const isEmailValid = (email: string) => {
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
@@ -42,12 +44,6 @@ const getAge = (birthday: string) => {
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 };
 
-const sleep = (ms: number) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
-
 type Props = {};
 
 const Registration: NextPage<Props> = (props: Props) => {
@@ -62,6 +58,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   const [fursonaSpecies, setFursonaSpecies] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confPassword, setConfPassword] = useState<string>("");
+  const [contact, setContact] = useState<string>("");
   
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -82,15 +79,14 @@ const Registration: NextPage<Props> = (props: Props) => {
     fursonaSpecies: '',
     password: '',
     confPassword: '',
+    contact: '',
   });
 
   const [agreeStates, setAgreeStates] = useState<any>({
-    tos: false,
     rules: false,
     data: false,
   })
 
-  let isWait = false;
   let timer: NodeJS.Timeout | undefined = undefined;
   let time = 0;
   let message: number | undefined = undefined;
@@ -131,6 +127,9 @@ const Registration: NextPage<Props> = (props: Props) => {
   useEffect(() => {
     if (errorStates.confPassword != "") validateConfPass()
   }, [confPassword]);
+  useEffect(() => {
+    if (errorStates.contact != "") validateContact()
+  }, [contact]);
 
   useEffect(() => {
     errorStates.firstName && validateFirstName()
@@ -143,6 +142,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     errorStates.nationality && validateNationality()
     errorStates.password && validatePass()
     errorStates.confPassword && validateConfPass()
+    errorStates.contact && validateContact()
   }, [locale])
 
   useEffect(() => {
@@ -195,6 +195,9 @@ const Registration: NextPage<Props> = (props: Props) => {
   }
   const validateConfPass = () => {
     return updateState(password.trim() != confPassword.trim(), "confPassword", t("regPassConfError"))
+  }
+  const validateContact = () => {
+    return updateState(contact.trim() == "", "contact", t("regContactErr"))
   }
   
   const validateAge = (state: boolean, strict = false) => {
@@ -270,18 +273,14 @@ const Registration: NextPage<Props> = (props: Props) => {
       validateAge(dobState, true),
       validateNationality(),
       validatePass(),
-      validateConfPass()
+      validateConfPass(),
+      validateContact(),
     )
 
     if (finalCheck.includes(false)) {
       return;
     }
     setIsDisabled(true);
-
-    //DEBUG
-    if (isWait) {
-      await sleep(1000);
-    }
 
     const formData: IRegistrationForm = {
       firstName: firstName,
@@ -292,6 +291,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       dateOfBirth: new Date(utcFormatDOB),
       age: age,
       nationality: nationality,
+      contact: contact,
       password: crypto.createHash("sha256").update(password).digest("hex"),
     };
 
@@ -300,7 +300,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     message = undefined;
 
     axiosInstance
-    .post("api/reg", formData)
+    .post("api/user/reg", formData)
     .then(() => {
       Router.push({
         pathname: '/registration/success',
@@ -492,23 +492,38 @@ const Registration: NextPage<Props> = (props: Props) => {
                     <p className={styles.Registration__Error__Text}>{errorStates.confPassword}</p>
                   </span>
                 </div>
-                <Input
-                  type="checkbox"
-                  checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, tos: e} })}
-                  id="chk-1"
-                  label={<>I agree the <LinkButton isInternal={true} text="terms of service" link="/legal/tos"></LinkButton></>}
-                ></Input>
+                <span>
+                  <span className={styles.Registration__Form__Inline}>
+                    <Tippy content={t("regContactExp")}>
+                      <span>
+                        <RiQuestionLine size={20} />
+                      </span>
+                    </Tippy>
+                    <Input
+                      label={`${t("regContact")}: `}
+                      placeholder={t("regContact")}
+                      type={"text"}
+                      list="autoCompleteOff"
+                      autoComplete="nope"
+                      value={contact}
+                      onChange={(e) => setContact(e.target.value)}
+                      onBlur={() => validateContact()}
+                      inputClass={errorStates.contact && styles.Registration__Error}
+                    ></Input>
+                  </span>
+                  <p className={styles.Registration__Error__Text}> {errorStates.contact}</p>
+                </span>
                 <Input
                   type="checkbox"
                   checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, rules: e} })}
                   id="chk-2"
-                  label={<>I agree the <LinkButton isInternal={true} text="rules" link="/legal/rules"></LinkButton></>}
+                  label={<>{t("regRule1")}<LinkButton isInternal={true} text={t("regRuleBtn")} link="/legal/rules"></LinkButton>{t("regRule2")}</>}
                 ></Input>
                 <Input
                   type="checkbox"
                   checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, data: e} })}
                   id="chk-3"
-                  label={<>I agree the <LinkButton isInternal={true} text="data handling" link="/legal/data"></LinkButton></>}
+                  label={<>{t("regData1")}<LinkButton isInternal={true} text={t("regDataBtn")} link="/legal/data"></LinkButton></>}
                 ></Input>
             </div>
             <div className={styles.Registration__Button}>

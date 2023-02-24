@@ -46,7 +46,7 @@ const Footer: NextPage<Props> = (props: Props) => {
                         <h3>{t("footerFind")}</h3>
                     </div>
                     <div className={styles.Footer__Item__Find}>
-                        <SocialMediaButton link='#' icon={<RiFacebookCircleLine />} label={t("footerFacebook")}/>
+                        <SocialMediaButton link='https://www.facebook.com/events/2502630689892634/' icon={<RiFacebookCircleLine />} label={t("footerFacebook")}/>
                         <SocialMediaButton link='https://t.me/orliforstivalHU' icon={<RiTelegramLine />} icon2={<RiDiscussLine />} label={t("footerTelegramChat")}/>
                         <SocialMediaButton link='https://t.me/orliforsztival' icon={<RiTelegramLine />} icon2={<RiNotification2Line />} label={t("footerTelegramAnnounce")}/>
                     </div>
@@ -70,7 +70,6 @@ const Footer: NextPage<Props> = (props: Props) => {
                         <h3>{t("footerLegal")}</h3>
                     </div>
                     <div className={styles.Footer__Item__Legal}>
-                        <LinkButton text={t("footerTos")} link={"/legal/tos"} icon={<RiInformationLine />} isInternal={true}></LinkButton>
                         <LinkButton text={t("footerRules")} link={"/legal/rules"} icon={<RiFileList3Line />} isInternal={true}></LinkButton>
                         <LinkButton text={t("footerData")} link={"/legal/data"} icon={<RiDatabase2Line />} isInternal={true}></LinkButton>
                     </div>

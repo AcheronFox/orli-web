@@ -1,7 +1,6 @@
 {
   "SECTION": "--------------------NAVBAR-------------------------",
 
-  "navLang": "🇭🇺",
   "navRegistration": "Registration",
   "navSignIn": "Sign in",
   "navLocation": "Location",
@@ -15,6 +14,11 @@
   "navFaq": "FAQ",
   "navParticipants": "Participants",
   "navStaff": "Our staff",
+  "navProfile": "Profile",
+  "navTickets": "Tickets",
+  "navRooms": "Rooms",
+  "navAdmin": "Admin",
+  "navLogout": "Logout",
 
   "SECTION": "--------------------FOOTER-------------------------",
 
@@ -27,7 +31,7 @@
   "footerFaq": "Frequently Asked Questions (FAQ)",
   "footerContact": "Contact Us",
   "footerData": "Data Handling",
-  "footerRules": "Rules",
+  "footerRules": "Regulations",
   "footerTos": "Terms of Service (TOS)",
   "footerOrliText": "Vibe City",
   "footerOrliText2": "2023.06.14. - 2023.06.18.",
@@ -48,8 +52,6 @@
 
   "SECTION": "--------------------ERRORS------------------------",
 
-  "errLoginPass": "Oops! Please check if the given password is correct.",
-  "errLoginNotFound": "Oops! There is no account under that e-mail address.",
   "errDefault": "Oops! Something went wrong. Please try again.",
   "errRegErrConflict": "This e-mail address is already registrated.",
   "errBadRequest": "Oops! There has been an issue with the data. Please try again.",
@@ -58,7 +60,7 @@
   "SECTION": "--------------------LEGAL-------------------------",
 
   "legalTos": "Terms of Service",
-  "legalRules": "Rules",
+  "legalRules": "Regulations",
   "legalData": "Data Handling",
 
   "SECTION": "--------------------HOME-------------------------",
@@ -97,6 +99,13 @@
   "regButton": "Registrate",
   "regSearchablePlaceholder": "Type here to search",
   "regPleaseSelect": "Please select",
+  "regRule1": "I read, understood and accept the",
+  "regRule2": "",
+  "regRuleBtn": "Regulations.",
+  "regData1": "I read and accept the ",
+  "regDataBtn": "Data Handling regulation.",
+  "regContact": "Telegram or Phone",
+  "regContactExp": "a",
 
   "SECTION": "--------------------REGISTRATION MESSAGES-------------------------",
 
@@ -113,6 +122,7 @@
   "regNationalityError": "Please add your nationality",
   "regPassError": "Password must be at least 6 characters long, contain at least one upper and lower case characters, one number",
   "regPassConfError": "Passwords do not match",
+  "regContactErr": "Please add your Telegram or your Phone number",
 
   "SECTION": "--------------------REGISTRATION SUCCESS-------------------------",
 
@@ -123,6 +133,14 @@
   "regSuccessOutro": "Until then feel free to return to the",
   "regSuccessButton": "Home Page.",
 
+  "SECTION": "--------------------PARTICIPANTS-------------------------",
+
+  "partNationality": "Nationality",
+  "partCounterAll": "Participants:",
+  "partCounterSuit": "Fursuiters:",
+  "partSuiter": "Fursuiter",
+  "partSponsor": "Sponsor",
+
   "SECTION": "--------------------LOGIN-------------------------",
 
   "loginRemember": "Remember Me",
@@ -130,14 +148,32 @@
   "loginEmailError": "Please enter your e-mail address",
   "loginPassError": "Please enter your password",
   "loginForgotPass": "Forgot password",
+  "loginButton": "Sign in",
+
+  "SECTION": "--------------------LOGIN MESSAGES-------------------------",
+
+  "loginPassErr": "Oops! Please check if the given password is correct.",
+  "loginErrNotFound": "Oops! There is no account under that e-mail address.",
+  "loginUnverifiedErr": "Your registration is not verified yet. Please wait, we will notify you on email.",
 
   "SECTION": "--------------------Profile-------------------------",
 
   "ProfWait": "Saving...",
-  "ProfSuccess": "Changes saved",
+  "profSuccess": "Changes saved",
+  "profPicture": "Upload Picture",
+  "profOverview": "Overview",
+  "profData": "Data",
+  "profUnsupportedType": "Unsupported file format. Please use .png .jpg .jpeg or .webp format.",
+  "profCancel": "Cancel",
+  "profConfirm": "Confirm",
+  "profImageUpload": "For the best results, make sure to upload a picture which is at least 600x600 px in size.",
+  "profSuiter": "I'm a fursuiter",
+  "profPassword": "Update Password",
+  "profSave": "Save",
+  "profPayment": "Payment status",
+  "profRoom": "Room number",
 
   "SECTION": "--------------------INFO-------------------------",
 
   "SECTION": "--------------------PROFILE-------------------------"
-
 }

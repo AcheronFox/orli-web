@@ -5,7 +5,7 @@ import { TranslateContext } from "./TranslateContext";
 import { i18n } from "../i18n";
 
 type Props = {
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 const TranslateProvider: NextPage<Props> = ({ children }: Props) => {
@@ -13,7 +13,7 @@ const TranslateProvider: NextPage<Props> = ({ children }: Props) => {
     false
   );
   const [locale, setLocale] = useState<string>(
-     i18n.defaultLocale
+    i18n.defaultLocale
   );
 
   const [LanguageFiles, setLanguageFiles] = useState<any>(i18n.languages);

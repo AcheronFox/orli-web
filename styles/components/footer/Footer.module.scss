@@ -2,7 +2,7 @@
   font-size: $default-font-size;
   max-width: 100%;
   background-color: $grey-2;
-  box-shadow: 0 -2rem 2rem rgba($black, .5);
+  box-shadow: 0 -2rem 2rem rgba($black, .25);
   z-index: 9999;
 
   display: flex;
@@ -56,7 +56,7 @@
     }
 
     &__Title {
-      @include TertriaryTitle;
+      @include TertiaryTitle;
       padding-bottom: .5rem;
     }
 
