@@ -278,7 +278,7 @@ const Profile: NextPage<Props> = (props: Props) => {
           {t("profImageUpload")}
         </div>
         <div className={styles.ImagePreview__Center}>
-          <ReactCrop className={styles.ImagePreview__Crop} crop={crop} onChange={onCropChange} aspect={1/1}>
+          <ReactCrop className={styles.ImagePreview__Crop} crop={crop} onChange={onCropChange} aspect={1/1} minHeight={10} minWidth={10}>
             <img className={styles.ImagePreview__Image} src={fileDataURL} alt="Image Preview" onLoad={(e) => onImageLoad(e)} />
           </ReactCrop>
         </div>
