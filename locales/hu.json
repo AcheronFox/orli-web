@@ -56,6 +56,7 @@
   "errRegErrConflict": "Ez az e-mail cím már regisztrálva van.",
   "errBadRequest": "Oops! Probléma merült fel az adatokkal kapcsolatosan. Kérlek próbáld újra.",
   "errProfileLoginAgain": "A munkameneted lejárt, kérlek jelentkezz be újra.",
+  "errTooLarge": "Oops! A file túl nagy. Kérlek próbáld egy kissebb fájlal.",
 
   "SECTION": "--------------------LEGAL-------------------------",
 

@@ -207,6 +207,21 @@ const Profile: NextPage<Props> = (props: Props) => {
         setUploadProgress(uploadPercentage)
       },
     })
+    .catch((err) => {
+      if (err.response && err.response.status == 413) {
+        AddFloatingMessage({
+          autocloses: true,
+          type: "Error",
+          message: t("errTooLarge"),
+        });
+      } else {
+        AddFloatingMessage({
+          autocloses: true,
+          type: "Error",
+          message: t("errDefault"),
+        });
+      }
+    })
     .finally(() => {
       setUploadProgress(undefined)
       setFile(undefined)
