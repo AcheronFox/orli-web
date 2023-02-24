@@ -10,6 +10,7 @@ type Props = {
   type?: string;
   id?: string;
   children?: React.ReactElement
+  disabled?: boolean
 };
 
 const SecondaryButton: NextPage<Props> = ({
@@ -19,6 +20,7 @@ const SecondaryButton: NextPage<Props> = ({
   link,
   id,
   children,
+  disabled,
 }: Props) => {
     const handleMouseMove = (e: any) => {
         const bounds = e.target.getBoundingClientRect();
@@ -46,15 +48,15 @@ const SecondaryButton: NextPage<Props> = ({
     else if (link) {
       return (
         <Link id={id} href={link} onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={(e) => handleMouseOut(e)} 
-          className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right}`}>
+          className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right} ${disabled && styles.Button__Disabled}`}>
           <span className={styles.Button__Text}>{text}</span>
         </Link>
       );
       
     } else {
       return (
-        <button id={id} onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={(e) => handleMouseOut(e)} onClick={onClick? () => onClick() : () => {}}
-          className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right}`}>
+        <button disabled={disabled} id={id} onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={(e) => handleMouseOut(e)} onClick={onClick? () => onClick() : () => {}}
+          className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right} ${disabled && styles.Button__Disabled}`}>
           <span className={styles.Button__Text}>{text}</span>
         </button>
       );

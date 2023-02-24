@@ -290,7 +290,7 @@ const Profile: NextPage<Props> = (props: Props) => {
           </span>
           <div>
             <SecondaryButton text="Cancel" type="left" onClick={cancelImage}/>
-            <SecondaryButton text="Confirm" type="right" onClick={uploadImage}/>
+            <SecondaryButton disabled={Math.floor((crop.width/100) * image.naturalWidth) <= 0 && Math.floor((crop.height/100) * image.naturalHeight) <= 0} text="Confirm" type="right" onClick={uploadImage}/>
           </div>
         </div>
       </div>
