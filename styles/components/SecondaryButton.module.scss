@@ -51,6 +51,19 @@
         
     }
 
+    &__Disabled {
+        pointer-events: none;
+        cursor: default;
+
+        &:before {
+            background: linear-gradient(rgba($black, .8), rgba($black, .8)) padding-box, radial-gradient(farthest-corner at var(--x) var(--y), $black, $primary-color) border-box !important;
+        }
+
+        &:hover {
+            all: none;
+        }
+    }
+
     &:before {
         content:'';
         position:absolute;
