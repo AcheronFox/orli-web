@@ -11,6 +11,7 @@ import path from 'path';
 export const config = {
     api: {
       bodyParser: false
+      
     }
 }
 
@@ -84,12 +85,12 @@ export default async function handler(
                 const cropData = JSON.parse(data.fields.crop)
                 const { file } = data.files
                 const fileBuffer = fs.readFileSync(file.filepath);
-                
+                console.log(file.size / 1024)
                 const croppedBuffer = await sharp(fileBuffer).extract({ width: Math.floor(cropData.width), height: Math.floor(cropData.height), left: Math.floor(cropData.x), top: Math.floor(cropData.y) }).toBuffer()
                 
                 const maxSizeBuffer = await sharp(croppedBuffer).flatten({ background: '#ffffff' }).resize({width: 600, height: 600}).toFormat('jpg').jpeg({quality: 70,chromaSubsampling: '4:4:4',force: true,}).toBuffer()
-                const minSizeBuffer = await sharp(croppedBuffer).flatten({ background: '#ffffff' }).resize({width: 300, height: 300}).toFormat('jpg').jpeg({quality: 70,chromaSubsampling: '4:4:4',force: true,}).toBuffer()
-                const thumbBuffer = await sharp(croppedBuffer).flatten({ background: '#ffffff' }).resize({width: 100, height: 100}).toFormat('jpg').jpeg({quality: 70,chromaSubsampling: '4:4:4',force: true,}).toBuffer()
+                const minSizeBuffer = await sharp(maxSizeBuffer).flatten({ background: '#ffffff' }).resize({width: 300, height: 300}).toFormat('jpg').jpeg({quality: 70,chromaSubsampling: '4:4:4',force: true,}).toBuffer()
+                const thumbBuffer = await sharp(maxSizeBuffer).flatten({ background: '#ffffff' }).resize({width: 100, height: 100}).toFormat('jpg').jpeg({quality: 70,chromaSubsampling: '4:4:4',force: true,}).toBuffer()
 
                 const uniqstr = uniqueString()
                 if (picture) {
