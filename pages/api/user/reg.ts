@@ -16,6 +16,22 @@ const toSqlDatetime = (inputDate: Date) => {
         .replace('T', ' ')
 }
 
+const hasLowerCase = (str: string) => {
+    return str.toUpperCase() != str;
+};
+const hasUpperCase = (str: string) => {
+    return str.toLowerCase() != str;
+};
+const hasNumber = (str: string) => {
+    return /\d/.test(str);
+};
+const isLongerThanSix = (str: string) => {
+    return str.length >= 6;
+};
+
+const isPassValid = (password: string) => {
+    return (!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password))
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -213,10 +229,16 @@ export default async function handler(
                             });
                         }
 
+                        if (!isPassValid) {
+                            rollback(connection);
+                            sendResponse(500, { message: "Password doesn't comply regulations", e_code: "reg_16", });
+                            return;
+                        }
+
                         const encryptedPass = await bcrypt.hash(req.body.password, 12);
                         if (!encryptedPass) {
                             rollback(connection);
-                            sendResponse(500, { message: "Couldn't hash password", e_code: "reg_16", });
+                            sendResponse(500, { message: "Couldn't hash password", e_code: "reg_17", });
                             return;
                         }
 
@@ -229,6 +251,7 @@ export default async function handler(
                             nationality: req.body.nationality,
                             dateOfBirth: toSqlDatetime(req.body.dateOfBirth.trim()),
                             age: req.body.age,
+                            contact: req.body.contact
                         }
                         const userPayload: any = {
                             UserKey: newUserKey,
@@ -239,14 +262,15 @@ export default async function handler(
                         }
 
                         const accountInsertionState: boolean = await createAccount(accountPayload);
-                        const userInsertionState: boolean = await createUser(userPayload);
+                        let userInsertionState: boolean = false
+                        if (accountInsertionState) userInsertionState = await createUser(userPayload);
             
                         if (accountInsertionState && userInsertionState) {
                             connection.commit(function (err) {
                                 if (err) {
                                     console.log(err)
                                     connection.rollback(function () {
-                                        sendResponse(500, { message: "Error While Committing", e_code: "reg_17" });
+                                        sendResponse(500, { message: "Error While Committing", e_code: "reg_18" });
                                         mainResolve(false);
                                     });
                                 } else {
@@ -269,5 +293,5 @@ export default async function handler(
             }
         }
     }
-    else sendResponse(400, {message: "Malformed request:", e_code: "reg_18", data: req.body});
+    else sendResponse(400, {message: "Malformed request:", e_code: "reg_19", data: req.body});
 }

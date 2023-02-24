@@ -15,6 +15,8 @@
   "navParticipants": "Participants",
   "navStaff": "Our staff",
   "navProfile": "Profile",
+  "navTickets": "Tickets",
+  "navRooms": "Rooms",
   "navAdmin": "Admin",
   "navLogout": "Logout",
 
@@ -157,7 +159,19 @@
   "SECTION": "--------------------Profile-------------------------",
 
   "ProfWait": "Saving...",
-  "ProfSuccess": "Changes saved",
+  "profSuccess": "Changes saved",
+  "profPicture": "Upload Picture",
+  "profOverview": "Overview",
+  "profData": "Data",
+  "profUnsupportedType": "Unsupported file format. Please use .png .jpg .jpeg or .webp format.",
+  "profCancel": "Cancel",
+  "profConfirm": "Confirm",
+  "profImageUpload": "For the best results, make sure to upload a picture which is at least 600x600 px in size.",
+  "profSuiter": "I'm a fursuiter",
+  "profPassword": "Update Password",
+  "profSave": "Save",
+  "profPayment": "Payment status",
+  "profRoom": "Room number",
 
   "SECTION": "--------------------INFO-------------------------",
 

@@ -39,11 +39,11 @@
     }
 
     &__Price {
-        @include TertriaryTitle;
+        @include TertiaryTitle;
     }
 
     &__Euro {
-        @include TertriaryTitle;
+        @include TertiaryTitle;
 
         h3 {
             font-size: calc($styled-font-size / 1.4);

@@ -1,8 +1,10 @@
 .Staff {
+    min-height: 100vh;
     position: relative;
     color: $white;
-    min-height: 100vh;
-    padding: 5rem 10rem;
+    padding: 7rem 10rem;
+    width: 65%;
+    margin: auto;
 
     @include respond(small-desktop) {
         padding: 4rem 10rem;

@@ -1,4 +1,4 @@
-import type { NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import * as jwt from 'jsonwebtoken';
 import fs from 'fs'
 
@@ -11,10 +11,16 @@ const verifyOptions = {
     algorithm: ["RS256"]
 };
 
-const accessSignOptions: jwt.SignOptions = {
+const accessTokenSignOptions: jwt.SignOptions = {
     issuer: process.env.JWT_ISSUER,
     audience: process.env.DOMAIN_ROOT,
     expiresIn: "12h",
+    algorithm: "RS256"
+};
+const refreshTokenSignOptions: jwt.SignOptions = {
+    issuer: process.env.JWT_ISSUER,
+    audience: process.env.DOMAIN_ROOT,
+    expiresIn: "2w",
     algorithm: "RS256"
 };
 
@@ -68,7 +74,7 @@ const refresh = async (res: NextApiResponse, refreshToken: string, isOutsideCall
         const payload = {
             accountKey: verified.accountKey
         }
-        const accessToken = jwt.sign(payload, privateKey, accessSignOptions);
+        const accessToken = jwt.sign(payload, privateKey, accessTokenSignOptions);
         res.setHeader(
             'Set-Cookie',
             [
@@ -94,11 +100,7 @@ const destroy = async (res: NextApiResponse, isOutsideCall = false) => {
     try {
         res.setHeader(
             'Set-Cookie',
-            [
-                `publicToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`,
-                `accessToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`,
-                `refreshToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`
-            ]
+            generateCookies('DESTROY')
         )
         response = {status: "INVALID", data: undefined}
     }
@@ -111,4 +113,65 @@ const destroy = async (res: NextApiResponse, isOutsideCall = false) => {
     else return response;
 }
 
-export {auth, refresh, destroy}
+
+
+
+const generateCookies = (action: 'NEW' | 'NEWREMEMBER' | 'DESTROY' | 'AUTO' = 'AUTO', key?: string, tokens?: Partial<{ [key: string]: string; }>) => {
+    const decideAction = () => {
+        if (!tokens) {
+            throw new Error("No tokens provided")
+        }
+        const accessToken = tokens.accessToken
+        const refreshToken = tokens.refreshToken
+        const publicToken = tokens.publicToken
+
+        if (accessToken && refreshToken && publicToken) {
+            action = 'NEWREMEMBER'
+        }
+        else if (accessToken && publicToken) {
+            action = 'NEW'
+        }
+        else {
+            action = 'DESTROY'
+        }
+    }
+    
+    if (action == 'AUTO') {
+        decideAction()
+    }
+
+    const sign = (type: "public" | "access" | "refresh") => {
+        switch(type) {
+            case "public":
+                return jwt.sign({accountKey: key}, privateKey, refreshTokenSignOptions);
+            case "access":
+                return jwt.sign({accountKey: key}, privateKey, accessTokenSignOptions);
+            case "refresh":
+                return jwt.sign({accountKey: key}, privateKey, refreshTokenSignOptions);
+        }
+    }
+    
+    switch(action) {
+        case 'NEW':
+            return [
+                `publicToken=${sign('public')}; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `accessToken=${sign('access')}; HttpOnly; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `refreshToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`
+            ]
+        case 'NEWREMEMBER':
+            return [
+                `publicToken=${sign('public')}; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `accessToken=${sign('access')}; HttpOnly; Max-Age=43200; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `refreshToken=${sign('refresh')}; HttpOnly; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`
+            ]
+        case 'DESTROY':
+        default:
+            return [
+                `publicToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`,
+                `accessToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`,
+                `refreshToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`
+            ]
+    }
+}
+
+export {auth, refresh, destroy, generateCookies, accessTokenSignOptions, refreshTokenSignOptions}

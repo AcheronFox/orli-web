@@ -31,6 +31,7 @@ type Props = {
   disabled?: boolean;
   maxlength?: number;
   checked?: (checkedVal: boolean) => void;
+  checkBoxValue?: boolean;
 };
 
 const Input = React.forwardRef(
@@ -55,6 +56,7 @@ const Input = React.forwardRef(
       maxlength,
       checked,
       onKeyDown,
+      checkBoxValue,
     }: Props,
     ref: React.Ref<HTMLInputElement>
   ) => {
@@ -97,6 +99,7 @@ const Input = React.forwardRef(
               id={id}
               onChange={(e) => {checked!(e.target.checked)}}
               value={value}
+              checked={checkBoxValue}
               autoComplete={autoComplete}
               list={list}
               onClick={onClick}
