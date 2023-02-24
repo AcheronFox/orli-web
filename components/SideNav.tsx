@@ -108,20 +108,37 @@ const Navbar: NextPage<Props> = (props: Props) => {
               <NavItem
                 link="/profile"
                 CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile")}`}
+                onClick={() => toggleNavBar()}
               >
                 {t("navProfile")}
+              </NavItem>
+              <NavItem
+                link="/profile/tickets"
+                CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile/tickets")}`}
+                onClick={() => toggleNavBar()}
+              >
+                {t("navTickets")}
+              </NavItem>
+              <NavItem
+                link="/profile/rooms"
+                CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile/rooms")}`}
+                onClick={() => toggleNavBar()}
+              >
+                {t("navRooms")}
               </NavItem>
               {user.isAdmin == true &&
                 <NavItem
                   link="/admin"
                   CustomStyle={`${DropDownStyle.Item} ${evalRoute("/admin", 'contain')}`}
+                  onClick={() => toggleNavBar()}
                 >
                   {t("navAdmin")}
                 </NavItem>
               }
               <NavItem
-                onClick={async () => await logout()}
+                onClick={async () => {await logout(); toggleNavBar();}}
                 CustomStyle={`${DropDownStyle.Item} ${DropDownStyle.LogoutButton}`}
+                
               >
                 {t("navLogout")}
               </NavItem>

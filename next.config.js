@@ -14,7 +14,7 @@ const headers = async() => {
           directives: {
             styleSrc: ["'self'", "'unsafe-inline'"],
             objectSrc: ["'self'"],
-            imgSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+            imgSrc: ["'self'", "https://cdnjs.cloudflare.com", "data:"],
             baseURI: ["'self'"],
             formAction: ["'self'"],
             frameAncestors: true,

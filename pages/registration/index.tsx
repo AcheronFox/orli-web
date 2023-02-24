@@ -505,7 +505,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       type={"text"}
                       list="autoCompleteOff"
                       autoComplete="nope"
-                      value={confEmail}
+                      value={contact}
                       onChange={(e) => setContact(e.target.value)}
                       onBlur={() => validateContact()}
                       inputClass={errorStates.contact && styles.Registration__Error}

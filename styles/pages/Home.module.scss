@@ -1,10 +1,9 @@
 .Home {
-    color: $white;
     position: relative;
+    color: $white;
+    min-height: 100vh;
     height: 100%;
-
-    width: 65%;
-    margin: auto;
+    padding: 7rem 10rem;
 
     @include respond(small-desktop) {
         padding: 4rem 10rem;
@@ -28,23 +27,23 @@
     @include respond(big-desktop) {
         padding: 10rem 10rem;
     }
-    
-    min-height: 100vh;
+
+    @include centerNoLayer;
 
     &__TextField {
-        position: relative;
-        width: 75%;
-        height: max-content;
-        position: absolute;
-        top: 0;
-        bottom: 20%;
-        left: 0;
-        right: 0;
-        margin: auto;
         background-color: rgba($background-color, .5);
         border-radius: 2rem;
         box-shadow: rgba($black, .8) 0 0 2.5rem;
         padding: 3rem 5rem;
+        width: 65%;
+
+        @include respond(small-desktop) {
+            width: 70%;
+        }
+        
+        @include respond(tiny-desktop) {
+            width: 90%;
+        }
 
         @include respond(min-phone) {
             backdrop-filter: blur(.2rem);

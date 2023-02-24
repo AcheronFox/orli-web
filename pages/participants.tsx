@@ -69,9 +69,15 @@ const Participants: NextPage<Props> = (props: Props) => {
     scales: {
       x: {
         stacked: true,
+        ticks: {
+          display: false,
+        },
       },
       y: {
         stacked: true,
+        ticks: {
+          display: false,
+        },
       }
     },
     plugins: {
@@ -95,9 +101,15 @@ const Participants: NextPage<Props> = (props: Props) => {
         scales: {
           x: {
             stacked: true,
+            ticks: {
+              display: false,
+            },
           },
           y: {
             stacked: true,
+            ticks: {
+              display: false,
+            },
           }
         },
         plugins: {
@@ -120,15 +132,22 @@ const Participants: NextPage<Props> = (props: Props) => {
         scales: {
           x: {
             stacked: true,
+            ticks: {
+              display: false,
+            },
           },
           y: {
             stacked: true,
+            ticks: {
+              display: true,
+            },
           }
         },
         plugins: {
           legend: {
             display: false
           }
+          
         }
       })
     }

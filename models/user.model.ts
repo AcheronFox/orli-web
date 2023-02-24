@@ -17,3 +17,23 @@ export interface IUser {
     SponsorLevel: number
     isFursuiter: boolean
 }
+
+export class UserData {
+    firstName: string | undefined = undefined
+    lastName: string | undefined = undefined
+    email: string | undefined = undefined
+    nationality: string | undefined = undefined
+    contact: string | undefined = undefined
+    isAdmin: boolean | undefined = undefined
+    AccomodationKey: string | null | undefined = undefined
+    TicketKey: string | null | undefined = undefined
+
+    UserKey: string | undefined = undefined
+    AccountKey: string | undefined = undefined
+    fursonaName: string | undefined = undefined
+    fursonaSpecies: string | undefined = undefined
+    picture: string | undefined = undefined
+    registeredAt: string | undefined = undefined
+    SponsorLevel: number | undefined = undefined
+    isFursuiter: boolean | undefined = undefined
+}

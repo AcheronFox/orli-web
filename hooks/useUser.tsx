@@ -1,24 +1,28 @@
 import { IUser } from '@/models/user.model';
 import axiosInstance from '@/utils/axiosConfig';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import Router, { useRouter } from 'next/router';
 import { ILoginForm } from '@/models/login-form.model';
 import { useTranslate } from './useTranslate';
 import { FloatingMessageContext } from './FloatingMessageContext';
+import { IUpdateForm } from '@/models/update.model';
 
 export const useUser = () => {
     const { user, setUser } = useContext(AuthContext);
     const { t } = useTranslate()
     const { AddFloatingMessage } = useContext(FloatingMessageContext);
+    const [didUserInit, setDidUserInit] = useState(false)
     const router = useRouter();
-
+    
     const addUser = (val: IUser) => {
         setUser(val);
+        setDidUserInit(true);
     };
 
     const removeUser = () => {
         setUser(null);
+        setDidUserInit(true);
     };
 
     const getUser = () => {
@@ -39,7 +43,7 @@ export const useUser = () => {
             Router.push({pathname: '/profile'})
         })
         .catch((err) => {
-            if (err.response.status) {
+            if (err.response) {
                 switch (err.response.status) {
                     case 404:
                         AddFloatingMessage({
@@ -98,5 +102,50 @@ export const useUser = () => {
         if (router.pathname == "/profile") router.push("/login");
     };
 
-    return { user, addUser, removeUser, setUser, getUser, login, logout };
+    const updateUser = async (data: IUpdateForm, cb: Function, showMsg = true) => {
+        axiosInstance
+        .put("api/user/update", data)
+        .then(() => {
+            getUser()
+            if (showMsg) {
+                AddFloatingMessage({
+                    autocloses: true,
+                    type: "Success",
+                    message: t("profSuccess"),
+                });
+                return
+            }
+        })
+        .catch((err) => {
+            if (err.response) {
+                switch (err.response.status) {
+                    case 400:
+                        AddFloatingMessage({
+                            autocloses: true,
+                            type: "Error",
+                            message: t("errBadRequest"),
+                        });
+                        break;
+                    default:
+                        AddFloatingMessage({
+                            autocloses: true,
+                            type: "Error",
+                            message: t("errDefault"),
+                        });
+                        break;
+                }
+            } else {
+                AddFloatingMessage({
+                    autocloses: true,
+                    type: "Error",
+                    message: t("errDefault"),
+                });
+            }
+        })
+        .finally(() => {
+            cb()
+        });
+    }
+
+    return { user, didUserInit, addUser, removeUser, setUser, getUser, login, logout, updateUser };
 };

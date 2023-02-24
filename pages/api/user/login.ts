@@ -1,27 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ILoginForm } from '@/models/login-form.model';
 import { IAccount } from '@/models/account.model';
-import { IUser } from '@/models/user.model';
+import { IUser, UserData } from '@/models/user.model';
 import database from '@/utils/mysql';
-import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
-import fs from 'fs';
 import isMethodAllowed from '@/utils/isMethodAllowed';
-
-const privateKey = fs.readFileSync('private/private.key', 'utf8');
-
-const accessSignOptions: jwt.SignOptions = {
-    issuer: process.env.JWT_ISSUER,
-    audience: process.env.DOMAIN_ROOT,
-    expiresIn: "12h",
-    algorithm: "RS256"
-};
-const refreshSignOptions: jwt.SignOptions = {
-    issuer: process.env.JWT_ISSUER,
-    audience: process.env.DOMAIN_ROOT,
-    expiresIn: "2w",
-    algorithm: "RS256"
-};
+import _ from 'lodash';
+import { generateCookies } from '@/utils/token-handler';
 
 export default async function handler(
     req: NextApiRequest,
@@ -107,37 +92,23 @@ export default async function handler(
                         resolve();
                     }
                     else {
-                        const payload = {
-                            accountKey: account.AccountKey
-                        }
-
-                        const publicUserDataPayload = {
-                            accountKey: account.AccountKey
-                        }
-
-                        const publicToken = jwt.sign(publicUserDataPayload, privateKey, refreshSignOptions)
-                        const accessToken = jwt.sign(payload, privateKey, accessSignOptions);
-                        const refreshToken = jwt.sign(payload, privateKey, refreshSignOptions);
+                        let userData = new UserData()
+                        _.assign(userData , _.pick({...user, ...account}, _.keys(userData)));
+                        userData = JSON.parse(JSON.stringify(userData))
 
                         if (req.body.remember) {
                             res.status(200)
                             .setHeader('Set-Cookie',
-                                [   
-                                    `publicToken=${publicToken}; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
-                                    `accessToken=${accessToken}; HttpOnly; Max-Age=43200; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
-                                    `refreshToken=${refreshToken}; HttpOnly; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`
-                                ])
-                            .json({ ...user })
+                                generateCookies("NEWREMEMBER", account.AccountKey)
+                                )
+                            .json(userData)
                             resolve();
                         } else {
                             res.status(200)
                             .setHeader('Set-Cookie',
-                                [   
-                                    `publicToken=${publicToken}; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
-                                    `accessToken=${accessToken}; HttpOnly; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
-                                    `refreshToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`
-                                ])
-                            .json({ ...user })
+                                generateCookies("NEW", account.AccountKey)
+                                )
+                            .json(userData)
                             resolve();
                         }
                     }

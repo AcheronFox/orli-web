@@ -58,7 +58,7 @@ const NavDropdown: NextPage<Props> = ({
           <div className={styles.DropDown__Content__Picture}>
             <picture>
               <source srcSet={`${user.picture? (`uploads/${user.picture.split('.')[0]}_thumb.jpg 1x`) : 'Default_profile_thumb.jpg 1x,'}`} media="(max-width: 37.5em)" />
-              <img srcSet={`${user.picture? (`uploads/${user.picture.split('.')[0]}_thumb.jpg 1x`) : 'Default_profile_thumb.jpg 1x,'}`} alt="User Image" src="Default_profile_thumb.jpg" />
+              <img srcSet={`${user.picture? (`uploads/${user.picture.split('.')[0]}_thumb.jpg 1x`) : 'Default_profile_thumb.jpg 1x,'}`} alt="User Image" src="Default_profile_thumb.jpg" loading="lazy"/>
             </picture>
           </div>
           }
