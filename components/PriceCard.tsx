@@ -8,13 +8,15 @@ type Props = {
     description?: string | React.ReactNode;
     price: string;
     euro?: string;
+    button?: React.ReactNode;
+    customClass?: string;
 };
 
 const PriceCard: NextPage<Props> = (props: Props) => {
     const { locale } = useTranslate();
 
     return (
-        <div className={styles.PriceCard}>
+        <div className={`${styles.PriceCard} ${props.customClass}`}>
             <div className={styles.PriceCard__Title}>
                 <h2>
                     {props.title}
@@ -26,6 +28,12 @@ const PriceCard: NextPage<Props> = (props: Props) => {
             </div>}
             <div className={styles.PriceCard__Price}><h3>{props.price} HUF</h3></div>
             {props.euro && locale == 'en' && <div className={styles.PriceCard__Euro}><h3>&euro; ~{props.euro}</h3></div>}
+            {
+                props.button &&
+                <div className={styles.PriceCard__Button}>
+                    {props.button}
+                </div>
+            }
         </div>
     );
 };

@@ -157,7 +157,24 @@
   "loginErrNotFound": "Oops! There is no account under that e-mail address.",
   "loginUnverifiedErr": "Your registration is not verified yet. Please wait, we will notify you on email.",
 
-  "SECTION": "--------------------Profile-------------------------",
+  "SECTION": "--------------------RESET-------------------------",
+
+  "resetTitle": "Password Reset",
+  "resetInstruct1": "Forgot your password? No worries, it happens to everybody.",
+  "resetInstruct2": "Please enter your e-mail that you registrated with. We will send an email which you can reset your password with.",
+  "resetButton": "Reset",
+  "resetButtonToken": "Confirm",
+  "resetPass": "New password",
+  "resetPassConf": "Confirm password",
+
+  "SECTION": "--------------------RESET MESSAGES-------------------------",
+
+  "resetErrNotFound": "Sorry, that e-mail seems to be not registrated",
+  "resetTokenErr": "Invalid token",
+  "resetEmailSent": "E-mail sent",
+  "resetSuccess": "New password saved",
+
+  "SECTION": "--------------------PROFILE-------------------------",
 
   "ProfWait": "Saving...",
   "profSuccess": "Changes saved",
@@ -175,7 +192,19 @@
   "profRoom": "Room number",
   "profProcessing": "Processing...",
 
-  "SECTION": "--------------------INFO-------------------------",
+  "SECTION": "--------------------TICKETS-------------------------",
 
-  "SECTION": "--------------------PROFILE-------------------------"
+  "ticketTickets": "Tickets",
+  "ticketExtra": "Extra Tickets",
+  "ticketSelect": "Select",
+  "ticketCancel": "Cancel",
+  "ticketDaySelect": "Select Day",
+  "ticket0Title": "1 day ticket",
+  "ticket1Title": "2 day ticket",
+  "ticket2Title": "Full ticket",
+  "ticketExtra0": "0th day",
+  "ticketExtra1": "+1 day",
+
+  "SECTION": "--------------------INFO-------------------------"
+
 }

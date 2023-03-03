@@ -159,7 +159,7 @@ const Login: NextPage<Props> = (props: Props) => {
                   label={<>{t("loginRemember")}</>}
                 ></Input>
                 <div className={styles.Login__Form__Button}>
-                  <LinkButton text={t("loginForgotPass")} link={""} />
+                  <LinkButton text={t("loginForgotPass")} link={"/reset"} isInternal={true} />
                 </div>
               </div>
             </div>

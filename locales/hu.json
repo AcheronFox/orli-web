@@ -157,7 +157,24 @@
   "loginErrNotFound": "Oops! Nincs fiók a megadott e-mail cím alatt.",
   "loginUnverifiedErr": "A regisztrációd még nincs leelenőrízve. Kérlek várj, emailen fogunk értesíteni.",
 
-  "SECTION": "--------------------Profile-------------------------",
+  "SECTION": "--------------------RESET-------------------------",
+
+  "resetTitle": "Jelszó Visszaállítás",
+  "resetInstruct1": "Elfelejtetted a jelszavad? Nem baj, mindenkivel megesik.",
+  "resetInstruct2": "Kérlek add meg az e-mail címedet amivel regisztráltál. Küldeni fogunk egy emailt amivel vissza tudod állítani a jelszavad.",
+  "resetButton": "Visszaállítás",
+  "resetButtonToken": "Megerősítés",
+  "resetPass": "Új jelszó",
+  "resetPassConf": "Jelszó megerősítése",
+
+  "SECTION": "--------------------RESET MESSAGES-------------------------",
+
+  "resetErrNotFound": "Bocsi, ez az e-mail úgy látszik nincs regisztrálva",
+  "resetTokenErr": "Érvénytelen token",
+  "resetEmailSent": "E-mail elküldve",
+  "resetSuccess": "Új jelszó elmentve",
+
+  "SECTION": "--------------------PROFILE-------------------------",
 
   "ProfWait": "Mentés...",
   "profSuccess": "Változtatások elmentve",
@@ -175,7 +192,19 @@
   "profRoom": "Szobaszám",
   "profProcessing": "Feldolgozás...",
 
-  "SECTION": "--------------------INFO-------------------------",
+  "SECTION": "--------------------TICKETS-------------------------",
 
-  "SECTION": "--------------------PROFILE-------------------------"
+  "ticketTickets": "Jegyek",
+  "ticketExtra": "Extra Jegyek",
+  "ticketSelect": "Kiválasztás",
+  "ticketCancel": "Mégse",
+  "ticketDaySelect": "Válaszd ki a napot",
+  "ticket0Title": "1 napos jegy",
+  "ticket1Title": "2 napos jegy",
+  "ticket2Title": "Teljes jegy",
+  "ticketExtra0": "0.-ik nap",
+  "ticketExtra1": "+1 nap",
+
+  "SECTION": "--------------------INFO-------------------------"
+
 }
