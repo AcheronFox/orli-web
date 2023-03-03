@@ -1,0 +1,119 @@
+.Tickets {
+    color: $white;
+    min-height: 100vh;
+    height: 100%;
+    padding: 7rem 10rem;
+    background-color: $background-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    @include respond(small-desktop) {
+        padding: 4rem 10rem;
+    }
+    
+    @include respond(tiny-desktop) {
+        padding: 3rem 10rem;
+    }
+    
+    @include respond(phone) {
+        padding: 5rem 2rem;
+    }
+    
+    @include respond(small-phone) {
+        padding: 5rem 1rem;
+    }
+
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
+    }
+
+    @include centerNoLayer;
+
+
+    &__Content {
+        width: 65%;
+        flex-direction: column;
+
+        display: flex;
+        background-color: $grey-2;
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 .25rem .5rem .1rem rgba($black, .15);
+
+        &:not(:last-child) {
+            margin-bottom: 1.5rem;
+        }
+
+        @include respond(small-desktop) {
+            width: 70%;
+        }
+        
+        @include respond(tiny-desktop) {
+            width: 90%;
+        }
+        
+        @include respond(phone) {
+            width: 100%;
+        }
+    }
+
+    &__Prices {
+        padding-bottom: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        &__Title {
+            @include SecondaryTitle;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        &__List {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            @include respond(small-desktop) {
+                flex-direction: column;
+                width: 75%;
+            }
+            @include respond(tiny-desktop) {
+                width: 85%;
+            }
+            @include respond(phone) {
+                width: 100%;
+            }
+
+            & > * {
+                margin: 1rem;
+            }
+        }
+    }
+
+    &__DaySelect {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        h2 {
+            @include SecondaryTitle;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+    }
+
+    &__Selected {
+        background-color: rgba(darken($grey-2, 10%), .8) !important;
+        box-shadow:
+        0 1rem 2rem .5rem rgba($black, .5),
+        inset 0 0 2rem .5rem rgba($primary-color, .5),
+        0 0 1rem .5rem rgba($primary-color, .5) !important;
+        transform: translateY(-.5rem);
+        transition: all .3s;
+    }
+}

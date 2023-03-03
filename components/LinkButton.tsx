@@ -29,11 +29,11 @@ const LinkButton: NextPage<Props> = ({
   }
   else {
     return (
-      <Link href={link} className={styles.Button} target={"_blank"} rel={"noopener noreferrer"}>
+      <a href={link} className={styles.Button} target={"_blank"} rel={"noopener noreferrer"}>
         {icon && <span className={styles.Button__Icon}>{icon}</span>}
         <span className={styles.Button__Text}>{text}</span>
         <span className={styles.Button__ExternalIcon}><RiExternalLinkLine /></span>
-      </Link>
+      </a>
     );
   }
 };

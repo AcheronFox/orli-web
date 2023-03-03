@@ -3,6 +3,7 @@ import { IParticipant } from '@/models/participant.model';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/utils/mysql'
 import isMethodAllowed from '@/utils/isMethodAllowed';
+import _ from 'lodash';
 
 
 export default async function handler(
@@ -41,6 +42,6 @@ export default async function handler(
     }
 
     if (await query()) {
-        sendResponse(200, response);
+        sendResponse(200, _.orderBy(response, ['fursonaName'],['desc']));
     }
 }

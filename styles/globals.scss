@@ -84,6 +84,10 @@ a {
     font-size: calc($default-font-size * 1.6);
   }
 
+  button:disabled {
+    color: $grey-5;
+    opacity: .3;
+  }
   button:enabled:hover {
     cursor: pointer;
   }

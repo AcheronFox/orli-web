@@ -40,7 +40,7 @@ export default async function handler(
 
         const findAccount = async () => {
             return new Promise<IAccount | undefined>(async (resolve) => {
-                database.query(`SELECT * FROM account WHERE email = '${req.body.email}'`, async (err, result) => {
+                database.query(`SELECT * FROM account WHERE email = '${req.body.email.toLowerCase()}'`, async (err, result) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, { message: "Unknown Error", e_code: "login_1" });
@@ -72,7 +72,7 @@ export default async function handler(
                     }
                     else {
                         resolve(undefined);
-                        sendResponse(404, { message: `No user with address: ${req.body.email}`, e_code: "login_5" });
+                        sendResponse(404, { message: `No user with address: ${req.body.email.toLowerCase()}`, e_code: "login_5" });
                     }
                 })
             }).catch(() => {
