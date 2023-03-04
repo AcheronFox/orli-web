@@ -1,0 +1,210 @@
+{
+  "SECTION": "--------------------NAVBAR-------------------------",
+
+  "navRegistration": "Registration",
+  "navSignIn": "Sign in",
+  "navLocation": "Location",
+  "navGallery": "Gallery",
+  "navPrograms": "Programs",
+  "navPrices": "Prices",
+  "navAccom": "Accomodation",
+  "navGetting": "Getting There",
+  "navPoi": "Points of Interest",
+  "navLegal": "Legal",
+  "navFaq": "FAQ",
+  "navParticipants": "Participants",
+  "navStaff": "Our staff",
+  "navProfile": "Profile",
+  "navTickets": "Tickets",
+  "navRooms": "Rooms",
+  "navAdmin": "Admin",
+  "navLogout": "Logout",
+
+  "SECTION": "--------------------FOOTER-------------------------",
+
+  "footerHelp": "Help",
+  "footerLegal": "Legal",
+  "footerPartners": "Partners",
+  "footerOrli": "Örli Försztivál",
+  "footerFind": "Find Us On",
+
+  "footerFaq": "Frequently Asked Questions (FAQ)",
+  "footerContact": "Contact Us",
+  "footerData": "Data Handling",
+  "footerRules": "Regulations",
+  "footerTos": "Terms of Service (TOS)",
+  "footerOrliText": "Vibe City",
+  "footerOrliText2": "2023.06.14. - 2023.06.18.",
+  "footerOrliText3": "Pákász Tanya Camping, Agárd, Hungary",
+
+  "footerFacebook": "Facebook Event",
+  "footerTelegramChat": "Telegram Group",
+  "footerTelegramAnnounce": "Telegram Announcements",
+
+  "SECTION": "--------------------INFOCARD-------------------------",
+
+  "infoCardButton": "View on Google Maps",
+  "infoCardTime": "Opening Hours:",
+
+  "SECTION": "--------------------WARNINGS-------------------------",
+
+  "warnOverload": "The server is experiencing higher load than usual, please wait...",
+
+  "SECTION": "--------------------ERRORS------------------------",
+
+  "errDefault": "Oops! Something went wrong. Please try again.",
+  "errRegErrConflict": "This e-mail address is already registrated.",
+  "errBadRequest": "Oops! There has been an issue with the data. Please try again.",
+  "errProfileLoginAgain": "Your session has expired, please log in again.",
+  "errTooLarge": "Oops! Your file is too large. Please try with a smaller file.",
+
+  "SECTION": "--------------------LEGAL-------------------------",
+
+  "legalTos": "Terms of Service",
+  "legalRules": "Regulations",
+  "legalData": "Data Handling",
+
+  "SECTION": "--------------------HOME-------------------------",
+
+  "homeReg": "Registration",
+
+  "SECTION": "--------------------LOCATION-------------------------",
+
+  "paragraph1": "By train:",
+  "locGettingThere1": " (from Budapest) Trains starts from Budapest-Déli or Budapest-Kelenföld. Getting off the train is suggested at 'Agárd' station, then it's around 1,5km, or around 18-20 minutes of walk until the consite.",
+  "paragraph2": "By car, on motorway, from the direction of Budapest(M7/E71):",
+  "locGettingThere2": " Get of the motorway at exit no.57, before Székesfehérvár, then follow road no.7 until Agárd. Before reaching Agárd, turn left to Chernel István road and after aprx. 2,5km you arrive at the consite.",
+  "locMapOpen": "Click here to open Google Maps.",
+
+  "SECTION": "--------------------INPUTS-------------------------",
+
+  "natSelectSelect": "Please select",
+  "natSelectPlaceholder": "Type here to search",
+
+  "SECTION": "--------------------DATEPICKER-------------------------",
+
+  "dateFormat": "yyyy/mm/dd",
+
+  "SECTION": "--------------------REGISTRATION-------------------------",
+
+  "regFirstname": "First name",
+  "regLastname": "Last name",
+  "regFursonaName": "Fursona name",
+  "regEmail": "E-mail address",
+  "regEmailConfirm": "E-mail address (again)",
+  "regPassword": "Password",
+  "regPasswordConfirm": "Confirm password",
+  "regDob": "Date of Birth",
+  "regSpecies": "Fursona species",
+  "regNationality":"Nationality",
+  "regButton": "Registrate",
+  "regSearchablePlaceholder": "Type here to search",
+  "regPleaseSelect": "Please select",
+  "regRule1": "I read, understood and accept the",
+  "regRule2": "",
+  "regRuleBtn": "Regulations.",
+  "regData1": "I read and accept the ",
+  "regDataBtn": "Data Handling regulation.",
+  "regContact": "Telegram or Phone",
+  "regContactExp": "a",
+
+  "SECTION": "--------------------REGISTRATION MESSAGES-------------------------",
+
+  "regWait": "Registrating",
+  "regFirstNameError": "Please add your First Name",
+  "regLastNameError": "Please add your Last Name",
+  "regEmailError": "Please add a valid e-mail address",
+  "regEmailConfError": "The given e-mail does not match",
+  "regSonaNameError": "Please add your Fursona's name",
+  "regSonaSpeciesError": "Please add your Fursona's species",
+  "regDateError": "Please add a valid date",
+  "regUnderAgeError": "You must be over 16 years old to registrate",
+  "regInvalidAgeError": "Please add a valid date of birth",
+  "regNationalityError": "Please add your nationality",
+  "regPassError": "Password must be at least 6 characters long, contain at least one upper and lower case characters, one number",
+  "regPassConfError": "Passwords do not match",
+  "regContactErr": "Please add your Telegram or your Phone number",
+
+  "SECTION": "--------------------REGISTRATION SUCCESS-------------------------",
+
+  "regSuccessTitle": "Registration Succesful!",
+  "regSuccessWelcome": "Welcome,",
+  "regSuccessDesc1": "We will notify you on",
+  "regSuccessDesc2": "when your registration has been reviewed.",
+  "regSuccessOutro": "Until then feel free to return to the",
+  "regSuccessButton": "Home Page.",
+
+  "SECTION": "--------------------PARTICIPANTS-------------------------",
+
+  "partNationality": "Nationality",
+  "partCounterAll": "Participants:",
+  "partCounterSuit": "Fursuiters:",
+  "partSuiter": "Fursuiter",
+  "partSponsor": "Sponsor",
+
+  "SECTION": "--------------------LOGIN-------------------------",
+
+  "loginRemember": "Remember Me",
+  "loginWait": "Logging in...",
+  "loginEmailError": "Please enter your e-mail address",
+  "loginPassError": "Please enter your password",
+  "loginForgotPass": "Forgot password",
+  "loginButton": "Sign in",
+
+  "SECTION": "--------------------LOGIN MESSAGES-------------------------",
+
+  "loginPassErr": "Oops! Please check if the given password is correct.",
+  "loginErrNotFound": "Oops! There is no account under that e-mail address.",
+  "loginUnverifiedErr": "Your registration is not verified yet. Please wait, we will notify you on email.",
+
+  "SECTION": "--------------------RESET-------------------------",
+
+  "resetTitle": "Password Reset",
+  "resetInstruct1": "Forgot your password? No worries, it happens to everybody.",
+  "resetInstruct2": "Please enter your e-mail that you registrated with. We will send an email which you can reset your password with.",
+  "resetButton": "Reset",
+  "resetButtonToken": "Confirm",
+  "resetPass": "New password",
+  "resetPassConf": "Confirm password",
+
+  "SECTION": "--------------------RESET MESSAGES-------------------------",
+
+  "resetErrNotFound": "Sorry, that e-mail seems to be not registrated",
+  "resetTokenErr": "Invalid token",
+  "resetEmailSent": "E-mail sent",
+  "resetSuccess": "New password saved",
+
+  "SECTION": "--------------------PROFILE-------------------------",
+
+  "ProfWait": "Saving...",
+  "profSuccess": "Changes saved",
+  "profPicture": "Upload Picture",
+  "profOverview": "Overview",
+  "profData": "Data",
+  "profUnsupportedType": "Unsupported file format. Please use .png .jpg .jpeg or .webp format.",
+  "profCancel": "Cancel",
+  "profConfirm": "Confirm",
+  "profImageUpload": "For the best results, make sure to upload a picture which is at least 600x600 px in size.",
+  "profSuiter": "I'm a fursuiter",
+  "profPassword": "Update Password",
+  "profSave": "Save",
+  "profPayment": "Payment status",
+  "profRoom": "Room number",
+  "profProcessing": "Processing...",
+
+  "SECTION": "--------------------TICKETS-------------------------",
+
+  "ticketTickets": "Tickets",
+  "ticketExtra": "Extra Tickets",
+  "ticketSelect": "Select",
+  "ticketCancel": "Cancel",
+  "ticketDaySelect": "Select Day",
+  "ticket0Title": "1 day ticket",
+  "ticket1Title": "2 day ticket",
+  "ticket2Title": "Full ticket",
+  "ticketExtra0": "0th day",
+  "ticketExtra1": "+1 day",
+
+  "SECTION": "--------------------INFO-------------------------"
+
+}

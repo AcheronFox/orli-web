@@ -1,0 +1,53 @@
+.Rooms {
+    color: $white;
+    min-height: 100vh;
+    height: 100%;
+    padding: 7rem 10rem;
+    background-color: $background-color;
+
+    @include respond(small-desktop) {
+        padding: 4rem 10rem;
+    }
+    
+    @include respond(tiny-desktop) {
+        padding: 3rem 10rem;
+    }
+    
+    @include respond(phone) {
+        padding: 5rem 2rem;
+    }
+    
+    @include respond(small-phone) {
+        padding: 5rem 1rem;
+    }
+
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
+    }
+
+    @include centerNoLayer;
+
+    &__Content {
+        width: 65%;
+        display: flex;
+        flex-direction: column;
+
+        & > * {
+            &:not(:last-child) {
+                margin-bottom: .5rem;
+            }
+        }
+
+        @include respond(small-desktop) {
+            width: 70%;
+        }
+        
+        @include respond(tiny-desktop) {
+            width: 90%;
+        }
+        
+        @include respond(phone) {
+            width: 100%;
+        }
+    }
+}

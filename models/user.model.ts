@@ -1,0 +1,39 @@
+export interface IUser {
+    firstName: string
+    lastName: string
+    email: string
+    nationality: string
+    contact: string
+    isAdmin: boolean
+    AccomodationKey: string | null
+    TicketKey: string | null
+
+    UserKey: string
+    AccountKey: string
+    fursonaName: string
+    fursonaSpecies: string
+    picture: string
+    registeredAt: string
+    SponsorLevel: number
+    isFursuiter: boolean
+}
+
+export class UserData {
+    firstName: string | undefined = undefined
+    lastName: string | undefined = undefined
+    email: string | undefined = undefined
+    nationality: string | undefined = undefined
+    contact: string | undefined = undefined
+    isAdmin: boolean | undefined = undefined
+    AccomodationKey: string | null | undefined = undefined
+    TicketKey: string | null | undefined = undefined
+
+    UserKey: string | undefined = undefined
+    AccountKey: string | undefined = undefined
+    fursonaName: string | undefined = undefined
+    fursonaSpecies: string | undefined = undefined
+    picture: string | undefined = undefined
+    registeredAt: string | undefined = undefined
+    SponsorLevel: number | undefined = undefined
+    isFursuiter: boolean | undefined = undefined
+}

@@ -1,0 +1,106 @@
+.ParticipantCard {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    z-index: 1;
+
+    background-color: $grey-2;
+    padding: 1rem;
+    border-radius: 2rem;
+
+    border: .2rem solid $primary-color;
+    box-shadow:
+    0 1rem 2rem .5rem rgba($black, .5),
+    inset 0 0 2rem .5rem rgba($primary-color, .5);
+
+    &__Title {
+        width: 100%;
+        @include TertiaryTitle;
+        justify-content: center;
+        flex-direction: column;
+
+        h2 {
+            @include SecondaryTitle();
+            text-align: center;
+        }
+    }
+
+    &__Picture {
+        display: inline-block;
+        position: relative;
+        margin-top: 1rem;
+        width: 15rem;
+        height: 15rem;
+
+        @include respond(phone) {
+            width: 18rem;
+            height: 18rem;
+        }
+
+        @include respond(big-desktop) {
+            width: 20rem;
+            height: 20rem;
+        }
+
+        @include respond(4k-desktop) {
+            width: 25rem;
+            height: 25rem;
+        }
+
+        picture {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 100%;
+            max-height: 100%;
+
+            img {
+                display: inline-block;
+                max-height: 100%;
+                max-width: 100%;
+                border-radius: 1rem;
+    
+                border: .1rem solid $primary-color;
+                object-fit: cover;
+            }
+        }
+    }
+
+    &__Flag {
+        position: absolute;
+        bottom: -.4rem;
+        right: 0;
+        font-size: calc($styled-font-size * 1.05);
+
+
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+
+        img {
+            border-bottom-right-radius: 1rem;
+        }
+    }
+
+    &__Footer {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+        height: 100%;
+        width: 100%;
+
+        & > * {
+            margin: .1rem;
+            height: 25%;
+            width: 25%;
+        }
+    }
+}
+
+.Tooltip {
+    font-family: $default-font-family;
+    font-size: $default-font-size !important;
+}

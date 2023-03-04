@@ -1,0 +1,66 @@
+.PriceCard {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    z-index: 1;
+
+    background-color: $grey-2;
+    padding: .5rem 2rem;
+    border-radius: 2rem;
+
+    border: .2rem solid $primary-color;
+    box-shadow:
+    0 1rem 2rem .5rem rgba($black, .5),
+    inset 0 0 2rem .5rem rgba($primary-color, .5);
+    transition: all .3s;
+
+    &__Title {
+        margin-top: 1rem;
+        width: 100%;
+
+        h2 {
+            @include SecondaryTitle();
+            text-align: center;
+        }
+    }
+
+    &__Button {
+        margin-top: .5rem;
+        margin-bottom: .5rem;
+    }
+
+    &__Description {
+        margin-bottom: 1rem;
+        word-wrap: break-word;
+
+        @include respond(big-desktop) {
+            font-size: calc($styled-font-size * 1.3);
+        }
+    
+        @include respond(4k-desktop) {
+            font-size: calc($styled-font-size * 1.5);
+        }
+    }
+
+    &__Price {
+        @include TertiaryTitle;
+    }
+
+    &__Euro {
+        @include TertiaryTitle;
+
+        h3 {
+            font-size: calc($styled-font-size / 1.4);
+
+            @include respond(big-desktop) {
+                font-size: calc($styled-font-size / 1.1);
+            }
+
+            @include respond(4k-desktop) {
+                font-size: calc($styled-font-size * 1.2);
+            }
+        }
+    }
+}

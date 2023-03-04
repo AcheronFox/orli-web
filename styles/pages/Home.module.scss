@@ -1,4 +1,5 @@
 .Home {
+<<<<<<< HEAD
     min-height: 100vh;
     height: 100%;
     padding: 2rem;
@@ -6,11 +7,29 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+=======
+    position: relative;
+    color: $white;
+    min-height: 100vh;
+    height: 100%;
+    padding: 7rem 10rem;
+
+    @include respond(small-desktop) {
+        padding: 4rem 10rem;
+        width: 70%;
+    }
+    
+    @include respond(tiny-desktop) {
+        padding: 3rem 10rem;
+        width: 90%;
+    }
+>>>>>>> f9e1b34080ef33cc525cffbafc80405f8b9aeb90
     
     @include respond(phone) {
         flex-wrap: wrap;
     }
 
+<<<<<<< HEAD
     &__Item {
         background-color: rgba($grey-2, .75);
         backdrop-filter: blur(.2rem);
@@ -24,6 +43,31 @@
 
         @include respond(small-desktop) {
             flex-direction: column;
+=======
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
+    }
+
+    @include centerNoLayer;
+
+    &__TextField {
+        background-color: rgba($background-color, .5);
+        border-radius: 2rem;
+        box-shadow: rgba($black, .8) 0 0 2.5rem;
+        padding: 3rem 5rem;
+        width: 65%;
+
+        @include respond(small-desktop) {
+            width: 70%;
+        }
+        
+        @include respond(tiny-desktop) {
+            width: 90%;
+        }
+
+        @include respond(min-phone) {
+            backdrop-filter: blur(.2rem);
+>>>>>>> f9e1b34080ef33cc525cffbafc80405f8b9aeb90
         }
 
         @include PrimaryTitle;
