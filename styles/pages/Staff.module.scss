@@ -1,0 +1,68 @@
+.Staff {
+    min-height: 100vh;
+    position: relative;
+    color: $white;
+    padding: 7rem 10rem;
+    width: 65%;
+    margin: auto;
+
+    @include respond(small-desktop) {
+        padding: 4rem 10rem;
+    }
+    
+    @include respond(tiny-desktop) {
+        padding: 3rem 10rem;
+    }
+    
+    @include respond(phone) {
+        padding: 5rem 2rem;
+    }
+    
+    @include respond(small-phone) {
+        padding: 5rem 1rem;
+    }
+
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
+    }
+
+    &__Title {
+        @include PrimaryTitle;
+        margin-bottom: 3rem;
+        background: rgba($grey-2, .9);
+        border-radius: 2.5rem;
+        box-shadow: 0 1rem 1rem rgba($black, .5);
+
+        @include respond(min-phone) {
+            backdrop-filter: blur(.2rem);
+        }
+    }
+
+    &__Content {
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+        width: 100%;
+        flex-wrap: wrap;
+
+        & > * {
+            margin: 1rem;
+            max-width: 30%;
+
+            @include respond(big-desktop) {
+                max-width: 20%;
+            }
+            @include respond(4k-desktop) {
+                max-width: 15%;
+            }
+        }
+ 
+        @include respond(tiny-desktop) {
+            flex-direction: column;
+            & > * {
+                max-width: 100%;
+                width: 100%;  
+            }
+        }
+    }
+}

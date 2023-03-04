@@ -58,13 +58,13 @@
     }
 }
 
-@mixin TertriaryTitle {
+@mixin TertiaryTitle {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    font-family: $styled-font-family;
 
     h3 {
+        font-family: $styled-font-family;
         font-size: calc($styled-font-size * 1);
         background-image: linear-gradient(90deg, $primary-color, $secondary-color);
         background-clip: text;
