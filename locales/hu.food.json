@@ -1,0 +1,31 @@
+{
+    "0": [
+        {"id": 0, "value": "teszt"},
+        {"id": 1, "value": "aaaaaaaaa BUT HUN"}
+    ],
+
+    "1": [
+        {"id": 0, "value": "teszt"},
+        {"id": 1, "value": "bbbbbbbbb BUT HUN"}
+    ],
+
+    "2": [
+        {"id": 0, "value": "teszt"},
+        {"id": 1, "value": "ccccccccc BUT HUN"}
+    ],
+
+    "3": [
+        {"id": 0, "value": "aaaaaaaaaaaaaaaaaaa BUT HUN"},
+        {"id": 1, "value": "dddddddddddddddddd BUT HUN"}
+    ],
+
+    "4": [
+        {"id": 0, "value": "att"},
+        {"id": 1, "value": "ftt"}
+    ],
+
+    "5": [
+        {"id": 0, "value": "adtt"},
+        {"id": 1, "value": "wett"}
+    ]
+}

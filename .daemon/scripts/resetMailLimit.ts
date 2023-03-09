@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { log } from ".daemon/daemon";
+import { isProd, log } from ".daemon/daemon";
 
 const resetLimit = async () => {
     if (!process.env.MAIL_LIMIT) {
@@ -18,7 +18,7 @@ const resetLimit = async () => {
         const data = JSON.stringify(dataToWrite, null, 2);
         fs.writeFileSync(filePath, data);
         
-        log(`Mail Limit reset to ${defaultLimit}`)
+        if (!isProd) log(`Mail Limit reset to ${defaultLimit}`)
     }
     catch(e) {
         log(`Error: ${e}`);
