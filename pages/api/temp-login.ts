@@ -5,7 +5,7 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.body.username == 'Orli_Test' && req.body.pass == 'sm/pH+A7N6qIQmJFwuGmbJ4NGzkeqxI1Z7w8dccOjXc=') {
+  if (req.body.username == 'Orli_Test' && req.body.pass == 'n3RFeqULLP+vAEVIkTAsCIMGhnlZLz54WCerUxCw5Cg=') {
     res.status(200).json({message: "SUCCESS"})
     
   } else {
