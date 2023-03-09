@@ -195,7 +195,7 @@
   "SECTION": "--------------------TICKETS-------------------------",
 
   "ticketTickets": "Jegyek",
-  "ticketExtra": "Extra Jegyek",
+  "ticketExtra": "Extrák",
   "ticketSelect": "Kiválasztás",
   "ticketCancel": "Mégse",
   "ticketDaySelect": "Válaszd ki a napot",
@@ -204,6 +204,12 @@
   "ticket2Title": "Teljes jegy",
   "ticketExtra0": "0.-ik nap",
   "ticketExtra1": "+1 nap",
+  "ticketClear": "Kiválasztás törlése",
+  "ticketFoodSelect": "Válaszd ki az ételt",
+  "ticketSponsor": "Szponzor",
+  "ticketOverview": "Áttekintés",
+  "ticketSponsorQuestion": "Szeretném az eseményt szponzorálni",
+  "ticketSponsorAmount": "Összeg (HUF)",
 
   "SECTION": "--------------------INFO-------------------------"
 

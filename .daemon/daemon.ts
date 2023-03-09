@@ -3,6 +3,7 @@ import schedule from "node-schedule"
 import resetLimit from "./scripts/resetMailLimit"
 
 
+const isProd = process.env.NODE_ENV === "production"
 const log = (message: string) => {
     console.log(`\x1b[96mdaemon\x1b[0m - ${message}`)
 }
@@ -10,7 +11,7 @@ const log = (message: string) => {
 const start = () => {
     log("Online")
     dotenv.config()
-    log("Loaded env")
+    if (!isProd) log("Loaded env")
 }
 start()
 
@@ -47,4 +48,4 @@ schedule.scheduleJob('0 0 * * * *', async () => {
                 └───────────────────────── second (0 - 59, OPTIONAL)
 */
 
-export {log}
+export {log, isProd}

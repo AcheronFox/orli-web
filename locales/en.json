@@ -195,7 +195,7 @@
   "SECTION": "--------------------TICKETS-------------------------",
 
   "ticketTickets": "Tickets",
-  "ticketExtra": "Extra Tickets",
+  "ticketExtra": "Extras",
   "ticketSelect": "Select",
   "ticketCancel": "Cancel",
   "ticketDaySelect": "Select Day",
@@ -204,6 +204,12 @@
   "ticket2Title": "Full ticket",
   "ticketExtra0": "0th day",
   "ticketExtra1": "+1 day",
+  "ticketClear": "Clear selection",
+  "ticketFoodSelect": "Select Food",
+  "ticketSponsor": "Sponsor",
+  "ticketOverview": "Overview",
+  "ticketSponsorQuestion": "I would like to sponsor the event",
+  "ticketSponsorAmount": "Amount (HUF)",
 
   "SECTION": "--------------------INFO-------------------------"
 

@@ -302,8 +302,8 @@ const Profile: NextPage<Props> = (props: Props) => {
           <section className={styles.Profile__Header}>
             <div className={styles.Profile__Header__Picture}>
               <picture>
-                <source srcSet={`${user.picture? (`uploads/${user.picture.split('.')[0]}_x1.jpg 1x, uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : 'Default_profile_x1.jpg 1x, Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                <img srcSet={`${user.picture? (`uploads/${user.picture.split('.')[0]}_x1.jpg 1x, uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : 'Default_profile_x1.jpg 1x, Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="Default_profile_x2.jpg" loading="lazy" />
+                <source srcSet={`${user.picture? (`/uploads/${user.picture.split('.')[0]}_x1.jpg 1x, /uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
+                <img srcSet={`${user.picture? (`/uploads/${user.picture.split('.')[0]}_x1.jpg 1x, /uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy" />
                   {
                     uploadProgress &&
                     <div className={styles.Profile__Header__Picture__Overlay}>
