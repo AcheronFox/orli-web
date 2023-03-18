@@ -1,0 +1,101 @@
+{
+    "0": {
+        "title": "Mi az Örli Försztivál?",
+        "content": "Az Örli Försztivál a furry szubkultúra iránt érdeklődők számára megszervezett találkozó, illetve többnapos programsorozat."
+    },
+
+    "1": {
+        "title": "Kell-e regisztrálnom?",
+        "content": "Igen, fontos számunkra hogy jelezd, hogy szeretnél részt venni, mivel a foglalásokat ehhez tudjuk igazítani. A regisztráció ugyanakkor nem kötelez semmire."
+    },
+
+    "2": {
+        "title": "Hány éves kortól vehetek részt a rendezvényen?",
+        "content": "A rendezvényre a 18.-ik életévüket betöltött személyek regisztrálhatnak, kivétel az a 16.ik életévét betöltött fiatalkorú aki rendelkezik írásos szülői beleegyezéssel. Ezzel kapcsolatban vedd fel velünk a kapcsolatot!"
+    },
+
+    "3": {
+        "title": "Akkor is mehetek programokra, ha nem regisztráltam?",
+        "content": "Nem, mivel a rendezvény területére csak érvényes jeggyel rendelkezők léphetnek be."
+    },
+
+    "4": {
+        "title": "Szükséges-e valós adatokat megadnom a regisztráció során?",
+        "content": "Fontos, hogy a valós polgári neved és születési dátumod, valamint valós e-mail címet adj meg regisztrációnál. Ezek kezeléséről a \"Szabályzat\" menüpont alatt tájékozódhatsz. Minden más adat tetszőleges, azok a találkozó résztvevőit és a szervezőket segítik egymás felismerésében."
+    },
+
+    "5": {
+        "title": "Hogyan tudom támogatni a rendezvényt?",
+        "content": "Örömmel fogadunk bármilyen támogatást, legyen az anyagi, erkölcsi, vagy fizikai jellegű. Amennyiben anyagilag szeretnél minket támogatni, azt a jegyválasztásnál tudod megtenni."
+    },
+
+    "6": {
+        "title": "Hozható-e házikedvenc a rendezvényre?",
+        "content": "Igen, a szállás etető és itatótálat biztosít a házikedvenceknek. Amennyiben házikedvenccel érkezel, kérünk vedd fel a kapcsolatot velünk és jelezd előre!"
+    },
+
+    "7": {
+        "title": "Lesz-e suitwalk?",
+        "content": "Nem."
+    },
+
+    "8": {
+        "title": "Mennyi időm van arra hogy kifizessem a jegyem?",
+        "content": "A jegyválasztástól kezdve 7 napod áll rendelkezésre hogy megérkezzen az összeg hozzánk, ellenkező esetben a kiválasztott jegyek/tételek törlődnek a rendszerből és ezeket újból ki kell választanod."
+    },
+
+    "9": {
+        "title": "Mikor tudok szobát választani?",
+        "content": "Szobát választani csak megerősített regisztráció esetén tudsz."
+    },
+
+    "10": {
+        "title": "A jegyár tartalmazza e a reggeli díját?",
+        "content": "Igen, a reggeli árát a jegyár már tartalmazza."
+    },
+
+    "11": {
+        "title": "Mikortól lehet érkezni?",
+        "content": "Érkezni 14:00-tól lehet azon a napon, amelyikre a kiválasztott jegyed szól."
+    },
+
+    "12": {
+        "title": "Tudok-e venni a helyszínen belépőt?",
+        "content": "Igen, viszont a részvétel ugyanúgy regisztrációhoz kötött, tehát ugyanúgy regisztrálnod kell a weboldalon."
+    },
+
+    "13": {
+        "title": "Már kifizettem a jegyemet, de mégsem tudok elmenni, van e lehetőség visszatérítésre?",
+        "content": "Kifizetett jegyet visszatéríteni már nem tudunk, viszont jegyedet átruházhatod másra."
+    },
+
+    "14": {
+        "title": "Miért kell leadnom az személyi igazolványom/jogosítványom bejelentkezéskor?",
+        "content": "Erre a hatályos vendéglátási jogszabályok miatt van szükség, ugyanis a szállásadónak bejelentési kötelezettsége van minden vendég után. Az igazolványokat igyekszünk a lehető leghamarabb visszajuttatni a tulajdonosához."
+    },
+
+    "15": {
+        "title": "Napijegyem van, meddig lehetek a rendezvényen?",
+        "content": "A napijegyesek a kiválasztott nap 14:00-tól, aznap 22:00-ig tartózkodhatnak a rendezvény helyszínén, tehát aki nem rendelkezik szállással, annak 22:00-ig el kell hagynia a kemping területét."
+    },
+
+    "16": {
+        "title": "Rendelkezik e a helyszín ingyenes Wi-Fi-vel?",
+        "content": "Igen, a rendezvény résztvevőinek ingyenes Wi-Fi hozzáférés biztosított."
+    },
+
+    "17": {
+        "title": "A sátorhelyeknél van e konnektor?",
+        "content": "Igen. A sátorhelyeknél a villamos ellátás biztosított."
+    },
+
+    "18": {
+        "title": "Autóval mennék, lesz e lehetőség parkolni a helyszínen?",
+        "content": "Igen, a helyszínen biztosított a parkolás."
+    },
+
+    "19": {
+        "title": "Amennyiben segítségre van szükségem a rendezvény alatt, hogyan ismerem fel a szervezőket?",
+        "content": "A szervezők piros színű nyakpántot fognak hordani a rendezvény alatt, hozzájuk tudsz fordulni kérdéssel/problémával."
+    }
+}

@@ -92,7 +92,7 @@
     }
     
     @include respond(tiny-desktop) {
-        padding: 3rem 10rem;
+        padding: 3rem 3rem;
     }
     
     @include respond(phone) {
@@ -243,8 +243,16 @@
             display: flex;
             justify-content: space-evenly;
 
-            & > * {
+            &__Input {
                 flex: 1;
+                
+                & > * {
+                    display: flex;
+                    height: 100%;
+                    width: 100%;
+                    justify-content: center;
+                    align-items: center;
+                }
 
                 &:first-child {
                     margin-right: 2rem;

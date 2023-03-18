@@ -23,7 +23,7 @@
         }
     }
 
-    box-shadow: rgba($black, .8) 0 0 2.5rem;
+    box-shadow: rgba($black, .8) 0 .5rem 1rem;
 
     @include respond(phone) {
         padding: 1rem

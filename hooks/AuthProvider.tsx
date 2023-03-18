@@ -12,6 +12,7 @@ type Props = {
 
 const AuthProvider: NextPage<Props> = ({ children }: Props) => {
     const [user, setLocalUser] = useState<IUser | null>(null)
+    const [didUserInit, setDidUserInit] = useState<boolean>(false)
     let didInit = false
 
     useEffect(() => {
@@ -22,10 +23,12 @@ const AuthProvider: NextPage<Props> = ({ children }: Props) => {
 
     const addUser = (val: IUser) => {
         setLocalUser(val);
+        setDidUserInit(true)
     };
 
     const removeUser = () => {
         setLocalUser(null);
+        setDidUserInit(true)
     };
 
     const getUser = () => {
@@ -50,9 +53,13 @@ const AuthProvider: NextPage<Props> = ({ children }: Props) => {
     return (
         <AuthContext.Provider value={{
             user,
+            didUserInit,
             setUser: (v: IUser | null) => {
                 setLocalUser(v)
             },
+            setDidUserInit: (v: boolean) => {
+                setDidUserInit(v)
+            }
         }}>
             {children}
         </AuthContext.Provider>

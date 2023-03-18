@@ -4,6 +4,14 @@ import verifyToken from '@/utils/veryifToken';
 import isMethodAllowed from '@/utils/isMethodAllowed';
 
 
+const getEarlyBirdExpDate = () => {
+    // MONTH STARTS FROM 0
+    return new Date(2023, 3, 1)
+}
+const getStartDate = () => {
+    return new Date(2023, 5, 14)
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -19,10 +27,14 @@ export default async function handler(
 
     if (tokenPayload) {
         const response = {
-            minDate: new Date(2023, 5, 14),
+            minDate: getStartDate(),
             maxDate: new Date(2023, 5, 18),
+            serverDate: new Date(),
+            earlyBirdExpDate: getEarlyBirdExpDate()
         }
     
         sendResponse(200, response);
     } else return;
 }
+
+export {getEarlyBirdExpDate, getStartDate}

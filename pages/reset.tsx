@@ -195,6 +195,7 @@ const Reset: NextPage<Props> = (props: Props) => {
                                         onChange={(e) => setEmail(e.target.value)}
                                         onBlur={() => validateEmail()}
                                         inputClass={errorStates.email && styles.Reset__Error}
+                                        maxlength={255}
                                     ></Input>
                                     <p className={styles.Reset__Error__Text}>{errorStates.email}</p>
                                 </span>
@@ -212,6 +213,7 @@ const Reset: NextPage<Props> = (props: Props) => {
                                         onChange={(e) => setPassword(e.target.value)}
                                         onBlur={() => validatePassword()}
                                         inputClass={errorStates.password && styles.Reset__Error}
+                                        maxlength={255}
                                     ></Input>
                                     <p className={styles.Reset__Error__Text}>{errorStates.password}</p>
                                 </span>
@@ -224,6 +226,7 @@ const Reset: NextPage<Props> = (props: Props) => {
                                         onChange={(e) => setConfPassword(e.target.value)}
                                         onBlur={() => validateConfPassword()}
                                         inputClass={errorStates.confPassword && styles.Reset__Error}
+                                        maxlength={255}
                                     ></Input>
                                     <p className={styles.Reset__Error__Text}>{errorStates.confPassword}</p>
                                 </span>

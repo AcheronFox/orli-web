@@ -12,13 +12,14 @@ import PrimaryButton from "@/comp/PrimaryButton";
 import LoadingOverlay from "@/comp/LoadingOverlay";
 import LinkButton from "@/comp/LinkButton";
 import { useUser } from "@/hooks/useUser";
+import Router from "next/router";
 
 type Props = {}
 
 const Login: NextPage<Props> = (props: Props) => {
   const { t, locale } = useTranslate()
   const { HandleClose, AddFloatingMessage } = useContext(FloatingMessageContext);
-  const { login } = useUser()
+  const { user, didUserInit, login } = useUser()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [remember, setRemember] = useState<boolean>(false)
@@ -47,6 +48,13 @@ const Login: NextPage<Props> = (props: Props) => {
     errorStates.email && validateEmail()
     errorStates.password && validatePass()
   }, [locale])
+
+  useEffect(() => {
+    if (!didUserInit) return
+    if (user) {
+      Router.push('/profile')
+    }
+  }, [didUserInit])
 
   // ===============================================
   // VALIDATORS

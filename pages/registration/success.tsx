@@ -42,8 +42,8 @@ const RegSuccess: NextPage<Props> = (props: Props) => {
                             <span>
                                 {t("regSuccessDesc1")} <span style={{"textDecoration": "underline"}}>{email}</span> {t("regSuccessDesc2")}
                             </span>
-                            <span>
-                                {t("regSuccessOutro")}<LinkButton isInternal={true} link={'/'} text={t("regSuccessButton")}></LinkButton>
+                            <span className={styles.Registration__Success__Row}>
+                                {t("regSuccessOutro")} <span style={{"width": "min-content"}}><LinkButton isInternal={true} link={'/'} text={t("regSuccessButton")}></LinkButton></span>
                             </span>
                         </div>
                     </Section>

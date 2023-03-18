@@ -59,6 +59,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   const [password, setPassword] = useState<string>("");
   const [confPassword, setConfPassword] = useState<string>("");
   const [contact, setContact] = useState<string>("");
+  const [allergy, setAllergy] = useState<string>("");
   
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -292,6 +293,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       age: age,
       nationality: nationality,
       contact: contact,
+      allergy: allergy,
       password: crypto.createHash("sha256").update(password).digest("hex"),
     };
 
@@ -360,6 +362,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setFirstName(e.target.value)}
                       onBlur={() => validateFirstName()}
                       inputClass={`${errorStates.firstName? styles.Registration__Error : ''}`}
+                      maxlength={255}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.firstName}</p>
                   </span>
@@ -374,6 +377,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setLastName(e.target.value)}
                       onBlur={() => validateLastName()}
                       inputClass={errorStates.lastName && styles.Registration__Error}
+                      maxlength={255}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.lastName}</p>
                   </span>
@@ -411,6 +415,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                     onChange={(e) => setEmail(e.target.value)}
                     onBlur={() => validateEmail()}
                     inputClass={errorStates.email && styles.Registration__Error}
+                    maxlength={255}
                   ></Input>
                   <p className={styles.Registration__Error__Text}>{errorStates.email}</p>
                 </span>
@@ -426,6 +431,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                     onChange={(e) => setConfEmail(e.target.value)}
                     onBlur={() => validateConfEmail()}
                     inputClass={errorStates.confEmail && styles.Registration__Error}
+                    maxlength={255}
                   ></Input>
                   <p className={styles.Registration__Error__Text}> {errorStates.confEmail}</p>
                 </span>
@@ -442,6 +448,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setFursonaName(e.target.value)}
                       onBlur={() => validateSonaName()}
                       inputClass={errorStates.fursonaName && styles.Registration__Error}
+                      maxlength={255}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.fursonaName}</p>
                   </span>
@@ -456,6 +463,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setFursonaSpecies(e.target.value)}
                       onBlur={() => validateSpecies()}
                       inputClass={errorStates.fursonaSpecies && styles.Registration__Error}
+                      maxlength={255}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.fursonaSpecies}</p>
                   </span>
@@ -473,6 +481,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setPassword(e.target.value)}
                       onBlur={() => validatePass()}
                       inputClass={errorStates.password && styles.Registration__Error}
+                      maxlength={255}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.password}</p>
                   </span>
@@ -488,6 +497,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setConfPassword(e.target.value)}
                       onBlur={() => validateConfPass()}
                       inputClass={errorStates.confPassword && styles.Registration__Error}
+                      maxlength={255}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.confPassword}</p>
                   </span>
@@ -509,21 +519,36 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setContact(e.target.value)}
                       onBlur={() => validateContact()}
                       inputClass={errorStates.contact && styles.Registration__Error}
+                      maxlength={255}
                     ></Input>
                   </span>
                   <p className={styles.Registration__Error__Text}> {errorStates.contact}</p>
+                </span>
+                <span>
+                  <span className={styles.Registration__Form__Inline}>
+                    <Input
+                      label={`${t("regAllergy")}: `}
+                      placeholder={t("regAllergy")}
+                      type={"text"}
+                      list="autoCompleteOff"
+                      autoComplete="nope"
+                      value={allergy}
+                      onChange={(e) => setAllergy(e.target.value)}
+                      maxlength={1000}
+                    ></Input>
+                  </span>
                 </span>
                 <Input
                   type="checkbox"
                   checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, rules: e} })}
                   id="chk-2"
-                  label={<>{t("regRule1")}<LinkButton isInternal={true} text={t("regRuleBtn")} link="/legal/rules"></LinkButton>{t("regRule2")}</>}
+                  label={<span className={styles.Registration__Form__Label} >{t("regRule1")}<LinkButton isInternal={true} text={t("regRuleBtn")} link="/legal/rules"></LinkButton>{t("regRule2")}</span>}
                 ></Input>
                 <Input
                   type="checkbox"
                   checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, data: e} })}
                   id="chk-3"
-                  label={<>{t("regData1")}<LinkButton isInternal={true} text={t("regDataBtn")} link="/legal/data"></LinkButton></>}
+                  label={<span className={styles.Registration__Form__Label} >{t("regData1")}<LinkButton isInternal={true} text={t("regDataBtn")} link="/legal/data"></LinkButton></span>}
                 ></Input>
             </div>
             <div className={styles.Registration__Button}>

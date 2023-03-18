@@ -1,3 +1,4 @@
+import { getAccountByEmail, getUserByAccountKey } from '@/utils/getData';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ILoginForm } from '@/models/login-form.model';
 import { IAccount } from '@/models/account.model';
@@ -37,58 +38,13 @@ export default async function handler(
     }
 
     if (isLoginForm(req.body) && isValidForm(req.body)) {
-
-        const findAccount = async () => {
-            return new Promise<IAccount | undefined>(async (resolve) => {
-                database.query(`SELECT * FROM account WHERE email = '${req.body.email.toLowerCase()}'`, async (err, result) => {
-                    if (err) {
-                        console.log("ERROR: ", err);
-                        sendResponse(500, { message: "Unknown Error", e_code: "login_1" });
-                        resolve(undefined);
-                    }
-                    if (result.length) {
-                        resolve(result[0])
-                    }
-                    else {
-                        resolve(undefined);
-                        sendResponse(404, { message: `No user with address: ${req.body.email}`, e_code: "login_2" });
-                    }
-                })
-            }).catch(() => {
-                sendResponse(500, { message: "Unknown Error", e_code: "login_3" });
-            });
-        }
-
-        const findUser = async (account: IAccount) => {
-            return new Promise<IUser | undefined>(async (resolve) => {
-                database.query(`SELECT * FROM user WHERE AccountKey = '${account.AccountKey}'`, async (err, result) => {
-                    if (err) {
-                        console.log("ERROR: ", err);
-                        sendResponse(500, { message: "Unknown Error", e_code: "login_4" });
-                        resolve(undefined);
-                    }
-                    if (result.length) {
-                        resolve(result[0])
-                    }
-                    else {
-                        resolve(undefined);
-                        sendResponse(404, { message: `No user with address: ${req.body.email.toLowerCase()}`, e_code: "login_5" });
-                    }
-                })
-            }).catch(() => {
-                sendResponse(500, { message: "Unknown Error", e_code: "login_6" });
-            });
-        }
-
-
-
         const authorize = async (account: IAccount, user: IUser) => {
             return new Promise<void>(async (resolve) => {
                 const isValid = await bcrypt.compare(req.body.password.trim(), account.password)
 
                 if (isValid) {
                     if (account.isVerified == 0) {
-                        sendResponse(401, { message: `Unverified`, e_code: "login_7" });
+                        sendResponse(401, { message: `Unverified`, e_code: "login_1" });
                         resolve();
                     }
                     else {
@@ -114,17 +70,17 @@ export default async function handler(
                     }
                 }
                 else {
-                    sendResponse(401, { message: `Wrong password`, e_code: "login_8" });
+                    sendResponse(401, { message: `Wrong password`, e_code: "login_2" });
                     resolve();
                 }
             }).catch(() => {
-                sendResponse(500, { message: "Unknown Error", e_code: "login_9" });
+                sendResponse(500, { message: "Unknown Error", e_code: "login_3" });
             });
         }
 
-        const account: IAccount | undefined | void = await findAccount();
-        let user: IUser | undefined | void;
-        if (account) user = await findUser(account)
+        const account: IAccount | undefined = await getAccountByEmail(req.body.email.toLowerCase());
+        let user: IUser | undefined;
+        if (account) user = await getUserByAccountKey(account.AccountKey)
         
         if (account && user) {
             await authorize(account, user);

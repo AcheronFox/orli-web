@@ -4,6 +4,7 @@ export interface IUser {
     email: string
     nationality: string
     contact: string
+    registeredAt: string
     isAdmin: boolean
     AccomodationKey: string | null
     TicketKey: string | null
@@ -13,9 +14,10 @@ export interface IUser {
     fursonaName: string
     fursonaSpecies: string
     picture: string
-    registeredAt: string
-    SponsorLevel: number
     isFursuiter: boolean
+
+    sponsorLevel?: number
+    isPaid?: boolean
 }
 
 export class UserData {
@@ -24,6 +26,7 @@ export class UserData {
     email: string | undefined = undefined
     nationality: string | undefined = undefined
     contact: string | undefined = undefined
+    registeredAt: string | undefined = undefined
     isAdmin: boolean | undefined = undefined
     AccomodationKey: string | null | undefined = undefined
     TicketKey: string | null | undefined = undefined
@@ -33,7 +36,8 @@ export class UserData {
     fursonaName: string | undefined = undefined
     fursonaSpecies: string | undefined = undefined
     picture: string | undefined = undefined
-    registeredAt: string | undefined = undefined
-    SponsorLevel: number | undefined = undefined
     isFursuiter: boolean | undefined = undefined
+
+    sponsorLevel: number | undefined = undefined
+    isPaid: boolean | undefined = undefined
 }

@@ -3,11 +3,28 @@ import Section from "@/comp/Section"
 import styles from "@/styles/pages/Faq.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
+import { useEffect, useState } from "react";
 
 type Props = {}
 
+interface CustomQuestionInterface {[index: number]: {title: string; content: string;} }
+
 const FAQ: NextPage<Props> = (props: Props) => {
-  const { t } = useTranslate();
+  const { t, locale } = useTranslate();
+  const [questions, setQuestions] = useState<CustomQuestionInterface>(
+    locale == "en"
+      ? require("../locales/en.faq.json")
+      : require("../locales/hu.faq.json")
+  );
+
+  useEffect(() => {
+    setQuestions(
+      locale == "en"
+      ? require("../locales/en.faq.json")
+      : require("../locales/hu.faq.json")
+    )
+  }, [locale])
+  
 
   return (
     <div className={styles.MainWrapper}>
@@ -19,24 +36,18 @@ const FAQ: NextPage<Props> = (props: Props) => {
       <div className={styles.Content}>
         <Section title="">
           <div className={styles.Content__Questions}>
-            <InfoPanel title="test">
-              test
-            </InfoPanel>
-            <InfoPanel title="test">
-              test
-            </InfoPanel>
-            <InfoPanel title="test">
-              test
-            </InfoPanel>
-            <InfoPanel title="test">
-              test
-            </InfoPanel>
-            <InfoPanel title="test">
-              testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
-            </InfoPanel>
-            <InfoPanel title="test">
-              test
-            </InfoPanel>
+            {
+              questions &&
+              Object.keys(questions).map((questionIndex, i) => {
+                const key = parseInt(questionIndex)
+
+                return (
+                <InfoPanel key={key} title={questions[key].title}>
+                  {questions[key].content}
+                </InfoPanel>
+                )
+              })
+            }
           </div>
         </Section>
       </div>

@@ -251,7 +251,8 @@ export default async function handler(
                             nationality: req.body.nationality,
                             dateOfBirth: toSqlDatetime(req.body.dateOfBirth.trim()),
                             age: req.body.age,
-                            contact: req.body.contact
+                            contact: req.body.contact,
+                            allergy: req.body.allergy
                         }
                         const userPayload: any = {
                             UserKey: newUserKey,

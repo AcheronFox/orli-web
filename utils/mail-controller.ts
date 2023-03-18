@@ -99,6 +99,7 @@ const findTemplate = async (nationality: string, template: string) => {
     return res
 }
 
+
 const getMailLimit = async () => {
     const filePath = path.join(`${process.cwd()}`, "utils/shared.json")
     const rawdata = fs.readFileSync(filePath);
@@ -106,7 +107,6 @@ const getMailLimit = async () => {
 
     return sharedVariables.mailCount
 }
-
 const writeMailLimit = async (input: number) => {
     const dataToWrite = {
         mailCount: input

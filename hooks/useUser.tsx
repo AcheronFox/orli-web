@@ -11,10 +11,9 @@ import { IResetForm } from '@/models/reset-form.model';
 import { IResetAuthForm } from '@/models/reset-auth-form.model';
 
 export const useUser = () => {
-    const { user, setUser } = useContext(AuthContext);
+    const { user, setUser, didUserInit, setDidUserInit } = useContext(AuthContext);
     const { t } = useTranslate()
     const { AddFloatingMessage } = useContext(FloatingMessageContext);
-    const [didUserInit, setDidUserInit] = useState(false)
     const router = useRouter();
     
     const addUser = (val: IUser) => {
