@@ -4,8 +4,6 @@ export class UserDatabase {
     fursonaName: string | undefined = undefined
     fursonaSpecies: string | undefined = undefined
     picture: string | undefined = undefined
-    registeredAt: string | undefined = undefined
-    SponsorLevel: '0' | '1' | '2' | undefined = undefined
     isFursuiter: boolean | undefined = undefined
 }
 
@@ -18,10 +16,27 @@ export class AccountDatabase {
     dateOfBirth: string | undefined = undefined;
     age: number | undefined = undefined;
     contact: string | undefined = undefined;
+    registeredAt: string | undefined = undefined
     isVerified: boolean | undefined = undefined;
     isAdmin: boolean | undefined = undefined;
     AccomodationKey: string | undefined = undefined;
     TicketKey: string | undefined = undefined;
+}
+
+export class TicketDatabase {
+    AccountKey: string | undefined = undefined;
+    TicketKey: string | undefined = undefined;
+    ticketType: '0' | '1' | '2' | undefined = undefined;
+    extra0: boolean | undefined = undefined;
+    extra1: boolean | undefined = undefined;
+    sponsorLevel: '0' | '1' | '2' | undefined = undefined;
+    sponsorPrice: number | undefined = undefined;
+    totalPrice: number | undefined = undefined;
+    foodData: {[index: number]: number} | undefined | string = undefined;
+    startDay: string | undefined = undefined;
+    endDay: string | undefined = undefined;
+    creationDate: string | undefined = undefined;
+    isPaid: boolean | undefined = undefined;
 }
 
 export class SafeUserDatabase {
@@ -29,7 +44,6 @@ export class SafeUserDatabase {
     fursonaSpecies: string | undefined = undefined
     picture: string | undefined = undefined
     registeredAt: string | undefined = undefined
-    SponsorLevel: '0' | '1' | '2' | undefined = undefined
     isFursuiter: boolean | undefined = undefined
 }
 

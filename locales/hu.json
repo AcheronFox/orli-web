@@ -64,6 +64,10 @@
   "legalRules": "Szabályzat",
   "legalData": "Adatkezelés",
 
+  "SECTION": "--------------------CONTACT-------------------------",
+
+  "contact": "Kérdésed van vagy problémába ütköztél? Esetleg bug-ot találtál az oldalon? Keress fel minket a lent található e-mail címen!",
+
   "SECTION": "--------------------HOME-------------------------",
 
   "homeReg": "Regisztrálás",
@@ -75,6 +79,8 @@
   "paragraph2": "Autóval, autópályán, budapest (M7/E71) irányából:",
   "locGettingThere2": " Letérés az autópáláyról a 57-es számú kijáratnál Székesfehérvár előtt, majd a 7-es úton Agárdig, majd Agárd előtt balra fordulni a Chernel István útra, majd onnann ~2,5km múlva megérkeztél.",
   "locMapOpen": "Kattints ide a Google Térkép megnyitásához.",
+  "locLocation": "Pákász Tanya Kemping",
+  "locZoom": "kattints a nagyításhoz",
 
   "SECTION": "--------------------INPUTS-------------------------",
 
@@ -105,8 +111,9 @@
   "regRuleBtn": "Szabályzatban",
   "regData1": "Elolvastam és elfogadom az ",
   "regDataBtn": "Adatkezelési Szabályzatot.",
-  "regContact": "Telegram vagy Telefon",
-  "regContactExp": "a",
+  "regContact": "Telegram vagy Telefonszám",
+  "regContactExp": "Erre az információra nekünk van szükségünk hogy szükség esetén gyorsan kapcsolatba tudjunk veled lépni. Más az itt megadottakat nem látja.",
+  "regAllergy": "Allergiák (opcionális)",
 
   "SECTION": "--------------------REGISTRATION MESSAGES-------------------------",
 
@@ -157,7 +164,24 @@
   "loginErrNotFound": "Oops! Nincs fiók a megadott e-mail cím alatt.",
   "loginUnverifiedErr": "A regisztrációd még nincs leelenőrízve. Kérlek várj, emailen fogunk értesíteni.",
 
-  "SECTION": "--------------------Profile-------------------------",
+  "SECTION": "--------------------RESET-------------------------",
+
+  "resetTitle": "Jelszó Visszaállítás",
+  "resetInstruct1": "Elfelejtetted a jelszavad? Nem baj, mindenkivel megesik.",
+  "resetInstruct2": "Kérlek add meg az e-mail címedet amivel regisztráltál. Küldeni fogunk egy emailt amivel vissza tudod állítani a jelszavad.",
+  "resetButton": "Visszaállítás",
+  "resetButtonToken": "Megerősítés",
+  "resetPass": "Új jelszó",
+  "resetPassConf": "Jelszó megerősítése",
+
+  "SECTION": "--------------------RESET MESSAGES-------------------------",
+
+  "resetErrNotFound": "Bocsi, ez az e-mail úgy látszik nincs regisztrálva",
+  "resetTokenErr": "Érvénytelen token",
+  "resetEmailSent": "E-mail elküldve",
+  "resetSuccess": "Új jelszó elmentve",
+
+  "SECTION": "--------------------PROFILE-------------------------",
 
   "ProfWait": "Mentés...",
   "profSuccess": "Változtatások elmentve",
@@ -174,8 +198,51 @@
   "profPayment": "Fizetés állapot",
   "profRoom": "Szobaszám",
   "profProcessing": "Feldolgozás...",
+  "profNotPaid": "Nincs kifizetve",
+  "profNotSelected": "Nincs kiválasztva",
+  "profPaid": "Kifizetve",
+  "profRoomDisabled": "Szobaválasztás jegyvásárlás után elérhető",
+  "profTicketDisabled": "Már választottál jegyet.", 
 
-  "SECTION": "--------------------INFO-------------------------",
+  "SECTION": "--------------------TICKETS-------------------------",
 
-  "SECTION": "--------------------PROFILE-------------------------"
+  "ticketTickets": "Jegyek",
+  "ticketTicket": "Jegy",
+  "ticketExtra": "Extrák",
+  "ticketSelect": "Kiválasztás",
+  "ticketCancel": "Mégse",
+  "ticketDaySelect": "Válaszd ki a napot",
+  "ticket0Title": "Napijegy",
+  "ticket1Title": "1 éjszakás jegy",
+  "ticket2Title": "Teljes jegy",
+  "ticketExtra0": "0.-ik nap",
+  "ticketExtra1": "+1 nap",
+  "ticketClear": "Kiválasztás törlése",
+  "ticketFoodSelect": "Válaszd ki a reggelit",
+  "ticketFood": "Reggeli",
+  "ticketNoFood": "Kérlek válassz reggelit",
+  "ticketSponsor": "Szponzor",
+  "ticketOverview": "Áttekintés",
+  "ticketSponsorQuestion": "Szeretném az eseményt támogatni",
+  "ticketSponsorAmount": "Összeg (HUF)",
+  "ticketOverviewTicket": "Kiválasztott jegy",
+  "ticketNoTicket": "Kérlek válassz jegyet",
+  "ticketNoExtra": "Nincs extra jegy(ek)",
+  "ticketDay": "Kiválaszott nap",
+  "ticketDays": "Kiválasztott napok",
+  "ticketNoDay": "Kérlek válaszd ki melyik napon szeretnél jönni",
+  "ticketNoDays": "Kérlek válaszd ki melyik napokon szeretnél jönni",
+  "ticketSponsorLevel": "Szponzor szint",
+  "ticketSuperSponsor": "Szuper Szponzor",
+  "ticketPrice": "Árak",
+  "ticketFinalPrice": "Végösszeg",
+  "ticketBuy": "Vásárlás",
+  "ticketPurchaseQuestion": "Biztos vagy benne? Megerősítés után nem tudsz a jegyeden változtatni.",
+  "ticketAlreadyHas": "Már választottál jegyet, nézd meg az e-mail címedet.",
+  "ticketEarlyBird": "Early Bird",
+  "ticketEarlyBirdExp": "nap maradt",
+  "ticketSuccess": "Jegy kiválasztva, fizetési információkat e-mailben küldjük.",
+
+  "SECTION": "--------------------INFO-------------------------"
+
 }

@@ -10,7 +10,8 @@ type Props = {
     | "file"
     | "email"
     | "date"
-    | "textarea";
+    | "textarea"
+    | "number";
   id?: string;
   className?: string;
   name?: string;
@@ -32,6 +33,8 @@ type Props = {
   maxlength?: number;
   checked?: (checkedVal: boolean) => void;
   checkBoxValue?: boolean;
+  min?: number;
+  max?: number;
 };
 
 const Input = React.forwardRef(
@@ -57,9 +60,29 @@ const Input = React.forwardRef(
       checked,
       onKeyDown,
       checkBoxValue,
+      min,
+      max,
     }: Props,
     ref: React.Ref<HTMLInputElement>
   ) => {
+
+    const handleNumericChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const value = parseInt(e.target.value) || 0;
+      e.target.value = value.toString()
+      if (onChange) onChange(e)
+    }
+
+    const handleNumericBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>) => {
+      if (min && max) {
+        const value = Math.max(min, Math.min(max, Number(e.target.value)));
+        e.target.value = value.toString()
+        if (onBlur) onBlur(e);
+      }
+      else {
+        if (onBlur) onBlur(e);
+      }
+    };
+
     switch (type) {
       default:
       case "date":
@@ -87,6 +110,7 @@ const Input = React.forwardRef(
               placeholder={placeholder}
               disabled={disabled}
               onKeyDown={onKeyDown}
+              maxLength={maxlength}
             ></input>
           </div>
         );
@@ -147,6 +171,34 @@ const Input = React.forwardRef(
               disabled={disabled}
               maxLength={maxlength}
             ></textarea>
+          </div>
+        );
+      case "number":
+        return (
+          <div className={`${style.Input} ${className? className : ''}`}>
+            <label className={style.Input__Label} htmlFor={id}>
+              {label}
+            </label>
+            <input
+              className={`${style.Input__Text} ${inputClass? inputClass : ''}`}
+              type={type}
+              name={name}
+              id={id}
+              onChange={handleNumericChange}
+              value={value}
+              autoComplete={autoComplete}
+              list={list}
+              onClick={onClick}
+              ref={ref}
+              onFocus={onFocus}
+              onBlur={handleNumericBlur}
+              placeholder={placeholder}
+              disabled={disabled}
+              onKeyDown={onKeyDown}
+              min={min}
+              max={max}
+              maxLength={maxlength}
+            ></input>
           </div>
         );
     }

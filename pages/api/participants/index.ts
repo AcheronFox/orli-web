@@ -3,6 +3,7 @@ import { IParticipant } from '@/models/participant.model';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/utils/mysql'
 import isMethodAllowed from '@/utils/isMethodAllowed';
+import _ from 'lodash';
 
 
 export default async function handler(
@@ -21,9 +22,13 @@ export default async function handler(
         return new Promise(async (resolve) => {
             const query = 
             `
-            SELECT account.nationality, user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter, user.SponsorLevel
-            FROM account, user
-            WHERE user.AccountKey = account.AccountKey AND account.isVerified = 1
+            SELECT
+            account.nationality,
+            user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter,
+            ticket.sponsorLevel
+            FROM account
+            INNER JOIN user ON account.AccountKey = user.AccountKey
+            LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey AND ticket.isPaid = 1
             `
 
             database.query(query, async (err: any, result: IParticipant[]) => {
@@ -41,6 +46,7 @@ export default async function handler(
     }
 
     if (await query()) {
-        sendResponse(200, response);
+        console.log(response)
+        sendResponse(200, _.orderBy(response, ['fursonaName'],['desc']));
     }
 }

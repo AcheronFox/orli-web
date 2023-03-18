@@ -1,3 +1,4 @@
+import { getUserByAccountKey } from '@/utils/getData';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import isMethodAllowed from '@/utils/isMethodAllowed';
 import verifyToken from '@/utils/veryifToken';
@@ -6,31 +7,12 @@ import sharp from 'sharp';
 import fs from 'fs'
 import uniqueString from 'unique-string';
 import database from '@/utils/mysql';
-import path from 'path';
 
 export const config = {
     api: {
       bodyParser: false
-      
     }
 }
-
-const rmdir = (dir:string) => {
-    const list = fs.readdirSync(dir);
-    for(let i = 0; i < list.length; i++) {
-        const filename = path.join(dir, list[i]);
-        const stat = fs.statSync(filename);
-
-        if(filename == "." || filename == "..") {
-            // pass these files
-        } else if(stat.isDirectory()) {
-            rmdir(filename);
-        } else {
-            fs.unlinkSync(filename);
-        }
-    }
-    fs.rmdirSync(dir);
-};
 
 export default async function handler(
     req: NextApiRequest,
@@ -56,32 +38,12 @@ export default async function handler(
         })
 
         if (data) {
-            let name: string = '';
-            let picture: string = '';
-            const query = async () => {
-                return new Promise(async (resolve) => {
-                    const query = 
-                    `
-                    SELECT fursonaName, picture from user
-                    WHERE AccountKey = '${tokenPayload.accountKey}'
-                    `
-    
-                    database.query(query, async (err: any, result: any) => {
-                        if (err) {
-                            console.log("ERROR: ", err);
-                            sendResponse(500, {message: "Unknown Error", e_code: "upload_1"}); 
-                            resolve(false);
-                        }
-                        name = result[0].fursonaName
-                        picture = result[0].picture
-                        resolve(true);
-                    });
-                }).catch(() => {
-                    sendResponse(500, {message: "Unknown Error", e_code: "upload_2"}); 
-                });
-            }
+            const user = await getUserByAccountKey(tokenPayload.accountKey)
 
-            if (await query()) {
+            if (user) {
+                let name = user.fursonaName
+                const picture = user.picture
+
                 const cropData = JSON.parse(data.fields.crop)
                 const { file } = data.files
                 const fileBuffer = fs.readFileSync(file.filepath);
@@ -123,13 +85,13 @@ export default async function handler(
                         database.query(query, async (err: any, result: any) => {
                             if (err) {
                                 console.log("ERROR: ", err);
-                                sendResponse(500, {message: "Unknown Error", e_code: "upload_3"}); 
+                                sendResponse(500, {message: "Unknown Error", e_code: "upload_1"}); 
                                 resolve(false);
                             }
                             resolve(true);
                         });
                     }).catch(() => {
-                        sendResponse(500, {message: "Unknown Error", e_code: "upload_4"}); 
+                        sendResponse(500, {message: "Unknown Error", e_code: "upload_2"}); 
                     });
                 }
 

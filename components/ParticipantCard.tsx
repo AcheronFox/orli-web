@@ -50,8 +50,8 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
             </div>
             <div className={styles.ParticipantCard__Picture}>
                 <picture>
-                    <source srcSet={`${props.picture? (`uploads/${props.picture.split('.')[0]}_x1.jpg 1x, uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : 'Default_profile_x1.jpg 1x, Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                    <img srcSet={`${props.picture? (`uploads/${props.picture.split('.')[0]}_x1.jpg 1x, uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : 'Default_profile_x1.jpg 1x, Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="Default_profile_x2.jpg" loading="lazy"/>
+                    <source srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.jpg 1x, /uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
+                    <img srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.jpg 1x, /uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy"/>
                 </picture>
                 <div className={styles.ParticipantCard__Flag}>
                     <Tippy className={styles.Tooltip} content={nationalityName}>

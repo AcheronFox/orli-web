@@ -9,4 +9,5 @@ export interface IRegistrationForm {
     nationality: string;
     password: string;
     contact: string;
+    allergy: string;
 }

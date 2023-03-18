@@ -9,7 +9,7 @@
     }
     
     @include respond(tiny-desktop) {
-        padding: 3rem 10rem;
+        padding: 3rem 3rem;
     }
     
     @include respond(phone) {
@@ -76,7 +76,7 @@
                 border: 1rem solid transparent;
                 transform: scale(1);
                 object-fit: cover;
-                filter: drop-shadow(0 1.5rem 4rem rgba($black, .4));
+                filter: drop-shadow(0 0 1rem rgba($black, .7));
                 border-radius: 2px;
 
                 transition: all .3s, border .5s;
@@ -88,7 +88,7 @@
                         border-image: linear-gradient(135deg, $primary-color, $secondary-color) 20 stretch;
     
                         transform: scale(1.075);
-                        filter: drop-shadow(0 2.5rem 4rem rgba($black, .5));
+                        filter: drop-shadow(0 0 1.5rem rgba($black, .3));
                         z-index: 20;
                     }
                 }

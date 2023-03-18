@@ -172,45 +172,48 @@ const CustomDatePicker = React.forwardRef(
     }
 
     return (
-      <div className={`${styles.DatePicker} ${className}`}>
-        <label htmlFor={id}>
-          {label}
-        </label>
-        <div className={styles.DatePicker__InputWrapper}>
-          <Input
-            className={styles.DatePicker__Input}
-            type="text"
-            name={name}
-            id={id}
-            onChange={update}
-            placeholder={placeholder? placeholder : t("dateFormat")}
-            value={value}
-            list="autoCompleteOff"
-            autoComplete="nope"
-            onClick={onClick}
-            ref={ref}
-            onBlur={onBlur}
-            inputClass={inputClass}
-            onKeyDown={disableKeyStroke}
-          ></Input>
-          <div ref={refButton}>
-            <SecondaryButton text={<RiCalendar2Fill size={24} />} onClick={() => handleClick()}></SecondaryButton>
+      
+        <div className={`${styles.DatePicker} ${className}`}>
+          <label htmlFor={id}>
+            {label}
+          </label>
+          <div className={styles.DatePicker__InputWrapper}>
+            <Input
+              className={styles.DatePicker__Input}
+              type="text"
+              name={name}
+              id={id}
+              onChange={update}
+              placeholder={placeholder? placeholder : t("dateFormat")}
+              value={value}
+              list="autoCompleteOff"
+              autoComplete="nope"
+              onClick={onClick}
+              ref={ref}
+              onBlur={onBlur}
+              inputClass={inputClass}
+              onKeyDown={disableKeyStroke}
+            ></Input>
+            <div ref={refButton}>
+              <SecondaryButton text={<RiCalendar2Fill size={24} />} onClick={() => handleClick()}></SecondaryButton>
+            </div>
+          </div>
+          <div className={`${styles.DatePicker__Wrapper} ${isOpen? '' : styles.DatePicker__Wrapper__Hidden}`} ref={refCa}>
+            <div className={styles.DatePicker__Modal}>
+              <button
+                className={`${styles.DatePicker__Wrapper__Btn}`}
+                onClick={(e) => handleClick(e)}
+              >
+                <RiCloseFill size={26} />
+              </button>
+              <Calendar
+                locale={locale}
+                className="react-calendar"                
+                onChange={(e: Date | null) => handleChange(e)}
+              />
+            </div>
           </div>
         </div>
-        <div className={`${styles.DatePicker__Wrapper} ${isOpen? '' : styles.DatePicker__Wrapper__Hidden}`} ref={refCa}>
-          <button
-            className={`${styles.DatePicker__Wrapper__Btn}`}
-            onClick={(e) => handleClick(e)}
-          >
-            <RiCloseFill size={26} />
-          </button>
-          <Calendar
-            locale={locale}
-            className="react-calendar"                
-            onChange={(e: Date | null) => handleChange(e)}
-          />
-        </div>
-      </div>
     );
   }
 );

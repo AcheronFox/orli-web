@@ -6,10 +6,11 @@ import SecondaryButton from "./SecondaryButton";
 import Input from "./Input";
 import styles from "@/styles/components/FilterableDropDown.module.scss";
 import UseWindowDimensions from "@/hooks/useWindowDimensions";
+import { RiArrowRightSLine } from "react-icons/ri"
 
 type Props = {
   label: string;
-  onChange: React.Dispatch<React.SetStateAction<string>>;
+  onChange?: Function;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
   setSelected: Function;
   setValue: Function;
@@ -145,7 +146,7 @@ const FilterableDropDown: NextPage<Props> = ({
         <span className={styles.Selector__Label}>{label}</span>
         <SecondaryButton
           onClick={openDropDown}
-          text={selected || buttonPlaceholder}
+          text={<span className={styles.Selector__Button}>{selected || buttonPlaceholder} <RiArrowRightSLine size={18} className={`${styles.Selector__Button__Icon} ${open && styles.Selector__Button__Open}`} /></span>}
         />
       </div>
       <div className={`${styles.Selector__DropDown} ${open && styles.Selector__Open} ${switchFlyOut && styles.Selector__Reversed}`}>
@@ -175,7 +176,7 @@ const FilterableDropDown: NextPage<Props> = ({
                   setValue(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);
                   setSelected(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);
                   setOpen(false);
-                  onChange(filteredData?.length? filteredData[index][dataValue] : data[index][dataValue]);
+                  if (onChange) onChange(filteredData?.length? filteredData[index][dataValue] : data[index][dataValue]);
                 }}>
                   <Row
                   index={index}

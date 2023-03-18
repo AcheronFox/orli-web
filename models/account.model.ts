@@ -8,6 +8,8 @@ export interface IAccount {
     nationality: string
     dateOfBirth: string
     age: number
+    contact: string
+    registeredAt: string
     isVerified: number
     AccomodationKey: string
     TicketKey: string

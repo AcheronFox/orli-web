@@ -7,12 +7,13 @@ import { ILoginForm } from '@/models/login-form.model';
 import { useTranslate } from './useTranslate';
 import { FloatingMessageContext } from './FloatingMessageContext';
 import { IUpdateForm } from '@/models/update.model';
+import { IResetForm } from '@/models/reset-form.model';
+import { IResetAuthForm } from '@/models/reset-auth-form.model';
 
 export const useUser = () => {
-    const { user, setUser } = useContext(AuthContext);
+    const { user, setUser, didUserInit, setDidUserInit } = useContext(AuthContext);
     const { t } = useTranslate()
     const { AddFloatingMessage } = useContext(FloatingMessageContext);
-    const [didUserInit, setDidUserInit] = useState(false)
     const router = useRouter();
     
     const addUser = (val: IUser) => {
@@ -147,5 +148,116 @@ export const useUser = () => {
         });
     }
 
-    return { user, didUserInit, addUser, removeUser, setUser, getUser, login, logout, updateUser };
+    const createPasswordReset = (resetData: IResetForm, cb: Function) => {
+        axiosInstance
+        .post("api/user/reset/create", resetData)
+        .then(() => {
+            Router.push({pathname: '/'})
+            AddFloatingMessage({
+                autocloses: true,
+                type: "Success",
+                message: t("resetEmailSent"),
+            });
+        })
+        .catch((err) => {
+            if (err.response) {
+                switch (err.response.status) {
+                    case 404:
+                        AddFloatingMessage({
+                            autocloses: true,
+                            type: "Error",
+                            message: t("resetErrNotFound"),
+                        });
+                        break;
+                    case 400:
+                        AddFloatingMessage({
+                            autocloses: true,
+                            type: "Error",
+                            message: t("errBadRequest"),
+                        });
+                        break;
+                    default:
+                        AddFloatingMessage({
+                            autocloses: true,
+                            type: "Error",
+                            message: t("errDefault"),
+                        });
+                        break;
+                }
+            } else {
+                AddFloatingMessage({
+                    autocloses: true,
+                    type: "Error",
+                    message: t("errDefault"),
+                });
+            }
+        })
+        .finally(() => {
+            cb()
+        });
+    };
+
+    const resetPassword = (resetData: IResetAuthForm, cb: Function) => {
+        axiosInstance
+        .post("api/user/reset", resetData)
+        .then(() => {
+            Router.push({pathname: '/login'})
+            AddFloatingMessage({
+                autocloses: true,
+                type: "Success",
+                message: t("resetSuccess"),
+            });
+        })
+        .catch((err) => {
+            if (err.response) {
+                switch (err.response.status) {
+                    case 401:
+                        Router.push({pathname: '/'})
+                        AddFloatingMessage({
+                            autocloses: true,
+                            type: "Error",
+                            message: t("resetTokenErr"),
+                        });
+                        break;
+                    case 400:
+                        AddFloatingMessage({
+                            autocloses: true,
+                            type: "Error",
+                            message: t("errBadRequest"),
+                        });
+                        break;
+                    default:
+                        AddFloatingMessage({
+                            autocloses: true,
+                            type: "Error",
+                            message: t("errDefault"),
+                        });
+                        break;
+                }
+            } else {
+                AddFloatingMessage({
+                    autocloses: true,
+                    type: "Error",
+                    message: t("errDefault"),
+                });
+            }
+        })
+        .finally(() => {
+            cb()
+        });
+    }
+
+    return {
+        user,
+        didUserInit,
+        addUser,
+        removeUser,
+        setUser,
+        getUser,
+        login,
+        logout,
+        updateUser,
+        createPasswordReset,
+        resetPassword,
+    };
 };

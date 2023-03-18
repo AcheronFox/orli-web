@@ -22,6 +22,7 @@
       "@/hooks/*": ["./hooks/*"],
       "@/utils/*": ["./utils/*"],
       "@/public/*": ["./public/*"],
+      "@/root/*": ["./*"],
     },
   },
   "include": [
@@ -34,6 +35,8 @@
     "./hooks/**/*",
     "./utils/**/*",
     "./public/**/*",
+    "./.daemon/**/*",
+    "./**/*"
   ],
   "exclude": ["node_modules"]
 }

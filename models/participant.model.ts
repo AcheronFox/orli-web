@@ -4,5 +4,5 @@ export interface IParticipant {
     nationality: string;
     picture: string;
     isFursuiter: boolean;
-    SponsorLevel: string;
+    sponsorLevel: string;
 }

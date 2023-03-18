@@ -20,32 +20,36 @@ export default async function handler(
     }
 
     if (tokenPayload) {
-        let response: IUser | undefined = undefined;
         const query = async () => {
-            return new Promise(async (resolve) => {
+            return new Promise<IUser | undefined>(async (resolve) => {
                 const query = 
                 `
-                SELECT account.AccountKey, account.firstName, account.lastName, account.email, account.nationality, account.dateOfBirth, account.contact, account.isAdmin, account.TicketKey, account.AccomodationKey,
-                user.UserKey, user.fursonaName, user.fursonaSpecies, user.picture, user.registeredAt, user.SponsorLevel, user.isFursuiter
-                FROM account, user
-                WHERE user.AccountKey = account.AccountKey AND account.AccountKey = '${tokenPayload.accountKey}'
+                SELECT
+                account.AccountKey, account.firstName, account.lastName, account.email, account.nationality, account.dateOfBirth, account.contact, account.registeredAt, account.isAdmin, account.TicketKey, account.AccomodationKey,
+                user.UserKey, user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter,
+                ticket.sponsorLevel, ticket.isPaid
+                FROM account
+                INNER JOIN user ON account.AccountKey = user.AccountKey
+                LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey AND ticket.isPaid = 1
+                WHERE account.AccountKey = '${tokenPayload.accountKey}'
                 `
 
                 database.query(query, async (err: any, result: IUser[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "me_1"}); 
-                        resolve(false);
+                        resolve(undefined);
                     }
-                    response = result[0]
-                    resolve(true);
+                    resolve(result[0]);
                 });
             }).catch(() => {
                 sendResponse(500, {message: "Unknown Error", e_code: "me_2"}); 
+                return undefined
             });
         }
-    
-        if (await query()) {
+        
+        const response: IUser | undefined = await query()
+        if (response) {
             sendResponse(200, response);
         }
     } else return;

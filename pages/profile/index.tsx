@@ -116,7 +116,6 @@ const Profile: NextPage<Props> = (props: Props) => {
     return updateState(!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password), "password", t("regPassError"))
   }
   const validateContact = () => {
-    console.log(user)
     return updateState(contact.trim() == "", "contact", t("regContactErr"))
   }
 
@@ -289,8 +288,8 @@ const Profile: NextPage<Props> = (props: Props) => {
             }
           </span>
           <div>
-            <SecondaryButton text="Cancel" type="left" onClick={cancelImage}/>
-            <SecondaryButton disabled={(crop && image)? Math.floor((crop.width/100) * image.naturalWidth) <= 0 && Math.floor((crop.height/100) * image.naturalHeight) <= 0 : true} text="Confirm" type="right" onClick={uploadImage}/>
+            <SecondaryButton text={t("profCancel")} type="left" classType={"danger"} onClick={cancelImage}/>
+            <SecondaryButton disabled={(crop && image)? Math.floor((crop.width/100) * image.naturalWidth) <= 0 && Math.floor((crop.height/100) * image.naturalHeight) <= 0 : true} text={t("profConfirm")} classType={"success"} type="right" onClick={uploadImage}/>
           </div>
         </div>
       </div>
@@ -302,8 +301,8 @@ const Profile: NextPage<Props> = (props: Props) => {
           <section className={styles.Profile__Header}>
             <div className={styles.Profile__Header__Picture}>
               <picture>
-                <source srcSet={`${user.picture? (`uploads/${user.picture.split('.')[0]}_x1.jpg 1x, uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : 'Default_profile_x1.jpg 1x, Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                <img srcSet={`${user.picture? (`uploads/${user.picture.split('.')[0]}_x1.jpg 1x, uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : 'Default_profile_x1.jpg 1x, Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="Default_profile_x2.jpg" loading="lazy" />
+                <source srcSet={`${user.picture? (`/uploads/${user.picture.split('.')[0]}_x1.jpg 1x, /uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
+                <img srcSet={`${user.picture? (`/uploads/${user.picture.split('.')[0]}_x1.jpg 1x, /uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy" />
                   {
                     uploadProgress &&
                     <div className={styles.Profile__Header__Picture__Overlay}>
@@ -322,7 +321,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                     {user.fursonaSpecies}
                   </h3>
                 </div>
-                { (user.isFursuiter == true || user.SponsorLevel > 0) &&
+                { (user.isFursuiter == true || user.sponsorLevel && user.sponsorLevel > 0) &&
                   <div className={styles.Profile__Header__Badges}>
                     {
                       (user.isFursuiter == true) &&
@@ -333,7 +332,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                       </Tippy>
                     }
                     {
-                      (user.SponsorLevel > 0) &&
+                      (user.sponsorLevel && user.sponsorLevel > 0) &&
                       <Tippy className={styles.Tooltip} content={t("partSponsor")}>
                           <span>
                               <SponsorIcon style={{"fill": "#F741D5"}} />
@@ -344,11 +343,21 @@ const Profile: NextPage<Props> = (props: Props) => {
                 }
               </div>
               <div className={styles.Profile__Header__Bottom}>
-                <SecondaryButton type="label" text={t("profPicture")} id={"file"}>
-                  <input type="file" id="file" accept="image/jpg, image/jpeg, image/png, image/webp" onChange={(e) => imageChangeHandler(e)}/>
-                </SecondaryButton>
-                <SecondaryButton type="left" text={t("navTickets")} link={"profile/tickets"} />
-                <SecondaryButton type="right" text={t("navRooms")} link={"profile/rooms"} />
+                <span className={styles.Profile__Header__Bottom__Input}>
+                  <SecondaryButton type="label" text={t("profPicture")} id={"file"}>
+                    <input type="file" id="file" accept="image/jpg, image/jpeg, image/png, image/webp" onChange={(e) => imageChangeHandler(e)}/>
+                  </SecondaryButton>
+                </span>
+                <Tippy disabled={!(user.TicketKey != null && user.isPaid)} content={t("profTicketDisabled")}>  
+                  <span className={styles.Profile__Header__Bottom__Input}>
+                    <SecondaryButton disabled={(user.TicketKey != null && user.isPaid)} type="left" text={t("navTickets")} link={"profile/tickets"} />
+                  </span>
+                </Tippy>
+                <Tippy disabled={(user.AccomodationKey == null && (user.TicketKey != null && user.isPaid))} content={t("profRoomDisabled")}>
+                  <span className={styles.Profile__Header__Bottom__Input}>
+                    <SecondaryButton disabled={!(user.AccomodationKey == null && (user.TicketKey != null && user.isPaid))} type="right" text={t("navRooms")} link={"profile/rooms"} />
+                  </span>
+                </Tippy>
               </div>
             </div>
           </section>
@@ -369,6 +378,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                     onChange={(e) => {setPassword(e.target.value); setIsChanged(true);}}
                     onBlur={() => validatePass()}
                     inputClass={errorStates.password && styles.Profile__Body__Error}
+                    maxlength={255}
                   ></Input>
                   <p className={styles.Profile__Body__Error__Text}>{errorStates.password}</p>
                 </span>
@@ -383,6 +393,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                     onChange={(e) => {setContact(e.target.value); setIsChanged(true);}}
                     onBlur={() => validateContact()}
                     inputClass={errorStates.contact && styles.Profile__Body__Error}
+                    maxlength={255}
                   ></Input>
                   <p className={styles.Profile__Body__Error__Text}> {errorStates.contact}</p>
                 </span>
@@ -426,7 +437,18 @@ const Profile: NextPage<Props> = (props: Props) => {
               </div>
               <div className={styles.Profile__Body__Right__Row}>
                 <span>{`${t("profPayment")}: `}</span>
-                <span>null</span>
+                {
+                  (!user.TicketKey) &&
+                  <span style={{color: "red"}}>{t("profNotSelected")}</span>
+                }
+                {
+                  (user.TicketKey && !user.isPaid) &&
+                  <span style={{color: "red"}}>{t("profNotPaid")}</span>
+                }
+                {
+                  (user.TicketKey && user.isPaid) &&
+                  <span style={{color: "green"}}>{t("profPaid")}</span>
+                }
               </div>
               <div className={styles.Profile__Body__Right__Row}>
                 <span>{`${t("profRoom")}: `}</span>

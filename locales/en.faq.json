@@ -1,0 +1,101 @@
+{
+    "0": {
+        "title": "What is the Örli Försztivál?",
+        "content": "The Örli Försztivál is a multi-day event and convention organised for people who are interested in the furry community."
+    },
+
+    "1": {
+        "title": "Do I have register for the event?",
+        "content": "Yes, it is important for us that you indicate your willingness to attend, since we can tailor the different activities depending on the number of attendees. However, registration does not oblige you with anything."
+    },
+
+    "2": {
+        "title": "How old am I required to be to attend the event?",
+        "content": "Everyone above the age of 18 can register to the event. If you are younger than 18 but older than 16, you are required to hand in a written letter from your parents that they allow you to attend the event. In this case, please, contact us!"
+    },
+
+    "3": {
+        "title": "Can I attend programs even if I didn't register for the event?",
+        "content": "No. Entry without a valid ticket is not allowed. Every attendee is required to have a valid ticket."
+    },
+
+    "4": {
+        "title": "Do I have to register to the convention with my valid legal data?",
+        "content": "It is important to provide us with your valid full name, date of birth, and email address during registration. You may read more about how we handle your data under the \"Policy\" menu. Non-legal data that allow other attendees or the staff to identify you are optional."
+    },
+
+    "5": {
+        "title": "How can I support the event?",
+        "content": "We are happy to accept any kind of support. This can range from physical to moral. If you choose to support us financially, you can make your donation during ticket purchase."
+    },
+
+    "6": {
+        "title": "Can I bring pets to the event?",
+        "content": "Yes. The venue provides bowls for pets. If you wish to bring your pets, please, make sure to contact us and notify us in time!"
+    },
+
+    "7": {
+        "title": "Is there going to be a fursuit walk?",
+        "content": "No."
+    },
+
+    "8": {
+        "title": "What is the deadline for paying my ticket?",
+        "content": "You have 7 days to complete your purchase after you have selected your tickets. If you fail to complete your purchase in the given time, your chosen items are deleted from the system and you have to start over again."
+    },
+
+    "9": {
+        "title": "When can I choose a room?",
+        "content": "You may choose rooms after your payment is confirmed."
+    },
+
+    "10": {
+        "title": "Is breakfast included in the price?",
+        "content": "Yes, it is."
+    },
+
+    "11": {
+        "title": "What time can I arrive at the event?",
+        "content": "You may arrive to the event at 14:00 (2 pm) on the day from which your ticket is valid."
+    },
+
+    "12": {
+        "title": "Can I buy a ticket for the event on site?",
+        "content": "Yes, but registration is still required for attendance. You still need to register on the website."
+    },
+
+    "13": {
+        "title": "I have purchased a ticket, but I cannot attend. Can I refund my ticket?",
+        "content": "Tickets that have been purchased cannot be refunded, however, tickets can be transferred to somebody else."
+    },
+
+    "14": {
+        "title": "Why do I have to hand in my legal documents upon check-in?",
+        "content": "It is due to Hungarian legislation. Our accommodation providers are required to report every single guest. We do our best to return the documents to their owners as soon as possible."
+    },
+
+    "15": {
+        "title": "I have a daily ticket, how long can I stay at the event?",
+        "content": "Daily tickets are valid only on the day of validity between 14:00 (2 pm) and 22:00 (10 pm). People without an accommodation must leave the event by 22:00 (10 pm)."
+    },
+
+    "16": {
+        "title": "Does the venue have free Wi-Fi?",
+        "content": "Yes, every attendee has free access to the Wi-Fi network."
+    },
+
+    "17": {
+        "title": "Does the tent area have electric sockets?",
+        "content": "Yes. The tent area has access to electricity."
+    },
+
+    "18": {
+        "title": "I would like to come by car, is it possible to park my car at the venue?",
+        "content": "Yes, there is a dedicated parking lot."
+    },
+
+    "19": {
+        "title": "If I need any help during the convention, how can I recognise the staff members?",
+        "content": "Staff members wear red neckbands during the event, so you can seek advice from them."
+    }
+}

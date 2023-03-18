@@ -13,6 +13,22 @@
     }
   }
 
+  &__Button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__Icon {
+      backface-visibility: hidden;
+      transition: all .2s;
+    }
+
+    &__Open {
+      transform: rotate(90deg);
+    }
+  }
+  
+
   &__Label {
     text-align: right;
     color: $white;
