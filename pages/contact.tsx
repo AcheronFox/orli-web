@@ -15,7 +15,7 @@ const Login: NextPage<Props> = (props: Props) => {
       <div className={styles.Contact}>
         <div className={styles.Contact__Center}>
           <Section title={t("footerContact")}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod aliquam fugiat veritatis velit veniam sit autem, a quasi debitis delectus vel iure explicabo! Quasi deserunt pariatur facilis iure itaque? Cum.
+            {t("contact")}
             <div className={styles.Contact__Button}>
               <LinkButton text={"orlifurstival@gmail.com"} link={"mailto:orlifurstival@gmail.com"} isInternal={false}></LinkButton>
             </div>

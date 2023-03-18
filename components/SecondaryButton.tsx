@@ -11,6 +11,7 @@ type Props = {
   id?: string;
   children?: React.ReactElement
   disabled?: boolean
+  classType?: 'danger' | 'success'
 };
 
 const SecondaryButton: NextPage<Props> = ({
@@ -21,6 +22,7 @@ const SecondaryButton: NextPage<Props> = ({
   id,
   children,
   disabled,
+  classType
 }: Props) => {
     const handleMouseMove = (e: any) => {
         const bounds = e.target.getBoundingClientRect();
@@ -48,7 +50,9 @@ const SecondaryButton: NextPage<Props> = ({
     else if (link) {
       return (
         <Link id={id} href={link} onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={(e) => handleMouseOut(e)} 
-          className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right} ${disabled && styles.Button__Disabled}`}>
+          className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right} ${classType && styles.Button__Disabled}
+            ${disabled && styles.Button__Disabled}
+            ${classType == "danger" && styles.Button_danger} ${classType == "success" && styles.Button_success}`}>
           <span className={styles.Button__Text}>{text}</span>
         </Link>
       );
@@ -56,7 +60,9 @@ const SecondaryButton: NextPage<Props> = ({
     } else {
       return (
         <button disabled={disabled} id={id} onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={(e) => handleMouseOut(e)} onClick={onClick? () => onClick() : () => {}}
-          className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right} ${disabled && styles.Button__Disabled}`}>
+          className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right}
+            ${disabled && styles.Button__Disabled}
+            ${classType == "danger" && styles.Button_danger} ${classType == "success" && styles.Button_success}`}>
           <span className={styles.Button__Text}>{text}</span>
         </button>
       );

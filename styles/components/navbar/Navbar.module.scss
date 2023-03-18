@@ -132,7 +132,7 @@
     background-color: rgba($grey-2, .95);
     position: relative;
     z-index: 10;
-    box-shadow: 0 1rem 2rem 1rem rgba($black, .25);
+    box-shadow: 0 1rem 1rem rgba($black, .25);
     transform: translateX(0);
 
     @include respond(phone) {

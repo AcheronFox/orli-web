@@ -12,11 +12,13 @@ type Props = {
     step: number;
     returnValue: Function;
     tooltipText?: string;
+    marks?: Array<number>;
 };
     
 const Slider: NextPage<Props> = (props: Props) => {
     const [currentValue, setCurrentValue] = useState<number>(props.min);
     const [visible, setVisible] = useState(false);
+    const sliderRef = useRef<any>()
     const show = () => setVisible(true);
     const hide = () => setVisible(false);
 
@@ -26,13 +28,16 @@ const Slider: NextPage<Props> = (props: Props) => {
 
     return (
         <ReactSlider
+        ref={sliderRef}
         className={styles.Slider}
         trackClassName={styles.Slider__Track}
         thumbClassName={styles.Slider__Thumb}
+        markClassName={styles.Slider__Mark}
         min={props.min}
         max={props.max}
         step={props.step}
         value={props.value}
+        marks={props.marks}
         renderTrack={
             (props, state) =>
             <div key={state.index} {...props} onMouseEnter={show} onMouseLeave={hide} />
@@ -42,6 +47,21 @@ const Slider: NextPage<Props> = (props: Props) => {
             <Tippy key={state.index} visible={visible} content={`${props.value} ${props.tooltipText}`}>
                 <div onMouseEnter={show} onMouseLeave={hide} {...thumbProps} />
             </Tippy>
+        }
+        renderMark={
+            (markProps) => {
+                let left = 0;
+                if (sliderRef.current && props.max && markProps.key && markProps.style && markProps.style.left) {
+                    const end: number = props.max as number
+                    const maxSteps = end / props.step
+
+                    left = (1 / maxSteps) * sliderRef.current.slider.clientWidth
+                    markProps.style.left = markProps.style.left as number + left
+                }
+                return (
+                    <span {...markProps}></span>
+                )
+            }   
         }
         onChange={(e) => props.returnValue(e)}
         />

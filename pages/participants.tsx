@@ -231,7 +231,7 @@ const Participants: NextPage<Props> = (props: Props) => {
     for (let i = fromIndex; i < toIndex; i++) {
       items.push(
         <ParticipantCard key={i} name={participants[i].fursonaName} species={participants[i].fursonaSpecies} nationality={participants[i].nationality}
-        isFursuiter={participants[i].isFursuiter? true : false} isSponsor={parseInt(participants[i].SponsorLevel) > 0} picture={participants[i].picture}></ParticipantCard>
+        isFursuiter={participants[i].isFursuiter? true : false} isSponsor={parseInt(participants[i].sponsorLevel) > 0} picture={participants[i].picture}></ParticipantCard>
       )
     }
 

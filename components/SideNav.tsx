@@ -112,13 +112,16 @@ const Navbar: NextPage<Props> = (props: Props) => {
               >
                 {t("navProfile")}
               </NavItem>
-              <NavItem
-                link="/profile/tickets"
-                CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile/tickets")}`}
-                onClick={() => toggleNavBar()}
-              >
-                {t("navTickets")}
-              </NavItem>
+              {
+                !(user.TicketKey && user.isPaid) &&
+                <NavItem
+                  link="/profile/tickets"
+                  CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile/tickets")}`}
+                  onClick={() => toggleNavBar()}
+                >
+                  {t("navTickets")}
+                </NavItem>
+              }
               <NavItem
                 link="/profile/rooms"
                 CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile/rooms")}`}

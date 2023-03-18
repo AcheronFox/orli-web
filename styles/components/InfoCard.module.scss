@@ -2,7 +2,7 @@
     background-color: rgba($grey-1, .5);
     border-radius: 2rem;
     padding: 1.5rem;
-    box-shadow: 0 .5rem 1rem 1rem rgba($black, .5);
+    box-shadow: 0 .5rem 1rem .4rem rgba($black, .5);
     max-width: max-content;
 
     @include respond(min-phone) {

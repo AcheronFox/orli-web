@@ -12,7 +12,7 @@
     }
     
     @include respond(tiny-desktop) {
-        padding: 3rem 10rem;
+        padding: 3rem 3rem;
         width: 90%;
     }
     
@@ -79,6 +79,13 @@
             border-color: $white;
 
             border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
+
+            &__Overlay {
+                background-color: rgba($background-color, .8);
+                border-radius: 1rem;
+                border-top-left-radius: 0;
+                padding: 1rem;
+            }
         }
 
         &__Paragraph {

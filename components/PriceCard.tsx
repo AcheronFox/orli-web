@@ -6,8 +6,8 @@ import { useTranslate } from "@/hooks/useTranslate";
 type Props = {
     title: string;
     description?: string | React.ReactNode;
-    price: string;
-    euro?: string;
+    price: string | number;
+    euro?: string | number;
     button?: React.ReactNode;
     customClass?: string;
 };

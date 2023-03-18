@@ -5,6 +5,7 @@ import database from '@/utils/mysql'
 import isMethodAllowed from '@/utils/isMethodAllowed';
 import { IPasswordResetToken } from '@/models/password-reset-token.model';
 import { IAccount } from '@/models/account.model';
+import { getAccountByKey } from '@/utils/getData';
 
 
 export default async function handler(
@@ -43,34 +44,7 @@ export default async function handler(
 
     if (token) {
         if (token.token_exp > Math.floor(Date.now() / 1000)) {
-            
-            const getAccount = async () => {
-                return new Promise<IAccount | undefined>(async (resolve) => {
-                    const query = 
-                    `
-                    SELECT * FROM account
-                    WHERE AccountKey = '${token.AccountKey}'
-                    `
-        
-                    database.query(query, async (err: any, result: IAccount[]) => {
-                        if (err) {
-                            console.log("ERROR: ", err);
-                            sendResponse(500, {message: "Unknown Error", e_code: "reset_3"}); 
-                            resolve(undefined);
-                        }
-                        if (result) {
-                            resolve(result[0]);
-                        }
-                        else {
-                            resolve(undefined)
-                        }
-                    });
-                }).catch(() => {
-                    sendResponse(500, {message: "Unknown Error", e_code: "reset_4"}); 
-                });
-            }
-
-            const account = await getAccount()
+            const account = await getAccountByKey(token.AccountKey)
 
             if (account) {
                 const result = await resetPassword(req.body.password, account.AccountKey)
@@ -86,34 +60,34 @@ export default async function handler(
                         database.query(query, async (err: any, result: IAccount[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
-                                sendResponse(500, {message: "Unknown Error", e_code: "reset_5"}); 
+                                sendResponse(500, {message: "Unknown Error", e_code: "reset_3"}); 
                                 resolve(undefined);
                             }
                             resolve(undefined)
                         });
                     }).catch(() => {
-                        sendResponse(500, {message: "Unknown Error", e_code: "reset_6"}); 
+                        sendResponse(500, {message: "Unknown Error", e_code: "reset_4"}); 
                     });
                 }
 
                 await clearToken()
 
                 if (!result?.success) {
-                    sendResponse(400, {message: result?.error, e_code: "reset_7"});
+                    sendResponse(400, {message: result?.error, e_code: "reset_5"});
                 }
                 else {
                     sendResponse(200, {message: "Password Reset"});
                 }
             }
             else {
-                sendResponse(404, {message: "Account Not Found", e_code: "reset_8"});
+                sendResponse(404, {message: "Account Not Found", e_code: "reset_6"});
             }
         }
         else {
-            sendResponse(401, {message: "Invalid Token", e_code: "reset_9"});
+            sendResponse(401, {message: "Invalid Token", e_code: "reset_7"});
         }
     }
     else {
-        sendResponse(401, {message: "Invalid Token", e_code: "reset_10"});
+        sendResponse(401, {message: "Invalid Token", e_code: "reset_8"});
     }
 }

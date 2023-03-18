@@ -14,7 +14,7 @@ const headers = async() => {
           directives: {
             styleSrc: ["'self'", "'unsafe-inline'"],
             objectSrc: ["'self'"],
-            imgSrc: ["'self'", "https://cdnjs.cloudflare.com", "data:"],
+            imgSrc: ["'self'", "https://cdnjs.cloudflare.com", "data:", "https://tile.openstreetmap.org"],
             baseURI: ["'self'"],
             formAction: ["'self'"],
             frameAncestors: true,
@@ -61,6 +61,7 @@ const nextConfig = {
     API_SECRET: process.env.API_SECRET,
     TEMP_LOGIN_STATE: process.env.TEMP_LOGIN_STATE
   },
+  experimental: { transpilePackages: ['ol', 'rlayers'] },
 }
 
 module.exports = nextConfig;
