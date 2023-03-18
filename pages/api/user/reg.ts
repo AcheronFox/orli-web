@@ -252,14 +252,14 @@ export default async function handler(
                             dateOfBirth: toSqlDatetime(req.body.dateOfBirth.trim()),
                             age: req.body.age,
                             contact: req.body.contact,
-                            allergy: req.body.allergy
+                            allergy: req.body.allergy,
+                            registeredAt: toSqlDatetime(new Date()),
                         }
                         const userPayload: any = {
                             UserKey: newUserKey,
                             AccountKey: newAccountKey,
                             fursonaName: req.body.fursonaName,
                             fursonaSpecies: req.body.fursonaSpecies,
-                            registeredAt: toSqlDatetime(new Date()),
                         }
 
                         const accountInsertionState: boolean = await createAccount(accountPayload);
