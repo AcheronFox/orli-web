@@ -78,6 +78,9 @@ const Profile: NextPage<Props> = (props: Props) => {
     if (!user) {
       Router.push('/')
     }
+    else {
+      getUser()
+    }
   }, [didUserInit])
 
   // ===============================================

@@ -26,7 +26,7 @@ interface CustomFoodFilterInterface {[index: number]: IFood[];}
 interface CustomFoodDataInterface   {[index: number]: IFood[];}
 interface CustomFoodSearchInterface {[index: number]: string; }
 interface CustomFoodSelectInterface {[index: number]: string; }
-interface CustomFoodValueInterface {[index: number]: number; }
+interface CustomFoodValueInterface  {[index: number]: number; }
 
 const Tickets: NextPage<Props> = (props: Props) => {
   const { t, locale } = useTranslate();
@@ -46,9 +46,10 @@ const Tickets: NextPage<Props> = (props: Props) => {
   const [earlyBirdDate, setEarlyBirdDate] = useState<Date>(new Date())
   const [defaultMinDate, setDefaultMinDate] = useState<Date>(new Date())
   const [defaultMaxDate, setDefaultMaxDate] = useState<Date>(new Date())
+  const [maxDate1Night, setMaxDate1Night] = useState<Date>(new Date()) 
   const [minDate, setMinDate] = useState<Date>()
   const [maxDate, setMaxDate] = useState<Date>()
-  const [selectedDate, setSelectedDate] = useState<Date | Date[]>()
+  const [selectedDate, setSelectedDate] = useState<Date[]>([])
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null)
   const [calendarKey, setCalendarKey] = useState<number>(0)
 
@@ -64,6 +65,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
 
   const [isSponsor, setIsSponsor] = useState<boolean>(false)
   const [sponsorAmount, setSponsorAmount] = useState<number>(0)
+  const [extra1Limit, setExtra1Limit] = useState<number>(0)
   const minSponsor = 5000
   const maxSponsor = 50000
 
@@ -75,7 +77,9 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }, [didUserInit])
 
   useEffect(() => {
-    if (user) getDefaults()
+    if (user) {
+      getDefaults()
+    }
   }, [user])
 
 
@@ -92,12 +96,23 @@ const Tickets: NextPage<Props> = (props: Props) => {
       setServerDate(new Date(res.data.serverDate))
       setEarlyBirdDate(new Date(res.data.earlyBirdExpDate))
       setIsEarlyBird(new Date(res.data.serverDate).valueOf() < new Date(res.data.earlyBirdExpDate).valueOf())
+      
+      const maxDate = new Date(res.data.maxDate);
+      const newMaxDate = maxDate.getDate() + 1
+      maxDate.setDate(newMaxDate);
+      setMaxDate1Night(maxDate)
     })
     .catch((err) => console.log(err))
 
     await axiosInstance.get<IPrices>("api/defaults/tickets/prices")
     .then((res) => {
       setPrices(res.data)
+    })
+    .catch((err) => console.log(err))
+
+    await axiosInstance.get("api/ticket/limits")
+    .then((res) => {
+      setExtra1Limit(res.data)
     })
     .catch((err) => console.log(err))
 
@@ -144,7 +159,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       const newMaxDate = maxDate.getDate() + 1
 
       minDate.setDate((newMinDate < defaultMinDate.getDate())? defaultMinDate.getDate() : newMinDate);
-      maxDate.setDate((newMaxDate > defaultMaxDate.getDate())? defaultMaxDate.getDate() : newMaxDate);
+      maxDate.setDate((newMaxDate > maxDate1Night.getDate())? maxDate1Night.getDate() : newMaxDate);
       setMinDate(minDate)
       setMaxDate(maxDate)
     }
@@ -155,10 +170,10 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }
 
   useEffect(() => {
-    if (Array.isArray(selectedDate) && selectedDate.length == 2) {
+    if (selectedDate.length == 2) {
       evaluateDayIndex()
       evaluateDateLimits()
-    } 
+    }
   }, [selectedDate])
 
   const evaluateDateSelect = (e: Date | Date[]) => {
@@ -180,9 +195,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
         resetFoodSystem()
         setSelectedDate(e)
       }
-    }
-    else {
-      setSelectedDate(e)
     }
   }
 
@@ -268,6 +280,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }
 
   const createDatePatternFromDate = (date: Date) => {
+    if (!date) return
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + (date.getDate())).slice(-2);
@@ -289,6 +302,18 @@ const Tickets: NextPage<Props> = (props: Props) => {
     evalDisabled()
   }, [selectedFoods, selectedDayIndex, selectedDate, selectedTicket, wantsDay0, wantsDayExtra])
 
+  const evalAmountOfDays = () => {
+    if (!selectedDate.length) return 0
+    if (selectedDate.length == 1) {
+      return 1
+    }
+    else {
+      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+      const diffDays = Math.round(Math.abs((selectedDate[0].valueOf() - selectedDate[1].valueOf()) / oneDay));
+      return diffDays
+    }
+  }
+
   const evalDisabled = async () => {
     let disabled = false
     let hasMissingFood = false
@@ -306,9 +331,9 @@ const Tickets: NextPage<Props> = (props: Props) => {
 
     if (
       selectedTicket == undefined ||
-      selectedTicket == 0 && ((Array.isArray(selectedDate) && selectedDate.length < 2) || !selectedDate) ||
+      selectedTicket == 0 && (!selectedDate.length) ||
 
-      selectedTicket == 1 && (!Array.isArray(selectedDate) || (Array.isArray(selectedDate) && selectedDate.length < 2)) ||
+      selectedTicket == 1 && (selectedDate.length < 2) ||
       selectedTicket == 1 && selectedDayIndex && (selectedFoods[selectedDayIndex] == undefined) ||
 
       selectedTicket == 2 && hasMissingFood
@@ -332,8 +357,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
       sponsorLevel: isSponsor? (sponsorAmount > 10000? '2' : '1') : '0',
       sponsorPrice: sponsorAmount,
       foodData: selectedTicket==0? null : selectedFoods,
-      startDay: selectedTicket==2? defaultMinDate.toString() : (Array.isArray(selectedDate)? selectedDate[0].toString() : selectedDate!.toString()),
-      endDay: selectedTicket==2? defaultMaxDate.toString() : (Array.isArray(selectedDate)? selectedDate[1].toString() : selectedDate!.toString()),
+      startDay: selectedTicket==2? defaultMinDate.toString() : (selectedDate[0].toString()),
+      endDay: selectedTicket==2? defaultMaxDate.toString() : (selectedDate[1]? selectedDate[1].toString() : selectedDate[0].toString()),
     }
 
     setShowDialog(false)
@@ -440,7 +465,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     <PriceCard
                     title={t("ticketExtra1")}
                     customClass={wantsDayExtra? styles.Tickets__Selected : ''}
-                    button={<SecondaryButton text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />}
+                    button={<SecondaryButton disabled={extra1Limit >= 20} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />}
                     description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
                     price={prices.extra1.hu} 
                     euro={prices.extra1.eur} />
@@ -459,10 +484,10 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     locale={locale}
                     value={Array.isArray(selectedDate)? [selectedDate[0], selectedDate[1]] : selectedDate}
                     defaultActiveStartDate={new Date(2023, 5, 14)}
-                    maxDate={maxDate}
+                    maxDate={(maxDate==defaultMaxDate && selectedTicket==1)? maxDate1Night : maxDate}
                     minDate={minDate}
                     showNavigation={false}
-                    selectRange={selectedTicket==1}
+                    selectRange={true}
                     onClickDay={(e) => evaluateDateLimits(e)}
                     onChange={(e: Date | Date[]) => evaluateDateSelect(e)}
                     view={"month"}
@@ -533,6 +558,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       onBlur={(e) => setSponsorAmount(parseInt(e.target.value))}
                       min={minSponsor}
                       max={9999999}
+                      onInput={(e) => e.currentTarget.value = e.currentTarget.value.slice(0, 10)}
                     />
                     <Slider
                       min={minSponsor}
@@ -564,14 +590,14 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         (selectedTicket==0) &&
                         <tr>
                           <td>{t("ticketDay")}</td>
-                          <td>{!Array.isArray(selectedDate) && selectedDate && createDatePatternFromDate(selectedDate)} {(!Array.isArray(selectedDate) && !selectedDate) || (Array.isArray(selectedDate) && !selectedDate.length) && <span style={{"color": "red"}}>{t(`ticketNoDay`)}</span>}</td>
+                          <td>{selectedDate && createDatePatternFromDate(selectedDate[0])} {(selectedDate && selectedDate.length == 2)? '-' : ''} {selectedDate && createDatePatternFromDate(selectedDate[1])} {(!selectedDate.length) && <span style={{"color": "red"}}>{t(`ticketNoDay`)}</span>}</td>
                         </tr>
                       }
                       {
                         (selectedTicket==1) &&
                         <tr>
                           <td>{t("ticketDays")}</td>
-                          <td>{Array.isArray(selectedDate) && selectedDate.length == 2 && `${createDatePatternFromDate(selectedDate[0])},`} {Array.isArray(selectedDate) && selectedDate.length == 2 && createDatePatternFromDate(selectedDate[1])} {!Array.isArray(selectedDate) || selectedDate.length < 2 && <span style={{"color": "red"}}>{t(`ticketNoDays`)}</span>}</td>
+                          <td>{selectedDate.length == 2 && `${createDatePatternFromDate(selectedDate[0])},`} {selectedDate.length == 2 && createDatePatternFromDate(selectedDate[1])} {!Array.isArray(selectedDate) || selectedDate.length < 2 && <span style={{"color": "red"}}>{t(`ticketNoDays`)}</span>}</td>
                         </tr>
                       }
                       {
@@ -665,7 +691,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         <tr className={styles.Tickets__Overview__Price}>
                           <td>{`${t("ticketFinalPrice")}`}</td>
                           <td>{`${
-                            (selectedTicket==0? prices[0].hu : 0) + (selectedTicket==1? prices[1].hu : 0) + (selectedTicket==2? prices[2].hu : 0)
+                            (selectedTicket==0? (prices[0].hu * evalAmountOfDays()) : 0) + (selectedTicket==1? prices[1].hu : 0) + (selectedTicket==2? prices[2].hu : 0)
                             +
                             (wantsDay0? prices.extra0.hu : 0) 
                             +

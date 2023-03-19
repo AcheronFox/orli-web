@@ -17,27 +17,25 @@ export default async function handler(
         res.status(code).json(data)
     }
 
-    let response: IParticipant[] = [];
+    let response: number = 0;
     const query = async () => {
         return new Promise(async (resolve) => {
             const query = 
             `
             SELECT
-            account.nationality,
-            user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter,
-            ticket.sponsorLevel
-            FROM account
-            INNER JOIN user ON account.AccountKey = user.AccountKey
-            LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey AND ticket.isPaid = 1
+            COUNT(ticket.extra1)
+            AS count
+            FROM ticket
+            WHERE ticket.extra1 = '1'
             `
 
-            database.query(query, async (err: any, result: IParticipant[]) => {
+            database.query(query, async (err: any, result: number[]) => {
                 if (err) {
                     console.log("ERROR: ", err);
                     sendResponse(500, {message: "Unknown Error", e_code: "part_1"}); 
                     resolve(false);
                 }
-                response = result
+                response = result[0]
                 resolve(true);
             });
         }).catch(() => {
@@ -46,6 +44,6 @@ export default async function handler(
     }
 
     if (await query()) {
-        sendResponse(200, _.orderBy(response, ['fursonaName'],['desc']));
+        sendResponse(200, response);
     }
 }
