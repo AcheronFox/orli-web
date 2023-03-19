@@ -101,20 +101,30 @@ const findTemplate = async (nationality: string, template: string) => {
 
 
 const getMailLimit = async () => {
-    const filePath = path.join(`${process.cwd()}`, "utils/shared.json")
-    const rawdata = fs.readFileSync(filePath);
-    const sharedVariables = JSON.parse(rawdata.toString());
+    try {
+        const filePath = path.join(`${process.cwd()}`, "utils/shared.json")
+        const rawdata = fs.readFileSync(filePath);
+        const sharedVariables = JSON.parse(rawdata.toString());
 
-    return sharedVariables.mailCount
+        return sharedVariables.mailCount
+    }
+    catch(e) {
+        throw new Error(`ERROR: Failed to read shared.json: ${e}`)
+    }
 }
 const writeMailLimit = async (input: number) => {
-    const dataToWrite = {
-        mailCount: input
+    try {
+        const dataToWrite = {
+            mailCount: input
+        }
+    
+        const filePath = path.join(`${process.cwd()}`, "utils/shared.json")
+        const data = JSON.stringify(dataToWrite, null, 2);
+        fs.writeFileSync(filePath, data);
     }
-
-    const filePath = path.join(`${process.cwd()}`, "utils/shared.json")
-    const data = JSON.stringify(dataToWrite, null, 2);
-    fs.writeFileSync(filePath, data);
+    catch(e) {
+        throw new Error(`ERROR: Failed to write to shared.json: ${e}`)
+    }
 }
 
 export { sendMail, findTemplate, getMailLimit, writeMailLimit };
