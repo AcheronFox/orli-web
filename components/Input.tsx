@@ -35,6 +35,7 @@ type Props = {
   checkBoxValue?: boolean;
   min?: number;
   max?: number;
+  onInput?: React.FormEventHandler<HTMLInputElement>;
 };
 
 const Input = React.forwardRef(
@@ -62,6 +63,7 @@ const Input = React.forwardRef(
       checkBoxValue,
       min,
       max,
+      onInput,
     }: Props,
     ref: React.Ref<HTMLInputElement>
   ) => {
@@ -198,6 +200,7 @@ const Input = React.forwardRef(
               min={min}
               max={max}
               maxLength={maxlength}
+              onInput={onInput}
             ></input>
           </div>
         );

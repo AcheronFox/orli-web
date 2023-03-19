@@ -38,7 +38,17 @@ const createDatePatternWithOffset = (date: Date, index: number) => {
     
     return `${year}.${month}.${day}.`
 }
-
+const evalAmountOfDays = (input: Date[]) => {
+    if (!input.length) return 0
+    if (input.length == 1) {
+      return 1
+    }
+    else {
+      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+      const diffDays = Math.round(Math.abs((input[0].valueOf() - input[1].valueOf()) / oneDay));
+      return diffDays
+    }
+  }
 
 export default async function handler(
   req: NextApiRequest,
@@ -162,8 +172,9 @@ export default async function handler(
 
                             const now = new Date()
                             const prices = getPrices(now)
+                            const amountOfDays = evalAmountOfDays([new Date(ticketPayload.startDay!), new Date(ticketPayload.endDay!)])
                             const price =
-                                (ticketPayload.ticketType==='0'? prices[0].hu : 0) +
+                                (ticketPayload.ticketType==='0'? (prices[0].hu * amountOfDays) : 0) +
                                 (ticketPayload.ticketType==='1'? prices[1].hu : 0) +
                                 (ticketPayload.ticketType==='2'? prices[2].hu : 0) +
                                 (ticketPayload.extra0? prices.extra0.hu : 0) +
@@ -214,7 +225,7 @@ export default async function handler(
                                     const foodTable: CustomFoodDataInterface = (account.nationality == "hu")? require("@/root/locales/hu.food.json") : require("@/root/locales/en.food.json")
                                     switch (ticketPayload.ticketType) {
                                         case '0':
-                                            ticketRow = `<tr><td>${translationTable.ticket0Title} (${createDatePatternFromDate(new Date(ticketPayload.startDay!))})</td><td>${prices[0].hu} HUF</td></tr>`
+                                            ticketRow = `<tr><td>${translationTable.ticket0Title} (${createDatePatternFromDate(new Date(ticketPayload.startDay!))}) * ${amountOfDays}</td><td>${(prices[0].hu * amountOfDays)} HUF</td></tr>`
                                             break;
                                         case '1':
                                             ticketRow = `<tr><td>${translationTable.ticket1Title} (${createDatePatternFromDate(new Date(ticketPayload.startDay!))} - ${createDatePatternFromDate(new Date(ticketPayload.endDay!))})</td><td>${prices[1].hu} HUF</td></tr>`

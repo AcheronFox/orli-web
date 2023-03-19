@@ -6,10 +6,10 @@ import isMethodAllowed from '@/utils/isMethodAllowed';
 
 const getEarlyBirdExpDate = () => {
     // MONTH STARTS FROM 0
-    return new Date(2023, 3, 1)
+    return new Date(2023, 4, 15)
 }
 const getStartDate = () => {
-    return new Date(2023, 5, 14)
+    return new Date(2023, 5, 15)
 }
 
 export default async function handler(
@@ -28,7 +28,7 @@ export default async function handler(
     if (tokenPayload) {
         const response = {
             minDate: getStartDate(),
-            maxDate: new Date(2023, 5, 18),
+            maxDate: new Date(2023, 5, 17),
             serverDate: new Date(),
             earlyBirdExpDate: getEarlyBirdExpDate()
         }
