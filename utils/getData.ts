@@ -80,5 +80,5 @@ const getUserByAccountKey = async (key: string) => {
 export {
     getAccountByEmail,
     getAccountByKey,
-    getUserByAccountKey
+    getUserByAccountKey,
 }
