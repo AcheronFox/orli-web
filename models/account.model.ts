@@ -13,4 +13,5 @@ export interface IAccount {
     isVerified: number
     AccomodationKey: string
     TicketKey: string
+    isAdmin: boolean
 }
