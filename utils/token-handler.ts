@@ -1,6 +1,7 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 import * as jwt from 'jsonwebtoken';
 import fs from 'fs'
+import { getAccountByKey } from './getData';
 
 const publicKey = fs.readFileSync('private/public.key', 'utf8');
 const privateKey = fs.readFileSync('private/private.key', 'utf8');
@@ -51,6 +52,25 @@ const auth = async (res: NextApiResponse, tokens: Partial<{ [key: string]: strin
                 response = await destroy(res)
             }
         }
+    }
+
+    if (response?.status != "OK") {
+        res.status(201).json({message: "Unauthorized"})
+    }
+    return response
+}
+
+const authScript = async (res: NextApiResponse, token: string) => {
+    let verified = undefined;
+    let response = undefined;
+
+    try {
+        if (!token) throw Error("No Token")
+        verified = jwt.verify(token, publicKey, verifyOptions);
+        response = {status: 'OK', data: undefined}
+    }
+    catch {
+        response = {status: "INVALID", data: undefined}
     }
 
     if (response?.status != "OK") {
@@ -139,30 +159,19 @@ const generateCookies = (action: 'NEW' | 'NEWREMEMBER' | 'DESTROY' | 'AUTO' = 'A
     if (action == 'AUTO') {
         decideAction()
     }
-
-    const sign = (type: "public" | "access" | "refresh") => {
-        switch(type) {
-            case "public":
-                return jwt.sign({accountKey: key}, privateKey, refreshTokenSignOptions);
-            case "access":
-                return jwt.sign({accountKey: key}, privateKey, accessTokenSignOptions);
-            case "refresh":
-                return jwt.sign({accountKey: key}, privateKey, refreshTokenSignOptions);
-        }
-    }
     
     switch(action) {
         case 'NEW':
             return [
-                `publicToken=${sign('public')}; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
-                `accessToken=${sign('access')}; HttpOnly; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `publicToken=${generateJWT('public', key!)}; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `accessToken=${generateJWT('access', key!)}; HttpOnly; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
                 `refreshToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`
             ]
         case 'NEWREMEMBER':
             return [
-                `publicToken=${sign('public')}; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
-                `accessToken=${sign('access')}; HttpOnly; Max-Age=43200; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
-                `refreshToken=${sign('refresh')}; HttpOnly; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`
+                `publicToken=${generateJWT('public', key!)}; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `accessToken=${generateJWT('access', key!)}; HttpOnly; Max-Age=43200; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `refreshToken=${generateJWT('refresh', key!)}; HttpOnly; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`
             ]
         case 'DESTROY':
         default:
@@ -174,4 +183,27 @@ const generateCookies = (action: 'NEW' | 'NEWREMEMBER' | 'DESTROY' | 'AUTO' = 'A
     }
 }
 
-export {auth, refresh, destroy, generateCookies, accessTokenSignOptions, refreshTokenSignOptions}
+
+const generateJWT = (type: "public" | "access" | "refresh", key: string, customSignOptions?: jwt.SignOptions) => {
+    switch(type) {
+        case "public":
+            return jwt.sign({accountKey: key}, privateKey, customSignOptions? customSignOptions : refreshTokenSignOptions);
+        case "access":
+            return jwt.sign({accountKey: key}, privateKey, customSignOptions? customSignOptions : accessTokenSignOptions);
+        case "refresh":
+            return jwt.sign({accountKey: key}, privateKey, customSignOptions? customSignOptions : refreshTokenSignOptions);
+    }
+}
+
+
+const authAdmin = async (token: string) => {
+    if (!token) return false
+
+    const account = await getAccountByKey(token)
+
+    if (account && account.isAdmin) {
+        return true
+    } else return false
+}
+
+export {auth, refresh, destroy, generateCookies, generateJWT, authAdmin, authScript, accessTokenSignOptions, refreshTokenSignOptions}

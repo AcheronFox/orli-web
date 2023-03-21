@@ -1,6 +1,6 @@
 import { IUser } from '@/models/user.model';
 import axiosInstance from '@/utils/axiosConfig';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from './AuthContext';
 import Router, { useRouter } from 'next/router';
 import { ILoginForm } from '@/models/login-form.model';
