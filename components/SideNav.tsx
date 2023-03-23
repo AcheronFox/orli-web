@@ -122,13 +122,16 @@ const Navbar: NextPage<Props> = (props: Props) => {
                   {t("navTickets")}
                 </NavItem>
               }
-              <NavItem
-                link="/profile/rooms"
-                CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile/rooms")}`}
-                onClick={() => toggleNavBar()}
-              >
-                {t("navRooms")}
-              </NavItem>
+              {
+                (user.AccomodationKey == null && (user.TicketKey != null && user.isPaid)) &&
+                <NavItem
+                  link="/profile/rooms"
+                  CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile/rooms")}`}
+                  onClick={() => toggleNavBar()}
+                >
+                  {t("navRooms")}
+                </NavItem>
+              }
               {user.isAdmin == true &&
                 <NavItem
                   link="/admin"

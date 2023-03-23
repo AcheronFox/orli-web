@@ -242,6 +242,9 @@
   "ticketEarlyBird": "Early Bird",
   "ticketEarlyBirdExp": "days left",
   "ticketSuccess": "Ticket selected, we'll send the payment informations in e-mail.",
+  "ticketSponsorShirt": "Shirt",
+  "ticketNoShirt": "Please select shirt size",
+  "ticketShirtSize": "Size",
 
   "SECTION": "--------------------INFO-------------------------"
 

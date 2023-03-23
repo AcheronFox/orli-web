@@ -19,6 +19,7 @@ import PrimaryButton from "@/comp/PrimaryButton";
 import { ITicketForm } from "@/models/ticket-form.model";
 import Tippy from "@tippyjs/react";
 import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
+import DropDown from "@/comp/DropDown";
 
 type Props = {}
 
@@ -27,6 +28,7 @@ interface CustomFoodDataInterface   {[index: number]: IFood[];}
 interface CustomFoodSearchInterface {[index: number]: string; }
 interface CustomFoodSelectInterface {[index: number]: string; }
 interface CustomFoodValueInterface  {[index: number]: number; }
+type ShirtSizeInterface = 'S' | 'M' | 'L' | 'XL' | 'XXL' | null;
 
 const Tickets: NextPage<Props> = (props: Props) => {
   const { t, locale } = useTranslate();
@@ -64,6 +66,14 @@ const Tickets: NextPage<Props> = (props: Props) => {
   const [selectedFoods, setSelectedFoods] = useState<CustomFoodValueInterface>({});
 
   const [isSponsor, setIsSponsor] = useState<boolean>(false)
+  const [shirtSize, setShirtSize] = useState<ShirtSizeInterface>(null)
+  const [shirtSizes, setShirtSizes] = useState<ShirtSizeInterface[]>([
+    'S',
+    'M',
+    'L',
+    'XL',
+    'XXL',
+  ])
   const [sponsorAmount, setSponsorAmount] = useState<number>(0)
   const [extra1Limit, setExtra1Limit] = useState<number>(0)
   const minSponsor = 5000
@@ -72,7 +82,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   useEffect(() => {
     if (!didUserInit) return
     if (!user || (user && (user.TicketKey && user.isPaid))) {
-      Router.push('/')
+      Router.push('/profile')
     }
   }, [didUserInit])
 
@@ -300,7 +310,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   // ===============================================
   useEffect(() => {
     evalDisabled()
-  }, [selectedFoods, selectedDayIndex, selectedDate, selectedTicket, wantsDay0, wantsDayExtra])
+  }, [selectedFoods, selectedDayIndex, selectedDate, selectedTicket, wantsDay0, wantsDayExtra, shirtSize])
 
   const evalAmountOfDays = () => {
     if (!selectedDate.length) return 0
@@ -336,7 +346,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
       selectedTicket == 1 && (selectedDate.length < 2) ||
       selectedTicket == 1 && selectedDayIndex && (selectedFoods[selectedDayIndex] == undefined) ||
 
-      selectedTicket == 2 && hasMissingFood
+      selectedTicket == 2 && hasMissingFood ||
+      (isSponsor && sponsorAmount > 10000) && !shirtSize
       ) {
       disabled = true
     }
@@ -355,6 +366,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       extra0: wantsDay0,
       extra1: wantsDayExtra,
       sponsorLevel: isSponsor? (sponsorAmount > 10000? '2' : '1') : '0',
+      shirt: isSponsor? (sponsorAmount > 10000? shirtSize : null) : null,
       sponsorPrice: sponsorAmount,
       foodData: selectedTicket==0? null : selectedFoods,
       startDay: selectedTicket==2? defaultMinDate.toString() : (selectedDate[0].toString()),
@@ -569,6 +581,19 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       value={sponsorAmount}
                       returnValue={(e: number) => setSponsorAmount(e)}
                     />
+                    {(isSponsor && sponsorAmount > 10000) &&
+                      <div className={styles.Tickets__Sponsor__Select}>
+                        <DropDown
+                          label={`${t("ticketSponsorShirt")}:`}
+                          buttonPlaceholder={t("natSelectSelect")}
+                          data={shirtSizes}
+                          onChange={(e: ShirtSizeInterface) => setShirtSize(e)}
+                          selected={shirtSize}
+                          setSelected={(e: ShirtSizeInterface) => setShirtSize(e)}
+                          setValue={(e: ShirtSizeInterface) => setShirtSize(e)}
+                        />
+                      </div>
+                    }
                   </div>
                 }
               </section>
@@ -650,6 +675,12 @@ const Tickets: NextPage<Props> = (props: Props) => {
                           <td>{t("ticketSponsorLevel")}</td>
                           <td>{sponsorAmount>10000? t("ticketSuperSponsor") : t("ticketSponsor")}</td>
                         </tr>
+                        {(isSponsor && sponsorAmount>10000) &&
+                          <tr>
+                            <td>{t("ticketSponsorShirt")}</td>
+                            <td>{shirtSize? shirtSize : <span style={{"color": "red"}}>{t("ticketNoShirt")}</span>}</td>
+                          </tr>
+                        }
                         </>
                       }
                       {

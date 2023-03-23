@@ -16,6 +16,7 @@ type Props = {
     nationality?: string;
     picture?: string;
     isSponsor?: boolean;
+    isSuperSponsor?: boolean;
     isFursuiter?: boolean;
     description?: string;
 };
@@ -72,7 +73,7 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
                 }
                 {
                     props.isSponsor &&
-                    <Tippy className={styles.Tooltip} content={t("partSponsor")}>
+                    <Tippy className={styles.Tooltip} content={(props.isSuperSponsor)? t("ticketSuperSponsor") : t("partSponsor")}>
                         <span>
                             <SponsorIcon style={{"fill": "#F741D5"}} />
                         </span>

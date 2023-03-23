@@ -30,6 +30,7 @@ export class TicketDatabase {
     extra0: boolean | undefined = undefined;
     extra1: boolean | undefined = undefined;
     sponsorLevel: '0' | '1' | '2' | undefined = undefined;
+    shirt: 'S' | 'M' | 'L' | 'XL' | 'XXL' | undefined = undefined;
     sponsorPrice: number | undefined = undefined;
     totalPrice: number | undefined = undefined;
     foodData: {[index: number]: number} | undefined | string = undefined;
