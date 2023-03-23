@@ -131,7 +131,6 @@ export default async function handler(
                 }
                 
                 objArr.forEach((item) => {
-                    delete item['id']
                     delete item['password']
                 })
 
