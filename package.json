@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "set DAEMON_ENV=development && concurrently \"next dev\" \"yarn daemon\" --kill-others",
+    "dev": "concurrently \"next dev\" \"yarn daemon development\" --kill-others",
     "build": "next build",
-    "start": "set DAEMON_ENV=production && concurrently \"next start -p 8001\" \"yarn daemon\" --kill-others",
+    "start": "concurrently \"next start -p 8001\" \"yarn daemon production\" --kill-others",
     "lint": "next lint",
     "daemon": "tsx ./.daemon/daemon.ts"
   },
