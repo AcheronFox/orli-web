@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently \"next dev\" \"yarn daemon development\" --kill-others",
     "build": "next build",
-    "start": "concurrently \"next start -p 8000\" \"yarn production\" --kill-others",
+    "start": "concurrently \"next start -p 8000\" \"yarn daemon production\" --kill-others",
     "lint": "next lint",
     "daemon": "tsx ./.daemon/daemon.ts"
   },
