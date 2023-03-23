@@ -3,7 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { ILoginForm } from '@/models/login-form.model';
 import { IAccount } from '@/models/account.model';
 import { IUser, UserData } from '@/models/user.model';
-import database from '@/utils/mysql';
 import * as bcrypt from 'bcrypt';
 import isMethodAllowed from '@/utils/isMethodAllowed';
 import _ from 'lodash';
@@ -85,7 +84,7 @@ export default async function handler(
         if (account && user) {
             await authorize(account, user);
         }
-
+        else sendResponse(404, { message: "User Not Found:", e_code: "login_4"});
     }
     else sendResponse(400, { message: "Malformed request:", data: req.body });
 }
