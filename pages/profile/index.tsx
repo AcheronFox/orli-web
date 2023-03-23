@@ -336,7 +336,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                     }
                     {
                       (user.sponsorLevel && user.sponsorLevel > 0) &&
-                      <Tippy className={styles.Tooltip} content={t("partSponsor")}>
+                      <Tippy className={styles.Tooltip} content={(user.sponsorLevel==2)? t("ticketSuperSponsor") : t("partSponsor")}>
                           <span>
                               <SponsorIcon style={{"fill": "#F741D5"}} />
                           </span>

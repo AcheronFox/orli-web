@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev\" \"yarn daemon\" --kill-others",
+    "dev": "set DAEMON_ENV=development && concurrently \"next dev\" \"yarn daemon\" --kill-others",
     "build": "next build",
-    "start": "concurrently \"next start -p 8000\" \"yarn daemon\" --kill-others",
+    "start": "set DAEMON_ENV=production concurrently \"next start -p 8000\" \"yarn daemon\" --kill-others",
     "lint": "next lint",
     "daemon": "tsx ./.daemon/daemon.ts"
   },
@@ -49,6 +49,7 @@
     "glob": "^8.0.3",
     "handlebars": "^4.7.7",
     "is-valid-uuid-v4": "^1.2.3",
+    "json-2-csv": "^4.0.0",
     "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",

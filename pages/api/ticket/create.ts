@@ -261,6 +261,8 @@ export default async function handler(
                                     <tr style="color: #F741D5"><td>${translationTable.ticketFinalPrice}</td><td>${ticketPayload.totalPrice} HUF</td></tr>
                                     ${req.body.foodData? `<tr style="color: #F741D5"><td colspan="2">${translationTable.ticketFood}</td></tr>` : ''}
                                     ${foodRow}
+                                    ${(req.body.shirt && ticketPayload.sponsorLevel && parseInt(ticketPayload.sponsorLevel) == 2)? `<tr style="color: #F741D5"><td colspan="2">${translationTable.ticketSponsorShirt}</td></tr>` : ''}
+                                    ${(req.body.shirt && ticketPayload.sponsorLevel && parseInt(ticketPayload.sponsorLevel) == 2)? `<tr><td>${translationTable.ticketShirtSize}</td><td>${req.body.shirt}</td></tr>` : ''}
                                 `
 
                                 const template = handlebars.compile(props.mail);
