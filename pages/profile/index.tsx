@@ -92,7 +92,6 @@ const Profile: NextPage<Props> = (props: Props) => {
   useEffect(() => {
     if (errorStates.contact != "") validateContact()
   }, [contact]);
-
   useEffect(() => {
     errorStates.password && validatePass()
     errorStates.contact && validateContact()
