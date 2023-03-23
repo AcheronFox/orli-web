@@ -129,13 +129,14 @@ export default async function handler(
                     }
                     objArr.push(tempObj)
                 }
-    
+                
                 objArr.forEach((item) => {
                     delete item['id']
                     delete item['password']
                 })
+
                 const csv = await json2csv(objArr);
-                sendResponse(200, {"csv": csv});
+                sendResponse(200, {"csv": csv, "json": objArr});
             }
             catch(e) {
                 console.log(e)
