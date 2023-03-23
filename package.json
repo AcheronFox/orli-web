@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "set DAEMON_ENV=development && concurrently \"next dev\" \"yarn daemon\" --kill-others",
     "build": "next build",
-    "start": "set DAEMON_ENV=production concurrently \"next start -p 8000\" \"yarn daemon\" --kill-others",
+    "start": "set DAEMON_ENV=production && concurrently \"next start -p 8000\" \"yarn daemon\" --kill-others",
     "lint": "next lint",
     "daemon": "tsx ./.daemon/daemon.ts"
   },
