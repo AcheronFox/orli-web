@@ -1129,6 +1129,11 @@ decompress-response@^6.0.0:
   dependencies:
     mimic-response "^3.1.0"
 
+deeks@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/deeks/-/deeks-3.0.0.tgz#1f66b6c78b6daf39a90a39389592e12397990a9b"
+  integrity sha512-go4YE5vDMzDNzC9OqK7iIQd6agUUqZdBiw3TD2niRxsKGdGdB1FW8eZdrWsyCRZCNkBjV5Vutcx5uT1AikEPCg==
+
 deep-extend@^0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.6.0.tgz#c4fa7c95404a17a9c3e8ca7e1537312b736330ac"
@@ -1181,6 +1186,11 @@ dir-glob@^3.0.1:
   integrity sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==
   dependencies:
     path-type "^4.0.0"
+
+doc-path@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/doc-path/-/doc-path-4.0.0.tgz#8edad83bdc31da53f7bf0b0b3c08d7b5f53517dd"
+  integrity sha512-By/OF7rbws/bgExPZW10gHASoy3sACwXKKpKBIzYk/E19nX8q8IbILbreCeCYAVFIcO9FOxDjFYbm45wvn4I6w==
 
 doctrine@^2.1.0:
   version "2.1.0"
@@ -2143,6 +2153,14 @@ js-yaml@^4.1.0:
   integrity sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==
   dependencies:
     argparse "^2.0.1"
+
+json-2-csv@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/json-2-csv/-/json-2-csv-4.0.0.tgz#b65cf5256f003cc64b241d0a21f68df8347e9150"
+  integrity sha512-r8WXuuLgVbeufMuCyzUXSp8VP9YK4BTuzM7rTG0X85MPKuHKa8JD6LHrp0rEKVCtBSgHA3LMu/VjrZHx+851DQ==
+  dependencies:
+    deeks "3.0.0"
+    doc-path "4.0.0"
 
 json-schema-traverse@^0.4.1:
   version "0.4.1"

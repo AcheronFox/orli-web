@@ -242,6 +242,9 @@
   "ticketEarlyBird": "Early Bird",
   "ticketEarlyBirdExp": "nap maradt",
   "ticketSuccess": "Jegy kiválasztva, a fizetési információkat e-mailben küldjük.",
+  "ticketSponsorShirt": "Póló",
+  "ticketNoShirt": "Kérlek válaszd ki a póló méretét",
+  "ticketShirtSize": "Méret",
 
   "SECTION": "--------------------INFO-------------------------"
 

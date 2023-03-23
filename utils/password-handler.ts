@@ -64,14 +64,10 @@ const resetPassword = async (password: string, oldKey: string) => {
         const updateKeys = async () => {
             return new Promise<boolean>(async (resolve) => {
                 const query = `
-                UPDATE user, account, ticket SET
-                ticket.AccountKey = '${newAccountKey}',
-                user.AccountKey = '${newAccountKey}',
+                UPDATE account SET
                 account.AccountKey = '${newAccountKey}'
                 WHERE
-                user.AccountKey = account.AccountKey
-                AND ticket.AccountKey = account.AccountKey
-                AND account.AccountKey = '${oldKey}'
+                account.AccountKey = '${oldKey}'
                 `
                 database.query(query, async (err: any, result: string | any[]) => {
                     if (err) {
