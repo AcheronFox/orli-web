@@ -3,7 +3,7 @@ import schedule from "node-schedule"
 import resetLimit from "./scripts/resetMailLimit"
 
 
-const isProd = process.env.DAEMON_ENV === "production"
+const isProd = process.argv[2] == "production"
 const log = (message: string) => {
     console.log(`\x1b[96mdaemon\x1b[0m - ${message}`)
 }
