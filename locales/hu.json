@@ -246,6 +246,13 @@
   "ticketNoShirt": "Kérlek válaszd ki a póló méretét",
   "ticketShirtSize": "Méret",
 
+  "SECTION": "--------------------ROOM-------------------------",
+
+  "roomHouse": "Ház",
+  "roomRoom": "Szoba",
+  "roomJoin": "Csatlakozás",
+  "roomAdmin": "Szoba Admin",
+
   "SECTION": "--------------------INFO-------------------------"
 
 }

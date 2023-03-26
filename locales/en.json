@@ -246,6 +246,13 @@
   "ticketNoShirt": "Please select shirt size",
   "ticketShirtSize": "Size",
 
+  "SECTION": "--------------------ROOM-------------------------",
+
+  "roomHouse": "House",
+  "roomRoom": "Room",
+  "roomJoin": "Join",
+  "roomAdmin": "Room Admin",
+
   "SECTION": "--------------------INFO-------------------------"
 
 }

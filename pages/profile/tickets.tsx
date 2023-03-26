@@ -20,6 +20,7 @@ import { ITicketForm } from "@/models/ticket-form.model";
 import Tippy from "@tippyjs/react";
 import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
 import DropDown from "@/comp/DropDown";
+import CustomHead from "@/comp/CustomHead";
 
 type Props = {}
 
@@ -84,14 +85,10 @@ const Tickets: NextPage<Props> = (props: Props) => {
     if (!user || (user && (user.TicketKey && user.isPaid))) {
       Router.push('/profile')
     }
-  }, [didUserInit])
-
-  useEffect(() => {
-    if (user) {
+    else if (user && user.TicketKey && user.isPaid) {
       getDefaults()
     }
-  }, [user])
-
+  }, [didUserInit])
 
   // ===============================================
   // TICKETS
@@ -361,6 +358,21 @@ const Tickets: NextPage<Props> = (props: Props) => {
       return
     }
 
+    let tempMinDate: number | undefined = undefined
+    let tempMaxDate: number | undefined = undefined
+
+    // Fix date offset for full ticket
+    const offsetMax = new Date(defaultMaxDate.valueOf());
+    tempMaxDate = offsetMax.getDate() + 1
+    offsetMax.setDate(tempMaxDate);
+
+    const earliest = new Date(defaultMinDate.valueOf());
+    const last = new Date(offsetMax.valueOf());
+    tempMinDate = earliest.getDate() - 1
+    tempMaxDate = last.getDate() + 1
+    earliest.setDate(tempMinDate);
+    last.setDate(tempMaxDate);
+
     const payload: ITicketForm = {
       ticketType: selectedTicket!.toString() as '0' | '1' | '2',
       extra0: wantsDay0,
@@ -369,8 +381,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
       shirt: isSponsor? (sponsorAmount > 10000? shirtSize : null) : null,
       sponsorPrice: sponsorAmount,
       foodData: selectedTicket==0? null : selectedFoods,
-      startDay: selectedTicket==2? defaultMinDate.toString() : (selectedDate[0].toString()),
-      endDay: selectedTicket==2? defaultMaxDate.toString() : (selectedDate[1]? selectedDate[1].toString() : selectedDate[0].toString()),
+      startDay: selectedTicket==2? (wantsDay0? earliest.toString() : defaultMinDate.toString()) : (selectedDate[0].toString()),
+      endDay: selectedTicket==2? (wantsDayExtra? last.toString() : offsetMax.toString()) : (selectedDate[1]? selectedDate[1].toString() : selectedDate[0].toString()),
     }
 
     setShowDialog(false)
@@ -406,6 +418,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
 
   return (
     <>
+      <CustomHead title={t("navTickets")} />
       <LoadingOverlay isLoading={isLoading} />
       {
         showDialog &&

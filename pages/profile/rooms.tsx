@@ -3,15 +3,15 @@ import styles from "@/styles/pages/Rooms.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
 import { useUser } from "@/hooks/useUser";
-import SecondaryButton from "@/comp/SecondaryButton";
-import Tippy from "@tippyjs/react";
-import FursuiterIcon from "@/comp/svg/FursuiterIcon";
-import SponsorIcon from "@/comp/svg/SponsorIcon";
 import { useEffect, useState } from "react";
 import Router from "next/router";
 import LoadingOverlay from "@/comp/LoadingOverlay";
-import { IRoom, IRoomStructure } from "@/models/room.model";
+import { IRoomStructure } from "@/models/room.model";
 import axiosInstance from "@/utils/axiosConfig";
+import RoomCard from "@/comp/RoomCard";
+import { IAccomodation } from "@/models/accomodation.model";
+import { IOccupant } from "@/models/occupant.model";
+import CustomHead from "@/comp/CustomHead";
 
 type Props = {}
 
@@ -20,6 +20,8 @@ const Rooms: NextPage<Props> = (props: Props) => {
   const { user, didUserInit } = useUser();
 
   const [rooms, setRooms] = useState<IRoomStructure>()
+  const [accomodations, setAccomodations] = useState<IAccomodation[]>([])
+  const [occupants, setOccupants] = useState<IOccupant[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
@@ -27,13 +29,10 @@ const Rooms: NextPage<Props> = (props: Props) => {
     if (!user || (user && (!user.TicketKey || !user.isPaid))) {
       Router.push('/profile')
     }
-  }, [didUserInit])
-
-  useEffect(() => {
-    if (user) {
+    else if (user && user.TicketKey && user.isPaid) {
       getDefaults()
     }
-  }, [user])
+  }, [didUserInit])
 
 
   // ===============================================
@@ -42,8 +41,21 @@ const Rooms: NextPage<Props> = (props: Props) => {
   const getDefaults = async () => {
     await axiosInstance.get<IRoomStructure>("api/room/")
     .then((res) => {
-      console.log(res.data)
       setRooms(res.data)
+    })
+    .catch((err) => console.log(err))
+
+    await axiosInstance.get<IAccomodation[]>("api/room/accomodations")
+    .then((res) => {
+      console.log(res.data)
+      setAccomodations(res.data)
+    })
+    .catch((err) => console.log(err))
+
+    await axiosInstance.get<IOccupant[]>("api/room/occupants")
+    .then((res) => {
+      console.log(res.data)
+      setOccupants(res.data.sort((a, b) => Number(b.isRoomAdmin) - Number(a.isRoomAdmin)))
     })
     .catch((err) => console.log(err))
     setIsLoading(false)
@@ -51,29 +63,37 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
   return (
     <>
+      <CustomHead title={t("navRooms")} />
       <LoadingOverlay isLoading={isLoading} />
       <div className={styles.Rooms}>
         {
-          (user && rooms) &&
+          (user && rooms && accomodations) &&
           <div className={styles.Rooms__Content}>
             {
               Object.keys(rooms).map((building, i) => {
                 const key = building
 
                 return (
-                  <span key={i}>
-                    {key}
-                    <div>
+                  <section className={styles.Rooms__Section} key={i}>
+                    <h2 className={styles.Rooms__Section__Title}>{key} {t("roomHouse")}</h2>
+                    <div className={styles.Rooms__Section__Table}>
                       {
                         rooms[key].map((room, j) => {
                           return (
-                            <span key={j}> | {room.roomNumber} |</span>
-                            
+                            <RoomCard
+                              key={j}
+                              dbID={room.id}
+                              roomNumber={room.roomNumber}
+                              customName={room.customName}
+                              maxSize={room.size}
+                              currentAmount={accomodations.filter((o) => o.roomId == room.id).length}
+                              occupants={occupants.filter((o) => o.roomId == room.id)}
+                            />
                           );
                         })
                       }
                     </div>
-                  </span>
+                  </section>
                 );
               })
             }

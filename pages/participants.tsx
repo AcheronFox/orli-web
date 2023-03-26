@@ -23,6 +23,7 @@ import { useTranslate } from "@/hooks/useTranslate";
 import { INationalityCount } from "@/models/nationality-count.model";
 import LoadingOverlay from "@/comp/LoadingOverlay";
 import getNationality from "functions/getNationality";
+import CustomHead from "@/comp/CustomHead";
 
 ChartJS.register(
   CategoryScale,
@@ -216,6 +217,11 @@ const Participants: NextPage<Props> = (props: Props) => {
     let fromIndex = index * 3
     let toIndex = Math.min(fromIndex + 3, participants.length);
 
+    if (size.width <= parseInt(styles.smallDesktop)) {
+      fromIndex = index * 2;
+      toIndex = Math.min(fromIndex + 2, participants.length);
+    }
+
     if (size.width <= parseInt(styles.tinyDesktop)) {
       fromIndex = index * 2;
       toIndex = Math.min(fromIndex + 2, participants.length);
@@ -266,6 +272,7 @@ const Participants: NextPage<Props> = (props: Props) => {
 
   return (
     <> 
+      <CustomHead title={t("navParticipants")} />
       <LoadingOverlay isLoading={isLoading || isLoading2} />
       <div className={styles.Participants}>
         <div className={styles.Participants__Title}>

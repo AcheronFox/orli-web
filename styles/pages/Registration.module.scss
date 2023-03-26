@@ -75,6 +75,16 @@
         border-radius: 1.5rem;
         background-color: rgba($grey-1, .9);
 
+        &__Pass {
+            clip: rect(0 0 0 0); 
+            clip-path: inset(50%);
+            height: 1px;
+            overflow: hidden;
+            position: absolute;
+            white-space: nowrap; 
+            width: 1px;
+        }
+
         &__Inline {
             display: flex;
             align-items: center;

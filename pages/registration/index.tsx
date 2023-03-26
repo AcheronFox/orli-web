@@ -17,6 +17,7 @@ import LoadingOverlay from "@/comp/LoadingOverlay";
 import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
 import { RiQuestionLine } from "react-icons/ri"
 import Tippy from "@tippyjs/react";
+import CustomHead from "@/comp/CustomHead";
 
 const isEmailValid = (email: string) => {
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
@@ -60,6 +61,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   const [confPassword, setConfPassword] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   const [allergy, setAllergy] = useState<string>("");
+  const [otherPass, setOtherPass] = useState<string>("");
   
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -295,6 +297,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       contact: contact,
       allergy: allergy,
       password: crypto.createHash("sha256").update(password).digest("hex"),
+      otherPass: otherPass,
     };
 
     startTimer();
@@ -341,6 +344,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   
   return (
     <>
+      <CustomHead title={t("navRegistration")} />
       <LoadingOverlay isLoading={isLoading} message={`${t("regWait")}`}/>
       <div className={styles.Registration}>
         <div className={styles.Registration__Title}>
@@ -354,6 +358,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                 <div className={styles.Registration__Form__Row}>
                   <span>
                     <Input
+                      id={"in-1"}
                       label={`${t("regFirstname")}: `}
                       placeholder={t("regFirstname")}
                       list="autoCompleteOff"
@@ -369,6 +374,7 @@ const Registration: NextPage<Props> = (props: Props) => {
 
                   <span>
                     <Input
+                      id={"in-2"}
                       label={`${t("regLastname")}: `}
                       placeholder={t("regLastname")}
                       list="autoCompleteOff"
@@ -406,6 +412,8 @@ const Registration: NextPage<Props> = (props: Props) => {
                 
                 <span>
                   <Input
+                    id={"email"}
+                    name={"email"}
                     label={`${t("regEmail")}: `}
                     placeholder={t("regEmail")}
                     type={"email"}
@@ -422,6 +430,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                 
                 <span>
                   <Input
+                    id={"in-3"}
                     label={`${t("regEmailConfirm")}: `}
                     placeholder={t("regEmailConfirm")}
                     type={"email"}
@@ -440,6 +449,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                 <div className={styles.Registration__Form__Row}>
                   <span>
                     <Input
+                      id={"in-4"}
                       label={`${t("regFursonaName")}: `}
                       placeholder={t("regFursonaName")}
                       list="autoCompleteOff"
@@ -455,6 +465,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                   
                   <span>
                     <Input
+                      id={"in-5"}
                       label={`${t("regSpecies")}: `}
                       placeholder={t("regSpecies")}
                       list="autoCompleteOff"
@@ -472,6 +483,8 @@ const Registration: NextPage<Props> = (props: Props) => {
                 <div className={styles.Registration__Form__Row}>
                   <span>
                     <Input
+                      id={"password"}
+                      name={"password"}
                       label={`${t("regPassword")}: `}
                       placeholder={t("regPassword")}
                       type={"password"}
@@ -488,6 +501,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                   
                   <span>
                     <Input
+                      id={"in-6"}
                       label={`${t("regPasswordConfirm")}: `}
                       placeholder={t("regPasswordConfirm")}
                       type={"password"}
@@ -510,6 +524,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       </span>
                     </Tippy>
                     <Input
+                      id={"in-7"}
                       label={`${t("regContact")}: `}
                       placeholder={t("regContact")}
                       type={"text"}
@@ -527,6 +542,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                 <span>
                   <span className={styles.Registration__Form__Inline}>
                     <Input
+                      id={"in-8"}
                       label={`${t("regAllergy")}: `}
                       placeholder={t("regAllergy")}
                       type={"text"}
@@ -549,6 +565,18 @@ const Registration: NextPage<Props> = (props: Props) => {
                   checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, data: e} })}
                   id="chk-3"
                   label={<span className={styles.Registration__Form__Label} >{t("regData1")}<LinkButton isInternal={true} text={t("regDataBtn")} link="/legal/data"></LinkButton></span>}
+                ></Input>
+
+                <Input
+                  id={"password"}
+                  name={"password"}
+                  type={"password"}
+                  list="autoCompleteOff"
+                  autoComplete="nope"
+                  value={otherPass}
+                  onChange={(e) => setOtherPass(e.target.value)}
+                  maxlength={255}
+                  className={styles.Registration__Form__Pass}
                 ></Input>
             </div>
             <div className={styles.Registration__Button}>

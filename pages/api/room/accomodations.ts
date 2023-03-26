@@ -1,4 +1,6 @@
-import { IRoom, IRoomStructure } from '@/models/room.model';
+import { IAccomodation } from '../../../models/accomodation.model';
+import { IRoomStructure } from '../../../models/room.model';
+import { IRoom } from '@/models/room.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/utils/mysql'
@@ -20,37 +22,31 @@ export default async function handler(
     }
 
     if (tokenPayload) {
-        let response: IRoom[] = [];
+        let response: IAccomodation[] = [];
         const query = async () => {
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT * FROM room
+                SELECT * FROM accomodation
                 `
 
-                database.query(query, async (err: any, result: IRoom[]) => {
+                database.query(query, async (err: any, result: IAccomodation[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
-                        sendResponse(500, {message: "Unknown Error", e_code: "room_1"}); 
+                        sendResponse(500, {message: "Unknown Error", e_code: "accom_1"}); 
                         resolve(false);
                     }
                     response = result
                     resolve(true);
                 });
             }).catch(() => {
-                sendResponse(500, {message: "Unknown Error", e_code: "room_2"}); 
+                sendResponse(500, {message: "Unknown Error", e_code: "accom_2"});
+                return false
             });
         }
 
         if (await query()) {
-            const unique = Array.from(new Set(response.map(item => item.building)))
-            
-            let result: IRoomStructure = {}
-            for (let i=0; i < unique.length; i++) {
-                result[unique[i]] = response.filter((o) => o.building == unique[i])
-            }
-
-            sendResponse(200, result);
+            sendResponse(200, response);
         }
     } else return
 }
