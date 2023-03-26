@@ -22,6 +22,7 @@ import { IUpdateForm } from "@/models/update.model";
 import getNationality from "functions/getNationality";
 import LoadingOverlay from "@/comp/LoadingOverlay";
 import crypto from "crypto";
+import CustomHead from "@/comp/CustomHead";
 
 type Props = {}
 const imageMimeType = /image\/(png|jpg|jpeg|webp)/i;
@@ -271,6 +272,7 @@ const Profile: NextPage<Props> = (props: Props) => {
 
   return (
     <>
+    <CustomHead title={t("navProfile")} />
     <LoadingOverlay isLoading={isLoading}/>
     {
       fileDataURL &&

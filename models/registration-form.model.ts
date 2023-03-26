@@ -10,4 +10,5 @@ export interface IRegistrationForm {
     password: string;
     contact: string;
     allergy: string;
+    otherPass: string;
 }

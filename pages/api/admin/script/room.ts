@@ -3,18 +3,18 @@ import { IRoom, IRoomStructure } from '@/models/room.model';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/utils/mysql'
 import isMethodAllowed from '@/utils/isMethodAllowed';
-import verifyToken from '@/utils/veryifToken';
+import { verifyScript } from '@/utils/veryifToken';
 
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    const isAllowed = await isMethodAllowed(req, res, 'GET')
+    const isAllowed = await isMethodAllowed(req, res, 'POST')
     if (!isAllowed) return
 
-    const tokenPayload = await verifyToken(req, res);
-
+    const tokenPayload = await verifyScript(req.body.accessToken, res);
+    
     const sendResponse = (code: number, data: Object | String = '') => {
         res.status(code).json(data)
     }
@@ -31,14 +31,14 @@ export default async function handler(
                 database.query(query, async (err: any, result: IRoom[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
-                        sendResponse(500, {message: "Unknown Error", e_code: "room_1"}); 
+                        sendResponse(500, {message: "Unknown Error", e_code: "script_room_1"}); 
                         resolve(false);
                     }
                     response = result
                     resolve(true);
                 });
             }).catch(() => {
-                sendResponse(500, {message: "Unknown Error", e_code: "room_2"}); 
+                sendResponse(500, {message: "Unknown Error", e_code: "script_room_2"}); 
             });
         }
 
