@@ -33,13 +33,13 @@ export default async function handler(
                 database.query(query, async (err: any, result: IRoomRaw[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
-                        sendResponse(500, {message: "Unknown Error", e_code: "room_1"}); 
+                        sendResponse(500, {message: "Unknown Error", e_code: "u_room_1"}); 
                         resolve(undefined);
                     }
                     resolve(result[0])
                 });
             }).catch(() => {
-                sendResponse(500, {message: "Unknown Error", e_code: "room_2"}); 
+                sendResponse(500, {message: "Unknown Error", e_code: "u_room_2"}); 
                 return undefined
             });
         }
@@ -58,13 +58,13 @@ export default async function handler(
                 database.query(query, async (err: any, result: {count: number}[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
-                        sendResponse(500, {message: "Unknown Error", e_code: "room_1"}); 
+                        sendResponse(500, {message: "Unknown Error", e_code: "u_room_3"}); 
                         resolve(undefined);
                     }
                     resolve(result[0].count)
                 });
             }).catch(() => {
-                sendResponse(500, {message: "Unknown Error", e_code: "room_2"}); 
+                sendResponse(500, {message: "Unknown Error", e_code: "u_room_4"}); 
                 return undefined
             });
         }
@@ -82,5 +82,6 @@ export default async function handler(
 
             sendResponse(200, finalData);
         }
+        else sendResponse(404, {message: "Not Found", e_code: "u_room_5"}); 
     } else return
 }
