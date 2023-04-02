@@ -1,6 +1,4 @@
 import { IAccomodation } from '../../../models/accomodation.model';
-import { IRoomStructure } from '../../../models/room.model';
-import { IRoom } from '@/models/room.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/utils/mysql'
@@ -27,7 +25,7 @@ export default async function handler(
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT * FROM accomodation
+                SELECT id, roomId FROM accomodation
                 `
 
                 database.query(query, async (err: any, result: IAccomodation[]) => {

@@ -123,7 +123,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 </NavItem>
               }
               {
-                (user.AccomodationKey == null && (user.TicketKey != null && user.isPaid)) &&
+                ((user.TicketKey != null && user.isPaid)) &&
                 <NavItem
                   link="/profile/rooms"
                   CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile/rooms")}`}
@@ -162,7 +162,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
           </NavItem>
 
           <NavDropdown
-            dropDownName={"Örli"}
+            dropDownName={t("navEvent")}
             mainclassname={`${evalRoute("/programs")} ${evalRoute("/prices")} ${evalRoute("/staff")} ${evalRoute("/participants")}`}
             icon={<RiMapLine />}
           >
@@ -225,7 +225,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
           </NavDropdown>
 
           <NavDropdown
-            dropDownName={"Info"}
+            dropDownName={t("navImportant")}
             mainclassname={`${evalRoute("/legal", "contain")} ${evalRoute("/faq")}`}
             icon={<RiInformationLine />}
           >

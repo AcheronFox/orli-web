@@ -85,7 +85,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
     if (!user || (user && (user.TicketKey && user.isPaid))) {
       Router.push('/profile')
     }
-    else if (user && user.TicketKey && user.isPaid) {
+    else if (user && !user.TicketKey && !user.isPaid) {
       getDefaults()
     }
   }, [didUserInit])

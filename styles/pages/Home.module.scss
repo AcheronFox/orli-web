@@ -4,6 +4,7 @@
     min-height: 100vh;
     height: 100%;
     padding: 7rem 10rem;
+    margin: auto;
 
     @include respond(small-desktop) {
         padding: 4rem 10rem;
@@ -31,7 +32,7 @@
     @include centerNoLayer;
 
     &__TextField {
-        background-color: rgba($background-color, .5);
+        background: rgba($grey-2, .9);
         border-radius: 2rem;
         box-shadow: rgba($black, .8) 0 0 2.5rem;
         padding: 3rem 5rem;

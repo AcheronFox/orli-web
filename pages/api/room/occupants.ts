@@ -26,10 +26,14 @@ export default async function handler(
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT user.fursonaName, user.picture, accomodation.telegram, accomodation.roomId, room.adminKey
+                SELECT user.fursonaName, user.fursonaSpecies, user.isFursuiter, user.picture, user.id,
+                accomodation.telegram, accomodation.roomId,
+                room.adminKey, ticket.sponsorLevel, account.registeredAt, account.AccountKey
                 FROM user
                 LEFT JOIN accomodation ON user.AccountKey = accomodation.AccountKey
                 LEFT JOIN room ON user.AccountKey = room.adminKey
+                LEFT JOIN ticket ON user.AccountKey = ticket.AccountKey
+                LEFT JOIN account ON user.AccountKey = account.AccountKey
                 WHERE accomodation.roomId IS NOT NULL
                 `
 
@@ -88,6 +92,12 @@ export default async function handler(
                             fursonaName: '',
                             isRoomAdmin: false,
                             roomId: rooms[i].id,
+                            fursonaSpecies: '',
+                            picture: '',
+                            isFursuiter: false,
+                            sponsorLevel: '0',
+                            registeredAt: '',
+                            AccountKey: '',
                         })
                     }
                 }

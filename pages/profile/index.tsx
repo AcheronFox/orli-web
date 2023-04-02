@@ -23,6 +23,7 @@ import getNationality from "functions/getNationality";
 import LoadingOverlay from "@/comp/LoadingOverlay";
 import crypto from "crypto";
 import CustomHead from "@/comp/CustomHead";
+import { IRoom } from "@/models/room.model";
 
 type Props = {}
 const imageMimeType = /image\/(png|jpg|jpeg|webp)/i;
@@ -57,10 +58,11 @@ const Profile: NextPage<Props> = (props: Props) => {
     height: 50,
   })
   const [isChanged, setIsChanged] = useState<boolean>(false)
+  const [userRoom, setUserRoom] = useState<IRoom>()
   const [password, setPassword] = useState<string>("");
   const [contact, setContact] = useState<string>("");
   const [isFursuiter, setIsFursuiter] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [errorStates, setErrorStates] = useState<any>({
     password: '',
@@ -69,6 +71,7 @@ const Profile: NextPage<Props> = (props: Props) => {
 
   useEffect(() => {
     if (user) {
+      getUserRoom()
       setIsFursuiter(user.isFursuiter)
       setContact(user.contact)
     }
@@ -78,11 +81,24 @@ const Profile: NextPage<Props> = (props: Props) => {
     if (!didUserInit) return
     if (!user) {
       Router.push('/')
+      setIsLoading(false)
     }
     else {
       getUser()
     }
   }, [didUserInit])
+
+  const getUserRoom = async () => {
+    await axiosInstance.get("api/user/room")
+    .then((res) => {
+      setUserRoom(res.data)
+    })
+    .catch((err) => {
+      setUserRoom(undefined)
+      console.log(err)
+    })
+    .finally(() => setIsLoading(false))
+  }
 
   // ===============================================
   // USEEFFECT UPDATES
@@ -306,7 +322,7 @@ const Profile: NextPage<Props> = (props: Props) => {
             <div className={styles.Profile__Header__Picture}>
               <picture>
                 <source srcSet={`${user.picture? (`/uploads/${user.picture.split('.')[0]}_x1.jpg 1x, /uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                <img srcSet={`${user.picture? (`/uploads/${user.picture.split('.')[0]}_x1.jpg 1x, /uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy" />
+                <img srcSet={`${user.picture? (`/uploads/${user.picture.split('.')[0]}_x1.jpg 1x, /uploads/${user.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="User Picture" src="/Default_profile_x2.jpg" loading="lazy" />
                   {
                     uploadProgress &&
                     <div className={styles.Profile__Header__Picture__Overlay}>
@@ -357,9 +373,9 @@ const Profile: NextPage<Props> = (props: Props) => {
                     <SecondaryButton disabled={(user.TicketKey != null && user.isPaid)} type="left" text={t("navTickets")} link={"profile/tickets"} />
                   </span>
                 </Tippy>
-                <Tippy disabled={(user.AccomodationKey == null && (user.TicketKey != null && user.isPaid))} content={t("profRoomDisabled")}>
+                <Tippy disabled={((user.TicketKey != null && user.isPaid))} content={t("profRoomDisabled")}>
                   <span className={styles.Profile__Header__Bottom__Input}>
-                    <SecondaryButton disabled={!(user.AccomodationKey == null && (user.TicketKey != null && user.isPaid))} type="right" text={t("navRooms")} link={"profile/rooms"} />
+                    <SecondaryButton disabled={!((user.TicketKey != null && user.isPaid))} type="right" text={t("navRooms")} link={"profile/rooms"} />
                   </span>
                 </Tippy>
               </div>
@@ -456,7 +472,18 @@ const Profile: NextPage<Props> = (props: Props) => {
               </div>
               <div className={styles.Profile__Body__Right__Row}>
                 <span>{`${t("profRoom")}: `}</span>
-                <span>null</span>
+                {
+                  (!user.AccomodationKey) &&
+                  <span style={{color: "red"}}>{t("profNotSelected")}</span>
+                }
+                {
+                  (user.AccomodationKey && userRoom) &&
+                  <span style={{textAlign: "right"}}>
+                    <span style={{color: "green"}}>{t("profSelected")}</span><br />
+                    <span>{`${userRoom.customName? (`${userRoom.customName} (${userRoom.roomNumber})`) : (`${userRoom.roomNumber}`)}`}</span><br />
+                    <span>{`${userRoom.occupantCount} / ${userRoom.size}`}</span>
+                  </span>
+                }
               </div>
             </div>
           </section>

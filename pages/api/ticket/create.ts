@@ -70,6 +70,7 @@ export default async function handler(
                 `
                 SELECT * FROM ticket
                 WHERE AccountKey = '${tokenPayload.accountKey}'
+                LIMIT 1
                 `
 
                 database.query(query, async (err: any, result: any) => {

@@ -90,6 +90,7 @@
         width: 4vh;
         height: 4vh;
         z-index: 1;
+        margin-right: 1rem;
 
         picture {
             display: flex;
@@ -115,6 +116,23 @@
         justify-content: flex-end;
         align-items: center;
         z-index: 1;
+        width: auto;
+        flex: 1 1 0;
+
+        &__Text {
+            cursor: pointer;
+            width: 100%;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        overflow: hidden;
+
+        &_overflow {
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
 
         &__Icon {
             height: 2rem;
@@ -130,6 +148,8 @@
 
     &__Row {
         position: relative;
+        display: flex;
+
         &:before {
             content: "";
             position: absolute;
