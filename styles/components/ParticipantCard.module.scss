@@ -20,6 +20,8 @@
         @include TertiaryTitle;
         justify-content: center;
         flex-direction: column;
+        white-space: nowrap;
+        text-overflow: ellipsis;
 
         overflow-x: clip;
         h2 {
