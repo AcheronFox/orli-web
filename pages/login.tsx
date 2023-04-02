@@ -13,6 +13,7 @@ import LoadingOverlay from "@/comp/LoadingOverlay";
 import LinkButton from "@/comp/LinkButton";
 import { useUser } from "@/hooks/useUser";
 import Router from "next/router";
+import CustomHead from "@/comp/CustomHead";
 
 type Props = {}
 
@@ -130,6 +131,7 @@ const Login: NextPage<Props> = (props: Props) => {
 
   return (
     <>
+      <CustomHead title={t("navSignIn")} />
       <LoadingOverlay isLoading={isLoading} message={t("loginWait")}/>
       <div className={styles.Login}>
         <div className={styles.Login__Center}>
@@ -137,6 +139,8 @@ const Login: NextPage<Props> = (props: Props) => {
             <div className={styles.Login__Form}>
               <span>
                 <Input
+                  id={"email"}
+                  name={"email"}
                   label={`${t("regEmail")}: `}
                   placeholder={t("regEmail")}
                   type={"email"}
@@ -149,6 +153,8 @@ const Login: NextPage<Props> = (props: Props) => {
               </span>
               <span>
                 <Input
+                  id={"password"}
+                  name={"password"}
                   label={`${t("regPassword")}: `}
                   placeholder={t("regPassword")}
                   type={"password"}

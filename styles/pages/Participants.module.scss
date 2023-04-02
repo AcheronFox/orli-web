@@ -98,21 +98,22 @@
         align-items: stretch;
         
         & > * {
-            max-width: 50%;
+            max-width: 26%;
             margin: 2rem;
+            flex: 1 1 0;
 
             @include respond(small-desktop) {
-                max-width: 15rem;
+                max-width: 40%;
                 margin: 1rem;
             }
 
             @include respond(tiny-desktop) {
-                max-width: 16rem;
+                max-width: 40%;
                 margin: 1rem;
             }
 
             @include respond(phone) {
-                max-width: 100%;
+                max-width: 80%;
                 margin: 0;
             }
         }

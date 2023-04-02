@@ -16,6 +16,16 @@ const start = () => {
 start()
 
 
+// Room hogging watcher
+schedule.scheduleJob('0 0 * * * *', async () => {
+    try {
+        
+    }
+    catch(e) {
+        log(`Error: ${e}`)
+    }
+}); // Trigger every ?
+
 // Ticket payment watcher
 schedule.scheduleJob('0 0 * * * *', async () => {
     try {

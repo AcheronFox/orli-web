@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/components/ParticipantCard.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import FursuiterIcon from "./svg/FursuiterIcon";
@@ -9,6 +9,7 @@ import 'tippy.js/dist/tippy.css';
 import SponsorIcon from "./svg/SponsorIcon";
 import ReactCountryFlag from "react-country-flag";
 import getNationality from "functions/getNationality";
+import { useIsOverflow } from "@/hooks/useIsOverflow";
 
 type Props = {
     name: string;
@@ -24,6 +25,8 @@ type Props = {
 const ParticipantCard: NextPage<Props> = (props: Props) => {
     const { t, locale } = useTranslate();
     const [nationalityName, setNationalityName] = useState<string>("")
+    const titleRef = useRef<any>()
+    const isTitleOverflow = useIsOverflow(titleRef);
 
     useEffect(() => {
         refreshNationality()
@@ -41,14 +44,16 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
 
     return (
         <div className={styles.ParticipantCard}>
-            <div className={styles.ParticipantCard__Title}>
-                <h2>
-                    {props.name}
-                </h2>
-                <h3>
-                    {props.species}
-                </h3>
-            </div>
+            <Tippy disabled={!isTitleOverflow} content={<span>{props.name}<br />{props.species}</span>}>
+                <div ref={titleRef} className={`${styles.ParticipantCard__Title} ${isTitleOverflow && styles.ParticipantCard__Title_overflow}`}>
+                    <h2>
+                        {props.name}
+                    </h2>
+                    <h3>
+                        {props.species}
+                    </h3>
+                </div>
+            </Tippy>
             <div className={styles.ParticipantCard__Picture}>
                 <picture>
                     <source srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.jpg 1x, /uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />

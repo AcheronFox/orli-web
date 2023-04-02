@@ -6,6 +6,7 @@ import Router, { SingletonRouter, withRouter } from 'next/router'
 import { useTranslate } from "@/hooks/useTranslate";
 import LinkButton from '@/comp/LinkButton';
 import Section from '@/comp/Section';
+import CustomHead from '@/comp/CustomHead';
 
 
 type Props = {
@@ -32,23 +33,26 @@ const RegSuccess: NextPage<Props> = (props: Props) => {
         );
     } else {
         return (
-            <div className={`${styles.Registration} ${styles.Registration__Success}`}>
-                <div className={styles.Registration__Center}>
-                    <Section title={t("regSuccessTitle")}>
-                        <div className={styles.Registration__Success__Content}>
-                            <span>
-                                {t("regSuccessWelcome")} {name}!
-                            </span>
-                            <span>
-                                {t("regSuccessDesc1")} <span style={{"textDecoration": "underline"}}>{email}</span> {t("regSuccessDesc2")}
-                            </span>
-                            <span className={styles.Registration__Success__Row}>
-                                {t("regSuccessOutro")} <span style={{"width": "min-content"}}><LinkButton isInternal={true} link={'/'} text={t("regSuccessButton")}></LinkButton></span>
-                            </span>
-                        </div>
-                    </Section>
+            <> 
+                <CustomHead title={t("regSuccessTitle")} />
+                <div className={`${styles.Registration} ${styles.Registration__Success}`}>
+                    <div className={styles.Registration__Center}>
+                        <Section title={t("regSuccessTitle")}>
+                            <div className={styles.Registration__Success__Content}>
+                                <span>
+                                    {t("regSuccessWelcome")} {name}!
+                                </span>
+                                <span>
+                                    {t("regSuccessDesc1")} <span style={{"textDecoration": "underline"}}>{email}</span> {t("regSuccessDesc2")}
+                                </span>
+                                <span className={styles.Registration__Success__Row}>
+                                    {t("regSuccessOutro")} <span style={{"width": "min-content"}}><LinkButton isInternal={true} link={'/'} text={t("regSuccessButton")}></LinkButton></span>
+                                </span>
+                            </div>
+                        </Section>
+                    </div>
                 </div>
-            </div>
+            </>
         );
     }
 }

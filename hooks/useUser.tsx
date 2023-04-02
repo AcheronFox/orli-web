@@ -30,6 +30,7 @@ export const useUser = () => {
         axiosInstance.get<IUser>("api/user/me")
         .then((res) => {
             addUser(res.data)
+            console.log(res.data)
         })
         .catch(() => {
             removeUser()
@@ -100,7 +101,7 @@ export const useUser = () => {
     const logout = async () => {
         removeUser();
         await axiosInstance.get("api/user/logout");
-        if (router.pathname == "/profile") router.push("/login");
+        if (router.pathname.includes("/profile")) router.push("/login");
     };
 
     const updateUser = async (data: IUpdateForm, cb: Function, showMsg = true) => {

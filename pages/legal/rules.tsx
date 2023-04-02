@@ -2,6 +2,7 @@ import styles from "@/styles/pages/Legal.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import Section from "@/comp/Section";
 import { NextPage } from "next";
+import CustomHead from "@/comp/CustomHead";
 
 type Props = {}
 
@@ -10,6 +11,7 @@ const Rules: NextPage<Props> = (props: Props) => {
 
   return (
     <>
+      <CustomHead title={t("legalRules")} />
       <div className={styles.MainWrapper}>
         <div className={styles.Content}>
           <Section

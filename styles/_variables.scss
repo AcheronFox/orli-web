@@ -32,8 +32,10 @@ sans-serif;
 
 
 // MEDIA QUERY MANAGER
+$small-desktop: 1400;
 $tiny-desktop: 1000; // For dynamic change of navbar
 $phone: 600;
+$smallPhone: 410;
 
 // COLORS
 $black: #000000;
@@ -63,8 +65,10 @@ $default-success: #00ff00;
 $default-info: #ffffff;
 
 :export {
+    smallPhone: $smallPhone;
     phone: $phone;
     tinyDesktop: $tiny-desktop;
+    smallDesktop: $small-desktop;
     primaryColor: $primary-color;
     secondaryColor: $secondary-color;
     grey2: $grey-2;

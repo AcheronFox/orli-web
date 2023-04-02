@@ -13,6 +13,7 @@ import { IResetForm } from "@/models/reset-form.model";
 import { useRouter } from 'next/router';
 import { IResetAuthForm } from "@/models/reset-auth-form.model"
 import crypto from "crypto";
+import CustomHead from "@/comp/CustomHead"
 
 type Props = {}
 
@@ -175,6 +176,7 @@ const Reset: NextPage<Props> = (props: Props) => {
 
     return (
         <>
+            <CustomHead title={t("resetTitle")} />
             <LoadingOverlay isLoading={isLoading} />
             <div className={styles.Reset}>
                 <div className={styles.Reset__Center}>

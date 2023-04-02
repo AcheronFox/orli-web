@@ -23,6 +23,7 @@ import { useTranslate } from "@/hooks/useTranslate";
 import { INationalityCount } from "@/models/nationality-count.model";
 import LoadingOverlay from "@/comp/LoadingOverlay";
 import getNationality from "functions/getNationality";
+import CustomHead from "@/comp/CustomHead";
 
 ChartJS.register(
   CategoryScale,
@@ -35,6 +36,52 @@ ChartJS.register(
 
 const WindowScroller = _WindowScroller as unknown as FC<AutoSizerProps>;
 type Props = {}
+
+const Row = ({index, setSize, windowWidth, participants, size}: any) => {
+  const items = [];
+  let fromIndex = index * 3
+  let toIndex = Math.min(fromIndex + 3, participants.length);
+
+  if (size.width <= parseInt(styles.smallDesktop)) {
+    fromIndex = index * 2;
+    toIndex = Math.min(fromIndex + 2, participants.length);
+  }
+
+  if (size.width <= parseInt(styles.tinyDesktop)) {
+    fromIndex = index * 2;
+    toIndex = Math.min(fromIndex + 2, participants.length);
+  }
+
+  if (size.width <= parseInt(styles.phone)) {
+    fromIndex = index * 1;
+    toIndex = Math.min(fromIndex + 1, participants.length);
+  }
+
+  const rowRef = useRef<any>();
+
+  for (let i = fromIndex; i < toIndex; i++) {
+    items.push(
+      <ParticipantCard key={i} name={participants[i].fursonaName} species={participants[i].fursonaSpecies} nationality={participants[i].nationality}
+      isFursuiter={participants[i].isFursuiter? true : false} isSponsor={parseInt(participants[i].sponsorLevel) > 0} picture={participants[i].picture}
+      isSuperSponsor={parseInt(participants[i].sponsorLevel) == 2}></ParticipantCard>
+    )
+  }
+
+  useEffect(() => {
+    const calc = rowRef.current.getBoundingClientRect().height? (rowRef.current.getBoundingClientRect().height+50) : 0
+    setSize(index, calc);
+  }, [setSize, index, windowWidth]);
+
+  return (
+    <div
+      ref={rowRef}
+      key={index}
+      className={styles.Participants__Item}
+    >
+      {items}
+    </div>
+  );
+}
 
 const Participants: NextPage<Props> = (props: Props) => {
   const { t, locale } = useTranslate();
@@ -210,47 +257,6 @@ const Participants: NextPage<Props> = (props: Props) => {
       }
       setChartData(response)
   }
-
-  const Row = ({index, setSize, windowWidth }: any) => {
-    const items = [];
-    let fromIndex = index * 3
-    let toIndex = Math.min(fromIndex + 3, participants.length);
-
-    if (size.width <= parseInt(styles.tinyDesktop)) {
-      fromIndex = index * 2;
-      toIndex = Math.min(fromIndex + 2, participants.length);
-    }
-
-    if (size.width <= parseInt(styles.phone)) {
-      fromIndex = index * 1;
-      toIndex = Math.min(fromIndex + 1, participants.length);
-    }
-
-    const rowRef = useRef<any>();
-
-    for (let i = fromIndex; i < toIndex; i++) {
-      items.push(
-        <ParticipantCard key={i} name={participants[i].fursonaName} species={participants[i].fursonaSpecies} nationality={participants[i].nationality}
-        isFursuiter={participants[i].isFursuiter? true : false} isSponsor={parseInt(participants[i].sponsorLevel) > 0} picture={participants[i].picture}
-        isSuperSponsor={parseInt(participants[i].sponsorLevel) == 2}></ParticipantCard>
-      )
-    }
-
-    useEffect(() => {
-      const calc = rowRef.current.getBoundingClientRect().height? (rowRef.current.getBoundingClientRect().height+50) : 0
-      setSize(index, calc);
-    }, [setSize, index, windowWidth]);
-
-    return (
-      <div
-        ref={rowRef}
-        key={index}
-        className={styles.Participants__Item}
-      >
-        {items}
-      </div>
-    );
-  }
   
   const getSize = (index: number) => {
     //fallback
@@ -266,6 +272,7 @@ const Participants: NextPage<Props> = (props: Props) => {
 
   return (
     <> 
+      <CustomHead title={t("navParticipants")} />
       <LoadingOverlay isLoading={isLoading || isLoading2} />
       <div className={styles.Participants}>
         <div className={styles.Participants__Title}>
@@ -325,6 +332,8 @@ const Participants: NextPage<Props> = (props: Props) => {
                 index={index}
                 setSize={setSize}
                 windowWidth={size.width}
+                participants={participants}
+                size={size}
                 />
             </div>
             )}

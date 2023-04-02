@@ -1,3 +1,318 @@
+.Modal {
+    visibility: visible;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba($black, .6);
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    opacity: 1;
+    transition: opacity 0.3s linear;
+    backdrop-filter: blur(.25rem);
+    padding: 5%;
+
+    @include respond(phone) {
+        padding: 1rem;
+    }
+    @include centerNoLayer;
+
+    &__Header {
+        display: flex;
+        background-color: $grey-2;
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 .25rem .5rem .1rem rgba($black, .15);
+        width: 50%;
+        margin: auto;
+
+        @include respond(small-desktop) {
+            flex-direction: column;
+            width: 60%;
+        }
+
+        @include respond(tiny-desktop) {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        &__Picture {
+            display: inline-block;
+            position: relative;
+            width: 15rem;
+            height: 15rem;
+            margin-right: 1rem;
+    
+            @include respond(phone) {
+                width: 18rem;
+                height: 18rem;
+                margin: auto;
+            }
+    
+            @include respond(big-desktop) {
+                width: 20rem;
+                height: 20rem;
+            }
+    
+            @include respond(4k-desktop) {
+                width: 25rem;
+                height: 25rem;
+            }
+    
+            picture {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                max-width: 100%;
+                max-height: 100%;
+    
+                img {
+                    display: inline-block;
+                    max-height: 100%;
+                    max-width: 100%;
+        
+                    border-width: .2rem .2rem .2rem .2rem;
+                    border-style: solid;
+                    border-color: $white;
+                    border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
+                    object-fit: cover;
+                }
+            }
+        }
+
+        &__Content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        &__Top {
+            display: flex;
+            justify-content: space-between;
+
+            @include respond(phone) {
+                margin: 2rem 0;
+            }
+        }
+
+        &__Title {
+            color: $white;
+            flex: 1;
+            flex-direction: column;
+            @include TertiaryTitle;
+            
+            h2 {
+                width: 100%;
+                @include SecondaryTitle;
+            }
+
+            h3 {
+                width: 100%;
+            }
+
+            &_text {
+                width: 100%;                
+                text-align: left; 
+            }
+
+            &_inline {
+                display: flex;
+                width: fit-content;
+
+                @include respond(tiny-desktop) {
+                    flex-direction: column;
+                }
+
+                & > * {
+                    &:last-child {
+                        width: max-content;
+                        margin-left: .5rem;
+
+                        @include respond(tiny-desktop) {
+                            margin-left: 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        &__Badges {
+            display: flex;
+            justify-content: flex-end;
+            width: 15%;
+            height: 15%;
+            margin-left: 5rem;
+            
+            & > * {
+                height: 100%;
+                width: 100%;
+
+                &:only-child {
+                    width: 50%;
+                    height: 50%;
+
+                    @include respond(phone) {
+                        width: 75%;
+                        height: 75%;
+                    }
+
+                    @include respond(small-phone) {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                
+                &:not(:last-child) {
+                    margin-right: 1rem;
+                }
+            }
+
+            @include respond(small-phone) {
+                flex-direction: column;
+            }
+
+            @include respond(phone) {
+                margin-left: 1rem;
+            }
+        }
+
+        &__Bottom {
+            margin-top: auto;
+            display: flex;
+            justify-content: flex-end;
+
+            & > * {
+                display: flex;
+                height: 100%;
+                width: max-content;
+                justify-content: center;
+                align-items: center;
+
+                @include respond(phone) {
+                    width: 100%;
+                }
+            }
+
+            @include respond(phone) {
+                justify-content: center;
+            }
+        }
+    }
+
+
+
+    &__Join {
+        display: flex;
+        background-color: $grey-2;
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 .25rem .5rem .1rem rgba($black, .15);
+        width: 40%;
+        margin: auto;
+        color: $white;
+
+        @include respond(small-desktop) {
+            flex-direction: column;
+            width: 50%;
+        }
+
+        @include respond(tiny-desktop) {
+            flex-direction: column;
+            width: 70%;
+        }
+
+        @include respond(phone) {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        &__Content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        &__Inline {
+            display: flex;
+            align-items: center;
+            
+            div {
+                width: 100%;
+            }
+
+            & > * {
+                &:not(:last-child) {
+                    margin-right: .3rem;
+                }
+            }
+        }
+
+        &__Error {
+            border-color: $default-red;
+            border-image: none;
+    
+            &__Text {
+                color: $default-red;
+                font-size: calc($default-font-size / 1.2);
+            }
+        }
+
+        &__Title {
+            width: 100%;
+            @include TertiaryTitle();
+            justify-content: center;
+            flex-direction: column;
+
+            &_small {
+                h3 {
+                    font-size: calc($styled-font-size * .7);
+
+                    @include respond(big-desktop) {
+                        font-size: calc($styled-font-size * .9);
+                    }
+            
+                    @include respond(4k-desktop) {
+                        font-size: calc($styled-font-size * 1.1);
+                    }
+                }
+            }
+
+            &:first-child {
+                margin-top: 1rem;
+            }
+
+            h3 {
+                text-align: center;
+            }
+        }
+
+        &__Bottom {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: flex-end;
+
+            & > * {
+                display: flex;
+                height: 100%;
+                width: max-content;
+                justify-content: center;
+                align-items: center;
+
+                @include respond(phone) {
+                    width: 100%;
+                }
+            }
+
+            @include respond(phone) {
+                justify-content: center;
+            }
+        }
+    }
+}
+
+
+
+
 .Rooms {
     color: $white;
     min-height: 100vh;
@@ -29,13 +344,19 @@
 
     &__Content {
         width: 65%;
-        display: flex;
         flex-direction: column;
 
-        & > * {
-            &:not(:last-child) {
-                margin-bottom: .5rem;
-            }
+        display: flex;
+        visibility: visible;
+        background-color: $grey-2;
+        border-radius: 1rem;
+        padding: 1rem;
+        opacity: 1;
+        box-shadow: 0 .25rem .5rem .1rem rgba($black, .15);
+        
+
+        &:not(:last-child) {
+            margin-bottom: 1.5rem;
         }
 
         @include respond(small-desktop) {
@@ -48,6 +369,42 @@
         
         @include respond(phone) {
             width: 100%;
+        }
+    }
+
+    &__Section {
+        padding-bottom: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        &:not(:first-child) {
+            margin-top: 2rem;
+        }
+
+        &__Title {
+            @include SecondaryTitle;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        &__Table {
+            border: .2rem solid $grey-3;
+            background-color: $background-color;
+            border-radius: 1rem;
+            padding: 1rem;
+            width: 100%;
+            height: 100%;
+
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(27.5rem, 1fr));
+            justify-content: center;
+            align-items: stretch;
+
+            & > * {
+                margin: 1rem;
+            }
         }
     }
 }

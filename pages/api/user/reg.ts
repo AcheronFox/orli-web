@@ -76,6 +76,10 @@ export default async function handler(
         else return false
     }
 
+    if (req.body.otherPass != "") {
+        return sendResponse(400, {message: "Spam detection triggered", e_code: "reg_20"}); 
+    }
+
     if (isRegistrationForm(req.body) && isValidForm(req.body)) {
         let newAccountKey = uuidv4();
         let newUserKey = uuidv4();

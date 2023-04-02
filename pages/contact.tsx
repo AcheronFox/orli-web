@@ -4,6 +4,7 @@ import { useTranslate } from "@/hooks/useTranslate"
 import styles from "@/styles/pages/Contact.module.scss"
 import { NextPage } from "next"
 import LinkButton from "@/comp/LinkButton";
+import CustomHead from "@/comp/CustomHead";
 
 type Props = {}
 
@@ -12,6 +13,7 @@ const Login: NextPage<Props> = (props: Props) => {
 
   return (
     <>
+      <CustomHead title={t("footerContact")} />
       <div className={styles.Contact}>
         <div className={styles.Contact__Center}>
           <Section title={t("footerContact")}>

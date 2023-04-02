@@ -21,9 +21,19 @@
         justify-content: center;
         flex-direction: column;
 
+        overflow-x: clip;
         h2 {
             @include SecondaryTitle();
             text-align: center;
+            overflow-x: hidden;
+        }
+
+        &_overflow {
+            justify-content: flex-start;
+            align-items: flex-start;
+            h2 {
+                text-align: left;
+            }
         }
     }
 
@@ -94,8 +104,8 @@
 
         & > * {
             margin: .1rem;
-            height: 25%;
-            width: 25%;
+            height: 6vh;
+            width: 6vh;
         }
     }
 }

@@ -14,6 +14,7 @@ import CustomScrollBar from "@/comp/Scrollbar";
 import FloatingMessageWrapper from "@/hooks/FloatingMessageWrapper";
 import Footer from "@/comp/Footer";
 import AuthProvider from "@/hooks/AuthProvider";
+import CustomHead from "@/comp/CustomHead";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
@@ -91,10 +92,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             <AuthProvider>
               <>
                 <Navbar></Navbar>
-                <Head>
-                  <title>Örli Försztivál | Agárd Hungary</title>
-                  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
-                </Head>
+                <CustomHead></CustomHead>
                 <div className={style.BG__Img}></div>
                 <Component {...pageProps} />
                 <Footer />
