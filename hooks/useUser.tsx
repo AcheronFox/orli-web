@@ -30,7 +30,6 @@ export const useUser = () => {
         axiosInstance.get<IUser>("api/user/me")
         .then((res) => {
             addUser(res.data)
-            console.log(res.data)
         })
         .catch(() => {
             removeUser()
