@@ -74,6 +74,7 @@ const Profile: NextPage<Props> = (props: Props) => {
       getUserRoom()
       setIsFursuiter(user.isFursuiter)
       setContact(user.contact)
+      setIsLoading(false)
     }
   }, [user])
 
