@@ -29,7 +29,7 @@ const FAQ: NextPage<Props> = (props: Props) => {
 
   return (
     <>
-      <CustomHead title={t("footerFaq")} />
+      <CustomHead title={t("navFaq")} />
       <div className={styles.MainWrapper}>
         <div className={styles.Title}>
             <h1>

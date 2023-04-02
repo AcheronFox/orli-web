@@ -40,6 +40,23 @@ export class TicketDatabase {
     isPaid: boolean | undefined = undefined;
 }
 
+export class AccomodationDatabase {
+    AccountKey: string | undefined = undefined;
+    AccomodationKey: string | undefined = undefined;
+    creationDate: string | undefined = undefined;
+    roomId: number | undefined = undefined;
+    telegram: string | undefined = undefined;
+}
+
+export class RoomDatabase {
+    building: 'Fácán' | 'Vidra' | 'Kócsag' | undefined = undefined;
+    roomNumber: string | undefined = undefined;
+    size: number | undefined = undefined;
+    roomPin: string | undefined = undefined;
+    customName: string | undefined = undefined;
+    adminKey: string | undefined = undefined;
+}
+
 export class SafeUserDatabase {
     fursonaName: string | undefined = undefined
     fursonaSpecies: string | undefined = undefined

@@ -32,6 +32,7 @@ export default async function handler(
                 INNER JOIN user ON account.AccountKey = user.AccountKey
                 LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey AND ticket.isPaid = 1
                 WHERE account.AccountKey = '${tokenPayload.accountKey}'
+                LIMIT 1
                 `
 
                 database.query(query, async (err: any, result: IUser[]) => {

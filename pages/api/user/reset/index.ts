@@ -25,6 +25,7 @@ export default async function handler(
             `
             SELECT * FROM password_reset_tokens
             WHERE token = '${req.body.token}'
+            LIMIT 1
             `
 
             database.query(query, async (err: any, result: IPasswordResetToken[]) => {

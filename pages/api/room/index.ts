@@ -1,4 +1,4 @@
-import { IRoom, IRoomStructure } from '@/models/room.model';
+import { IRoom, IRoomRaw, IRoomStructure } from '@/models/room.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/utils/mysql'
@@ -20,15 +20,15 @@ export default async function handler(
     }
 
     if (tokenPayload) {
-        let response: IRoom[] = [];
+        let response: IRoomRaw[] = [];
         const query = async () => {
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT * FROM room
+                SELECT id, building, roomNumber, size, customName, roomPin FROM room
                 `
 
-                database.query(query, async (err: any, result: IRoom[]) => {
+                database.query(query, async (err: any, result: IRoomRaw[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "room_1"}); 
@@ -43,11 +43,16 @@ export default async function handler(
         }
 
         if (await query()) {
-            const unique = Array.from(new Set(response.map(item => item.building)))
+            let finalData: IRoom[] = response.map((item) => {
+                const hasPin = item.roomPin ? true : false
+                return {...item, hasRoomPin: hasPin, roomPin: undefined, adminKey: undefined}
+            })
+
+            const unique = Array.from(new Set(finalData.map(item => item.building)))
             
             let result: IRoomStructure = {}
             for (let i=0; i < unique.length; i++) {
-                result[unique[i]] = response.filter((o) => o.building == unique[i])
+                result[unique[i]] = finalData.filter((o) => o.building == unique[i])
             }
 
             sendResponse(200, result);
