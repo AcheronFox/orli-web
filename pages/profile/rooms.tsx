@@ -3,7 +3,7 @@ import styles from "@/styles/pages/Rooms.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
 import { useUser } from "@/hooks/useUser";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Router from "next/router";
 import LoadingOverlay from "@/comp/LoadingOverlay";
 import { IRoom, IRoomStructure } from "@/models/room.model";
@@ -22,8 +22,8 @@ import { RiTelegramLine, RiQuestionLine } from "react-icons/ri";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import Input from "@/comp/Input";
 import { IJoinForm } from "@/models/join-form.model";
-const io = require('socket.io-client')
-let socket
+const { io } = require("socket.io-client");
+let socket: any;
 
 
 type Props = {}
@@ -58,7 +58,6 @@ const Rooms: NextPage<Props> = (props: Props) => {
   const [roomPin, setRoomPin] = useState<string>('')
   const [customName, setCustomName] = useState<string>('')
   const [telegram, setTelegram] = useState<string>('')
-  const [wsInstance, setWsInstance] = useState<null | WebSocket>(null);
 
   const [errorStates, setErrorStates] = useState<any>({
     pin: '',
@@ -66,10 +65,10 @@ const Rooms: NextPage<Props> = (props: Props) => {
     telegram: ''
   })
 
-  const websocketURL = process.env.DOMAIN_ROOT!
   let timer: NodeJS.Timeout | undefined = undefined;
   let time = 0;
   let message: number | undefined = undefined;
+  let abortController = new AbortController();
 
   useEffect(() => {
     if (!didUserInit) return
@@ -77,6 +76,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
       Router.push('/profile')
     }
     else if (user && user.TicketKey && user.isPaid) {
+      socketInitializer()
       getDefaults()
     }
   }, [didUserInit])
@@ -85,17 +85,12 @@ const Rooms: NextPage<Props> = (props: Props) => {
   // ===============================================
   // WEBSOCKET
   // ===============================================
-  useEffect(() => {
-      socketInitializer()
-    },
-  [])
-
   const socketInitializer = async () => {
-    await fetch(`ws://localhost:3000/api/sockets/room`)
+    await fetch(`/api/sockets/rooms`)
     socket = io()
 
-    socket.on('connect', () => {
-      console.log('connected')
+    socket.on('update-room', async () => {
+      await getDefaults()
     })
   }
 
@@ -104,24 +99,36 @@ const Rooms: NextPage<Props> = (props: Props) => {
   // ROOMS
   // ===============================================
   const getDefaults = async () => {
-    await axiosInstance.get<IRoomStructure>("api/room/")
+    abortController.abort();
+    abortController = new AbortController();
+
+    await axiosInstance.get<IRoomStructure>("api/room/", {signal: abortController.signal})
     .then((res) => {
       setRooms(res.data)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      if (err.code == "ERR_CANCELED") return;
+      else console.log(err)
+    });
 
-    await axiosInstance.get<IAccomodation[]>("api/room/accomodations")
+    await axiosInstance.get<IAccomodation[]>("api/room/accomodations", {signal: abortController.signal})
     .then((res) => {
       setAccomodations(res.data)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      if (err.code == "ERR_CANCELED") return;
+      else console.log(err)
+    });
 
-    await axiosInstance.get<IOccupant[]>("api/room/occupants")
+    await axiosInstance.get<IOccupant[]>("api/room/occupants", {signal: abortController.signal})
     .then((res) => {
       setOccupants(res.data.sort((a, b) => Number(b.isRoomAdmin) - Number(a.isRoomAdmin)))
       setCurrentUserOccupant(res.data.find((o) => o.AccountKey == user?.AccountKey))
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      if (err.code == "ERR_CANCELED") return;
+      else console.log(err)
+    });
     setIsLoading(false)
   }
 
@@ -229,7 +236,19 @@ const Rooms: NextPage<Props> = (props: Props) => {
       updateState(true, "telegram", '')
       return true
     }
-    return updateState(!isValidUrl(telegram.trim()), "telegram", t("roomTelegramError"))
+
+    if (telegram.includes('@')) {
+      const linkTelegram = telegram.replace('@', 'https://t.me/')
+      const check = updateState(!isValidUrl(linkTelegram.trim()), "telegram", t("roomTelegramError"))
+
+      if (check) {
+        setTelegram(linkTelegram)
+      }
+      return check
+    }
+    else {
+      return updateState(!isValidUrl(telegram.trim()), "telegram", t("roomTelegramError"))
+    }
   }
 
   // ===============================================
@@ -284,8 +303,9 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
     axiosInstance
     .post("api/room/join", formData)
-    .then((res) => {
-      console.log(res.data)
+    .then(async () => {
+      socket.emit('room-change', 'a')
+      await getDefaults()
     })
     .catch((err) => {
       if (err.response.status) {
@@ -313,7 +333,6 @@ const Rooms: NextPage<Props> = (props: Props) => {
       closeOverload();
       setIsLoading(false)
       setIsDisabled(false);
-      getDefaults()
     });
   }
 
