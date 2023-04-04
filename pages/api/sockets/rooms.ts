@@ -3,7 +3,7 @@ const { Server } = require("socket.io");
 const SocketHandler = (req: any, res: any) => {
   if (res.socket.server.io) {
     // Existing connection
-    res.socket.server.io.on('connection', (socket: any) => {
+    res.socket.server.io.once('connection', (socket: any) => {
         socket.on('room-change', () => {
             socket.broadcast.emit('update-room')
         })
@@ -13,7 +13,7 @@ const SocketHandler = (req: any, res: any) => {
     const io = new Server(res.socket.server)
     res.socket.server.io = io
 
-    io.on('connection', (socket: any) => {
+    io.once('connection', (socket: any) => {
         socket.on('room-change', () => {
             socket.broadcast.emit('update-room')
         })
