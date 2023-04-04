@@ -8,8 +8,8 @@ type Codes = {
 const getNationality = (input: string, locale: string) => {
     const Codes: Codes[] = (
         locale == "en"
-            ? require("../locales/EN.world.json")
-            : require("../locales/HU.world.json")
+            ? require("../locales/en.world.json")
+            : require("../locales/hu.world.json")
     );
 
     const val = Codes.find((o) => o.alpha2 == input)

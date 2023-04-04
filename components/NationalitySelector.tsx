@@ -28,8 +28,8 @@ const NationalitySelector: NextPage<Props> = ({
   const { locale } = useTranslate();
   const [Codes, setCodes] = useState<[Codes]>(
     locale == "en"
-      ? require("../locales/EN.world.json")
-      : require("../locales/HU.world.json")
+      ? require("../locales/en.world.json")
+      : require("../locales/hu.world.json")
   );
   const [modifiedCodes, setModifiedCodes] = useState<Codes[]>();
   const [val, setVal] = useState<string>("");
@@ -39,8 +39,8 @@ const NationalitySelector: NextPage<Props> = ({
   useEffect(() => {
     setCodes(
       locale == "en"
-        ? require("../locales/EN.world.json")
-        : require("../locales/HU.world.json")
+        ? require("../locales/en.world.json")
+        : require("../locales/hu.world.json")
     );
   }, [locale]);
 

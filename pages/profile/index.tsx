@@ -82,7 +82,6 @@ const Profile: NextPage<Props> = (props: Props) => {
     if (!didUserInit) return
     if (!user) {
       Router.push('/')
-      setIsLoading(false)
     }
     else {
       getUser()
