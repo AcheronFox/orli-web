@@ -43,14 +43,7 @@ export default async function handler(
         }
 
         if (await query()) {
-            const unique = Array.from(new Set(response.map(item => item.building)))
-            
-            let result: IRoomStructure = {}
-            for (let i=0; i < unique.length; i++) {
-                result[unique[i]] = response.filter((o) => o.building == unique[i])
-            }
-
-            sendResponse(200, result);
+            sendResponse(200, response);
         }
     } else return
 }
