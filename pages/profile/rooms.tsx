@@ -3,7 +3,7 @@ import styles from "@/styles/pages/Rooms.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
 import { useUser } from "@/hooks/useUser";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import Router from "next/router";
 import LoadingOverlay from "@/comp/LoadingOverlay";
 import { IRoom, IRoomStructure } from "@/models/room.model";
@@ -22,9 +22,12 @@ import { RiTelegramLine, RiQuestionLine } from "react-icons/ri";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import Input from "@/comp/Input";
 import { IJoinForm } from "@/models/join-form.model";
+const io = require('socket.io-client')
+let socket
 
 
 type Props = {}
+export const isBrowser = typeof window !== "undefined";
 
 const Rooms: NextPage<Props> = (props: Props) => {
   const { t, locale } = useTranslate();
@@ -55,6 +58,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
   const [roomPin, setRoomPin] = useState<string>('')
   const [customName, setCustomName] = useState<string>('')
   const [telegram, setTelegram] = useState<string>('')
+  const [wsInstance, setWsInstance] = useState<null | WebSocket>(null);
 
   const [errorStates, setErrorStates] = useState<any>({
     pin: '',
@@ -62,6 +66,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
     telegram: ''
   })
 
+  const websocketURL = process.env.DOMAIN_ROOT!
   let timer: NodeJS.Timeout | undefined = undefined;
   let time = 0;
   let message: number | undefined = undefined;
@@ -75,6 +80,24 @@ const Rooms: NextPage<Props> = (props: Props) => {
       getDefaults()
     }
   }, [didUserInit])
+
+
+  // ===============================================
+  // WEBSOCKET
+  // ===============================================
+  useEffect(() => {
+      socketInitializer()
+    },
+  [])
+
+  const socketInitializer = async () => {
+    await fetch(`ws://localhost:3000/api/sockets/room`)
+    socket = io()
+
+    socket.on('connect', () => {
+      console.log('connected')
+    })
+  }
 
 
   // ===============================================
