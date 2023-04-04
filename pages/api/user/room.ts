@@ -5,6 +5,10 @@ import database from '@/utils/mysql'
 import isMethodAllowed from '@/utils/isMethodAllowed';
 import verifyToken from '@/utils/veryifToken';
 
+/*
+FIX THIS SHIT
+
+*/
 
 export default async function handler(
   req: NextApiRequest,
@@ -70,8 +74,8 @@ export default async function handler(
         }
 
         const response: IRoomRaw | undefined = await query()
-        if (!response) return;
-        const count: number | undefined = await getCount(response.id)
+        let count: number | undefined = undefined
+        if (response) count = await getCount(response.id)
 
         if (response && count != undefined) {
             const transformData = (data: IRoomRaw) => {

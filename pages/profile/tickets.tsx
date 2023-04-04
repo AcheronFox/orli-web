@@ -85,7 +85,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
     if (!user || (user && (user.TicketKey && user.isPaid))) {
       Router.push('/profile')
     }
-    else if (user && !user.TicketKey && !user.isPaid) {
+    else if (user && !user.isPaid) {
       getDefaults()
     }
   }, [didUserInit])
@@ -94,6 +94,14 @@ const Tickets: NextPage<Props> = (props: Props) => {
   // TICKETS
   // ===============================================
   const getDefaults = async () => {
+    await getLimits()
+    await getPrices()
+    await getExtraLimits()
+
+    setIsLoading(false)
+  }
+
+  const getLimits = async () => {
     await axiosInstance.get("api/defaults/tickets")
     .then((res) => {
       setDefaultMinDate(new Date(res.data.minDate))
@@ -110,20 +118,22 @@ const Tickets: NextPage<Props> = (props: Props) => {
       setMaxDate1Night(maxDate)
     })
     .catch((err) => console.log(err))
+  }
 
+  const getPrices = async () => {
     await axiosInstance.get<IPrices>("api/defaults/tickets/prices")
     .then((res) => {
       setPrices(res.data)
     })
     .catch((err) => console.log(err))
+  }
 
+  const getExtraLimits = async () => {
     await axiosInstance.get("api/ticket/limits")
     .then((res) => {
       setExtra1Limit(res.data)
     })
     .catch((err) => console.log(err))
-
-    setIsLoading(false)
   }
 
   const selectTicket = (ticket: number) => {
