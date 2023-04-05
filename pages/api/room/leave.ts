@@ -49,7 +49,7 @@ export default async function handler(
             if (occupants.length != req.body.roomCount) {
                 return sendResponse(409, {message: "Data changed", e_code: "room_leave_3"})
             }
-            if (occupants.find((o) => o.AccountKey != tokenPayload.accountKey)) {
+            if (!occupants.find((o) => o.AccountKey == tokenPayload.accountKey)) {
                 return sendResponse(400, {message: "User not in room", e_code: "room_leave_4"})
             }
 
