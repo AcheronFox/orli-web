@@ -71,7 +71,6 @@ const Profile: NextPage<Props> = (props: Props) => {
 
   useEffect(() => {
     if (user) {
-      getUserRoom()
       setIsFursuiter(user.isFursuiter)
       setContact(user.contact)
       setIsLoading(false)
@@ -85,6 +84,7 @@ const Profile: NextPage<Props> = (props: Props) => {
     }
     else {
       getUser()
+      getUserRoom()
     }
   }, [didUserInit])
 
@@ -93,9 +93,8 @@ const Profile: NextPage<Props> = (props: Props) => {
     .then((res) => {
       setUserRoom(res.data)
     })
-    .catch((err) => {
+    .catch(() => {
       setUserRoom(undefined)
-      console.log(err)
     })
     .finally(() => setIsLoading(false))
   }
@@ -373,9 +372,9 @@ const Profile: NextPage<Props> = (props: Props) => {
                     <SecondaryButton disabled={(user.TicketKey != null && user.isPaid)} type="left" text={t("navTickets")} link={"profile/tickets"} />
                   </span>
                 </Tippy>
-                <Tippy disabled={((user.TicketKey != null && user.isPaid))} content={t("profRoomDisabled")}>
+                <Tippy disabled={((user.TicketKey != null && user.isPaid && user.ticketType === '2'))} content={(user.ticketType !== '2')? t("profNotSelectable") : t("profRoomDisabled") }>
                   <span className={styles.Profile__Header__Bottom__Input}>
-                    <SecondaryButton disabled={!((user.TicketKey != null && user.isPaid))} type="right" text={t("navRooms")} link={"profile/rooms"} />
+                    <SecondaryButton disabled={!((user.TicketKey != null && user.isPaid && user.ticketType === '2'))} type="right" text={t("navRooms")} link={"profile/rooms"} />
                   </span>
                 </Tippy>
               </div>
@@ -473,7 +472,11 @@ const Profile: NextPage<Props> = (props: Props) => {
               <div className={styles.Profile__Body__Right__Row}>
                 <span>{`${t("profRoom")}: `}</span>
                 {
-                  (!user.AccomodationKey) &&
+                  (!user.AccomodationKey && user.ticketType !== '2') &&
+                  <span style={{textAlign: "right"}}>{t("profNotSelectable")}</span>
+                }
+                {
+                  (!user.AccomodationKey && user.ticketType === '2') &&
                   <span style={{color: "red"}}>{t("profNotSelected")}</span>
                 }
                 {

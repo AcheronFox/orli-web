@@ -206,6 +206,7 @@
   "profRoomDisabled": "Room selection is available after ticket purchase",
   "profTicketDisabled": "You've already selected a ticket",
   "profSelected": "Selected",
+  "profNotSelectable": "Your selected ticket doesn't include a room.",
 
   "SECTION": "--------------------TICKETS-------------------------",
 
@@ -263,7 +264,7 @@
   "roomOptional": "Optional",
   "roomCancel": "Cancel",
   "roomLock": "Do you want to lock this room with a PIN?",
-  "roomLockQuestion": "Only those will be able to enter who know the PIN",
+  "roomLockQuestion": "Only those will be able to join who know the PIN number",
   "roomLockQuestion2": "Ask for the PIN from the room admin.",
   "roomCustom": "Custom name",
   "roomCustomQuestion": "Custom room name, only 15 characters.",
@@ -273,7 +274,8 @@
   "roomTelegramError": "Telegram must be a valid link",
   "roomBadPIN": "Oops! Sorry, that PIN doesn't work here.",
   "roomErrConflict": "Oops! New data is available, please try again.",
-
+  "roomLeave": "Leave",
+  "roomLeaveAsk": "Are you sure you want to leave this room?",
 
   "SECTION": "--------------------INFO-------------------------"
 

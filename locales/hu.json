@@ -206,6 +206,7 @@
   "profRoomDisabled": "Szobaválasztás jegyvásárlás után elérhető",
   "profTicketDisabled": "Már választottál jegyet.", 
   "profSelected": "Kiválasztva",
+  "profNotSelectable": "A kiválasztott jegyed nem tartalmaz szobát.",
 
   "SECTION": "--------------------TICKETS-------------------------",
 
@@ -271,6 +272,8 @@
   "roomPINError": "A PIN-nek 4 karakternek kell lenni és csak számokból állhat.",
   "roomCustomNameError": "Az egyedi név nem lehet 15 karakternél hosszabb.",
   "roomTelegramError": "Telegramnak egy érvényes linknek kell lennie.",
+  "roomLeave": "Elhagyás",
+  "roomLeaveAsk": "Biztosan el szeretnéd hagyni ezt a szobát?",
 
   "SECTION": "--------------------INFO-------------------------"
 
