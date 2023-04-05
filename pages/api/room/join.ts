@@ -8,8 +8,9 @@ import { IJoinForm } from '@/models/join-form.model';
 import { IAccomodationRaw } from '@/models/accomodation.model';
 import * as mysql from "mysql";
 import { v4 as uuidv4 } from 'uuid';
-import { AccomodationDatabase, RoomDatabase } from '@/models/database.model';
+import { AccomodationDatabase, RoomDatabase, TicketDatabase } from '@/models/database.model';
 import _ from 'lodash';
+import { getTicketByAccountKey } from '@/utils/getData';
 
 
 const toSqlDatetime = (inputDate: Date) => {
@@ -50,6 +51,7 @@ export default async function handler(
 
     if (tokenPayload) {
         if (isJoinForm(req.body) && isValidForm(req.body)) {
+            const ticket: TicketDatabase | undefined = await getTicketByAccountKey(tokenPayload.accountKey)
             const getRoom = async () => {
                 return new Promise<undefined | IRoomRaw>(async (resolve) => {
                     const query = 
@@ -90,7 +92,10 @@ export default async function handler(
                     });
                 })
             }
-            
+
+            if (!ticket || (ticket && ticket.ticketType !== '2')) {
+                return sendResponse(401, {message: "Your selected ticket does not include a room.", e_code: "room_join_4"})
+            }
 
             const room: IRoomRaw | undefined = await getRoom()
             let occupants: IAccomodationRaw[] | undefined = undefined

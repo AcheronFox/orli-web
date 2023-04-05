@@ -123,7 +123,7 @@ const Navbar: NextPage<Props> = (props: Props) => {
                 </NavItem>
               }
               {
-                ((user.TicketKey != null && user.isPaid)) &&
+                ((user.TicketKey != null && user.isPaid && user.ticketType === '2')) &&
                 <NavItem
                   link="/profile/rooms"
                   CustomStyle={`${DropDownStyle.Item} ${evalRoute("/profile/rooms")}`}

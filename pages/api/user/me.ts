@@ -27,7 +27,7 @@ export default async function handler(
                 SELECT
                 account.AccountKey, account.firstName, account.lastName, account.email, account.nationality, account.dateOfBirth, account.contact, account.registeredAt, account.isAdmin, account.TicketKey, account.AccomodationKey,
                 user.UserKey, user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter,
-                ticket.sponsorLevel, ticket.isPaid
+                ticket.sponsorLevel, ticket.isPaid, ticket.ticketType
                 FROM account
                 INNER JOIN user ON account.AccountKey = user.AccountKey
                 LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey AND ticket.isPaid = 1

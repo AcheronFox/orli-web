@@ -22,8 +22,16 @@ import { RiTelegramLine, RiQuestionLine } from "react-icons/ri";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import Input from "@/comp/Input";
 import { IJoinForm } from "@/models/join-form.model";
+import { ILeaveForm } from "@/models/leave-form.model";
 const { io } = require("socket.io-client");
 let socket: any;
+
+
+//
+//
+// TODO: ABILITY TO LEAVE ROOM (CHANGE JOIN BUTTON TO LEAVE)
+//
+//
 
 
 type Props = {}
@@ -35,12 +43,16 @@ const Rooms: NextPage<Props> = (props: Props) => {
   const { HandleClose, AddFloatingMessage } = useContext(FloatingMessageContext);
   const overlayRef = useRef<any>()
   const joinRef = useRef<any>()
+  const leaveRef = useRef<any>()
 
   useClickOutside(overlayRef, () => {
     setOverlayData(undefined)
   })
   useClickOutside(joinRef, () => {
     setJoinData(undefined)
+  })
+  useClickOutside(leaveRef, () => {
+    setLeaveData(undefined)
   })
 
   const [rooms, setRooms] = useState<IRoomStructure>()
@@ -52,6 +64,8 @@ const Rooms: NextPage<Props> = (props: Props) => {
   const [showOverlay, setShowOverlay] = useState<boolean>(false)
   const [joinData, setJoinData] = useState<IRoom>()
   const [showJoin, setShowJoin] = useState<boolean>(false)
+  const [leaveData, setLeaveData] = useState<IRoom>()
+  const [showLeave, setShowLeave] = useState<boolean>(false)
   const [shouldLock, setShouldLock] = useState<boolean>(false)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
 
@@ -72,10 +86,10 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
   useEffect(() => {
     if (!didUserInit) return
-    if (!user || (user && (!user.TicketKey || !user.isPaid))) {
+    if (!user || (user && (!user.TicketKey || !user.isPaid || user.ticketType !== '2'))) {
       Router.push('/profile')
     }
-    else if (user && user.TicketKey && user.isPaid) {
+    else if (user && user.TicketKey && user.isPaid && user.ticketType === '2') {
       socketInitializer()
       getDefaults()
     }
@@ -140,6 +154,11 @@ const Rooms: NextPage<Props> = (props: Props) => {
     if (overlayData) setShowOverlay(true)
     else setShowOverlay(false)
   }, [overlayData])
+
+  useEffect(() => {
+    if (leaveData) setShowLeave(true)
+    else setShowLeave(false)
+  }, [leaveData])
 
   useEffect(() => {
     setShouldLock(false)
@@ -304,7 +323,60 @@ const Rooms: NextPage<Props> = (props: Props) => {
     axiosInstance
     .post("api/room/join", formData)
     .then(async () => {
-      socket.emit('room-change', 'a')
+      socket.emit('room-change')
+      await getDefaults()
+    })
+    .catch((err) => {
+      if (err.response.status) {
+        switch(err.response.status) {
+          case (409):
+            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("roomErrConflict")})
+            break;
+          case (400):
+            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errBadRequest")})
+            break;
+          case (401):
+            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("roomBadPIN")})
+            break;
+          default:
+            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errDefault")})
+            break;
+        }  
+      } else {
+        AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errDefault")})
+      }
+    })
+    .finally(() => {
+      if (timer) clearInterval(timer);
+      time = 0;
+      closeOverload();
+      setIsLoading(false)
+      setIsDisabled(false);
+    });
+  }
+
+  const leaveRoom = (room: IRoom) => {
+    if (isDisabled) {
+      return;
+    }
+    setIsDisabled(true);
+
+    startTimer();
+    setIsLoading(true)
+    message = undefined;
+
+    const roomOccupants = accomodations.filter((o) => o.roomId == room.id).length
+    const formData: ILeaveForm = {
+      roomId: room.id,
+      roomCount: roomOccupants,
+    };
+
+    setLeaveData(undefined)
+
+    axiosInstance
+    .post("api/room/leave", formData)
+    .then(async () => {
+      socket.emit('room-change')
       await getDefaults()
     })
     .catch((err) => {
@@ -525,6 +597,35 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
 
 
+      {
+        (showLeave && leaveData) &&
+        <div className={styles.Modal}>
+          <section ref={leaveRef} className={styles.Modal__Join}>
+            <div className={styles.Modal__Join__Content}>
+              <div className={`${styles.Modal__Join__Title} ${!leaveData.customName && styles.Modal__Join__Title_small}`}>
+                <h3>
+                    {leaveData.customName? (leaveData.customName) : (t("roomRoom"))}
+                </h3>
+              </div>
+              <div className={`${styles.Modal__Join__Title} ${leaveData.customName && styles.Modal__Join__Title_small}`}>
+                  <h3>
+                      {leaveData.roomNumber}
+                  </h3>
+              </div>
+              <div>
+                <p>{t("roomLeaveAsk")}</p>
+              </div>
+              <div className={styles.Modal__Join__Bottom}>
+                <SecondaryButton text={t("roomCancel")} classType={"danger"} type='left' onClick={() => setLeaveData(undefined)}/>
+                <SecondaryButton text={t("roomLeave")} classType={"success"} type='right' onClick={() => leaveRoom(leaveData)}/>
+              </div>
+            </div>
+          </section>
+        </div>
+      }
+
+
+
       <div className={styles.Rooms}>
         {
           (user && rooms && accomodations) &&
@@ -548,6 +649,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
                               occupants={occupants.filter((o) => o.roomId == room.id)}
                               clickRow={(e: IOccupant) => setOverlayData(e)}
                               clickButton={(e: IRoom) => setJoinData(e)}
+                              clickLeave={(e: IRoom) => setLeaveData(e)}
                             />
                           );
                         })
