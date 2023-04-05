@@ -240,7 +240,7 @@ export default async function handler(
                                         for (const [key, value] of Object.entries(req.body.foodData as CustomFoodDataInterface)) {
                                             const foodName = foodTable[parseInt(key)].find((o) => o.id == parseInt(value))
                                             const offsetIndex = Object.keys(foodTable).findIndex((e) => e == key)
-                                            foodRow = foodRow + `<tr><td>${createDatePatternWithOffset(startDate, ticketPayload.ticketType == '2'? offsetIndex+1 : offsetIndex)}</td><td>${foodName?.value}</td></tr>`
+                                            foodRow = foodRow + `<tr><td>${createDatePatternWithOffset(startDate, offsetIndex+1)}</td><td>${foodName?.value}</td></tr>`
                                         }
                                     }
                                 }

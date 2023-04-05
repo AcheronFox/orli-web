@@ -19,6 +19,7 @@ type Props = {
     customClass?: string;
     clickRow?: Function;
     clickButton?: Function;
+    clickLeave?: Function;
 };
 
 type RowProps= {
@@ -66,6 +67,9 @@ const RoomCard: NextPage<Props> = (props: Props) => {
     const clickHandler = () => {
         if (props.clickButton) props.clickButton(props.room)
     }
+    const leaveHandler = () => {
+        if (props.clickLeave) props.clickLeave(props.room)
+    }
 
     return (
         <div className={`${styles.RoomCard} ${props.customClass}`}>
@@ -87,9 +91,18 @@ const RoomCard: NextPage<Props> = (props: Props) => {
                 })}
             </div>
             <div className={styles.RoomCard__Footer}>
-                <PrimaryButton disabled={(props.currentAmount >= props.maxSize) || (props.occupants.find((o) => o.AccountKey == user?.AccountKey)? true : false)}
-                text={`${t("roomJoin")} (${props.currentAmount} / ${props.maxSize})`}
-                onClick={() => clickHandler()} />
+                {
+                    (!props.occupants.find((o) => o.AccountKey == user?.AccountKey)) &&
+                    <PrimaryButton disabled={(props.currentAmount >= props.maxSize)}
+                    text={`${t("roomJoin")} (${props.currentAmount} / ${props.maxSize})`}
+                    onClick={() => clickHandler()} />
+                }
+                {
+                    (props.occupants.find((o) => o.AccountKey == user?.AccountKey)) &&
+                    <PrimaryButton
+                    text={`${t("roomLeave")} (${props.currentAmount} / ${props.maxSize})`}
+                    onClick={() => leaveHandler()} />
+                }
             </div>
         </div>
     );

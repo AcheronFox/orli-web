@@ -9,50 +9,42 @@ import { getEarlyBirdExpDate } from '.';
 const getPrices = (dateToCalculate: Date) => {
     let response = undefined
     if (dateToCalculate.valueOf() < getEarlyBirdExpDate().valueOf()) {
+        //Early bird
         response = {
             0: {
-                hu: 500,
-                eur: 1,
+                hu: 14450,
             },
             1: {
-                hu: 1000,
-                eur: 2,
+                hu: 6800,
             },
             2: {
-                hu: 1500,
-                eur: 3,
+                hu: 46750,
             },
             extra0: {
-                hu: 250,
-                eur: 0.5,
+                hu: 5525,
             },
             extra1: {
-                hu: 300,
-                eur: 0.6,
+                hu: 5525,
             },
         }
     }
     else {
+        //Normal
         response = {
             0: {
-                hu: 1000,
-                eur: 1,
+                hu: 17000,
             },
             1: {
-                hu: 2000,
-                eur: 2,
+                hu: 8000,
             },
             2: {
-                hu: 3000,
-                eur: 3,
+                hu: 55000,
             },
             extra0: {
-                hu: 500,
-                eur: 0.5,
+                hu: 6500,
             },
             extra1: {
-                hu: 600,
-                eur: 0.6,
+                hu: 6500,
             },
         }
     }

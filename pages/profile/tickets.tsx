@@ -351,7 +351,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       selectedTicket == 0 && (!selectedDate.length) ||
 
       selectedTicket == 1 && (selectedDate.length < 2) ||
-      selectedTicket == 1 && selectedDayIndex && (selectedFoods[selectedDayIndex] == undefined) ||
+      selectedTicket == 1 && selectedDayIndex && (selectedFoods[selectedDayIndex-1] == undefined) ||
 
       selectedTicket == 2 && hasMissingFood ||
       (isSponsor && sponsorAmount > 10000) && !shirtSize
@@ -462,24 +462,21 @@ const Tickets: NextPage<Props> = (props: Props) => {
                   customClass={selectedTicket==0? styles.Tickets__Selected : ''}
                   button={<SecondaryButton disabled={selectedTicket==0} text={t("ticketSelect")} onClick={() => selectTicket(0)} />}
                   description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
-                  price={prices[0].hu} 
-                  euro={prices[0].eur} />
+                  price={prices[0].hu} />
 
                   <PriceCard
                   title={t("ticket1Title")}
                   customClass={selectedTicket==1? styles.Tickets__Selected : ''}
                   button={<SecondaryButton disabled={selectedTicket==1} text={t("ticketSelect")} onClick={() => selectTicket(1)} />}
                   description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
-                  price={prices[1].hu} 
-                  euro={prices[1].eur} />
+                  price={prices[1].hu} />
 
                   <PriceCard
                   title={t("ticket2Title")}
                   customClass={selectedTicket==2? styles.Tickets__Selected : ''}
                   button={<SecondaryButton disabled={selectedTicket==2} text={t("ticketSelect")} onClick={() => selectTicket(2)} />}
                   description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
-                  price={prices[2].hu} 
-                  euro={prices[2].eur} />
+                  price={prices[2].hu} />
                 </div>
               </section>
             </div>
@@ -494,16 +491,14 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     customClass={wantsDay0? styles.Tickets__Selected : ''}
                     button={<SecondaryButton text={wantsDay0? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDay0((o) => !o)} />}
                     description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
-                    price={prices.extra0.hu} 
-                    euro={prices.extra0.eur} />
+                    price={prices.extra0.hu} />
 
                     <PriceCard
                     title={t("ticketExtra1")}
                     customClass={wantsDayExtra? styles.Tickets__Selected : ''}
                     button={<SecondaryButton disabled={extra1Limit >= 20} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />}
                     description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
-                    price={prices.extra1.hu} 
-                    euro={prices.extra1.eur} />
+                    price={prices.extra1.hu} />
                   </div>
                 </section>
               </div>
@@ -546,13 +541,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       Object.keys(foods).map((food, i) => {
                         const key = parseInt(food)
 
-                        if (selectedTicket==1 && selectedDayIndex != key) return null
+                        if (selectedTicket==1 && selectedDayIndex!-1 != key) return null
                         if (selectedTicket==2 && ((key == 0 && !wantsDay0) || (key == Object.keys(foods).length-1 && !wantsDayExtra))) return null
                         
                         return (
                           <FilterableDropDown
                             key={i}
-                            label={`${createDatePattern(selectedTicket==2? i+1 : i)}:`}
+                            label={`${createDatePattern(i+1)}:`}
                             buttonPlaceholder={t("natSelectSelect")}
                             searchPlaceholder={t("natSelectPlaceholder")}
                             data={foods[key]}
@@ -666,13 +661,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
                           Object.keys(foods).map((food, i) => {
                             const key = parseInt(food)
 
-                            if (selectedTicket==1 && selectedDayIndex != key) return null
+                            if (selectedTicket==1 && selectedDayIndex!-1 != key) return null
                             if (selectedTicket==2 && ((key == 0 && !wantsDay0) || (key == Object.keys(foods).length-1 && !wantsDayExtra))) return null
                             
                             return (
                               <tr key={i}>
                                 <td>
-                                  {createDatePattern(selectedTicket==2? i+1 : i)}
+                                  {createDatePattern(i+1)}
                                 </td>
                                 <td>
                                   {foodSelect[key] || <span style={{"color": "red"}}>{t("ticketNoFood")}</span>}

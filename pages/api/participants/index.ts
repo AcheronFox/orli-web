@@ -26,8 +26,8 @@ export default async function handler(
             account.nationality,
             user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter,
             ticket.sponsorLevel
-            FROM account
-            INNER JOIN user ON account.AccountKey = user.AccountKey
+            FROM account 
+            INNER JOIN user ON account.AccountKey = user.AccountKey AND account.isVerified = 1
             LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey AND ticket.isPaid = 1
             `
 

@@ -8,6 +8,7 @@ export interface IUser {
     isAdmin: boolean
     AccomodationKey: string | null
     TicketKey: string | null
+    ticketType: string | null
 
     UserKey: string
     AccountKey: string
@@ -30,6 +31,7 @@ export class UserData {
     isAdmin: boolean | undefined = undefined
     AccomodationKey: string | null | undefined = undefined
     TicketKey: string | null | undefined = undefined
+    ticketType: string | null | undefined = undefined
 
     UserKey: string | undefined = undefined
     AccountKey: string | undefined = undefined
