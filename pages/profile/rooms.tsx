@@ -27,13 +27,6 @@ const { io } = require("socket.io-client");
 let socket: any;
 
 
-//
-//
-// TODO: ABILITY TO LEAVE ROOM (CHANGE JOIN BUTTON TO LEAVE)
-//
-//
-
-
 type Props = {}
 export const isBrowser = typeof window !== "undefined";
 

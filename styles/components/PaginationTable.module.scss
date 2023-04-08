@@ -1,0 +1,54 @@
+.Table {
+    background-color: $background-color;
+    padding: 1rem;
+    border-collapse: collapse;
+    border: .1rem solid $grey-5;
+
+    &__Header {
+        th {
+            background: linear-gradient(0deg, rgba($primary-color, .5), transparent);
+            border: .2rem solid $grey-5;
+            border-top: 0;
+            border-bottom: .3rem solid $primary-color;
+            box-shadow: 0 .3rem .3rem .3rem rgba($black, .2);
+            clip-path: inset(0 0 -1rem 0);
+            padding: .2rem;
+            text-align: left;
+
+            &:first-child {
+                border-left: 0;
+            }
+
+            &:last-child {
+                border-right: 0;
+            }
+        }
+    }
+
+    &__Row:nth-child(odd) {
+        background-color: lighten($background-color, 1%);
+    }
+
+    &__Cell {
+        padding: .2rem;
+        border: .2rem solid $grey-5;
+        overflow: auto;
+
+        &:not(:last-child) {
+            border-right: .2rem solid $grey-5;
+        }
+    }
+
+    &__Row:first-child &__Cell {
+        border-top: 0;
+    }
+    &__Row &__Cell:first-child {
+        border-left: 0;
+    }
+    &__Row:last-child &__Cell {
+        border-bottom: 0;
+    }
+    &__Row &__Cell:last-child {
+        border-right: 0;
+    }
+}
