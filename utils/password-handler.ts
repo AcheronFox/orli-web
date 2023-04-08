@@ -65,7 +65,8 @@ const resetPassword = async (password: string, oldKey: string) => {
             return new Promise<boolean>(async (resolve) => {
                 const query = `
                 UPDATE account SET
-                account.AccountKey = '${newAccountKey}'
+                account.AccountKey = '${newAccountKey}',
+                account.password = '${encryptedPass}'
                 WHERE
                 account.AccountKey = '${oldKey}'
                 `
