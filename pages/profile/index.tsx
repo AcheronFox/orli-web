@@ -439,23 +439,23 @@ const Profile: NextPage<Props> = (props: Props) => {
                 {t("profOverview")}
               </h3>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("regFirstname")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regFirstname")}: `}</span>
                 <span>{user.firstName}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("regLastname")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regLastname")}: `}</span>
                 <span>{user.lastName}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("regEmail")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regEmail")}: `}</span>
                 <span>{user.email}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("regNationality")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regNationality")}: `}</span>
                 <span>{getNationality(user.nationality, locale)?.name}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("profPayment")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("profPayment")}: `}</span>
                 {
                   (!user.TicketKey) &&
                   <span style={{color: "red"}}>{t("profNotSelected")}</span>
@@ -470,7 +470,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                 }
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("profRoom")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("profRoom")}: `}</span>
                 {
                   (!user.AccomodationKey && user.ticketType !== '2') &&
                   <span style={{textAlign: "right"}}>{t("profNotSelectable")}</span>
@@ -482,7 +482,6 @@ const Profile: NextPage<Props> = (props: Props) => {
                 {
                   (user.AccomodationKey && userRoom) &&
                   <span style={{textAlign: "right"}}>
-                    <span style={{color: "green"}}>{t("profSelected")}</span><br />
                     <span>{`${userRoom.customName? (`${userRoom.customName} (${userRoom.roomNumber})`) : (`${userRoom.roomNumber}`)}`}</span><br />
                     <span>{`${userRoom.occupantCount} / ${userRoom.size}`}</span>
                   </span>
