@@ -107,7 +107,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }
 
   const getDateLimit = async () => {
-    await axiosInstance.get('api/defaults/ticket')
+    await axiosInstance.get('api/defaults/ticket/date')
     .then((res) => {
       setFromDate(new Date(res.data.fromDate))
       setToDate(new Date(res.data.toDate))
@@ -764,6 +764,12 @@ const Tickets: NextPage<Props> = (props: Props) => {
                   (fromDate != undefined && toDate != undefined) && 
                   <div className={styles.Tickets__Overview__Buy}>
                     <>
+                      {
+                        (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
+                        <p style={{color: 'red'}}>
+                          {`${t("warnDateLimit1")} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${t("warnDateLimit2")}`}
+                        </p>
+                      }
                       <Tippy disabled={user.TicketKey == null} content={t("ticketAlreadyHas")}>
                         <span>
                           <PrimaryButton
@@ -773,12 +779,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
                             !((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))} />
                         </span>
                       </Tippy>
-                      {
-                        (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
-                        <p style={{color: 'red'}}>
-                          {`${t("warnDateLimit1")} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${t("warnDateLimit2")}`}
-                        </p>
-                      }
                     </>
                   </div>
                 }
