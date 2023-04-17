@@ -55,7 +55,7 @@ const auth = async (res: NextApiResponse, tokens: Partial<{ [key: string]: strin
     }
 
     if (response?.status != "OK") {
-        res.status(201).json({message: "Unauthorized"})
+        res.status(401).json({message: "Unauthorized"})
     }
     return response
 }
@@ -74,7 +74,7 @@ const authScript = async (res: NextApiResponse, token: string) => {
     }
 
     if (response?.status != "OK") {
-        res.status(201).json({message: "Unauthorized"})
+        res.status(401).json({message: "Unauthorized"})
     }
     return response
 }
@@ -108,7 +108,7 @@ const refresh = async (res: NextApiResponse, refreshToken: string, isOutsideCall
             res.status(200).json({message: "Refresh Successful"})
         }
         else {
-            res.status(201).json({message: "Invalid Token"});
+            res.status(401).json({message: "Invalid Token"});
         }
     }
     else return response;
