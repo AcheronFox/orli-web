@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import * as mysql from "mysql";
 import isMethodAllowed from '@/utils/isMethodAllowed';
+import { regDates } from '../defaults/registration';
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
@@ -81,6 +82,12 @@ export default async function handler(
     }
 
     if (isRegistrationForm(req.body) && isValidForm(req.body)) {
+        const serverDate = new Date()
+        if (!((serverDate.getTime() > regDates.from.getTime()) && (serverDate.getTime() < regDates.to.getTime()))) {
+            sendResponse(400, {message: "Time limit exceeded", e_code: "reg_21"});
+            return;
+        }
+
         let newAccountKey = uuidv4();
         let newUserKey = uuidv4();
         let i1 = 0;

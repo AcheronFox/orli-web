@@ -51,6 +51,8 @@
   "SECTION": "--------------------WARNINGS-------------------------",
 
   "warnOverload": "The server is experiencing higher load than usual, please wait...",
+  "warnDateLimit1": "Only available between",
+  "warnDateLimit2": "",
 
   "SECTION": "--------------------ERRORS------------------------",
 
@@ -83,6 +85,8 @@
   "locMapOpen": "Click here to open Google Maps.",
   "locLocation": "Pákász Tanya Camping",
   "locZoom": "click to zoom",
+  "locAddress": "Address",
+  "locDistance": "Distance",
 
   "SECTION": "--------------------INPUTS-------------------------",
 
@@ -105,7 +109,7 @@
   "regDob": "Date of Birth",
   "regSpecies": "Fursona species",
   "regNationality":"Nationality",
-  "regButton": "Registrate",
+  "regButton": "Register",
   "regSearchablePlaceholder": "Type here to search",
   "regPleaseSelect": "Please select",
   "regRule1": "I read, understood and accept the",
@@ -198,15 +202,15 @@
   "profPassword": "Update Password",
   "profSave": "Save",
   "profPayment": "Payment status",
-  "profRoom": "Room status",
+  "profRoom": "Room",
   "profProcessing": "Processing...",
   "profNotPaid": "Not paid",
   "profNotSelected": "Not selected",
   "profPaid": "Paid",
-  "profRoomDisabled": "Room selection is available after ticket purchase",
   "profTicketDisabled": "You've already selected a ticket",
   "profSelected": "Selected",
   "profNotSelectable": "Your selected ticket doesn't include a room.",
+  "profTicketNotVerified": "Room selection is available after the ticket payment is confirmed",
 
   "SECTION": "--------------------TICKETS-------------------------",
 
@@ -277,6 +281,41 @@
   "roomLeave": "Leave",
   "roomLeaveAsk": "Are you sure you want to leave this room?",
 
-  "SECTION": "--------------------INFO-------------------------"
+  "SECTION": "--------------------INFO-------------------------",
 
+
+
+  "SECTION": "--------------------ADMIN-------------------------",
+
+  "paginationSize": "Page Size",
+  "paginationPage": "Page",
+  "paginationNumber": "Number of Items",
+  "adminSearch": "All users",
+  "adminVerifiedChart": "Registrations",
+  "adminVerified": "Verified",
+  "adminUnverified": "Unverified",
+  "adminPaidChart": "Payments",
+  "adminPaid": "Arrived",
+  "adminNotPaid": "Not arrived",
+  "adminView": "View",
+  "adminAge": "Age",
+  "adminPaidTrue": "Paid",
+  "adminPaidFalse": "Not Paid",
+  "adminPaymentMethod": "Payment Method",
+  "adminReset": "Reset Search",
+  "adminNoData": "There are no items matching your search",
+  "adminTotal": "Total",
+  "adminRemovePic": "Remove picture",
+  "adminSave": "Save",
+  "adminRevert": "Revert",
+  "adminAsk": "Are you sure?",
+  "adminYes": "Yes",
+  "adminNo": "No",
+  "adminVerify": "Accept Registration",
+  "adminReject": "Reject Registration",
+  "adminPaymentConf": "Confirm Payment",
+  "adminLimit": "E-mail limitation",
+  "adminRemoveRoom": "Remove Room",
+  "adminNavSearch": "Admin Search",
+  "adminUser": "User"
 }

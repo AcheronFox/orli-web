@@ -140,7 +140,7 @@ export default async function handler(
             }
             catch(e) {
                 console.log(e)
-                sendResponse(500, {message: "Failed to generate csv", e_code: "export_9"});
+                sendResponse(500, {message: "Failed to generate export", e_code: "export_9"});
             }
         }
     } else return;

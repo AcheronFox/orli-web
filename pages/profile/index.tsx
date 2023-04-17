@@ -28,6 +28,9 @@ import { IRoom } from "@/models/room.model";
 type Props = {}
 const imageMimeType = /image\/(png|jpg|jpeg|webp)/i;
 
+// TODO: FIX THIS SHIT FUTURE ME -> ROOM SELECTION BUTTON TOOLTIP
+// - PAST YOU
+
 const hasLowerCase = (str: string) => {
   return str.toUpperCase() != str;
 };
@@ -372,7 +375,9 @@ const Profile: NextPage<Props> = (props: Props) => {
                     <SecondaryButton disabled={(user.TicketKey != null && user.isPaid)} type="left" text={t("navTickets")} link={"profile/tickets"} />
                   </span>
                 </Tippy>
-                <Tippy disabled={((user.TicketKey != null && user.isPaid && user.ticketType === '2'))} content={(user.ticketType !== '2')? t("profNotSelectable") : t("profRoomDisabled") }>
+                <Tippy disabled={((user.TicketKey != null && user.isPaid && user.ticketType === '2'))} content={
+                  user.ticketType !== null? (user.ticketType == '2'? (user.isPaid? '' : t("profTicketNotVerified")) : t("profNotSelectable")) : (user.isPaid? '' : t("profTicketNotVerified"))
+                }>
                   <span className={styles.Profile__Header__Bottom__Input}>
                     <SecondaryButton disabled={!((user.TicketKey != null && user.isPaid && user.ticketType === '2'))} type="right" text={t("navRooms")} link={"profile/rooms"} />
                   </span>
@@ -397,7 +402,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                     onChange={(e) => {setPassword(e.target.value); setIsChanged(true);}}
                     onBlur={() => validatePass()}
                     inputClass={errorStates.password && styles.Profile__Body__Error}
-                    maxlength={255}
+                    maxlength={100}
                   ></Input>
                   <p className={styles.Profile__Body__Error__Text}>{errorStates.password}</p>
                 </span>
@@ -412,7 +417,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                     onChange={(e) => {setContact(e.target.value); setIsChanged(true);}}
                     onBlur={() => validateContact()}
                     inputClass={errorStates.contact && styles.Profile__Body__Error}
-                    maxlength={255}
+                    maxlength={100}
                   ></Input>
                   <p className={styles.Profile__Body__Error__Text}> {errorStates.contact}</p>
                 </span>
@@ -439,50 +444,49 @@ const Profile: NextPage<Props> = (props: Props) => {
                 {t("profOverview")}
               </h3>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("regFirstname")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regFirstname")}: `}</span>
                 <span>{user.firstName}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("regLastname")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regLastname")}: `}</span>
                 <span>{user.lastName}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("regEmail")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regEmail")}: `}</span>
                 <span>{user.email}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("regNationality")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regNationality")}: `}</span>
                 <span>{getNationality(user.nationality, locale)?.name}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("profPayment")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("profPayment")}: `}</span>
                 {
-                  (!user.TicketKey) &&
+                  (user.TicketKey == null) &&
                   <span style={{color: "red"}}>{t("profNotSelected")}</span>
                 }
                 {
-                  (user.TicketKey && !user.isPaid) &&
+                  (user.TicketKey != null && user.isPaid == false) &&
                   <span style={{color: "red"}}>{t("profNotPaid")}</span>
                 }
                 {
-                  (user.TicketKey && user.isPaid) &&
+                  (user.TicketKey != null && user.isPaid == true) &&
                   <span style={{color: "green"}}>{t("profPaid")}</span>
                 }
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span>{`${t("profRoom")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${t("profRoom")}: `}</span>
                 {
-                  (!user.AccomodationKey && user.ticketType !== '2') &&
+                  (!user.AccomodationKey && (user.ticketType !== null && user.ticketType !== '2')) &&
                   <span style={{textAlign: "right"}}>{t("profNotSelectable")}</span>
                 }
                 {
-                  (!user.AccomodationKey && user.ticketType === '2') &&
+                  (!user.AccomodationKey && (user.ticketType === '2' || user.ticketType === null)) &&
                   <span style={{color: "red"}}>{t("profNotSelected")}</span>
                 }
                 {
                   (user.AccomodationKey && userRoom) &&
                   <span style={{textAlign: "right"}}>
-                    <span style={{color: "green"}}>{t("profSelected")}</span><br />
                     <span>{`${userRoom.customName? (`${userRoom.customName} (${userRoom.roomNumber})`) : (`${userRoom.roomNumber}`)}`}</span><br />
                     <span>{`${userRoom.occupantCount} / ${userRoom.size}`}</span>
                   </span>

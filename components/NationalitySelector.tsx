@@ -52,7 +52,7 @@ const NationalitySelector: NextPage<Props> = ({
         setVal(Codes[id].name)
       }
     }
-  }, [Codes]);
+  }, [Codes, value]);
 
   const changeList = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

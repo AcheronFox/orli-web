@@ -1,4 +1,4 @@
-import { IPrices } from './../../../../models/prices.model';
+import { IPrices } from '../../../../models/prices.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import verifyToken from '@/utils/veryifToken';
@@ -12,10 +12,10 @@ const getPrices = (dateToCalculate: Date) => {
         //Early bird
         response = {
             0: {
-                hu: 14450,
+                hu: 6800,
             },
             1: {
-                hu: 6800,
+                hu: 14450,
             },
             2: {
                 hu: 46750,
@@ -32,10 +32,10 @@ const getPrices = (dateToCalculate: Date) => {
         //Normal
         response = {
             0: {
-                hu: 17000,
+                hu: 8000,
             },
             1: {
-                hu: 8000,
+                hu: 17000,
             },
             2: {
                 hu: 55000,

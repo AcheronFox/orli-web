@@ -1,7 +1,8 @@
 import dotenv from "dotenv"
 import schedule from "node-schedule"
 import resetLimit from "./scripts/resetMailLimit"
-
+import ticketLimitWatcher from "./scripts/ticketLimitWatcher"
+import roomHoggingWatcher from "./scripts/roomHoggingWatcher"
 
 const isProd = process.argv[2] == "production"
 const log = (message: string) => {
@@ -15,31 +16,16 @@ const start = () => {
 }
 start()
 
-
-// Room hogging watcher
-schedule.scheduleJob('0 0 * * * *', async () => {
+schedule.scheduleJob('0 0 * * * *', async () => { // 0 0 * * * *
     try {
-        
-    }
-    catch(e) {
-        log(`Error: ${e}`)
-    }
-}); // Trigger every ?
-
-// Ticket payment watcher
-schedule.scheduleJob('0 0 * * * *', async () => {
-    try {
-        
-    }
-    catch(e) {
-        log(`Error: ${e}`)
-    }
-}); // Trigger every ?
-
-// Email count watcher
-schedule.scheduleJob('0 0 * * * *', async () => {
-    try {
+        // Email count watcher
         await resetLimit()
+
+        // Ticket payment watcher
+        await ticketLimitWatcher()
+
+        // Room hogging watcher
+        await roomHoggingWatcher()
     }
     catch(e) {
         log(`Error: ${e}`)

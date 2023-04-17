@@ -420,11 +420,14 @@
                 :first-child {
                     min-width: max-content;
                     flex: 1;
-                    margin-right: 1rem;
                 }
 
                 &:not(:last-child) {
                     margin-bottom: .5rem;
+                }
+
+                &_left {
+                    margin-left: 1rem;
                 }
             }
         }

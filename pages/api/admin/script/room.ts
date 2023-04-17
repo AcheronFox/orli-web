@@ -1,4 +1,4 @@
-import { IRoom, IRoomStructure } from '@/models/room.model';
+import { IRoom } from '@/models/room.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/utils/mysql'
