@@ -156,6 +156,12 @@ const CustomDatePicker = React.forwardRef(
       isDateValid(!isNaN(actualDate.getDate()));
     }
 
+    useEffect(() => {
+      if (!value) return
+      const tempArr = value?.toString().split('/')
+      validateDate(tempArr[0], tempArr[1], tempArr[2])
+    }, [value])
+
     const handleClick = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       if (e) e.preventDefault();
       setIsOpen(!isOpen);
