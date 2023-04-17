@@ -5,7 +5,7 @@ import NationalitySelector from "@/comp/NationalitySelector";
 import PrimaryButton from "@/comp/PrimaryButton";
 import Section from "@/comp/Section"
 import { useTranslate } from "@/hooks/useTranslate";
-import { getCookie, setCookie } from 'cookies-next';
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import styles from "@/styles/pages/Registration.module.scss"
 import { useContext, useEffect, useState } from "react";
 import crypto from "crypto";
@@ -332,6 +332,9 @@ const Registration: NextPage<Props> = (props: Props) => {
     axiosInstance
     .post("api/user/reg", formData)
     .then(() => {
+      if (getCookie("registrationData")) {
+        deleteCookie("registrationData");
+      }
       Router.push({
         pathname: '/registration/success',
         query: {
@@ -362,7 +365,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       if (timer) clearInterval(timer);
       time = 0;
       closeOverload();
-      setIsLoading(false)
+      setIsLoading(false);
       setIsDisabled(false);
     });
   }
