@@ -14,6 +14,7 @@ export const config = {
     }
 }
 
+const imageMimeType = /image\/(png|jpg|jpeg|webp)/i;
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -46,6 +47,9 @@ export default async function handler(
 
                 const cropData = JSON.parse(data.fields.crop)
                 const { file } = data.files
+                if (!file.mimetype.match(imageMimeType)) {
+                    return sendResponse(400, {message: "File type not supported", e_code: "upload_1"}); 
+                }
                 const fileBuffer = fs.readFileSync(file.filepath);
 
                 const croppedBuffer = await sharp(fileBuffer).extract({ width: Math.floor(cropData.width), height: Math.floor(cropData.height), left: Math.floor(cropData.x), top: Math.floor(cropData.y) }).toBuffer()
@@ -85,13 +89,13 @@ export default async function handler(
                         database.query(query, async (err: any, result: any) => {
                             if (err) {
                                 console.log("ERROR: ", err);
-                                sendResponse(500, {message: "Unknown Error", e_code: "upload_1"}); 
+                                sendResponse(500, {message: "Unknown Error", e_code: "upload_2"}); 
                                 resolve(false);
                             }
                             resolve(true);
                         });
                     }).catch(() => {
-                        sendResponse(500, {message: "Unknown Error", e_code: "upload_2"}); 
+                        sendResponse(500, {message: "Unknown Error", e_code: "upload_3"}); 
                     });
                 }
 

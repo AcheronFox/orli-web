@@ -5,12 +5,13 @@ import NationalitySelector from "@/comp/NationalitySelector";
 import PrimaryButton from "@/comp/PrimaryButton";
 import Section from "@/comp/Section"
 import { useTranslate } from "@/hooks/useTranslate";
+import { getCookie, setCookie } from 'cookies-next';
 import styles from "@/styles/pages/Registration.module.scss"
 import { useContext, useEffect, useState } from "react";
 import crypto from "crypto";
 import Router from 'next/router'
 import axiosInstance from "@/utils/axiosConfig";
-import { IRegistrationForm } from "@/models/registration-form.model";
+import { IRegistrationDataSave, IRegistrationForm } from "@/models/registration-form.model";
 import LinkButton from "@/comp/LinkButton";
 import { NextPage } from "next";
 import LoadingOverlay from "@/comp/LoadingOverlay";
@@ -18,6 +19,7 @@ import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
 import { RiQuestionLine } from "react-icons/ri"
 import Tippy from "@tippyjs/react";
 import CustomHead from "@/comp/CustomHead";
+import createDatePatternFromDate from "@/root/functions/createDatePattern";
 
 const isEmailValid = (email: string) => {
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
@@ -62,6 +64,10 @@ const Registration: NextPage<Props> = (props: Props) => {
   const [contact, setContact] = useState<string>("");
   const [allergy, setAllergy] = useState<string>("");
   const [otherPass, setOtherPass] = useState<string>("");
+
+  const [fromDate, setFromDate] = useState<Date>();
+  const [toDate, setToDate] = useState<Date>();
+  const [serverDate, setServerDate] = useState<Date>();
   
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -95,6 +101,25 @@ const Registration: NextPage<Props> = (props: Props) => {
   let message: number | undefined = undefined;
 
   const { HandleClose, AddFloatingMessage } = useContext(FloatingMessageContext);
+
+  // ===============================================
+  // DEFAULTS
+  // ===============================================
+  useEffect(() => {
+    getDefaults()
+  }, [])
+
+  const getDefaults = async () => {
+    await axiosInstance.get('api/defaults/registration')
+    .then((res) => {
+      setServerDate(new Date(res.data.serverDate))
+      setFromDate(new Date(res.data.fromDate))
+      setToDate(new Date(res.data.toDate))
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
 
   // ===============================================
   // USEEFFECT UPDATES
@@ -341,7 +366,52 @@ const Registration: NextPage<Props> = (props: Props) => {
       setIsDisabled(false);
     });
   }
+
+
+  // ====================================================
+  // Saves the data of the user when deloading the page,
+  // and loads it back into the fields code by Alma
+  // ====================================================
+
+  const saveCookie = () => {
+    const saveData: IRegistrationDataSave = {
+      "FirstName": firstName,
+      "LastName": lastName,
+      "FursonaName": fursonaName,
+      "FursonaSpecies": fursonaSpecies,
+      "Email": email,
+      "DoB": dob,
+      "Nationality": nationality,
+      "Contact": contact,
+      "Allergy": allergy,
+      "OtherPass": otherPass,
+    }
+    setCookie("registrationData", JSON.stringify(saveData));
+  }
+
+  useEffect(() => {
+    if (getCookie("registrationData")) {
+      const loadedData: IRegistrationDataSave = JSON.parse(getCookie("registrationData")!.toString()) as IRegistrationDataSave;
+      if (!Object.values(loadedData).every(x => x == "" || x == 0)) {
+        Object.keys(loadedData).map((key) => {
+          eval(`set${key}('${loadedData[key as keyof typeof loadedData]}')`)
+        })
+      }
+    }
+  },[])
   
+  // i hate myself xd - Alma
+
+  useEffect(()=>{
+    saveCookie();
+  },[firstName, lastName, fursonaName, fursonaSpecies, 
+    email, dob, age, nationality, 
+    contact, allergy, otherPass])
+
+  // ======================================================
+  // Code by Alma ends here, thx for letting me write this!
+  // ======================================================
+
   return (
     <>
       <CustomHead title={t("navRegistration")} />
@@ -367,7 +437,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setFirstName(e.target.value)}
                       onBlur={() => validateFirstName()}
                       inputClass={`${errorStates.firstName? styles.Registration__Error : ''}`}
-                      maxlength={255}
+                      maxlength={100}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.firstName}</p>
                   </span>
@@ -383,7 +453,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setLastName(e.target.value)}
                       onBlur={() => validateLastName()}
                       inputClass={errorStates.lastName && styles.Registration__Error}
-                      maxlength={255}
+                      maxlength={100}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.lastName}</p>
                   </span>
@@ -423,7 +493,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                     onChange={(e) => setEmail(e.target.value)}
                     onBlur={() => validateEmail()}
                     inputClass={errorStates.email && styles.Registration__Error}
-                    maxlength={255}
+                    maxlength={100}
                   ></Input>
                   <p className={styles.Registration__Error__Text}>{errorStates.email}</p>
                 </span>
@@ -440,7 +510,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                     onChange={(e) => setConfEmail(e.target.value)}
                     onBlur={() => validateConfEmail()}
                     inputClass={errorStates.confEmail && styles.Registration__Error}
-                    maxlength={255}
+                    maxlength={100}
                   ></Input>
                   <p className={styles.Registration__Error__Text}> {errorStates.confEmail}</p>
                 </span>
@@ -458,7 +528,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setFursonaName(e.target.value)}
                       onBlur={() => validateSonaName()}
                       inputClass={errorStates.fursonaName && styles.Registration__Error}
-                      maxlength={255}
+                      maxlength={10}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.fursonaName}</p>
                   </span>
@@ -474,7 +544,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setFursonaSpecies(e.target.value)}
                       onBlur={() => validateSpecies()}
                       inputClass={errorStates.fursonaSpecies && styles.Registration__Error}
-                      maxlength={255}
+                      maxlength={10}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.fursonaSpecies}</p>
                   </span>
@@ -494,7 +564,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setPassword(e.target.value)}
                       onBlur={() => validatePass()}
                       inputClass={errorStates.password && styles.Registration__Error}
-                      maxlength={255}
+                      maxlength={100}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.password}</p>
                   </span>
@@ -511,7 +581,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setConfPassword(e.target.value)}
                       onBlur={() => validateConfPass()}
                       inputClass={errorStates.confPassword && styles.Registration__Error}
-                      maxlength={255}
+                      maxlength={100}
                     ></Input>
                     <p className={styles.Registration__Error__Text}>{errorStates.confPassword}</p>
                   </span>
@@ -534,7 +604,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       onChange={(e) => setContact(e.target.value)}
                       onBlur={() => validateContact()}
                       inputClass={errorStates.contact && styles.Registration__Error}
-                      maxlength={255}
+                      maxlength={100}
                     ></Input>
                   </span>
                   <p className={styles.Registration__Error__Text}> {errorStates.contact}</p>
@@ -575,17 +645,29 @@ const Registration: NextPage<Props> = (props: Props) => {
                   autoComplete="nope"
                   value={otherPass}
                   onChange={(e) => setOtherPass(e.target.value)}
-                  maxlength={255}
+                  maxlength={100}
                   className={styles.Registration__Form__Pass}
                 ></Input>
             </div>
-            <div className={styles.Registration__Button}>
-              <PrimaryButton
-              disabled={isButtonActive || isDisabled}
-              text={t("regButton")}
-              onClick={handleButton} 
-              />
-            </div>
+            {
+              (serverDate != undefined && fromDate != undefined && toDate != undefined) &&
+              <div className={styles.Registration__Button}>
+                <>
+                  <PrimaryButton
+                  disabled={isButtonActive || isDisabled ||
+                    !((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))}
+                  text={t("regButton")}
+                  onClick={handleButton} 
+                  />
+                  {
+                    (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
+                    <p style={{color: 'red'}}>
+                      {`${t("warnDateLimit1")} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${t("warnDateLimit2")}`}
+                    </p>
+                  }
+                </>
+              </div>
+            }
           </Section>
         </div>
       </div>

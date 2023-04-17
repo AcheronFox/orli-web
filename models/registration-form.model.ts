@@ -12,3 +12,16 @@ export interface IRegistrationForm {
     allergy: string;
     otherPass: string;
 }
+
+export interface IRegistrationDataSave  {
+    FirstName: string;
+    LastName: string;
+    FursonaName: string;
+    FursonaSpecies: string;
+    Email: string;
+    DoB: string;
+    Nationality: string;
+    Contact: string;
+    Allergy: string;
+    OtherPass: string;
+}

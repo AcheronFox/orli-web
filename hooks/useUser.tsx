@@ -100,7 +100,7 @@ export const useUser = () => {
     const logout = async () => {
         removeUser();
         await axiosInstance.get("api/user/logout");
-        if (router.pathname.includes("/profile")) router.push("/login");
+        if (router.pathname.includes("/profile") || router.pathname.includes("/admin")) router.push("/login");
     };
 
     const updateUser = async (data: IUpdateForm, cb: Function, showMsg = true) => {

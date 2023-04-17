@@ -13,8 +13,8 @@ const getNationality = (input: string, locale: string) => {
     );
 
     const val = Codes.find((o) => o.alpha2 == input)
+    
     if (val) return val;
-
     return undefined;
 }
 

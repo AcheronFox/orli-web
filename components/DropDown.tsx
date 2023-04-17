@@ -3,15 +3,13 @@ import { NextPage } from "next";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { VariableSizeList as List } from "react-window";
 import SecondaryButton from "./SecondaryButton";
-import Input from "./Input";
 import styles from "@/styles/components/FilterableDropDown.module.scss";
 import UseWindowDimensions from "@/hooks/useWindowDimensions";
 import { RiArrowRightSLine } from "react-icons/ri"
 
 type Props = {
-  label: string;
+  label?: string;
   onChange?: Function;
-  onBlur?: React.FocusEventHandler<HTMLInputElement>;
   setSelected: Function;
   setValue: Function;
   close?: Function;
@@ -20,11 +18,12 @@ type Props = {
   buttonPlaceholder?: string;
   data: any[];
   inputClass?: string;
+  buttonType?: string;
+  customSelectorClass?: string;
 };
 
 const DropDown: NextPage<Props> = ({
   label,
-  onBlur,
   disabled,
   selected,
   buttonPlaceholder,
@@ -32,7 +31,8 @@ const DropDown: NextPage<Props> = ({
   onChange,
   setSelected,
   setValue,
-  inputClass
+  buttonType,
+  customSelectorClass,
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [switchFlyOut, setSwitchFlyOut] = useState<boolean>(false);
@@ -130,10 +130,12 @@ const DropDown: NextPage<Props> = ({
 
   return (
     <div ref={InputRef} className={styles.Selector}>
-      <div className={styles.Selector__Selection} ref={dropdownAnchor}>
-        <span className={styles.Selector__Label}>{label}</span>
+      <div className={`${styles.Selector__Selection} ${customSelectorClass}`} ref={dropdownAnchor}>
+        {(label != undefined) &&
+          <span className={styles.Selector__Label}>{label}</span>
+        }
         <SecondaryButton
-          onClick={openDropDown}
+          onClick={openDropDown} type={buttonType}
           text={<span className={styles.Selector__Button}>{selected || buttonPlaceholder} <RiArrowRightSLine size={18} className={`${styles.Selector__Button__Icon} ${open && styles.Selector__Button__Open}`} /></span>}
         />
       </div>

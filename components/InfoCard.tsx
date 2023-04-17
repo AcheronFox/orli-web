@@ -26,7 +26,7 @@ const InfoCard: NextPage<Props> = (props: Props) => {
                     <div>{t("infoCardTime")}</div>
                     <div>{props.time}</div>
                 </span>}
-                <p className={styles.InfoCard__Content__Text}>{props.text}</p>
+                <span className={styles.InfoCard__Content__Text}>{props.text}</span>
             </div>
             <div className={styles.InfoCard__Button}>
                 <PrimaryButton text={t("infoCardButton")} onClick={props.buttonAction} link={props.link}></PrimaryButton>
