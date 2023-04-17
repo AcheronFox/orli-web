@@ -120,6 +120,7 @@ const Admin: NextPage<Props> = (props: Props) => {
           borderColor.push(`rgba(${color}, 1)`)
           break;
         case 'payment':
+          if (!item.paymentMethod) return
           datas.push(item.count)
           if (item.isPaid) {
             switch (item.paymentMethod.toLowerCase()) {
