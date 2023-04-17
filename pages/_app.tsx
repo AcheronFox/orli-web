@@ -15,6 +15,7 @@ import FloatingMessageWrapper from "@/hooks/FloatingMessageWrapper";
 import Footer from "@/comp/Footer";
 import AuthProvider from "@/hooks/AuthProvider";
 import CustomHead from "@/comp/CustomHead";
+import { deleteCookie, getCookie } from "cookies-next";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
@@ -38,6 +39,20 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   };
 
   useEffect(() => {
+    window.addEventListener('beforeunload', destroyRegCookie);
+
+    return () => {
+      window.removeEventListener('beforeunload', destroyRegCookie);
+    }
+  }, [])
+
+  const destroyRegCookie = () => {
+    if (getCookie("registrationData")) {
+      deleteCookie("registrationData");
+    }
+  }
+
+  useEffect(() => {
     if (isLocked) {
       const timer = setInterval(async () => {
         if (lockedUntil <= Math.floor(new Date().getTime() / 1000)) {
@@ -53,7 +68,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     }
   }, [isLocked, lockedUntil]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     //handle autocomplete
     setUsername(usernameElement?.current?.value ?? "");
     setPass(passwordElement?.current?.value ?? "");
