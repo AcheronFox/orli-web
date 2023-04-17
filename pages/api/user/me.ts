@@ -41,7 +41,10 @@ export default async function handler(
                         sendResponse(500, {message: "Unknown Error", e_code: "me_1"}); 
                         resolve(undefined);
                     }
-                    resolve(result[0]);
+                    if (result.length) {
+                        resolve(result[0]);
+                    }
+                    else resolve(undefined)
                 });
             }).catch(() => {
                 sendResponse(500, {message: "Unknown Error", e_code: "me_2"}); 
@@ -53,5 +56,6 @@ export default async function handler(
         if (response) {
             sendResponse(200, response);
         }
+        else sendResponse(404, {message: "Not Found", e_code: "me_3"});
     } else return;
 }
