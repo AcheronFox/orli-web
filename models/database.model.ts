@@ -37,6 +37,7 @@ export class TicketDatabase {
     startDay: string | undefined = undefined;
     endDay: string | undefined = undefined;
     creationDate: string | undefined = undefined;
+    paymentMethod: string | undefined = undefined;
     isPaid: boolean | undefined = undefined;
 }
 

@@ -51,6 +51,8 @@
   "SECTION": "--------------------WARNINGS-------------------------",
 
   "warnOverload": "A szerver a szokásosnál nagyobb terhelést tapasztal, kérlek várj...",
+  "warnDateLimit1": "Csak",
+  "warnDateLimit2": "elérhető",
 
   "SECTION": "--------------------ERRORS------------------------",
 
@@ -83,6 +85,8 @@
   "locMapOpen": "Kattints ide a Google Térkép megnyitásához.",
   "locLocation": "Pákász Tanya Kemping",
   "locZoom": "kattints a nagyításhoz",
+  "locAddress": "Cím",
+  "locDistance": "Távolság",
 
   "SECTION": "--------------------INPUTS-------------------------",
 
@@ -203,11 +207,11 @@
   "profNotPaid": "Nincs kifizetve",
   "profNotSelected": "Nincs kiválasztva",
   "profPaid": "Kifizetve",
-  "profRoomDisabled": "Szobaválasztás jegyvásárlás után elérhető",
   "profTicketDisabled": "Már választottál jegyet.", 
   "profSelected": "Kiválasztva",
   "profNotSelectable": "A kiválasztott jegyed nem tartalmaz szobát.",
-
+  "profTicketNotVerified": "Szoba választás csak a jegy vásárlás megerősítése után lesz elérhető",
+  
   "SECTION": "--------------------TICKETS-------------------------",
 
   "ticketTickets": "Jegyek",
@@ -275,6 +279,41 @@
   "roomLeave": "Elhagyás",
   "roomLeaveAsk": "Biztosan el szeretnéd hagyni ezt a szobát?",
 
-  "SECTION": "--------------------INFO-------------------------"
+  "SECTION": "--------------------INFO-------------------------",
 
+
+
+  "SECTION": "--------------------ADMIN-------------------------",
+
+  "paginationSize": "Oldal Méret",
+  "paginationPage": "Oldal",
+  "paginationNumber": "Darabszám",
+  "adminSearch": "Összes felhasználó",
+  "adminVerifiedChart": "Regisztrációk",
+  "adminVerified": "Ellenőrízett",
+  "adminUnverified": "Ellenőrízetlen",
+  "adminPaidChart": "Befizetések",
+  "adminPaid": "Megérkezett",
+  "adminNotPaid": "Nem érkezett meg",
+  "adminView": "Megtekintés",
+  "adminAge": "Életkor",
+  "adminPaidTrue": "Fizetett",
+  "adminPaidFalse": "Nem Fizetett",
+  "adminPaymentMethod": "Fizetési Mód",
+  "adminReset": "Keresés Visszaállítása",
+  "adminNoData": "Nincs a keresésnek megfelelő elem",
+  "adminTotal": "Összesen",
+  "adminRemovePic": "Kép eltávolítása",
+  "adminSave": "Mentés",
+  "adminRevert": "Visszavonás",
+  "adminAsk": "Biztos vagy benne?",
+  "adminYes": "Igen",
+  "adminNo": "Nem",
+  "adminVerify": "Regisztráció Elfogadása",
+  "adminReject": "Regisztráció Elutasítása",
+  "adminPaymentConf": "Fizetés Megerősítése",
+  "adminLimit": "E-mail limitáció",
+  "adminRemoveRoom": "Szoba Eltávolítása",
+  "adminNavSearch": "Admin Keresés",
+  "adminUser": "Felhasználó"
 }

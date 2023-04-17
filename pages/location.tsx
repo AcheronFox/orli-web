@@ -11,16 +11,31 @@ import 'ol/ol.css';
 import {RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle, MapBrowserEvent} from 'rlayers';
 import { useEffect, useState } from "react";
 import CustomHead from "@/comp/CustomHead";
+import { IPOI } from "@/models/poi.model";
 
 type Props = {}
 
 const Location: NextPage<Props> = (props: Props) => {
-  const { t } = useTranslate();
+  const { t, locale } = useTranslate();
   const [didInit, setDidInit] = useState<boolean>(false)
 
   useEffect(() => {
     setDidInit(true)
   }, [])
+
+  const [POIs, setPOIs] = useState<IPOI[]>(
+    locale == "en"
+        ? require("../locales/en.poi.json")
+        : require("../locales/hu.poi.json")
+  );
+
+  useEffect(() => {
+    setPOIs(
+      locale == "en"
+        ? require("../locales/en.poi.json")
+        : require("../locales/hu.poi.json")
+    )
+  }, [locale])
 
   const onPointermove = (e: MapBrowserEvent<UIEvent>) => {
     const pixel = e.target.getEventPixel(e.originalEvent);
@@ -90,27 +105,29 @@ const Location: NextPage<Props> = (props: Props) => {
             text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Explicabo, iste aut, fuga, vero at et eius beatae voluptate a nam dolores nesciunt placeat quos atque incidunt accusantium ad ipsa fugiat?"
           >
             <div className={styles.Location__Poi}>
-              <InfoCard
-                title="Lidl"
-                description="Élelmiszerbolt"
-                time={<span><p>H-Sz: 7-21</p><p>V: 7-19</p></span>}
-                text={<span><p>Cím: Gárdony, Akácfa utca 2</p><p>Távolság: ~27 perc (gyalog)</p></span>}
-                link="https://google.com">
-              </InfoCard>
-              <InfoCard
-                title="Lidl"
-                description="Élelmiszerbolt"
-                time={<span><p>H-Sz: 7-21</p><p>V: 7-19</p></span>}
-                text={<span><p>Cím: Gárdony, Akácfa utca 2</p><p>Távolság: ~27 perc (gyalog)</p></span>}
-                link="https://google.com">
-              </InfoCard>
-              <InfoCard
-                title="Lidl"
-                description="Élelmiszerbolt"
-                time={<span><p>H-Sz: 7-21</p><p>V: 7-19</p></span>}
-                text={<span><p>Cím: Gárdony, Akácfa utca 2</p><p>Távolság: ~27 perc (gyalog)</p></span>}
-                link="https://google.com">
-              </InfoCard>
+              {
+                POIs.map((poi, i) => {
+                  return(
+                    <InfoCard
+                      key={i}
+                      title={poi.title}
+                      description={poi.description}
+                      time={<span>{
+                          poi.time.map((time, j) => {
+                            return (
+                              <p key={j}>{time}</p>
+                            );
+                          })
+                        }</span>}
+                      text={<span>
+                        <p>{`${t("locAddress")}: ${poi.address}`}</p>
+                        <p>{`${t("locDistance")}: ${poi.distance}`}</p>
+                        </span>}
+                      link={poi.link}
+                    />
+                  );
+                })
+              }
             </div>
           </Section>
         </div>

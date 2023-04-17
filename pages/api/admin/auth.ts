@@ -34,7 +34,7 @@ export default async function handler(
                 return sendResponse(200, {message: "Authentication Successful"})
             }
             else {
-                return sendResponse(404, {message: "Authentication Failed", e_code: 'admin_auth_1'})
+                return sendResponse(401, {message: "Authentication Failed", e_code: 'admin_auth_1'})
             }
         } else {
             return sendResponse(404, {message: "Account Not Found", e_code: 'admin_auth_2'})

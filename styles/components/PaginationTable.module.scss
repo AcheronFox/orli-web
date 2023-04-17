@@ -1,8 +1,14 @@
 .Table {
+    width: 100%;
     background-color: $background-color;
     padding: 1rem;
     border-collapse: collapse;
     border: .1rem solid $grey-5;
+
+    &__Wrapper {
+        display: flex;
+        flex-direction: column;
+    }
 
     &__Header {
         th {
@@ -26,7 +32,7 @@
     }
 
     &__Row:nth-child(odd) {
-        background-color: lighten($background-color, 1%);
+        background-color: lighten($background-color, 3%);
     }
 
     &__Cell {
@@ -50,5 +56,34 @@
     }
     &__Row &__Cell:last-child {
         border-right: 0;
+    }
+
+    &__Row {
+        &_clickable {
+            cursor: pointer;
+            transition: all .2s;
+            
+            &:hover {
+                background-color: rgba($primary-color, .4);
+            }
+        }
+    }
+
+    &__Footer {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+
+        &__Navbar {
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        &__Selector {
+            & > * {
+                width: 100%;
+            }
+        }
     }
 }

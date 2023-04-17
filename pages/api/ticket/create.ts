@@ -8,12 +8,14 @@ import isMethodAllowed from '@/utils/isMethodAllowed';
 import * as mysql from "mysql";
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import { getPrices } from '../defaults/tickets/prices';
+import { getPrices } from '../defaults/ticket/prices';
 import { findTemplate, sendMail } from '@/utils/mail-controller';
 import handlebars from 'handlebars';
 import i18n from '@/root/i18n';
-import { getEarlyBirdExpDate, getStartDate } from '../defaults/tickets';
+import { getEarlyBirdExpDate, getStartDate } from '../defaults/ticket';
 import { IFood } from '@/models/food.model';
+import createDatePatternFromDate from "@/root/functions/createDatePattern";
+import { ticketDates } from '../defaults/ticket/date';
 
 
 const toSqlDatetime = (inputDate: Date) => {
@@ -23,13 +25,6 @@ const toSqlDatetime = (inputDate: Date) => {
         .toISOString()
         .slice(0, 19)
         .replace('T', ' ')
-}
-const createDatePatternFromDate = (date: Date) => {
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + (date.getDate())).slice(-2);
-
-    return `${year}.${month}.${day}.`
 }
 const createDatePatternWithOffset = (date: Date, index: number) => {
     const year = date.getFullYear();
@@ -64,6 +59,12 @@ export default async function handler(
     }
 
     if (tokenPayload) {
+        const serverDate = new Date()
+        if (!((serverDate.getTime() > ticketDates.from.getTime()) && (serverDate.getTime() < ticketDates.to.getTime()))) {
+            sendResponse(400, {message: "Time limit exceeded", e_code: "tcrt_16"});
+            return;
+        }
+
         const conflict = async () => {
             return new Promise<boolean>(async (resolve) => {
                 const query = 

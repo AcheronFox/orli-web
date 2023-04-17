@@ -21,6 +21,7 @@ import Tippy from "@tippyjs/react";
 import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
 import DropDown from "@/comp/DropDown";
 import CustomHead from "@/comp/CustomHead";
+import createDatePatternFromDate from "@/root/functions/createDatePattern";
 
 type Props = {}
 
@@ -56,6 +57,9 @@ const Tickets: NextPage<Props> = (props: Props) => {
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null)
   const [calendarKey, setCalendarKey] = useState<number>(0)
 
+  const [fromDate, setFromDate] = useState<Date>();
+  const [toDate, setToDate] = useState<Date>();
+
   const [foods, setFoods] = useState<CustomFoodDataInterface>(
     locale == "en"
       ? require("../../locales/en.food.json")
@@ -68,7 +72,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
 
   const [isSponsor, setIsSponsor] = useState<boolean>(false)
   const [shirtSize, setShirtSize] = useState<ShirtSizeInterface>(null)
-  const [shirtSizes, setShirtSizes] = useState<ShirtSizeInterface[]>([
+  const [shirtSizes] = useState<ShirtSizeInterface[]>([
     'S',
     'M',
     'L',
@@ -97,12 +101,24 @@ const Tickets: NextPage<Props> = (props: Props) => {
     await getLimits()
     await getPrices()
     await getExtraLimits()
+    await getDateLimit()
 
     setIsLoading(false)
   }
 
+  const getDateLimit = async () => {
+    await axiosInstance.get('api/defaults/ticket')
+    .then((res) => {
+      setFromDate(new Date(res.data.fromDate))
+      setToDate(new Date(res.data.toDate))
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }
+
   const getLimits = async () => {
-    await axiosInstance.get("api/defaults/tickets")
+    await axiosInstance.get("api/defaults/ticket")
     .then((res) => {
       setDefaultMinDate(new Date(res.data.minDate))
       setDefaultMaxDate(new Date(res.data.maxDate))
@@ -121,7 +137,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }
 
   const getPrices = async () => {
-    await axiosInstance.get<IPrices>("api/defaults/tickets/prices")
+    await axiosInstance.get<IPrices>("api/defaults/ticket/prices")
     .then((res) => {
       setPrices(res.data)
     })
@@ -296,15 +312,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
     return `${year}.${month}.${date}.`
   }
 
-  const createDatePatternFromDate = (date: Date) => {
-    if (!date) return
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + (date.getDate())).slice(-2);
-
-    return `${year}.${month}.${day}.`
-  }
-
   const resetFoodSystem = () => {
     setFoodSearch({})
     setFoodSelect({})
@@ -320,7 +327,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }, [selectedFoods, selectedDayIndex, selectedDate, selectedTicket, wantsDay0, wantsDayExtra, shirtSize])
 
   const evalAmountOfDays = () => {
-    if (!selectedDate.length) return 0
+    if (!selectedDate.length || selectedTicket != 0) return 0
     if (selectedDate.length == 1) {
       return 1
     }
@@ -711,7 +718,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         (selectedTicket != undefined && prices != undefined) &&
                         <tr>
                           <td>{t("ticketTicket")}</td>
-                          <td>{`${(selectedTicket==0 && prices[0].hu) || (selectedTicket==1 && prices[1].hu) || (selectedTicket==2 && prices[2].hu)} HUF`}</td>
+                          <td>{`${(selectedTicket==0 && prices[0].hu) || (selectedTicket==1 && prices[1].hu) || (selectedTicket==2 && prices[2].hu)} ${selectedTicket==0? (evalAmountOfDays() <= 1)? '' : `(* ${evalAmountOfDays()})` : ''} HUF`}</td>
                         </tr>
                       }
                       {
@@ -753,13 +760,28 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     </tbody>
                   </table>
                 </div>
-                <div className={styles.Tickets__Overview__Buy}>
-                  <Tippy disabled={user.TicketKey == null} content={t("ticketAlreadyHas")}>
-                    <span>
-                      <PrimaryButton text={t("ticketBuy")} onClick={() => setShowDialog(true)} disabled={isDisabled || (user.TicketKey != null)} />
-                    </span>
-                  </Tippy>
-                </div>
+                {
+                  (fromDate != undefined && toDate != undefined) && 
+                  <div className={styles.Tickets__Overview__Buy}>
+                    <>
+                      <Tippy disabled={user.TicketKey == null} content={t("ticketAlreadyHas")}>
+                        <span>
+                          <PrimaryButton
+                            text={t("ticketBuy")}
+                            onClick={() => setShowDialog(true)}
+                            disabled={isDisabled || (user.TicketKey != null) || 
+                            !((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))} />
+                        </span>
+                      </Tippy>
+                      {
+                        (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
+                        <p style={{color: 'red'}}>
+                          {`${t("warnDateLimit1")} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${t("warnDateLimit2")}`}
+                        </p>
+                      }
+                    </>
+                  </div>
+                }
               </section>
             </div>
           </>

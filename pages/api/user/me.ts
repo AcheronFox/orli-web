@@ -30,7 +30,7 @@ export default async function handler(
                 ticket.sponsorLevel, ticket.isPaid, ticket.ticketType
                 FROM account
                 INNER JOIN user ON account.AccountKey = user.AccountKey
-                LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey AND ticket.isPaid = 1
+                LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey
                 WHERE account.AccountKey = '${tokenPayload.accountKey}'
                 LIMIT 1
                 `

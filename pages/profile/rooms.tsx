@@ -23,6 +23,7 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 import Input from "@/comp/Input";
 import { IJoinForm } from "@/models/join-form.model";
 import { ILeaveForm } from "@/models/leave-form.model";
+import createDatePatternFromDate from "@/root/functions/createDatePattern";
 const { io } = require("socket.io-client");
 let socket: any;
 
@@ -162,15 +163,6 @@ const Rooms: NextPage<Props> = (props: Props) => {
     else setShowJoin(false)
   }, [joinData])
 
-  const createDatePatternFromDate = (date: Date) => {
-    if (!date) return
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + (date.getDate())).slice(-2);
-
-    return `${year}.${month}.${day}.`
-  }
-
   const isValidUrl = (urlString: string) => {
     try { 
       return Boolean(new URL(urlString)); 
@@ -243,7 +235,11 @@ const Rooms: NextPage<Props> = (props: Props) => {
     }
     return updateState(customName.trim().length > 15, "customName", t("roomCustomNameError"))
   }
-  const validateTelegram = () => {
+  const validateTelegram = (externalVal?: string) => {
+    if (externalVal) {
+      return updateState(!isValidUrl(externalVal.trim()), "telegram", t("roomTelegramError"))
+    }
+
     if (!telegram) {
       updateState(true, "telegram", '')
       return true
@@ -251,12 +247,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
     if (telegram.includes('@')) {
       const linkTelegram = telegram.replace('@', 'https://t.me/')
-      const check = updateState(!isValidUrl(linkTelegram.trim()), "telegram", t("roomTelegramError"))
-
-      if (check) {
-        setTelegram(linkTelegram)
-      }
-      return check
+      return updateState(!isValidUrl(linkTelegram.trim()), "telegram", t("roomTelegramError"))
     }
     else {
       return updateState(!isValidUrl(telegram.trim()), "telegram", t("roomTelegramError"))
@@ -285,9 +276,14 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
   const joinRoom = (room: IRoom) => {
     //Run bulk final check
+    let modifiedTelegram = telegram;
+    if (modifiedTelegram.includes('@')) {
+      modifiedTelegram = telegram.replace('@', 'https://t.me/')
+    }
+
     const finalCheck: boolean[] = []
     finalCheck.push(
-      validateTelegram(),
+      validateTelegram(modifiedTelegram),
       validateCustomName(),
       shouldLock? validatePin() : true,
     )
@@ -306,7 +302,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
     const formData: IJoinForm = {
       pin: roomPin,
       customName: customName,
-      telegram: telegram,
+      telegram: modifiedTelegram,
       roomId: room.id,
       roomCount: roomOccupants,
     };
@@ -570,7 +566,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
                     label={`${t("roomTelegram")} (${t("roomOptional")}):`}
                     placeholder={`${t("roomTelegram")} (${t("roomOptional")})`}
                     id={"inp-4"}
-                    maxlength={255}
+                    maxlength={100}
                     value={telegram}
                     onChange={(e) => setTelegram(e.target.value)}
                     onBlur={() => validateTelegram()}
