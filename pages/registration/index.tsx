@@ -144,7 +144,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   }, [fursonaName]);
   useEffect(() => {
     validateAge(dobState)
-  }, [dob]);
+  }, [dob, dobState]);
   useEffect(() => {
     errorStates.nationality = ''
     setErrorStates(errorStates);
@@ -248,7 +248,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       setErrorStates((errorStates: any) => { return { ...errorStates, dob: t("regInvalidAgeError") } });
       return false;
     }
-
+    
     const tempAge = getAge(tempUtcFormatDOB);
     setAge(tempAge);
     setDoBState(state);
@@ -310,6 +310,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     }
     setIsDisabled(true);
 
+    
     const formData: IRegistrationForm = {
       firstName: firstName,
       lastName: lastName,
