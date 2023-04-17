@@ -14,22 +14,18 @@ export default async function handler(
 ) {
     const isAllowed = await isMethodAllowed(req, res, 'GET')
     if (!isAllowed) return
-
-    const tokenPayload = await verifyToken(req, res);
     
     const sendResponse = (code: number, data: Object | String = '') => {
         res.status(code).json(data)
     }
 
-    if (tokenPayload) {
-        const response = {
-            fromDate: ticketDates.from,
-            toDate: ticketDates.to,
-            serverDate: new Date(),
-        }
-    
-        sendResponse(200, response);
-    } else return;
+    const response = {
+        fromDate: ticketDates.from,
+        toDate: ticketDates.to,
+        serverDate: new Date(),
+    }
+
+    sendResponse(200, response);
 }
 
 export {ticketDates}

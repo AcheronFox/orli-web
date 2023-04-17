@@ -28,9 +28,6 @@ import { IRoom } from "@/models/room.model";
 type Props = {}
 const imageMimeType = /image\/(png|jpg|jpeg|webp)/i;
 
-// TODO: FIX THIS SHIT FUTURE ME -> ROOM SELECTION BUTTON TOOLTIP
-// - PAST YOU
-
 const hasLowerCase = (str: string) => {
   return str.toUpperCase() != str;
 };
@@ -354,7 +351,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                       </Tippy>
                     }
                     {
-                      (user.sponsorLevel && user.sponsorLevel > 0) &&
+                      (user.isPaid == true && user.sponsorLevel && user.sponsorLevel > 0) &&
                       <Tippy className={styles.Tooltip} content={(user.sponsorLevel==2)? t("ticketSuperSponsor") : t("partSponsor")}>
                           <span>
                               <SponsorIcon style={{"fill": "#F741D5"}} />
