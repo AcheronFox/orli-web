@@ -52,6 +52,10 @@ const NationalitySelector: NextPage<Props> = ({
         setVal(Codes[id].name)
       }
     }
+    else {
+      setSelected('');
+      setVal('')
+    }
   }, [Codes, value]);
 
   const changeList = (

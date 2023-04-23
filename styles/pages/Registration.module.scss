@@ -112,7 +112,6 @@
         }
 
         &__Label {
-            display: flex;
             width: fit-content;
 
             @include respond(tiny-desktop) {

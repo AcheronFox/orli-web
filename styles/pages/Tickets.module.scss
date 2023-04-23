@@ -34,7 +34,7 @@
 
 
     &__Content {
-        width: 65%;
+        width: 75%;
         flex-direction: column;
 
         display: flex;
@@ -51,14 +51,10 @@
         }
 
         @include respond(small-desktop) {
-            width: 70%;
+            width: 80%;
         }
         
         @include respond(tiny-desktop) {
-            width: 90%;
-        }
-        
-        @include respond(phone) {
             width: 100%;
         }
     }
@@ -77,19 +73,23 @@
         }
 
         &__List {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
 
             @include respond(small-desktop) {
-                flex-direction: column;
-                width: 75%;
-            }
-            @include respond(tiny-desktop) {
+                grid-template-columns: repeat(1, 1fr);
                 width: 85%;
             }
-            @include respond(phone) {
+            @include respond(tiny-desktop) {
                 width: 100%;
+            }
+            
+            &_2col {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            ul {
+                margin-left: 3rem;
             }
 
             & > * {

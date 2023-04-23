@@ -128,6 +128,18 @@ const DropDown: NextPage<Props> = ({
     return sizeMap.current[index]
   };
 
+  const calculateHeight = () => {
+    let tempHeight = 0;
+    if (!sizeMap.current) return vh(40)
+
+    Object.keys(sizeMap.current).map((key) => {
+      tempHeight = tempHeight + sizeMap.current[key]
+    })
+    
+    if (tempHeight > vh(40)) return vh(40)
+    else return tempHeight
+  }
+
   return (
     <div ref={InputRef} className={styles.Selector}>
       <div className={`${styles.Selector__Selection} ${customSelectorClass}`} ref={dropdownAnchor}>
@@ -146,7 +158,7 @@ const DropDown: NextPage<Props> = ({
                 data.length
             }
             itemSize={getSize}
-            height={vh(40)}
+            height={calculateHeight()}
             width={"100%"}
             ref={listRef}
             >

@@ -51,6 +51,7 @@ const FilterableDropDown: NextPage<Props> = ({
   const InputRef = useRef<HTMLDivElement>(null);
   const size = UseWindowDimensions();
   const dropdownAnchor = useRef<any>()
+  const [listHeight, setListHeight] = useState<number>(0)
 
   const sizeMap = useRef<any>();
   const setSize = useCallback((index: any, size: any) => {
@@ -121,7 +122,8 @@ const FilterableDropDown: NextPage<Props> = ({
     const rowRef = useRef<any>();
 
     useEffect(() => {
-        setSize(index, (rowRef.current.getBoundingClientRect().height + 10));
+      setSize(index, (rowRef.current.getBoundingClientRect().height + 10));
+      if (listHeight < vh(40)) setListHeight((listHeight + (rowRef.current.getBoundingClientRect().height + 10)))
     }, [setSize, index, windowWidth]);
 
     return (
@@ -139,6 +141,18 @@ const FilterableDropDown: NextPage<Props> = ({
     if (!sizeMap.current) return 50
     return sizeMap.current[index]
   };
+
+  const calculateHeight = () => {
+    let tempHeight = 0;
+    if (!sizeMap.current) return vh(40)
+
+    Object.keys(sizeMap.current).map((key) => {
+      tempHeight = tempHeight + sizeMap.current[key]
+    })
+    
+    if (tempHeight > vh(40)) return vh(40)
+    else return tempHeight
+  }
 
   return (
     <div ref={InputRef} className={styles.Selector}>
@@ -166,7 +180,7 @@ const FilterableDropDown: NextPage<Props> = ({
                 filteredData?.length ? filteredData.length : data.length
             }
             itemSize={getSize}
-            height={vh(40)}
+            height={calculateHeight()}
             width={"100%"}
             ref={listRef}
             >
