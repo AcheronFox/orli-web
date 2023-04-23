@@ -468,21 +468,63 @@ const Tickets: NextPage<Props> = (props: Props) => {
                   title={t("ticket0Title")}
                   customClass={selectedTicket==0? styles.Tickets__Selected : ''}
                   button={<SecondaryButton disabled={selectedTicket==0} text={t("ticketSelect")} onClick={() => selectTicket(0)} />}
-                  description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
+                  description={
+                    <span>
+                      {t("ticket0Desc")}<br /><br />
+                      {t("ticket0Inc")}<br />
+                      <ul>
+                        <li>{t("ticket0Inc1")}</li>
+                        <li>{t("ticket0Inc2")}</li>
+                        <li>{t("ticket0Inc3")}</li>
+                        <li>{t("ticket0Inc4")}</li>
+                        <li>{t("ticket0Inc5")}</li>
+                      </ul>
+                      <br />
+                      {t("ticket0Out")}
+                    </span>
+                  }
                   price={prices[0].hu} />
 
                   <PriceCard
                   title={t("ticket1Title")}
                   customClass={selectedTicket==1? styles.Tickets__Selected : ''}
                   button={<SecondaryButton disabled={selectedTicket==1} text={t("ticketSelect")} onClick={() => selectTicket(1)} />}
-                  description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
+                  description={
+                    <span>
+                      {t("ticket1Desc")}<br /><br />
+                      {t("ticket1Inc")}<br />
+                      <ul>
+                        <li>{t("ticket1Inc1")}</li>
+                        <li>{t("ticket1Inc2")}</li>
+                        <li>{t("ticket1Inc3")}</li>
+                        <li>{t("ticket1Inc4")}</li>
+                        <li>{t("ticket1Inc5")}</li>
+                        <li>{t("ticket1Inc6")}</li>
+                      </ul>
+                      <br />
+                      {t("ticket1Out")}
+                    </span>
+                  }
                   price={prices[1].hu} />
 
                   <PriceCard
                   title={t("ticket2Title")}
                   customClass={selectedTicket==2? styles.Tickets__Selected : ''}
                   button={<SecondaryButton disabled={selectedTicket==2} text={t("ticketSelect")} onClick={() => selectTicket(2)} />}
-                  description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
+                  description={
+                    <span>
+                      {t("ticket2Desc")}<br /><br />
+                      {t("ticket2Inc")}<br />
+                      <ul>
+                        <li>{t("ticket2Inc1")}</li>
+                        <li>{t("ticket2Inc2")}</li>
+                        <li>{t("ticket2Inc3")}</li>
+                        <li>{t("ticket2Inc4")}</li>
+                        <li>{t("ticket2Inc5")}</li>
+                        <li>{t("ticket2Inc6")}</li>
+                      </ul>
+                    </span>
+                  }
                   price={prices[2].hu} />
                 </div>
               </section>
@@ -492,19 +534,47 @@ const Tickets: NextPage<Props> = (props: Props) => {
               <div className={styles.Tickets__Content}>
                 <section className={styles.Tickets__Prices}>
                   <h2 className={styles.Tickets__Prices__Title}>{t("ticketExtra")}</h2>
-                  <div className={styles.Tickets__Prices__List}>
+                  <div className={`${styles.Tickets__Prices__List} ${styles.Tickets__Prices__List_2col}`}>
                     <PriceCard
                     title={t("ticketExtra0")}
                     customClass={wantsDay0? styles.Tickets__Selected : ''}
                     button={<SecondaryButton text={wantsDay0? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDay0((o) => !o)} />}
-                    description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
+                    description={
+                      <span>
+                        {t("ticketE0Desc")}<br /><br />
+                        {t("ticketE0Inc")}<br />
+                        <ul>
+                          <li>{t("ticketE0Inc1")}</li>
+                          <li>{t("ticketE0Inc2")}</li>
+                          <li>{t("ticketE0Inc3")}</li>
+                          <li>{t("ticketE0Inc4")}</li>
+                          <li>{t("ticketE0Inc5")}</li>
+                        </ul>
+                        <br />
+                        {t("ticketE0Out")}
+                      </span>
+                    }
                     price={prices.extra0.hu} />
 
                     <PriceCard
                     title={t("ticketExtra1")}
                     customClass={wantsDayExtra? styles.Tickets__Selected : ''}
                     button={<SecondaryButton disabled={extra1Limit >= 20} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />}
-                    description={"Lorem, ipsum dolor sit amet consectetur adipisicing elit. Recusandae, optio commodi. Ducimus incidunt sit sed eveniet fugiat a, molestias vel quibusdam nisi voluptatum provident soluta nulla dolorem, animi, saepe id!"}
+                    description={
+                      <span>
+                        {t("ticketE1Desc")}<br /><br />
+                        {t("ticketE1Inc")}<br />
+                        <ul>
+                          <li>{t("ticketE1Inc1")}</li>
+                          <li>{t("ticketE1Inc2")}</li>
+                          <li>{t("ticketE1Inc3")}</li>
+                          <li>{t("ticketE1Inc4")}</li>
+                          <li>{t("ticketE1Inc5")}</li>
+                        </ul>
+                        <br />
+                        {t("ticketE1Out")}
+                      </span>
+                    }
                     price={prices.extra1.hu} />
                   </div>
                 </section>
@@ -586,7 +656,10 @@ const Tickets: NextPage<Props> = (props: Props) => {
                 ></Input>
                 {isSponsor &&
                   <div className={styles.Tickets__Sponsor}>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, corporis mollitia nisi dolorem rerum culpa, excepturi dolorum expedita atque dolores ullam optio eius velit quasi, quo corrupti possimus iusto. Ullam?</p>
+                    <span>
+                      {t("ticketSponsorText1")}<br /><br />
+                      {t("ticketSponsorText2")}<br /><br />
+                    </span>
                     <Input
                       type="number"
                       label={`${t("ticketSponsorAmount")}:`}

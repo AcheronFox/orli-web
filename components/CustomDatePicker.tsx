@@ -6,6 +6,7 @@ import Calendar from 'react-calendar';
 import { useTranslate } from "@/hooks/useTranslate";
 import Input from "./Input";
 import SecondaryButton from "./SecondaryButton";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 type Props = {
   id?: string;
@@ -34,6 +35,10 @@ const CustomDatePicker = React.forwardRef(
     const refCa = useRef<any>(null);
     const refButton = useRef<any>(null);
 
+    useClickOutside(refCa, () => {
+      setIsOpen(false)
+    })
+
     useEffect(() => {
       setTemplate(t("dateFormat"))
     }, [locale])
@@ -41,19 +46,6 @@ const CustomDatePicker = React.forwardRef(
     useEffect(() =>{
       updateInput();
     }, [template])
-
-    useEffect(() => {
-      document.addEventListener('mousedown', closeModal)
-      return function cleaup() {
-        document.removeEventListener('mousedown', closeModal)
-      }
-    }, [refCa])
-
-    const closeModal = (e: any) => {
-      if (refCa.current && !isOpen && !refCa.current.contains(e.target)) {
-        setIsOpen(false)
-      }
-    };
 
     const updateInput = () => {
       if (!value) return;
@@ -204,20 +196,15 @@ const CustomDatePicker = React.forwardRef(
               <SecondaryButton text={<RiCalendar2Fill size={24} />} onClick={() => handleClick()}></SecondaryButton>
             </div>
           </div>
-          <div className={`${styles.DatePicker__Wrapper} ${isOpen? '' : styles.DatePicker__Wrapper__Hidden}`} ref={refCa}>
-            <div className={styles.DatePicker__Modal}>
-              <button
-                className={`${styles.DatePicker__Wrapper__Btn}`}
-                onClick={(e) => handleClick(e)}
-              >
-                <RiCloseFill size={26} />
-              </button>
+          <div className={`${styles.DatePicker__Wrapper} ${isOpen? '' : styles.DatePicker__Wrapper__Hidden}`}>
+            <div ref={refCa}>
               <Calendar
                 locale={locale}
                 className="react-calendar"                
                 onChange={(e: Date | null) => handleChange(e)}
               />
             </div>
+            <SecondaryButton text={t("dateClose")} classType="danger"></SecondaryButton>
           </div>
         </div>
     );

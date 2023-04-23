@@ -25,7 +25,7 @@ const Footer: NextPage<Props> = (props: Props) => {
                         {t("footerOrliText2")}<br />
                         {t("footerOrliText3")}<br />
                         <span className={styles.Footer__Item__Orli__Copy}>
-                            Copyright &copy;     
+                            Copyright &copy; F Terminal 2023    
                         </span>
                     </div>
                 </div>

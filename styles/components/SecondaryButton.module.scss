@@ -7,6 +7,7 @@
     padding: .5rem 1rem;
     backface-visibility: hidden;
     z-index: 1;
+    transform: translate3d(0, 0, 0);
 
     --x: 50%;
 	--y: 50%;
@@ -34,6 +35,8 @@
         align-items: center;
         backface-visibility: hidden;
         pointer-events: none;
+        user-select: none;
+        transform: translate3d(0, 0, 0);
 
         @include respond(big-desktop) {
             svg {

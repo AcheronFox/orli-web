@@ -49,24 +49,6 @@
         top: 0;
         transform: translateX(-50%);
 
-        &__Btn {
-            margin: auto;
-            cursor: pointer;
-            background: rgba($black, .5);
-            box-shadow: 0 0 2rem 1rem rgba($black, .5);
-            border: none;
-            color: $default-red;
-            align-self: flex-end;
-            border-top-right-radius: .5rem;
-            border-top-left-radius: .5rem;
-
-            transition: all 0.2s;
-
-            &:hover {
-                color: lighten($default-red, 20%);
-            }
-        }
-
         &__Hidden {
             visibility: hidden;
             opacity: 0;
@@ -75,6 +57,12 @@
 
         @include respond(phone) {
             width: 95%;
+        }
+
+        & > * {
+            &:not(:last-child) {
+                margin-bottom: 5rem;
+            }
         }
     }
 }
