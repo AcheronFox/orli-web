@@ -2,7 +2,8 @@ import PrimaryButton from "@/comp/PrimaryButton"
 import styles from "@/styles/pages/Home.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
-import VideoPlayer from "@/comp/VideoPlayer";
+import Separator from "@/comp/Separator";
+import { RiArrowDropDownLine } from "react-icons/ri"
 
 type Props = {}
 
@@ -12,14 +13,32 @@ const Home: NextPage<Props> = (props: Props) => {
   return (
     <div>
       <section className={styles.Home}>
-        <div className={styles.Home__TextField}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis facilis nobis dignissimos obcaecati voluptatem ad impedit ducimus, at voluptates? Id culpa itaque repellendus numquam magnam, odio est recusandae deserunt sapiente?
-          <div className={styles.Home__TextField__Content}>
-            {
-             <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ZV7x83_KOIM" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen={true}></iframe>
-            }
-          </div>
-          <div className={styles.Home__TextField__Btn}>
+        <Separator IconComp={<RiArrowDropDownLine />} text={t("homeScroll")}></Separator>
+      </section>
+      <section className={styles.Home__Content}>
+        <div className={styles.Home__Wrapper}>
+          <span className={styles.Home__Title}>
+            <h3>
+              {t("homeTitle1")}
+            </h3>
+            <h3>
+              {t("homeTitle2")}
+            </h3>
+          </span><br /><br />
+          <span>
+            {t("homeText1")}<br />
+            {t("homeText2")}<br /><br />
+            {t("homeText3")}<br /><br />
+            {t("homeText4")}
+          </span><br /><br />
+          <div className={styles.Home__Center}>
+            <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/ZV7x83_KOIM/" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen={true}></iframe>
+          </div><br /><br />
+          <span>
+            {t("homeText5")}
+          </span>
+          
+          <div className={styles.Home__Btn}>
             <PrimaryButton text={t("homeReg")} link="/registration"></PrimaryButton>
           </div>
         </div>

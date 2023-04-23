@@ -1,0 +1,98 @@
+{
+    "1": {
+        "title": "Nagyszínpad",
+        "description": [
+            "Ez a hely a försztivál lelke! Minden nap kora délutántól hajnalig itt zajlanak a kiemelt események és itt lépnek fel előadóink. Számtalan változatos program helyszíne, melyekről a Conbookban olvashatsz majd részletesen. Látni, hallani és érezni fogod!"
+        ]
+    },
+    "2": {
+        "title": "NicoBar",
+        "description": [
+            "Ahogy száll le az este és emelkedik a hangulat a bulinegyedben úgy nyitja meg kapuit a Fejér vármegye legjobb koktélbárja, a NicoBar ahol tiki koktélok és különlegesebb italok várnak!",
+            "Neked mi a kedvenced amit szívesen látnál az itallapon?"
+        ]
+    },
+    "3": {
+        "title": "Suitlounge",
+        "description": [
+            "Megpihennél suitolás közben? A suitlounge mindig tárt kapukkal vár, ahol a megfelelő szellőztetés mellett különböző frissítők és fogyasztható energia biztosítja, hogy legyen elég erőd tovább tombolni.  A belépés csak suiterek és kísérőik számára megengedett. Ezen a helyen nem engedjük fotók és videók készítését. "
+        ]
+    },
+    "4": {
+        "title": "Alkotói Negyed",
+        "description": [
+            "Kedvenc alkotóid és mindazok, akiket még nem ismersz alig várják, hogy meglátogasd a pultjukat és kézzel fogható emlékeket ragadj magadhoz! Talán itt kötsz üzletet életed suitjára vagy épp egy csodálatos műalkotásra. Azért a pénztárcád legyen Nálad!"
+        ]
+    },
+    "5": {
+        "title": "Tombola",
+        "description": [
+            "Itt a szerencsén múlik minden. Keresd fel a tombolanyeremények asztalát az Alkotói Negyedben, nézz ki magadnak egy nyereményt és ne késlekedj megvenni a szelvényeket!"
+        ]
+    },
+   "6": {
+        "title": "Strand",
+        "description": [
+            "Ha nyár, akkor vízpart! Csobbanj egyet a Velencei-tó hűsítő hullámaiban, élvezd a vizet és a napfényt! A strandra a belépés nyitvatartási időben korlátlan!",
+            "A strand területe kizárólag nyitvatartási időben és csak az erre jogosító karszalaggal látogatható. Karszalagot a regisztrációnál tudsz kérni, melynek letéti díja 1000 HUF."
+        ]
+    },
+    "7": {
+        "title": "Jacuzzi",
+        "description": [
+            "Relaxálnál a langyos víz habjaiban? Már a försztiválon is megteheted, miközben előtted tombol egész Vibe City!"
+        ]
+    },
+    "8": {
+        "title": "Grill",
+        "description": [
+            "A program, amit egyszer minden försztiválozó tuti meg fog látogatni. Minden nap délutántól hajnalig lobog a tűz és sülhetnek a finom falatok. Ez a program persze időjárásfüggő...",
+            "A tüzelőről, eszközökről és a némi fűszerekről, sőt, szószokról a készlet erejéig mi gondoskodunk, Neked csak a főzni vagy sütnivalókat kell hoznod!"
+        ]
+    },
+    "9": {
+        "title": "Társasjáték sarok",
+        "description": [
+            "Hozd el kedvenc játékod és üljetek össze versengeni vagy szövetkezni valamelyik teraszon vagy épp kalandozzatok egy eldugott pihenő árnyai alatt."
+        ]
+    },
+    "10": {
+        "title": "Fursuit parádé",
+        "description": [
+            "Fursuitot fel! Ezen a délutánon összegyűlik minden bundás, készülnek a fotók, videók és csoportképek, elkápráztatjuk a környéket."
+        ]
+    },
+    "11": {
+        "title": "Koncert",
+        "description": []
+    },
+    "12": {
+        "title": "Velencei-tó kerülés",
+        "description": []
+    },
+    "13": {
+        "title": "Sportbajnokság",
+        "description": [
+            "Versengj a többiekkel, szállj ringbe a győzelemért a csocsó vagy a ping-pong bajnokságon, hogy végül a legkomolyabb kihívással Te szállhass szembe",
+            "Jelentkezés a játékokra a regisztrációnál lehetséges."
+        ]
+    },
+    "14": {
+        "title": "Fursuit games",
+        "description": []
+    },
+    "15": {
+        "title": "Fotózás",
+        "description": [
+            "Nagy a mancsod és nehéz a szelfibot? A fesztivál ideje alatt keressétek a ShutterFurs csapatát és foglaljatok időpontot egyéni vagy kis csoportos fotózásra!",
+            "Ajánlott időpont közvetlenül naplemente (golden hour)!"
+        ]
+    },
+    "16": {
+        "title": "Kívánságműsor és Piknik",
+        "description": [
+            "Ismerős a meme: \"Mi lenne az első zeneszám amit meghallgatnál ezen a hangrendszeren?\"",
+            "Minden délután -amíg nem játszik DJ- a szabadtéri piknik ideje alatt kérhetitek kedvenc zeneszámaitokat Galitól, hogy tegye be a nagyszínpadon. Kérlek válasszatok Spotifyról amiből közös playlistet készítünk és megosztjuk a fesztivál után. Törekedjetek arra, hogy a jó ízlés határain belül maradjunk és 1-1 szám ne töltsön ki túl sok időt, hogy minél több mindent meghallgathassunk a kedvenceitek közül!"
+        ]
+    }
+}

@@ -1,0 +1,100 @@
+.Separator {
+  font-family: $styled-font-family;
+  background-color: rgba($grey-2, .9);
+  padding: 0 1rem;
+  border-radius: 1rem;
+  font-size: calc($styled-font-size * 1.6);
+  box-shadow: 0 0 1rem .5rem rgba($black, .8);
+
+  @include respond(min-phone) {
+    backdrop-filter: blur(.2rem);
+  }
+
+  @include respond(phone) {
+    font-size: calc($styled-font-size * 1.4);
+  }
+
+  @include respond(big-desktop) {
+    font-size: calc($styled-font-size * 1.8);
+  }
+
+  @include respond(4k-desktop) {
+    font-size: calc($styled-font-size * 2);
+  }
+
+  width: 100%;
+  position: relative;
+  margin: 5rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__Left,
+  &__Right {
+    width: 43%;
+    height: .5rem;
+    filter: drop-shadow(0 .5rem .2rem rgba($black, .8));
+
+    @include respond(phone) {
+      width: 30%;
+    }
+
+    @include respond(big-desktop) {
+      height: .6rem;
+    }
+
+    @include respond(4k-desktop) {
+      height: .8rem;
+    }
+  }
+
+  &__Left {
+    left: .5%;
+    background: linear-gradient(270deg, $primary-color, $secondary-color);
+  }
+
+  &__Right {
+    right: .5%;
+    background: linear-gradient(90deg, $primary-color, $secondary-color);
+  }
+
+  &__Center {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $primary-color;
+    filter: drop-shadow(0 .5rem .2rem rgba($black, .8));
+
+    span {
+      width: max-content;
+      text-align: center;
+    }
+
+    &__Icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 5rem;
+
+      @include respond(phone) {
+        width: 4rem;
+      }
+
+      @include respond(big-desktop) {
+        width: 6rem;
+      }
+
+      @include respond(4k-desktop) {
+        width: 7rem;
+      }
+
+      margin: 0 .5rem;
+
+      & > * {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+}

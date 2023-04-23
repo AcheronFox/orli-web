@@ -151,15 +151,17 @@ const Navbar: NextPage<Props> = (props: Props) => {
             </NavDropdown>
           )}
 
-          <NavItem
-            link="/registration"
-            shouldOverwrite={false}
-            CustomStyle={`${evalRoute("/registration", "item")}`}
-            icon={<RiUserAddLine />}
-            onClick={() => toggleNavBar()}
-          >
-            {t("navRegistration")}
-          </NavItem>
+          {!user && (
+            <NavItem
+              link="/registration"
+              shouldOverwrite={false}
+              CustomStyle={`${evalRoute("/registration", "item")}`}
+              icon={<RiUserAddLine />}
+              onClick={() => toggleNavBar()}
+            >
+              {t("navRegistration")}
+            </NavItem>
+          )}
 
           <NavDropdown
             dropDownName={t("navEvent")}
@@ -201,6 +203,13 @@ const Navbar: NextPage<Props> = (props: Props) => {
             mainclassname={`${evalRoute("/location", "contain")}`}
             icon={<RiMapPin2Line />}
           >
+            <NavItem
+              link="/location#eventCenter"
+              CustomStyle={`${DropDownStyle.Item} ${evalRoute("/location#eventCenter")}`}
+              onClick={() => toggleNavBar()}
+            >
+              {t("navEventCenter")}
+            </NavItem>
             <NavItem
               link="/location#accomodation"
               CustomStyle={`${DropDownStyle.Item} ${evalRoute("/location#accomodation")}`}
