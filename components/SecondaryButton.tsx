@@ -34,7 +34,7 @@ const SecondaryButton: NextPage<Props> = ({
     };
 
     const handleMouseOut = (e: any) => {
-        e.target.style.setProperty('--x', `50%`)
+      e.target.style.setProperty('--x', `50%`)
 	    e.target.style.setProperty('--y', `50%`)
     }
 

@@ -110,6 +110,16 @@
             width: 6vh;
         }
     }
+
+    &__Description {
+        margin-top: 1rem;
+        width: 90%;
+        height: 100%;
+
+        ul {
+            margin-left: 1.5rem;
+        }
+    }
 }
 
 .Tooltip {

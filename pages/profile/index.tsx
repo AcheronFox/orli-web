@@ -24,6 +24,7 @@ import LoadingOverlay from "@/comp/LoadingOverlay";
 import crypto from "crypto";
 import CustomHead from "@/comp/CustomHead";
 import { IRoom } from "@/models/room.model";
+import CustomBackground from "@/comp/CustomBackground";
 
 type Props = {}
 const imageMimeType = /image\/(png|jpg|jpeg|webp)/i;
@@ -289,6 +290,7 @@ const Profile: NextPage<Props> = (props: Props) => {
     <>
     <CustomHead title={t("navProfile")} />
     <LoadingOverlay isLoading={isLoading}/>
+    <CustomBackground />
     {
       fileDataURL &&
       <div className={styles.ImagePreview}>

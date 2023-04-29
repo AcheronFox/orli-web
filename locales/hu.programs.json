@@ -63,12 +63,17 @@
         ]
     },
     "11": {
-        "title": "Koncert",
+        "title": "",
         "description": []
     },
     "12": {
         "title": "Velencei-tó kerülés",
-        "description": []
+        "description": [
+            "Egy kényelmes, körülbelül 30 km-es kerékpártúra frissítő megállókkal a tó körül, mely 5-6 órát vesz igénybe. Amennyiben nincs saját kerékpárod, lesz lehetőséged a helyszínen bérelni. Ezt az igényt legkésőbb 10 nappal a rendezvény kezdete előtt jelezned kell Galinak!",
+            "A kerékpárod felkészítéséről és annak esetleges útközbeni javításáról magadnak kell gondoskodnod! Biztos vagyok benne hogy sokunknál lesz szerszám vagy defekt javító szett és természetesen segítünk, megvárunk, de ettől függetlenül érkezzetek felkészülten!",
+            "Térkép a tervezett útvonalról és információk a látványosságokról:",
+            "http://velenceitokor.hu/"
+        ]
     },
     "13": {
         "title": "Sportbajnokság",
@@ -78,7 +83,7 @@
         ]
     },
     "14": {
-        "title": "Fursuit games",
+        "title": "",
         "description": []
     },
     "15": {

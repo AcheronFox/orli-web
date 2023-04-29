@@ -48,7 +48,7 @@ const Prices: NextPage<Props> = (props: Props) => {
                                             <li>{t("ticket0Inc5")}</li>
                                         </ul>
                                         <br />
-                                        {t("ticket0Out")}
+                                        <b>{t("ticket0Out")}</b>
                                     </span>
                                     }
                                     price={8000}
@@ -69,7 +69,7 @@ const Prices: NextPage<Props> = (props: Props) => {
                                             <li>{t("ticket1Inc6")}</li>
                                         </ul>
                                         <br />
-                                        {t("ticket1Out")}
+                                        <b>{t("ticket1Out")}</b>
                                     </span>
                                     }
                                     price={17000}
@@ -110,7 +110,7 @@ const Prices: NextPage<Props> = (props: Props) => {
                                             <li>{t("ticketE0Inc5")}</li>
                                         </ul>
                                         <br />
-                                        {t("ticketE0Out")}
+                                        <b>{t("ticketE0Out")}</b>
                                     </span>
                                     }
                                     price={6500}
@@ -130,7 +130,7 @@ const Prices: NextPage<Props> = (props: Props) => {
                                             <li>{t("ticketE1Inc5")}</li>
                                         </ul>
                                         <br />
-                                        {t("ticketE1Out")}
+                                        <b>{t("ticketE1Out")}</b>
                                     </span>
                                     }
                                     price={6500}

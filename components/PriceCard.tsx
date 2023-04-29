@@ -7,6 +7,7 @@ type Props = {
     title: string;
     description?: string | React.ReactNode;
     price: string | number;
+    fullPrice?: string | number | boolean;
     euro?: string | number;
     button?: React.ReactNode;
     customClass?: string;
@@ -22,12 +23,17 @@ const PriceCard: NextPage<Props> = (props: Props) => {
                     {props.title}
                 </h2>
             </div>
-            {props.description &&
-            <div className={styles.PriceCard__Description}>
-                {props.description}
-            </div>}
-            <div className={styles.PriceCard__Price}><h3>{props.price} HUF</h3></div>
-            {props.euro && locale == 'en' && <div className={styles.PriceCard__Euro}><h3>&euro; ~{props.euro}</h3></div>}
+            {
+                props.description &&
+                <div className={styles.PriceCard__Description}>
+                    {props.description}
+                </div>
+            }
+            <div className={styles.PriceCard__PriceContainer}>
+                {props.fullPrice && <div className={styles.PriceCard__FullPrice}><h3>{props.fullPrice} HUF</h3></div>}
+                <div className={styles.PriceCard__Price}><h3>{props.price} HUF</h3></div>
+                {props.euro && locale == 'en' && <div className={styles.PriceCard__Euro}><h3>&euro; ~{props.euro}</h3></div>}
+            </div>
             {
                 props.button &&
                 <div className={styles.PriceCard__Button}>

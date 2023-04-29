@@ -22,6 +22,7 @@ import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
 import DropDown from "@/comp/DropDown";
 import CustomHead from "@/comp/CustomHead";
 import createDatePatternFromDate from "@/root/functions/createDatePattern";
+import CustomBackground from "@/comp/CustomBackground";
 
 type Props = {}
 
@@ -41,6 +42,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   const [showDialog, setShowDialog] = useState<boolean>(false)
 
   const [prices, setPrices] = useState<IPrices>()
+  const [fullPrices, setFullPrices] = useState<IPrices | null>()
   const [selectedTicket, setSelectedTicket] = useState<number>()
   const [wantsDay0, setWantsDay0] = useState<boolean>(false)
   const [wantsDayExtra, setWantsDayExtra] = useState<boolean>(false)
@@ -137,9 +139,10 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }
 
   const getPrices = async () => {
-    await axiosInstance.get<IPrices>("api/defaults/ticket/prices")
+    await axiosInstance.get<{prices: IPrices; normal: IPrices | null}>("api/defaults/ticket/prices")
     .then((res) => {
-      setPrices(res.data)
+      setPrices(res.data.prices)
+      setFullPrices(res.data.normal)
     })
     .catch((err) => console.log(err))
   }
@@ -437,6 +440,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
     <>
       <CustomHead title={t("navTickets")} />
       <LoadingOverlay isLoading={isLoading} />
+      <CustomBackground />
       {
         showDialog &&
         <div className={styles.Tickets__Dialog}>
@@ -483,6 +487,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       {t("ticket0Out")}
                     </span>
                   }
+                  fullPrice={fullPrices != null && fullPrices[0].hu}
                   price={prices[0].hu} />
 
                   <PriceCard
@@ -505,6 +510,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       {t("ticket1Out")}
                     </span>
                   }
+                  fullPrice={fullPrices != null && fullPrices[1].hu}
                   price={prices[1].hu} />
 
                   <PriceCard
@@ -525,6 +531,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       </ul>
                     </span>
                   }
+                  fullPrice={fullPrices != null && fullPrices[2].hu}
                   price={prices[2].hu} />
                 </div>
               </section>
@@ -554,6 +561,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         {t("ticketE0Out")}
                       </span>
                     }
+                    fullPrice={fullPrices != null && fullPrices.extra0.hu}
                     price={prices.extra0.hu} />
 
                     <PriceCard
@@ -575,6 +583,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         {t("ticketE1Out")}
                       </span>
                     }
+                    fullPrice={fullPrices != null && fullPrices.extra1.hu}
                     price={prices.extra1.hu} />
                   </div>
                 </section>

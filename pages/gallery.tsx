@@ -2,6 +2,7 @@ import styles from "@/styles/pages/Gallery.module.scss";
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
 import CustomHead from "@/comp/CustomHead";
+import CustomBackground from "@/comp/CustomBackground";
 
 type Props = {}
 
@@ -11,6 +12,7 @@ const Gallery: NextPage<Props> = (props: Props) => {
     return (
         <>
             <CustomHead title={t("navGallery")} />
+            <CustomBackground />
             <div className={styles.MainWrapper}>
                 <div className={styles.Title}>
                     <h1>

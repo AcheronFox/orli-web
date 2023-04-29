@@ -1,17 +1,60 @@
 [
     {
-        "name": "a",
-        "description": "aa",
+        "name": "Maszat",
+        "description": "Volt egy gondolatom, hogy legyen itthon egy többnapos nyári fesztivál a furry közönség számára. Foglalkozom azzal, ami ehhez szükséges és segítem a szervezést, hogy a rendezvényen mindenki jól érezze magát!",
         "picture": ""
     },
     {
-        "name": "a",
-        "description": "aa",
-        "picture": ""
+        "name": "Freddie",
+        "description": "Maszat jobbkeze. Kvázi univerzális mindenes. Róka.",
+        "picture": "/staff/freddie"
     },
     {
-        "name": "a",
-        "description": "aa",
-        "picture": ""
+        "name": "Acheron",
+        "description": [
+            "Fordítás",
+            "Webfejlesztés",
+            "Szerver tulajdonos és felelős",
+            "IT mindenes"
+        ],
+        "picture": "/staff/acheron"
+    },
+    {
+        "name": "Helios",
+        "description": [
+            "Fordítás",
+            "Tolmácsolás",
+            "Szövegírás",
+            "Lektorálás",
+            "Helyszíni- és egyéb feladatok"
+        ],
+        "picture": "/staff/helios"
+    },
+    {
+        "name": "Gali",
+        "description": [
+            "Hang és fényfelelős",
+            "A NicoBar házigazdája"
+        ],
+        "picture": "/staff/gali"
+    },
+    {
+        "name": "Bethlenke",
+        "description": "Sziasztok! Bethlenke vagyok. én vagyok az egyike a csapatnak aki felel a  esemény fény és technikai részé-ért hogy a legjobb hangulatban teljen a buli :D",
+        "picture": "/staff/bethlenke"
+    },
+    {
+        "name": "Northern",
+        "description": "Sziasztok! Általam lesz olyan színes, fényes a rendezvény. Az én dolgom az eseményen való hangulat fények megvalósítása és üzemeltetése, suit szárítók elektronikai része, időjárás előrejelzés készítése rendezvény idejére.",
+        "picture": "/staff/northern"
+    },
+    {
+        "name": "Naya",
+        "description": [
+            "Nyomdai leadásokért felelős",
+            "Grafikai dolgokban való segítés",
+            "Helyszíni- és egyéb feladatok"
+        ],
+        "picture": "/staff/naya"
     }
 ]
