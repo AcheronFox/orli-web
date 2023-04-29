@@ -30,7 +30,8 @@ const Rules: NextPage<Props> = (props: Props) => {
               {t("polHea1")}<br/>
               {t("polHea2")}<br/>
               {t("polHea3")}<br/><br/>
-              {t("polHea4")}
+              {t("polHea4")}<br/><br/>
+              <small>{t("polHea5")}</small>
             </span>
           </Section>
           <Section>

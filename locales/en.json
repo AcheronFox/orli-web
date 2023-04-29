@@ -75,6 +75,7 @@
   "polHea2": "The Rules cannot be modified during the Event, so any questions or requests can be addressed to the organisers during the period preceding the Event.",
   "polHea3": "If a participant has any problems with any of the Event organisers or their actions, they should get in contact with the main organiser.",
   "polHea4": "The Organisers are responsible for enforcing the Rules and Regulations at the event and will be indicated by a red neckband.",
+  "polHea5": "These policies was originally written in Hungarian. In the event of any discrepancy between the English and Hungarian versions, the Hungarian version shall prevail.",
   "polBody": {
     "0": {
       "title": "GENERAL RULES",
@@ -186,6 +187,7 @@
   "dataHea2": "Data protection is of a great importance to the management of Örli Försztivál, so we have highlighted the parts we consider important in order to provide you with detailed information about your rights and how we use the data that you have provided.",
   "dataHea3": "You can visit the Örli Försztivál website without providing any personal data. If you wish to use the service presented through the website, it may be necessary for us to process your personal data. We will need to obtain consent from any person concerned.",
   "dataHea4": "In any case, the processing of personal data must comply with the General Data Protection Regulation (GDPR). By doing so, we wish to inform our prospective participants about the nature, scope, and purpose of the personal data we collect, use and process. In addition, those involved will be informed of their rights through this Data Handling notice.",
+  "dataHea5": "These policies was originally written in Hungarian. In the event of any discrepancy between the English and Hungarian versions, the Hungarian version shall prevail.",
   "dataBody": {
     "0": {
       "title": "THE PURPOSE OF DATA HANDLING",

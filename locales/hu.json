@@ -75,6 +75,7 @@
   "polHea2": "Ezen dokumentum a rendezvény ideje alatt nem módosítható, ezért bármilyen kérdés vagy kérés esetén a szervezőkhöz lehet fordulni a Rendezvényt megelőző időszakban.",
   "polHea3": "Amennyiben egy résztvevőnek bármilyen jellegű problémája lenne a Rendezvényt szervező személyekkel vagy az ő intézkedéseikkel, úgy a főszervezőhöz fordulhat.",
   "polHea4": "A Rendezvényen a Szabályzat betartatásáért a Szervezők a felelősök, akiket piros színű nyakpánt jelez.",
+  "polHea5": "E szabályzat eredetileg magyar nyelven íródott. Az angol és a magyar nyelvű változat közötti bármilyen eltérés esetén a magyar nyelvű változat az irányadó.",
   "polBody": {
     "0": {
       "title": "ÁLTALÁNOS SZABÁLYOK",
@@ -186,6 +187,7 @@
   "dataHea2": "Az adatvédelem kiemelten fontos az Örli Försztivál szervezői számára, ezért összegyűjtöttük az általunk fontosnak ítélt részeket, hogy részletes tájékoztatást adhassunk a résztvevők jogairól és a megadott adataik felhasználásáról.",
   "dataHea3": "Az Örli Försztivál weboldalának látogatása személyes adatok feltüntetése nélkül lehetséges. Amennyiben az érintett szolgáltatást szeretne a weboldalon keresztül igénybe venni, szükségessé válik a személyes adatok kezelése. Ehhez a szervezőknek hozzájárulást kell kérniük az érintettől.",
   "dataHea4": "A személyes adatok kezelése minden esetben meg kell, hogy feleljen az Általános Adatvédelmi Rendeletnek (GDPR). Ez által kívánjuk tájékoztatni leendő résztvevőinket az általunk gyűjtött, felhasznált és feldolgozott személyes adatok természetéről, terjedelméről és céljáról. Ezen túlmenően az érintettek ezen adatvédelmi nyilatkozat útján tájékoztatást kapnak az őket megillető jogokról.",
+  "dataHea5": "E szabályzat eredetileg magyar nyelven íródott. Az angol és a magyar nyelvű változat közötti bármilyen eltérés esetén a magyar nyelvű változat az irányadó.",
   "dataBody": {
     "0": {
       "title": "AZ ADATKEZELÉS CÉLJA",
