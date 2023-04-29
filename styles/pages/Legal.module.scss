@@ -1,74 +1,7 @@
-.MainWrapper {
-    position: relative;
-    color: $white;
-    min-height: 100vh;
-    height: 100%;
-    padding: 7rem 10rem;
-    background-color: $background-color;
-
-    .Title {
-        @include PrimaryTitle;
-        margin-bottom: 3rem;
-        background: rgba($grey-2, .9);
-        border-radius: 2.5rem;
-        backdrop-filter: blur(.5rem);
-        box-shadow: 0 1rem 1rem rgba($black, .5);
-
-        @include respond(min-phone) {
-            backdrop-filter: blur(.5rem);
-        }
-    }
-
-    .Content {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        justify-content: space-between;
-
-        width: 65%;
-        margin: auto;
-
-        @include respond(small-desktop) {
-            padding: 4rem 8rem;
-            width: 70%;
-        }
-        
-        @include respond(tiny-desktop) {
-            padding: 3rem 6rem;
-            width: 90%;
-        }
-        
-        @include respond(phone) {
-            padding: 5rem 2rem;
-            width: 100%;
-        }
-        
-        @include respond(small-phone) {
-            padding: 5rem 1rem;
-        }
-
-        @include respond(big-desktop) {
-            padding: 10rem 10rem;
-        }
-
-        & > * {
-            &:not(:nth-child(1)) {
-                margin-top: 5rem;
-            }
-            &:not(:last-child) {
-                margin-bottom: 5rem;
-            }
-        }
-    }
-}
-
-
 .Hub {
     color: $white;
     min-height: 100vh;
     padding: 7rem 10rem;
-    background-color: $background-color;
     height: 100%;
     display: flex;
     flex-direction: column;

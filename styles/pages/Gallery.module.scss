@@ -2,7 +2,6 @@
     color: $white;
     min-height: 100vh;
     padding: 7rem 10rem;
-    background-color: $grey-1;
 
     @include respond(small-desktop) {
         padding: 4rem 10rem;

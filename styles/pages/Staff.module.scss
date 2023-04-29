@@ -50,9 +50,17 @@
         flex-wrap: wrap;
 
         & > * {
+            flex: 1 1 0;
             margin: 1rem;
             max-width: 30%;
 
+            @include respond(tiny-desktop) {
+                max-width: 50%;
+            }
+            @include respond(small-desktop) {
+                max-width: 40%;
+            }
+ 
             @include respond(big-desktop) {
                 max-width: 20%;
             }
@@ -61,11 +69,16 @@
             }
         }
  
-        @include respond(tiny-desktop) {
+        @include respond(phone) {
             flex-direction: column;
             & > * {
+                margin: 0;
                 max-width: 100%;
-                width: 100%;  
+                width: 100%;
+                
+                &:not(:last-child) {
+                    margin-bottom: 1rem;
+                }
             }
         }
     }

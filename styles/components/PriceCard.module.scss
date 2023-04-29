@@ -44,8 +44,44 @@
         }
     }
 
+    &__PriceContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
     &__Price {
         @include TertiaryTitle;
+    }
+
+    &__FullPrice {
+        @include TertiaryTitle;
+        position: relative;
+        h3 {
+            font-size: calc($styled-font-size / 1.4);
+
+            @include respond(big-desktop) {
+                font-size: calc($styled-font-size / 1.1);
+            }
+
+            @include respond(4k-desktop) {
+                font-size: calc($styled-font-size * 1.2);
+            }
+        }
+
+        &::before {
+            content: "";
+            position: absolute;
+            background-color: $default-red;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 12.5%;
+            z-index: 1;
+            top: 0; bottom: 0; left: 0; right: 0;
+            margin: auto;
+        }
     }
 
     &__Euro {

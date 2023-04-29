@@ -14,7 +14,7 @@ const Footer: NextPage<Props> = (props: Props) => {
     const { t } = useTranslate();
     
     return (
-        <footer className={styles.Footer}>
+        <footer className={styles.Footer} id={"footer"}>
             <div className={styles.Footer__Item}>
                 <div>
                     <div className={styles.Footer__Item__Title}>
@@ -30,16 +30,19 @@ const Footer: NextPage<Props> = (props: Props) => {
                     </div>
                 </div>
             </div>
-            <div className={styles.Footer__Item}>
-                <div>
-                    <div className={styles.Footer__Item__Title}>
-                        <h3>{t("footerPartners")}</h3>
-                    </div>
-                    <div className={styles.Footer__Item__Partners}>
-                        <FooterImageCarousel lengthToSwitch={5} imgPaths={[{imgPath:"orli.png",link:"https://google.com"}, {imgPath:"test.jpg", link:"https://youtube.com"}, {imgPath:"test.png",link:"https://reddit.com"}]}></FooterImageCarousel>
+            {
+                false &&
+                <div className={styles.Footer__Item}>
+                    <div>
+                        <div className={styles.Footer__Item__Title}>
+                            <h3>{t("footerPartners")}</h3>
+                        </div>
+                        <div className={styles.Footer__Item__Partners}>
+                            <FooterImageCarousel lengthToSwitch={5} imgPaths={[{imgPath:"orli.png",link:"https://google.com"}, {imgPath:"test.jpg", link:"https://youtube.com"}, {imgPath:"test.png",link:"https://reddit.com"}]}></FooterImageCarousel>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
             <div className={styles.Footer__Item}>
                 <div>
                     <div className={styles.Footer__Item__Title}>

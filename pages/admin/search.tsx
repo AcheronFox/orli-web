@@ -16,6 +16,7 @@ import NationalitySelector from "@/comp/NationalitySelector";
 import CustomDatePicker from "@/comp/CustomDatePicker";
 import DropDown from "@/comp/DropDown";
 import SecondaryButton from "@/comp/SecondaryButton";
+import CustomBackground from "@/comp/CustomBackground";
 
 
 type Props = {}
@@ -177,6 +178,7 @@ const AdminSearch: NextPage<Props> = (props: Props) => {
         <>
             <CustomHead title={t("adminNavSearch")} />
             <LoadingOverlay isLoading={isLoading} />
+            <CustomBackground />
             <div className={styles.Admin}>
                 {
                     (user && user.isAdmin && isAuthenTicated && tableData && headerData) &&

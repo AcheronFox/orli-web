@@ -16,6 +16,7 @@ import SecondaryButton from "@/comp/SecondaryButton";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import DropDown from "@/comp/DropDown";
 import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
+import CustomBackground from "@/comp/CustomBackground";
 
 
 type Props = {}
@@ -191,6 +192,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                 <CustomHead title={`${t("adminUser")}: ${userID}`} />
             }
             <LoadingOverlay isLoading={isLoading} />
+            <CustomBackground />
             <div className={styles.Admin}>
                 {
                     (showRevertModal) &&

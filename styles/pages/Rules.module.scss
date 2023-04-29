@@ -1,7 +1,8 @@
-.MainWrapper {
+.Rules {
     position: relative;
     color: $white;
     min-height: 100vh;
+    height: 100%;
     padding: 7rem 10rem;
     width: 65%;
     margin: auto;
@@ -29,7 +30,7 @@
         padding: 10rem 10rem;
     }
 
-    .Title {
+    &__Title {
         @include PrimaryTitle;
         margin-bottom: 3rem;
         background: rgba($grey-2, .9);
@@ -37,17 +38,16 @@
         box-shadow: 0 1rem 1rem rgba($black, .5);
 
         @include respond(min-phone) {
-            backdrop-filter: blur(.5rem);
+            backdrop-filter: blur(.2rem);
         }
     }
 
-    .Content {
+    &__Content {
         display: flex;
         flex-direction: column;
         width: 100%;
         height: 100%;
         justify-content: space-between;
-
 
         & > * {
             &:not(:nth-child(1)) {
@@ -57,15 +57,37 @@
                 margin-bottom: 5rem;
             }
         }
+    }
 
-        &__Questions {
-            display: flex;
+    &__Main {
+        display: flex;
+        flex-direction: column;
+
+        & > * {
+            &:not(:nth-child(1)) {
+                margin-top: 1.75rem;
+            }
+            &:not(:last-child) {
+                margin-bottom: 1.75rem;
+            }
+        }
+
+        &__Data {
+            @include TertiaryTitle;
+            align-items: flex-start;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        }
 
-            &__List {
-                margin-left: 2rem;
+        &__List {
+            margin-left: 2.5rem;
+            
+            & > * {
+                &:not(:nth-child(1)) {
+                    margin-top: .75rem;
+                }
+                &:not(:last-child) {
+                    margin-bottom: .75rem;
+                }
             }
         }
     }

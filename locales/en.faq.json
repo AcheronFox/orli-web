@@ -55,72 +55,109 @@
     },
 
     "11": {
+        "title": "Can my pet come with me to the event?",
+        "content": "Yes, our event venue welcomes pets. If you wish to bring your pet with you, please get in contact with the organisers via e-mail or Telegram."
+    },
+
+    "12": {
         "title": "Will there be a suitwalk?",
         "content": "An organised and provided suitwalk is not part of the program list."
     },
 
-    "12": {
+    "13": {
         "title": "How much time do I have to pay for the package I have chosen?",
         "content": "You have 7 days from the date that you have selected your packages, but we need to receive your payment before your arrival at the event. Otherwise, your selected packages will be deleted from our system. We will not allow you to enter the event without the payment of your chosen package."
     },
 
-    "13": {
+    "14": {
+        "title": "How can I book a room?",
+        "content": [
+            "Reservations are only available after your payment has been confirmed. The process is as follows:",
+            "Select the Rooms option in the menu and you will see all the available rooms at the venue. If there is no name displayed next to a room number, then you will have the option to get in that room and become the room's administrator. You can change the name of the room, create a PIN code or share your Telegram contact details with others.",
+            "If there is no room available or you would like to join others in another room, then you will need to click on your desired Room and enter its PIN code in order to gain entry to that room.",
+            "If you don't have a PIN code that has been shared with you, then you will need to get in contact with the room's administrator first.",
+            "If you leave a room as an administrator, then your rank will pass down to the next member that joined that room in chronological order after you. When a room becomes empty, all of it's data will be deleted from our system.",
+            "If you are alone in a room, then you will have 72 hours to find a roommate, otherwise the system will kick you out of that room."
+        ]
+    },
+
+    "15": {
+        "title": "I can't find any empty rooms anymore, but there are still some rooms with free spaces available. What can I do?",
+        "content": "To help you find a roommate, you can use the room-sharing Telegram group of the Försztivál here: $https://t.me/+fsRN7t4bdJJlNzg0ß. It's important that you read the chat's description first and follow its rules!"
+    },
+
+    "16": {
         "title": "What is included in each ticket?",
         "content": "Different packages and options offer different variations of tickets, so be sure to check the \"Prices\" section before you make a payment."
     },
 
-    "14": {
+    "17": {
         "title": "Do I have to choose a breakfast option?",
         "content": "Yes, because this is a mandatory part of the overnight stay. If you don't fancy breakfast, you can be sure that the meal of your choice will find other hungry mouths to feed."
     },
 
-    "15": {
+    "18": {
         "title": "When can I enter the event area?",
         "content": "We open the gates for newcomers at 2:00 PM. The only exception from this is Day Zero, where we welcome our participants from 4:00 PM."
     },
 
-    "16": {
+    "19": {
         "title": "Can I buy a ticket on the spot?",
         "content": "Yes, but a registration prior to this is required. You can only buy tickets on the spot if you accept the rules and register first on our website."
     },
 
-    "17": {
+    "20": {
         "title": "I have already paid for my ticket, but I cannot attend the event. What are my options?",
         "content": "No refunds are allowed on already paid tickets. If you wish to transfer your ticket to someone else, then both of you need to get in contact with the organisers."
     },
 
-    "18": {
+    "21": {
         "title": "Why do I have to hand in a photo ID at the check-in?",
         "content": "Our host is obliged by current legislation to digitally record your ID. We will try to return your ID cards back to you as soon as possible."
     },
 
-    "19": {
+    "22": {
         "title": "What do I need to know about the resting areas?",
         "content": "These designated areas are mainly reserved for our guests arriving with their tents. Please do not disturb the peace and quiet of this place and try to meet your social needs elsewhere in other areas of the resort instead."
     },
 
-    "20": {
+    "23": {
         "title": "Is there free internet access on the site?",
         "content": "Yes, free Wi-Fi access will be provided for event participants."
     },
 
-    "21": {
+    "24": {
         "title": "What do I need to know about camping in tents?",
         "content": "Camping in tents is only possible in the resting areas. For our camping guests, cleaning is possible in the bathrooms and toilets of the Vidra and Fácán houses, along with the public toilets of the campsite. Electricity is available at several points of the site. It is important to note that it is your responsiblity to bring your own tent, bedding and toiletries if needed!"
     },
 
-    "22": {
+    "25": {
         "title": "I will arrive by vehicle. Where can I park?",
         "content": "You can leave your vehicles in the closed parking area inside the resort or in the outside parking area in front of the gates."
     },
 
-    "23": {
+    "26": {
         "title": "Where can I get help if I have a problem?",
         "content": "The organisers will always try to help you or to find a solution to your problems. They will be indicated by a red neckband throughout the event."
     },
 
-    "24": {
+    "27": {
         "title": "Can I pay for more than one person's packages at the same time?",
         "content": "Yes. In this case, it is important that each person's identity is clearly separated in the comment/communication part when making your payment. The organisers will not give out IDs to third parties, so you will have to ask each other for them."
+    },
+
+    "28": {
+        "title": "What forms of payment are available at the event venue?",
+        "content": "Payment for the services offered at the event venue are currently only available in cash. However, we may be able to accept other forms of payment in the future."
+    },
+
+    "29": {
+        "title": "What is the maximum number of people that the venue can accommodate for?",
+        "content": "The site can accommodate a total of 90 people in the rooms and furthermore 60 people in the camping site."
+    },
+    
+    "30": {
+        "title": "Why could my options be limited on the event's social platforms and chat rooms?",
+        "content": "The restriction is probably the result of your previous behaviour, or perhaps a previous statement that you have made. Event organisers are very discreet about this and they will only give out the detailed reasons for a restriction if you ask them about it personally. In order to prevent similar incidents, please read our Rules carefully."
     }
 }
