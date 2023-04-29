@@ -31,7 +31,6 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
 
     useEffect(() => {
         refreshNationality()
-        console.log(props.picture)
     }, [])
 
     useEffect(() => {

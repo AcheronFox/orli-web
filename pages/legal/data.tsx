@@ -30,7 +30,8 @@ const Data: NextPage<Props> = (props: Props) => {
               {t("dataHea1")}<br/>
               {t("dataHea2")}<br/>
               {t("dataHea3")}<br/><br/>
-              {t("dataHea4")}
+              {t("dataHea4")}<br/><br/>
+              <small>{t("dataHea5")}</small>
             </span>
           </Section>
           <Section>
