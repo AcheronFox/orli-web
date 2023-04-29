@@ -27,7 +27,7 @@
     "5": {
         "title": "Raffle",
         "description": [
-            "It’s all down to luck here. Visit the raffle table in the Artist Alley, look for a prize of your liking and don't delay on buying your tickets!"
+            "It's all down to luck here. Visit the raffle table in the Artist Alley, look for a prize of your liking and don't delay on buying your tickets!"
         ]
     },
    "6": {
@@ -63,12 +63,17 @@
         ]
     },
     "11": {
-        "title": "Concert",
+        "title": "",
         "description": []
     },
     "12": {
         "title": "Biking around Lake Velence",
-        "description": []
+        "description": [
+            "A comfortable bicycle ride in the length of 30 kilometres with some refreshment stops around the whole lake, taking around 5-6 hours. If you do not have your own bike with you, then you will have the opportunity to rent one on the site. You need to notify Gali of this request no later than 10 days before the start of the event!",
+            "You must take care of your bike and deal with any repairs if needed on the way! I'm sure that many of us will have tools or puncture repair kits on hand and we will help you and wait for you if needed, but please come in prepared just in case!",
+            "Map of the planned route and information about all the sights:",
+            "http://velenceitokor.hu/"
+        ]
     },
     "13": {
         "title": "Sports Championship",
@@ -78,7 +83,7 @@
         ]
     },
     "14": {
-        "title": "Fursuit Games",
+        "title": "",
         "description": []
     },
     "15": {

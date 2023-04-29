@@ -163,13 +163,13 @@ const generateCookies = (action: 'NEW' | 'NEWREMEMBER' | 'DESTROY' | 'AUTO' = 'A
     switch(action) {
         case 'NEW':
             return [
-                `publicToken=${generateJWT('public', key!)}; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `publicToken=${generateJWT('public', '')}; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
                 `accessToken=${generateJWT('access', key!)}; HttpOnly; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
                 `refreshToken=invalidated; Path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; Samesite=Strict;`
             ]
         case 'NEWREMEMBER':
             return [
-                `publicToken=${generateJWT('public', key!)}; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
+                `publicToken=${generateJWT('public', '')}; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
                 `accessToken=${generateJWT('access', key!)}; HttpOnly; Max-Age=43200; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`,
                 `refreshToken=${generateJWT('refresh', key!)}; HttpOnly; Max-Age=1209600; Path=/; SameSite=Strict; ${(process.env.NODE_ENV !== 'development') ? 'Secure;' : ''}`
             ]

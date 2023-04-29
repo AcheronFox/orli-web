@@ -15,6 +15,7 @@ import { INationalityCount } from "@/models/nationality-count.model";
 import getNationality from "@/root/functions/getNationality";
 import { IAdminChart } from "@/models/admin.model";
 import _ from "lodash";
+import CustomBackground from "@/comp/CustomBackground";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -213,6 +214,7 @@ const Admin: NextPage<Props> = (props: Props) => {
     <>
       <CustomHead title={t("navAdmin")} />
       <LoadingOverlay isLoading={isLoading} />
+      <CustomBackground />
       <div className={styles.Admin}>
         {
           (user && user.isAdmin && isAuthenTicated && participantData && verifiedChartData && paidChartData && ticketChartData) &&

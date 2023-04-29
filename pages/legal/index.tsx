@@ -4,6 +4,7 @@ import IconCard from "@/comp/IconCard";
 import { RiDatabase2Line, RiInformationLine, RiFileList3Line } from "react-icons/ri";
 import { NextPage } from "next";
 import CustomHead from "@/comp/CustomHead";
+import CustomBackground from "@/comp/CustomBackground";
 
 type Props = {}
 
@@ -13,6 +14,7 @@ const Legal: NextPage<Props> = (props: Props) => {
   return (
     <>
       <CustomHead title={t("navLegal")} />
+      <CustomBackground />
       <div className={styles.Hub}>
         <div className={styles.Hub__Title}>
             <h1>

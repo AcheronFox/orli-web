@@ -25,6 +25,15 @@ const Programs: NextPage<Props> = (props: Props) => {
     )
   }, [locale])
 
+  const isValidUrl = (urlString: string) => {
+    try { 
+      return Boolean(new URL(urlString)); 
+    }
+    catch(e){ 
+      return false; 
+    }
+  }
+
   return (
     <>
       <CustomHead title={t("navPrograms")} />
@@ -51,26 +60,31 @@ const Programs: NextPage<Props> = (props: Props) => {
                 Object.keys(programs).map((index, i) => {
                   const key = parseInt(index)
                   return (
-                    <>
-                      <br key={i}/>
-                      <span key={i}>
+                    <div key={i}>
+                      <br />
+                      <span>
                         <span className={styles.Programs__Content__Title}><h3>{programs[key].title}</h3></span>
                         <div className={styles.Programs__Content__Desc}>
                           {
-                            programs[key].description.map((content, i) => {
+                            programs[key].description.map((content, j) => {
                               return (
-                                <>
-                                  <span key={i}>
-                                    {content}
-                                  </span>
+                                <span key={j}>
+                                    {
+                                      (isValidUrl(content)) &&
+                                      <LinkButton text={content} link={content}></LinkButton>
+                                    }
+                                    {
+                                      (!isValidUrl(content)) &&
+                                      content
+                                    }
                                   <br />
-                                </>
+                                </span>
                               );
                             })
                           }
                         </div>
                       </span>
-                    </>
+                    </div>
                   );
                 })
               }

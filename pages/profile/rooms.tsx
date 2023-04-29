@@ -24,6 +24,7 @@ import Input from "@/comp/Input";
 import { IJoinForm } from "@/models/join-form.model";
 import { ILeaveForm } from "@/models/leave-form.model";
 import createDatePatternFromDate from "@/root/functions/createDatePattern";
+import CustomBackground from "@/comp/CustomBackground";
 const { io } = require("socket.io-client");
 let socket: any;
 
@@ -401,6 +402,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
     <>
       <CustomHead title={t("navRooms")} />
       <LoadingOverlay isLoading={isLoading} />
+      <CustomBackground />
       {
         (showOverlay && overlayData) &&
         <div className={styles.Modal}>
@@ -619,6 +621,19 @@ const Rooms: NextPage<Props> = (props: Props) => {
         {
           (user && rooms && accomodations) &&
           <div className={styles.Rooms__Content}>
+            <span>
+              {t("roomIntro1")}<br /><br />
+              {t("roomIntro2")}<br />
+              <ul className={styles.Rooms__Content__List}>
+                {
+                  (t("roomIntroList") as unknown as Array<string>).map((val, i) => {
+                    return (
+                      <li key={i}>{val}</li>
+                    );
+                  })
+                }
+              </ul>
+            </span>
             {
               Object.keys(rooms).map((building, i) => {
                 const key = building

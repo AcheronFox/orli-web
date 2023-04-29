@@ -19,7 +19,8 @@ type Props = {
     isSponsor?: boolean;
     isSuperSponsor?: boolean;
     isFursuiter?: boolean;
-    description?: string;
+    description?: string | React.ReactNode;
+    isStaffMode?: boolean;
 };
 
 const ParticipantCard: NextPage<Props> = (props: Props) => {
@@ -30,6 +31,7 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
 
     useEffect(() => {
         refreshNationality()
+        console.log(props.picture)
     }, [])
 
     useEffect(() => {
@@ -55,10 +57,20 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
                 </div>
             </Tippy>
             <div className={styles.ParticipantCard__Picture}>
-                <picture>
-                    <source srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.jpg 1x, /uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                    <img srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.jpg 1x, /uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy"/>
-                </picture>
+                {
+                    (props.isStaffMode == true) &&
+                    <picture>
+                        <source srcSet={`${props.picture? (`${props.picture}_x1.jpg 1x, ${props.picture}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
+                        <img srcSet={`${props.picture? (`${props.picture}_x1.jpg 1x, ${props.picture}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy"/>
+                    </picture>
+                }
+                {
+                    (!props.isStaffMode) &&
+                    <picture>
+                        <source srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.jpg 1x, /uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
+                        <img srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.jpg 1x, /uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy"/>
+                    </picture>
+                }
                 <div className={styles.ParticipantCard__Flag}>
                     <Tippy className={styles.Tooltip} content={nationalityName}>
                         <span>
@@ -67,25 +79,28 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
                     </Tippy>
                 </div>
             </div>
-            <div className={styles.ParticipantCard__Footer}>
-                {
-                    props.isFursuiter &&
-                    <Tippy className={styles.Tooltip} content={t("partSuiter")}>
-                        <span>
-                            <FursuiterIcon style={{"fill": "#F741D5"}} />
-                        </span>
-                    </Tippy>
-                }
-                {
-                    props.isSponsor &&
-                    <Tippy className={styles.Tooltip} content={(props.isSuperSponsor)? t("ticketSuperSponsor") : t("partSponsor")}>
-                        <span>
-                            <SponsorIcon style={{"fill": "#F741D5"}} />
-                        </span>
-                    </Tippy>
-                }
-                {props.description}
-            </div>
+            {
+                (props.isFursuiter || props.isSponsor) &&
+                <div className={styles.ParticipantCard__Footer}>
+                    {
+                        props.isFursuiter &&
+                        <Tippy className={styles.Tooltip} content={t("partSuiter")}>
+                            <span>
+                                <FursuiterIcon style={{"fill": "#F741D5"}} />
+                            </span>
+                        </Tippy>
+                    }
+                    {
+                        props.isSponsor &&
+                        <Tippy className={styles.Tooltip} content={(props.isSuperSponsor)? t("ticketSuperSponsor") : t("partSponsor")}>
+                            <span>
+                                <SponsorIcon style={{"fill": "#F741D5"}} />
+                            </span>
+                        </Tippy>
+                    }
+                </div>
+            }
+            <span className={styles.ParticipantCard__Description}>{props.description}</span>
         </div>
     );
 };

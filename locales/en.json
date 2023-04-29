@@ -69,9 +69,191 @@
   "legalRules": "Policy",
   "legalData": "Data Handling",
 
+  "SECTION": "--------------------POLICY-------------------------",
+
+  "polHea1": "One of the conditions of participation in the meet is that all participants are familiar with, accept and comply with the rules and regulations of the \"Örli Försztivál\" (from here on referred to as the Event).",
+  "polHea2": "The Rules cannot be modified during the Event, so any questions or requests can be addressed to the organisers during the period preceding the Event.",
+  "polHea3": "If a participant has any problems with any of the Event organisers or their actions, they should get in contact with the main organiser.",
+  "polHea4": "The Organisers are responsible for enforcing the Rules and Regulations at the event and will be indicated by a red neckband.",
+  "polBody": {
+    "0": {
+      "title": "GENERAL RULES",
+      "content": [
+        "Treat others as you would like them to treat you.",
+        "Any behaviour or activity that may cause significant disruption to the operation of the Event or undue inconvenience to others, or adversely affect the Event's relationship with its guests, venue or the public is prohibited. Violation of this rule will result in immediate exclusion. This rule supersedes all other rules listed below.",
+        "Harassment, physical or verbal abuse, intimidation, stalking or unwanted physical attention is prohibited.",
+        "Any damage caused is the responsibility of the person who caused it. In the event of an accident, the organisers must be informed immediately.",
+        "The instructions of the organisers and staff must be followed. Failure to comply may result in exclusion from the Event.",
+        "Any breach of these rules, which also affects the legislation in force in the country, will have legal consequences and will be referred by the organisers to the appropriate authorities."
+      ]
+    },
+    "1": {
+      "title": "CLOTHING AND BEHAVIOUR",
+      "content": [
+        "The wearing of products made from animal materials, or any clothing or accessories that fall under age-restriction are not permitted in the public areas of the venue.",
+        "Fursuits, other costumes and accessories are subject to the following rules:",
+        {"content": [
+          "They are permitted in the Event venue and its public areas, provided that they do not harm or endanger the Event and its participants, the venue itself or the public outside.",
+          "They may not be worn in the Event venue and its public areas if they have anatomically accurate parts similar to their real counterparts or inappropriately reveal the anatomy of the wearer. The wearing of accessories that have their primary function defined as sexuality are also prohibited."
+        ]},
+        "In case of doubt, a decision of the organisers is required, which cannot be modified or revoked for the duration of the event."        
+      ]
+    },
+    "2": {
+      "title": "PRIVATE GATHERING",
+      "content": [
+        "In the case of a private gathering, all provisions of the Rules shall apply.",
+        "Noise complaints received from the Resting Areas will be dealt with by the organisers and if deemed necessary the activity will be terminated.",
+        "Avoid overcrowding the rooms and the improper use of furnishings.",
+        "After the end of the meeting, the participants or the organiser of the private gathering are responsible for cleaning up the area."
+      ]
+    },
+    "3": {
+      "title": "LOCATION",
+      "content": [
+        "Damage to furnishings in the common areas and the rooms of the venue will result in liability for compensation for any damages being done.",
+        "It’s forbidden to enter any areas reserved for the organisers.",
+        "Participants with a single day ticket must leave the venue by 11:00 PM on the day of the event.",
+        "All participants are responsible for the storage of their belongings. Neither the organisers nor the venue provider can be held responsible for any valuables or clothing being lost.",
+        "Fursuit wearing is not allowed in the swimming pool or in the dining room during breakfast."
+      ]
+    },
+    "4": {
+      "title": "REGISTRATION",
+      "content": [
+        "All participants must be 18 years of age before the first day of the event. This rule may be overridden by the joint agreement of at least three organisers in justified cases.",
+        "Access to the Event area is only possible after an accepted registration.",
+        "Your badge is used for identification during the Event. It is personalised and valid for its owner only, it cannot be shared with anyone else and must be worn in the public areas of the venue. The organisers may request to see it at any time.",
+        "Before you receive your badge, the authenticity of the information that you have provided during registration will be verified according to your photo ID presented. If you have provided any false information, then the organisers may refuse your entry.",
+        "The amount paid is non-refundable. Valid registrations may be transferred before the Event.",
+        "Any subsequent modification of the information on your badge is prohibited."
+      ]
+    },
+    "5": {
+      "title": "VIRUS SITUATION",
+      "content": [
+        "During the Event, the restrictions provided by the government at the time shall apply.",
+        "Participation is not allowed in case of infectious diseases.",
+        "In case of a starting illness or sickness, the organisers must be informed, and the wearing of a medical mask is recommended.",
+        "The organisers cannot be held responsible for any events or requirements outside of their scope."
+      ]
+    },
+    "6": {
+      "title": "SMOKING, ALCOHOL CONSUMPTION AND DRUG USAGE",
+      "content": [
+        "Smoking, whether if it's a cigarette or a pipe and the usage of smoking imitations are only allowed in their designated areas.",
+        "There is no restriction on alcohol consumption but getting absolutely wasted and acting in a way that it results in any unpleasant behaviour is the basis for a final warning. Drinking to a level requiring medical attention will result in an exclusion from the Event.",
+        "Consumption, possession, or distribution of illegal or \"legal\" mind-altering substances will result in an immediate exclusion and an official action by the authorities."
+      ]
+    },
+    "7": {
+      "title": "WEAPONS AND REPLICAS, OPEN FLAME",
+      "content": [
+        "Bringing weapons into the Event area is strictly prohibited. Weapons are considered to be any object which by its nature is capable of injuring persons or animals or causing any material damage.",
+        "All replicas and items that appear to be weapons must be approved by the organisers at the time of checking in. The organisers reserve the right to confiscate any instrument or tool that is not used for its intended purposes or if it can injure other people or can be used to cause damage to the venue's equipment and only return it once its owner is leaving the Event.",
+        "The usage of a water pistols or any soft projectile shooting toys are not permitted in any of the enclosed areas.",
+        "Fake fights, martial arts demonstrations or fire juggling are prohibited. The organisers can be contacted to give you information on the authorization of these.",
+        "The use of open flame or glowing, smouldering devices and decorations is always subject to the organiser's permission."
+      ]
+    },
+    "8": {
+      "title": "PHOTO- AND VIDEO RECORDING",
+      "content": [
+        "Örli Försztivál reserves the right to all photographs and video footage of the Event. This does not apply to material taken at any private meetings..",
+        "Participants have the right to use all photographs and video footage for private and/or non-commercial purposes.",
+        "In case of commercial use, the organisers must be consulted first.",
+        "All images and video footage taken at the Event and also shared with the organisers may be used to further promote the Event without consent or compensation to any of the participants.",
+        "No photography or video recording is allowed in the Fursuit Lounge."
+      ]
+    },
+    "9": {
+      "title": "CLAUSE",
+      "content": [
+        "These Rules are in force from the beginning of the registration and until the end of this year's (2023) Örli Försztivál and may only be modified by the mutual consent of parties.",
+        "The content of the rules and the official channels of Örli Försztivál is the intellectual property of the Event organisers and cannot be used for any other purposes.",
+        "In the event of an offence against any of the rules listed, the offender may be subject to the following sanctions:",
+        {"content": [
+          "A verbal warning during the Event, followed by immediate exclusion.",
+          "During the period prior to the Event, an immediate restriction and then a ban from the online community."
+        ]}
+      ]
+    }
+  },
+
+  "SECTION": "--------------------DATA HANDLING-------------------------",
+
+  "dataHea1": "Thank you for visiting our website and for your interest in our Event.",
+  "dataHea2": "Data protection is of a great importance to the management of Örli Försztivál, so we have highlighted the parts we consider important in order to provide you with detailed information about your rights and how we use the data that you have provided.",
+  "dataHea3": "You can visit the Örli Försztivál website without providing any personal data. If you wish to use the service presented through the website, it may be necessary for us to process your personal data. We will need to obtain consent from any person concerned.",
+  "dataHea4": "In any case, the processing of personal data must comply with the General Data Protection Regulation (GDPR). By doing so, we wish to inform our prospective participants about the nature, scope, and purpose of the personal data we collect, use and process. In addition, those involved will be informed of their rights through this Data Handling notice.",
+  "dataBody": {
+    "0": {
+      "title": "THE PURPOSE OF DATA HANDLING",
+      "content": [
+        "The purpose of the registration of users is by voluntarily providing personal data to enable the data handler to offer the data subject content or services which due to the nature of the case can only be offered to registered users. Registered persons may change their personal data that they have provided at any time during registration or delete them completely from the database of the data handler if needed.",
+        "Part of this information (Civil Name, Date of Birth) remains in the possession of the Data Handlers. \"Nationality\" will be displayed under the \"Participants\" section of the website or on the badge if consent is given through the process of registration."
+      ]
+    },
+    "1": {
+      "title": "STORING OF DATA",
+      "content": [
+        "The data handler should provide information at any time about the personal data stored for the request of any person concerned. In addition, the data handler should at the request or indication of the data subject, rectify or erase personal data where there is no legal obligation to store them.",
+        "The end of the storage period is the end of the 60th day following the closing date of the Event. If the storage period expires, the personal data will be routinely blocked or deleted in according to the law."
+      ]
+    },
+    "2": {
+      "title": "DATA HANDLERS",
+      "content": [
+        "On behalf of the organisers of the Örli Försztivál: József Balogh, Attila Bársony and Ádám Gellért."
+      ]
+    },
+    "3": {
+      "title": "COOKIES",
+      "content": [
+        "The Örli Försztivál website uses text files (cookies) stored via your web browser to provide a more user-friendly service to our website users, which would not be possible without using the cookie settings. Cookies allow our system to recognise users of our website, making it easier for them to use it.",
+        "Users can prevent the storage of cookies from our website at any time by selecting the appropriate settings on their web browser. Likewise, cookies that have already been set can be deleted at any time via the web browser or any other software. In this case, not all functions of our website may be fully usable."
+      ]
+    },
+    "4": {
+      "title": "GENERAL DATA COLLECTION AND STORAGE",
+      "content": [
+        "The website of Örli Försztivál collects general data and information whenever a user or the automated system uses the website. This data and information are stored in the server log files and the organisers of Örli Försztivál do not draw any conclusions about the data subjects.",
+        "This is necessary in order to:",
+        {"content": [
+          "Ensure that the content of the website is transmitted correctly,",
+          "Ensure that the website's content and advertisements run optimally,",
+          "Ensure the long-term viability of the information technology systems and website,",
+          "Ensure that if needed the information could be provided to the law enforcement authorities which would be necessary to prosecute a cyber-attack."
+        ]},
+        "The organisers of the Örli Försztivál will statistically analyse the data and information collected anonymously, in order to enhance its data protection and security. The anonymous data in the server log files are stored separately from the personal data provided by the user."
+      ]
+    },
+    "5": {
+      "title": "RIGHTS OF THE DATA PROVIDER",
+      "content": [
+        "Every person concerned has a right guaranteed by the European legislator:",
+        {"content": [
+          "To be informed about the processing of their personal data concerning them,",
+          "To be informed of the personal data stored and to request a copy of that information,",
+          "To be informed about the transfer of their data to third parties,",
+          "To obtain from the data handler, without undue delay, the rectification of inaccurate personal data relating to them,",
+          "To obtain from the data handler, without undue delay, the erasure of personal data concerning them,",
+          "To obtain from the data handler, without undue delay, the restriction of personal data concerning them,",
+          "To receive the personal data provided to the data handler in a structured, commonly used, and machine-readable format.",
+          "To withdraw their consent given of processing their personal data at any time."
+        ]},
+        "In order to exercise their rights, the data subject may at any time contact the organisers of the Örli Försztivál by e-mail at orlifurstival@gmail.com."
+      ]
+    }
+  },
+
   "SECTION": "--------------------CONTACT-------------------------",
 
   "contact": "Do you have any question or having trouble with something? Or maybe found a bug on this site? Contact us by the e-mail adress below!",
+
+  "SECTION": "--------------------FAQ-------------------------",
+
+  "faqIntro": "Below you can find some answers to the most frequently asked questions about the event. However, despite our best efforts, it is possible that not all of your concerns are answered here, if you have additional questions please get in contact with the organisers via e-mail or Telegram.",
 
   "SECTION": "--------------------HOME-------------------------",
 
@@ -299,7 +481,7 @@
   "ticket1Inc4": "grilling equipment, spices, and sauces for cooking",
   "ticket1Inc5": "access to the majority of the programs",
   "ticket1Inc6": "registration care package",
-  "ticket1Out": "Please keep in mind that providing tents, bed linen and towels is your own responsibility!",
+  "ticket1Out": "Please keep in mind that providing tents, bed linen and towels is your own responsibility! Please choose 2 consecutive days!",
   "ticket2Title": "Festival Pass",
   "ticket2Desc": "Access to the event area all the way from June 15, 2:00 PM until 12:00 PM (Noon) of June 18.",
   "ticket2Inc": "This package includes:",
@@ -416,6 +598,15 @@
   "roomErrConflict": "Oops! New data is available, please try again.",
   "roomLeave": "Leave",
   "roomLeaveAsk": "Are you sure you want to leave this room?",
+  "roomIntro1": "If you have bought a festival pass, then you can decide which room you will stay in and who can join you in that room.",
+  "roomIntro2": "The process is as follows:",
+  "roomIntroList": [
+    "Select the Rooms option in the menu and you will see all the available rooms at the venue. If there is no name displayed next to a room number, then you will have the option to get in that room and become the room's administrator. You can change the name of the room, create a PIN code or share your Telegram contact details with others.",
+    "If there is no room available or you would like to join others in another room, then you will need to click on your desired Room and enter its PIN code in order to gain entry to that room.",
+    "If you don't have a PIN code that has been shared with you, then you will need to get in contact with the room's administrator first.",
+    "If you leave a room as an administrator, then your rank will pass down to the next member that joined that room in chronological order after you. When a room becomes empty, all of it's data will be deleted from our system.",
+    "If you are alone in a room, then you will have 72 hours to find a roommate, otherwise the system will kick you out of that room."
+  ],
 
   "SECTION": "--------------------INFO-------------------------",
 

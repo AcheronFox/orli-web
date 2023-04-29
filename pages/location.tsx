@@ -9,7 +9,7 @@ import {fromLonLat} from 'ol/proj';
 import {Point} from 'ol/geom';
 import 'ol/ol.css';
 import {RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle, MapBrowserEvent} from 'rlayers';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CustomHead from "@/comp/CustomHead";
 import { IPOI } from "@/models/poi.model";
 

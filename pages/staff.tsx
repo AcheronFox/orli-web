@@ -45,18 +45,22 @@ const Staff: NextPage<Props> = (props: Props) => {
                 <ParticipantCard
                 key={i}
                 name={staff.name}
-                description={staff.description}
+                description={Array.isArray(staff.description)? <ul>{staff.description.map((val, i) => <li key={i}>{val}</li>)}</ul> : staff.description}
                 picture={staff.picture}
+                isStaffMode={true}
                 />
               );
             })
           }
         </div>
-        <div className={styles.Staff__Footer}>
-          <Section title={t("staffVolunteers")}>
-          
-          </Section>
-        </div>
+        {
+          (false) &&
+          <div className={styles.Staff__Footer}>
+            <Section title={t("staffVolunteers")}>
+            
+            </Section>
+          </div>
+        }
       </div>
     </>
   )
