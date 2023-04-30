@@ -654,18 +654,11 @@ const Registration: NextPage<Props> = (props: Props) => {
                 ></Input>
             </div>
             {
-              (serverDate != undefined && fromDate != undefined && toDate != undefined) &&
               <div className={styles.Registration__Button}>
                 <>
-                  {
-                    (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
-                    <p style={{color: 'red'}}>
-                      {`${t("warnDateLimit1")} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${t("warnDateLimit2")}`}
-                    </p>
-                  }
+                  
                   <PrimaryButton
-                  disabled={isButtonActive || isDisabled ||
-                    !((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))}
+                  disabled={isButtonActive || isDisabled}
                   text={t("regButton")}
                   onClick={handleButton} 
                   />
