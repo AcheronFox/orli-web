@@ -8,7 +8,7 @@ import CustomHead from "@/comp/CustomHead";
 
 type Props = {}
 
-const Login: NextPage<Props> = (props: Props) => {
+const Contact: NextPage<Props> = (props: Props) => {
   const { t, locale } = useTranslate()
 
   return (
@@ -28,4 +28,4 @@ const Login: NextPage<Props> = (props: Props) => {
   )
 }
 
-export default Login;
+export default Contact;
