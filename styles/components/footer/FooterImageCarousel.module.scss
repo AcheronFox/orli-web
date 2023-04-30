@@ -1,0 +1,56 @@
+.ImageCarousel {
+  position: relative;
+  width: 16rem;
+  height: 9rem;
+  overflow: hidden;
+
+  @include respond(big-desktop) {
+    width: 21.333333333333333333333333333333rem;
+    height: 12rem;
+  }
+  @include respond(4k-desktop) {
+    width: 24.888888888888888888888888888889rem;
+    height: 14rem;
+  }
+
+  &__ImageWrapper {
+    overflow: hidden;
+    max-width: 16rem;
+    max-height: 9rem;
+    transition: unset;
+    position: relative;
+
+    @include respond(big-desktop) {
+      width: 21.333333333333333333333333333333rem;
+      height: 12rem;
+    }
+    @include respond(4k-desktop) {
+      width: 24.888888888888888888888888888889rem;
+      height: 14rem;
+    }
+  }
+
+  &__Image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  &__Switching {
+    backface-visibility: hidden;
+    transform: translateX(-100%);
+    box-shadow: -1rem 0 2rem rgba($black, 5);
+
+    transition: transform .5s cubic-bezier(.5,.6,.7,1), box-shadow 0s;
+  }
+
+  &__NextImage {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    z-index: 2;
+    position: absolute;
+    right: -100%;
+    top: 0;
+  }
+}

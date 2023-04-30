@@ -1,4 +1,4 @@
-import { NextPage } from "next";
+import PrimaryButton from "@/comp/PrimaryButton"
 import styles from "@/styles/pages/Home.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
@@ -8,6 +8,8 @@ import { RiArrowDropDownLine } from "react-icons/ri"
 type Props = {}
 
 const Home: NextPage<Props> = (props: Props) => {
+  const { t } = useTranslate();
+
   return (
     <div>
       <section className={styles.Home}>
