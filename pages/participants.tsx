@@ -219,7 +219,7 @@ const Participants: NextPage<Props> = (props: Props) => {
       setParticipantCount(res.data.length)
       setSuiterCount(res.data.filter((o) => o.isFursuiter == true).length)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {return})
     .finally(() => setIsLoading(false))
   }
 
@@ -230,7 +230,7 @@ const Participants: NextPage<Props> = (props: Props) => {
       setRawChartData(res.data)
       constructChartData(res.data)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {return})
     .finally(() => setIsLoading2(false))
     
   }

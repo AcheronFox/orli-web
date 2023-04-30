@@ -89,7 +89,6 @@ const AdminSearch: NextPage<Props> = (props: Props) => {
             })
             .catch((err) => {
                 setIsAuthenticated(false)
-                console.log(err)
                 Router.push('/')
             })
             .finally(() => {
@@ -118,7 +117,7 @@ const AdminSearch: NextPage<Props> = (props: Props) => {
             .catch((err) => {
                 if (err.code == 'ERR_CANCELED') return
                 else {
-                    console.log(err)
+                    return
                 }
             })
             .finally(() => {

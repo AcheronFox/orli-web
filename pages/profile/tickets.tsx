@@ -115,7 +115,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       setToDate(new Date(res.data.toDate))
     })
     .catch((err) => {
-      console.log(err)
+      return
     })
   }
 
@@ -135,7 +135,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       maxDate.setDate(newMaxDate);
       setMaxDate1Night(maxDate)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {return})
   }
 
   const getPrices = async () => {
@@ -144,7 +144,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       setPrices(res.data.prices)
       setFullPrices(res.data.normal)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {return})
   }
 
   const getExtraLimits = async () => {
@@ -152,7 +152,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
     .then((res) => {
       setExtra1Limit(res.data)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {return})
   }
 
   const selectTicket = (ticket: number) => {
@@ -423,7 +423,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
       getUser()
     })
     .catch((err) => {
-      console.log(err)
       AddFloatingMessage({
         autocloses: true,
         type: "Error",

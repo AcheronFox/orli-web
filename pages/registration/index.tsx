@@ -117,7 +117,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       setToDate(new Date(res.data.toDate))
     })
     .catch((err) => {
-      console.log(err)
+      return
     })
   }
 
