@@ -28,7 +28,7 @@ const headers = async() => {
           true,
           { maxAge: 60 * 60 * 24 * 360, includeSubDomains: true },
         ],
-        referrerPolicy: "no-referrer-when-downgrade",
+        referrerPolicy: "strict-origin-when-cross-origin",
       }),
     },   
   ];

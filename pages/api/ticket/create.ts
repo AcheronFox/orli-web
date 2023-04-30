@@ -181,7 +181,7 @@ export default async function handler(
                                 (ticketPayload.ticketType==='2'? prices[2].hu : 0) +
                                 (ticketPayload.extra0? prices.extra0.hu : 0) +
                                 (ticketPayload.extra1? prices.extra1.hu : 0) +
-                                (ticketPayload.sponsorPrice!)
+                                (ticketPayload.sponsorLevel != '0'? ticketPayload.sponsorPrice! : 0)
 
                             ticketPayload = {
                                 ...ticketPayload,
