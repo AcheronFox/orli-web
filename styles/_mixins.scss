@@ -5,7 +5,7 @@
     align-items: center;
 
     h1 {
-        font-size: calc($styled-font-size * 2);
+        font-size: calc($styled-font-size * 1.2);
         text-align: center;
         background-image: linear-gradient(90deg, $primary-color, $secondary-color);
         background-clip: text;
@@ -16,11 +16,11 @@
         font-family: $styled-font-family;
 
         @include respond(big-desktop) {
-            font-size: calc($styled-font-size * 2.2);
+            font-size: calc($styled-font-size * 1.4);
         }
         
         @include respond(4k-desktop) {
-            font-size: calc($styled-font-size * 2.4);
+            font-size: calc($styled-font-size * 1.6);
         }
     }
 }

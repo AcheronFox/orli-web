@@ -50,8 +50,6 @@ const webpack = (config) => {
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  headers: headers,
-  webpack: webpack,
   sassOptions: {
     includePaths: ['./styles'],
     prependData: `@import "~@/styles/_variables.scss"; @import "~@/styles/_mixins.scss";`,
