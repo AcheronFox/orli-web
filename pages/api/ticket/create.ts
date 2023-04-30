@@ -185,6 +185,7 @@ export default async function handler(
 
                             ticketPayload = {
                                 ...ticketPayload,
+                                sponsorPrice: ticketPayload.sponsorLevel != '0'? ticketPayload.sponsorPrice! : 0,
                                 AccountKey: tokenPayload.accountKey,
                                 TicketKey: ticketKey,
                                 totalPrice: price,
