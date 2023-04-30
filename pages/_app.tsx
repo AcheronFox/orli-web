@@ -87,7 +87,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       })
       .catch((err) => {
         if (!err.response) {
-          console.log(err);
           return;
         }
         if (err.response.status == 403) {

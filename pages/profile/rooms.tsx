@@ -117,7 +117,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
     })
     .catch((err) => {
       if (err.code == "ERR_CANCELED") return;
-      else console.log(err)
+      else return
     });
 
     await axiosInstance.get<IAccomodation[]>("api/room/accomodations", {signal: abortController.signal})
@@ -126,7 +126,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
     })
     .catch((err) => {
       if (err.code == "ERR_CANCELED") return;
-      else console.log(err)
+      else return
     });
 
     await axiosInstance.get<IOccupant[]>("api/room/occupants", {signal: abortController.signal})
@@ -136,7 +136,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
     })
     .catch((err) => {
       if (err.code == "ERR_CANCELED") return;
-      else console.log(err)
+      else return
     });
     setIsLoading(false)
   }
