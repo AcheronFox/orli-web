@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Default-Font";
+  src: url("../public/Bahiana-Regular.otf");
+}
+
 *,
 *::after,
 *::before {
@@ -54,8 +59,6 @@ a {
   text-decoration: none;
 }
 
-<<<<<<< HEAD
-=======
 //
 //==========================================================
 //The styling of this component literaly only works here...
@@ -206,4 +209,3 @@ a {
     color: $white;
   }
 }
->>>>>>> f9e1b34080ef33cc525cffbafc80405f8b9aeb90

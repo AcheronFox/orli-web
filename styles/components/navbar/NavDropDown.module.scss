@@ -1,0 +1,368 @@
+.MainActive {
+  color: $white !important;
+  background: linear-gradient(180deg, rgba($primary-color, .5), transparent) !important;
+}
+
+@mixin responsivity {
+  @include respond(small-desktop) {
+    font-size: calc($styled-font-size * 0.9);
+  }
+
+  @include respond(phone) {
+    font-size: calc($styled-font-size * 1.3);
+  }
+
+  @include respond(small-phone) {
+    font-size: calc($styled-font-size * 1.2);
+  }
+
+  @include respond(big-desktop) {
+    padding: .5rem 1.75rem;
+    font-size: calc($styled-font-size * 1.15);
+  }
+
+  @include respond(4k-desktop) {
+    padding: .5rem 2rem;
+    font-size: calc($styled-font-size * 1.8);
+  }
+}
+
+@mixin animation {
+  &:before,
+  &:after {
+    left: 0;
+    height: 100%;
+    width: 0;
+    content: '';
+    position: absolute;	
+    transition: inherit;
+    z-index: -1;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background: linear-gradient(90deg, $primary-color, $secondary-color);
+    transform: scaleX(0);
+  
+    transition: transform .2s, height .4s .2s cubic-bezier(1, 0, 0, 1), background .1s, color .2s;
+  }
+
+  @supports selector(:focus-visible) {
+    //Retarded safari support
+    &:focus-visible:before,
+    &:focus-visible:after {
+      transform: scaleX(1);
+      height: 100%;
+    }
+  }
+
+  &:hover:before,
+  &:hover:after {
+    transform: scaleX(1);
+    height: 100%;
+  }
+
+  @include respond(tiny-desktop) {
+    &:before,
+    &:after {
+      height: 0;
+      width: 100%;
+    }
+
+    &:before {
+      height: 100%;
+      width: 3px;
+      transform: scaleY(0);
+    
+      transition: transform .2s, width .4s .2s cubic-bezier(1, 0, 0, 1), background .1s, color .2s;
+    }
+
+    @supports selector(:focus-visible) {
+      //Retarded safari support
+      &:focus-visible:before,
+      &:focus-visible:after {
+          transform: scaleY(1);
+          width: 100%;
+      }
+    }
+
+    &:hover:before,
+    &:hover:after {
+      transform: scaleY(1);
+      width: 100%;
+    }
+  }
+}
+
+.DropDown {
+  font-size: calc($styled-font-size * 1.05);
+  padding: .5rem 1rem;
+  user-select: none;
+  position: relative;
+  display: flex;
+  justify-self: center;
+  z-index: 20;
+  font-family: $styled-font-family;
+
+  align-items: center;
+
+  text-transform: uppercase;
+
+  width: 15vw;
+  justify-content: flex-end;
+
+  transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1), border-bottom 0ms, margin-top 0ms, color .5s;
+  cursor: pointer;
+  height: 100%;
+
+  &__Content {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    &__Icon {
+      display: flex;
+      align-items: center;
+      
+      color: $primary-color;
+      transition: color .5s;
+    }
+
+    &__Picture {
+      display: inline-block;
+      position: relative;
+      width: 4vh;
+      height: 4vh;
+
+      @include respond(phone) {
+        width: 5rem;
+        height: 5rem;
+      }
+
+      @include respond(tiny-desktop) {
+        width: 4rem;
+        height: 4rem;
+      }
+
+      picture {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 100%;
+        max-height: 100%;
+
+        img {
+            display: inline-block;
+            max-height: 100%;
+            max-width: 100%;
+            border-radius: 1rem;
+
+            border: .1rem solid $primary-color;
+            object-fit: cover;
+        }
+      }
+    }
+
+    &__Name {
+      transition: color .5s;
+      color: inherit;
+
+      &::after {
+        border-bottom: 0;
+        border-top: 0.6rem solid transparent;
+        border-bottom: 0.6rem solid transparent;
+        border-left: 0.6rem solid;
+        content: "";
+        display: inline-block;
+        margin-left: 0.6rem;
+        vertical-align: 0.6rem;
+        backface-visibility: hidden;
+  
+        transition: all .2s, color .5s;
+      }
+    }
+
+    &__Open {
+      color: $white;
+    }
+    &__Open:after {
+      transform: rotate(90deg);
+    }
+  }
+
+  &:active, &:active &__Content__Icon, &:active &__Content__Name {
+    color: $grey-7 !important;
+  }
+
+  @include responsivity();
+
+  @include respond(min-phone) {
+    @supports selector(:focus-visible) {  
+      &:focus-visible &__Content, &:focus-visible &__Content__Icon {
+        color: $white;
+      }
+    }
+
+    &:hover &__Content, &:hover &__Content__Icon {
+      color: $white;
+    }
+
+    @include animation();
+
+    &__Open:before,
+    &__Open:after {
+      filter: drop-shadow(0rem 0.7rem 0.4rem rgba($black, 0.25));
+      transform: scaleX(1);
+      height: 100%;
+    }
+  }
+  
+  @include respond(small-desktop) {
+    width: 20vw;
+    font-size: calc($styled-font-size * 1);
+  }
+  
+  @include respond(tiny-desktop) {
+    width: 40vw;
+    font-size: calc($styled-font-size * 1.2);
+  }
+  
+  @include respond(phone) {
+    width: 60vw;
+    font-size: calc($styled-font-size * 1.4);
+
+    @supports selector(:focus-visible) {  
+      &:focus-visible {
+        background-color: $background-color;
+      }
+    }
+
+    &:hover {
+      background-color: $background-color;
+    }
+  }
+  
+  @include respond(small-phone) {
+    width: 100vw;
+    font-size: calc($styled-font-size * 1.6);
+  }
+
+  &:link, &:visited {
+    color: $grey-5;
+  }
+}
+
+.Menu {
+  padding: 0 !important;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: flex;
+  opacity: 0;
+  max-height: 0;
+  min-width: 20rem;
+  white-space: nowrap;
+  visibility: visible;
+  overflow: hidden;
+  font-family: $styled-font-family;
+
+  filter: drop-shadow(0rem 0.7rem 0.4rem rgba($black, 0.25));
+  flex-direction: column;
+
+  background: rgba($black, .8);
+  margin-left: 0;
+  transition: all .5s ease-in-out;
+
+  @include respond(tiny-desktop) {
+    position: relative;
+    top: unset;
+    left: unset;
+    width: 100%;
+    margin-left: 2rem;
+    background: rgba($black, .2);
+  }
+
+  &__Open {
+    max-height: 100vh;
+    opacity: 1;
+  }
+
+  .LogoutButton {
+    color: darken($default-red, 15%) !important;
+    border-top: .1rem solid $default-red;
+    margin-top: 2rem;
+
+    &:link, &:visited {
+      color: darken($default-red, 15%) !important;
+    }
+  }
+
+  .Item {
+    padding: .5rem 2rem;
+    display: flex;
+    position: relative;
+    z-index: 10;
+    transition: background .5s;
+    color: $grey-5;
+    font-size: calc($styled-font-size * 0.95);
+
+
+    @include responsivity();
+    @include respond(min-phone) {
+      @include animation();
+
+      &:before,
+      &:after {
+        height: 0;
+        width: 100%;
+      }
+  
+      &:before {
+        height: 100%;
+        width: 3px;
+        transform: scaleY(0);
+      
+        transition: transform .2s, width .4s .2s cubic-bezier(1, 0, 0, 1), background .1s, color .2s;
+      }
+  
+      @supports selector(:focus-visible) {
+        //Retarded safari support
+        &:focus-visible:before,
+        &:focus-visible:after {
+            transform: scaleY(1);
+            width: 100%;
+        }
+      }
+  
+      &:hover:before,
+      &:hover:after {
+        transform: scaleY(1);
+        width: 100%;
+      }
+      
+      @supports selector(:focus-visible) {  
+        &:focus-visible {
+          color: $white !important;
+        }
+      }
+
+      &:hover {
+        color: $white !important;
+      }
+    }
+
+    &:link, &:visited {
+      color: $grey-5;
+    }
+
+    &:active {
+      color: $grey-8 !important;
+    }
+  }
+}

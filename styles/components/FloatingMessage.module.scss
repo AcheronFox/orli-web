@@ -1,0 +1,95 @@
+.Wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 1001;
+
+  pointer-events: none;
+  font-size: calc($default-font-size * 1.4);
+
+  @include respond(big-desktop) {
+    font-size: calc($default-font-size * 1.6);
+  }
+
+  @include respond(4k-desktop) {
+    font-size: calc($default-font-size * 1.8);
+  }
+}
+
+.MessageBox {
+  margin: 1rem;
+  transition: .4s;
+  opacity: 0;
+  pointer-events: initial;
+  backface-visibility: hidden;
+  transform: translateY(-200%) translateX(-50%);
+
+  &__Content {
+    width: max-content;
+    max-width: 50%;
+    position: relative;
+    top: 7.5vh;
+    left: 50%;
+    margin: auto;
+    padding: 0.5rem;
+    background-color: rgba($grey-1, .95);
+    border: .2rem solid transparent;
+    border-radius: 1.5rem;
+    text-align: center;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+
+    @include respond(phone) {
+      max-width: 80%;
+      background-color: $grey-1;
+    }
+  }
+
+  &__Text {
+    color: $white;
+  }
+
+  &__Btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    color: $default-red;
+    user-select: none;
+    cursor: pointer;
+    border-radius: .5rem;
+    transition: all .2s;
+
+    &:hover {
+      color: lighten($default-red, 10%);
+      background-color: lighten($grey-1, 10%);
+    }
+  }
+}
+
+.error {
+  border-color: $default-error;
+  box-shadow: 0rem 0rem 1.5rem rgba($default-error, 0.5);
+}
+.success {
+  border-color: $default-success;
+  box-shadow: 0rem 0rem 1.5rem rgba($default-success, 0.5);
+}
+.info {
+  border-color: $default-info;
+  box-shadow: 0rem 0rem 1.5rem rgba($default-info, 0.5);
+}
+
+.open {
+  transform: translateY(-50%) translateX(-50%);
+  opacity: 1;
+}
+.close {
+  transform: translateY(-200%) translateX(-50%);
+  opacity: 0;
+}

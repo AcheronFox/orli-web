@@ -2,7 +2,11 @@
 import "@/styles/globals.scss";
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import Navbar from "@/comp/SideNav";
+import { useEffect, useState } from "react";
+import styles from "@/styles/LoginTemp.module.scss";
 import style from "@/styles/global.module.scss";
+import crypto from "crypto";
 import React from "react";
 import axiosInstance from "@/utils/axiosConfig";
 import TranslateProvider from "@/hooks/TranslateProvider";
