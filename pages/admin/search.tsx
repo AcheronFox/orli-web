@@ -284,22 +284,24 @@ const AdminSearch: NextPage<Props> = (props: Props) => {
                                 
                             </div>
                         </div>
-                        <PaginationTable
-                            columnData={headerData}
-                            tableData={tableData}
-                            onPageSizeChange={(e: number) => setPageSize(e)}
-                            onPageMove={(e: number) => setCurrentPage(e)}
-                            numberOfItems={numberOfItems}
-                            paginationChoices={paginationChoices}
-                            currentPage={currentPage}
-                            pageSize={pageSize}
-                            onRowClick={(e: number) => Router.push({
-                                pathname: '/admin/user',
-                                query: {
-                                    id: e
-                                },
-                            })}
-                        />
+                        <div className={styles.Admin__Content__Table}>
+                            <PaginationTable
+                                columnData={headerData}
+                                tableData={tableData}
+                                onPageSizeChange={(e: number) => setPageSize(e)}
+                                onPageMove={(e: number) => setCurrentPage(e)}
+                                numberOfItems={numberOfItems}
+                                paginationChoices={paginationChoices}
+                                currentPage={currentPage}
+                                pageSize={pageSize}
+                                onRowClick={(e: number) => Router.push({
+                                    pathname: '/admin/user',
+                                    query: {
+                                        id: e
+                                    },
+                                })}
+                            />
+                        </div>
                     </div>
                 }
             </div>

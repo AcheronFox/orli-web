@@ -57,8 +57,12 @@ export default async function handler(
                 const getAccounts = (data: any, ticketData: any) => {
                     return new Promise<any[] | undefined>(async (resolve) => {
                         let query = 
-                        `SELECT account.*, ticket.sponsorLevel, ticket.isPaid, ticket.paymentMethod
-                        FROM account LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey`
+                        `SELECT account.*,
+                        user.fursonaName, user.fursonaSpecies,
+                        ticket.sponsorLevel, ticket.isPaid, ticket.paymentMethod
+                        FROM account
+                        LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey
+                        LEFT JOIN user ON user.AccountKey = account.AccountKey`
 
                         let didGenerateQuery: boolean = false
                         if (!_.isEmpty(data)) {
