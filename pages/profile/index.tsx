@@ -25,6 +25,7 @@ import crypto from "crypto";
 import CustomHead from "@/comp/CustomHead";
 import { IRoom } from "@/models/room.model";
 import CustomBackground from "@/comp/CustomBackground";
+import createDatePatternFromDate from "@/root/functions/createDatePattern";
 
 type Props = {}
 const imageMimeType = /image\/(png|jpg|jpeg|webp)/i;
@@ -65,6 +66,7 @@ const Profile: NextPage<Props> = (props: Props) => {
   const [isFursuiter, setIsFursuiter] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [uploadLimit, setUploadLimit] = useState<Date>()
   const [errorStates, setErrorStates] = useState<any>({
     password: '',
     contact: '',
@@ -86,6 +88,7 @@ const Profile: NextPage<Props> = (props: Props) => {
     else {
       getUser()
       getUserRoom()
+      getUploadLimit()
     }
   }, [didUserInit])
 
@@ -93,6 +96,16 @@ const Profile: NextPage<Props> = (props: Props) => {
     await axiosInstance.get("api/user/room")
     .then((res) => {
       setUserRoom(res.data)
+    })
+    .catch(() => {
+      setUserRoom(undefined)
+    })
+    .finally(() => setIsLoading(false))
+  }
+  const getUploadLimit = async () => {
+    await axiosInstance.get("api/defaults/profile/upload")
+    .then((res) => {
+      setUploadLimit(new Date(res.data.toDate))
     })
     .catch(() => {
       setUserRoom(undefined)
@@ -292,10 +305,13 @@ const Profile: NextPage<Props> = (props: Props) => {
     <LoadingOverlay isLoading={isLoading}/>
     <CustomBackground />
     {
-      fileDataURL &&
+      (fileDataURL && uploadLimit) &&
       <div className={styles.ImagePreview}>
         <div className={styles.ImagePreview__Top}>
-          {t("profImageUpload")}
+          <span>
+            {t("profImageUpload")}<br />
+            <b>{`${t("profImageLimit1")} ${createDatePatternFromDate(uploadLimit)} ${t("profImageLimit2")}`}</b>
+          </span>
         </div>
         <div className={styles.ImagePreview__Center}>
           <ReactCrop className={styles.ImagePreview__Crop} crop={crop} onChange={onCropChange} aspect={1/1} minHeight={10} minWidth={10}>

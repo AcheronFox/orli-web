@@ -2,9 +2,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import isMethodAllowed from '@/utils/isMethodAllowed';
 
-const regDates = {
-    from: new Date(2023, 0, 1),
-    to: new Date(2023, 5, 18)
+const ticketMax = {
+    ticket2Count: 90,
+    ticket1Count: 50,
+    extra1Count: 20
 }
 
 export default async function handler(
@@ -18,13 +19,7 @@ export default async function handler(
         res.status(code).json(data)
     }
 
-    const response = {
-        fromDate: regDates.from,
-        toDate: regDates.to,
-        serverDate: new Date(),
-    }
-
-    sendResponse(200, response);
+    sendResponse(200, ticketMax);
 }
 
-export {regDates}
+export {ticketMax}

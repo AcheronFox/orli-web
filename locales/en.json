@@ -456,6 +456,8 @@
   "profSelected": "Selected",
   "profNotSelectable": "Your selected ticket doesn't include a room.",
   "profTicketNotVerified": "Room selection is available after the ticket payment is confirmed",
+  "profImageLimit1": "Images uploaded after",
+  "profImageLimit2": "will not be displayed on the badge.",
 
   "SECTION": "--------------------TICKETS-------------------------",
 
@@ -551,6 +553,7 @@
   "ticketSupport2Inc1": "T-shirt",
   "ticketSupport2Inc2": "The Nicobar's refillable cup",
   "ticketSupport2Inc3": "... and a little surprise",
+  "ticketNotAvailable": "This ticket is currently not available. Please check back later.",
 
   "SECTION": "--------------------PRICES-------------------------",
 

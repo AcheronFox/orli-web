@@ -23,6 +23,7 @@ import DropDown from "@/comp/DropDown";
 import CustomHead from "@/comp/CustomHead";
 import createDatePatternFromDate from "@/root/functions/createDatePattern";
 import CustomBackground from "@/comp/CustomBackground";
+import { ITicketCount } from "@/models/ticket-count.model";
 
 type Props = {}
 
@@ -82,7 +83,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
     'XXL',
   ])
   const [sponsorAmount, setSponsorAmount] = useState<number>(0)
-  const [extra1Limit, setExtra1Limit] = useState<number>(0)
+  const [ticketLimits, setTicketLimits] = useState<ITicketCount>()
+  const [ticketLimitMax, setTicketLimitMax] = useState<ITicketCount>()
   const minSponsor = 5000
   const maxSponsor = 50000
 
@@ -102,7 +104,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
   const getDefaults = async () => {
     await getLimits()
     await getPrices()
-    await getExtraLimits()
+    await getTicketLimits()
+    await getTicketMax()
     await getDateLimit()
 
     setIsLoading(false)
@@ -147,10 +150,18 @@ const Tickets: NextPage<Props> = (props: Props) => {
     .catch((err) => {return})
   }
 
-  const getExtraLimits = async () => {
+  const getTicketLimits = async () => {
     await axiosInstance.get("api/ticket/limits")
     .then((res) => {
-      setExtra1Limit(res.data)
+      setTicketLimits(res.data)
+    })
+    .catch((err) => {return})
+  }
+
+  const getTicketMax = async () => {
+    await axiosInstance.get("api/defaults/ticket/max")
+    .then((res) => {
+      setTicketLimitMax(res.data)
     })
     .catch((err) => {return})
   }
@@ -454,7 +465,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       }
       <div className={styles.Tickets}>
         {
-          (user && prices) &&
+          (user && prices && ticketLimits && ticketLimitMax) &&
           <> 
             <div className={styles.Tickets__Content}>
               <section className={styles.Tickets__Prices}>
@@ -492,7 +503,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
                   <PriceCard
                   title={t("ticket1Title")}
                   customClass={selectedTicket==1? styles.Tickets__Selected : ''}
-                  button={<SecondaryButton disabled={selectedTicket==1} text={t("ticketSelect")} onClick={() => selectTicket(1)} />}
+                  button={
+                    <Tippy disabled={ticketLimits.ticket1Count < ticketLimitMax.ticket1Count} content={t("ticketNotAvailable")}>
+                      <span>
+                        <SecondaryButton disabled={selectedTicket==1 || ticketLimits.ticket1Count >= ticketLimitMax.ticket1Count} text={t("ticketSelect")} onClick={() => selectTicket(1)} />
+                      </span>
+                    </Tippy>
+                  }
                   description={
                     <span>
                       {t("ticket1Desc")}<br /><br />
@@ -515,7 +532,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
                   <PriceCard
                   title={t("ticket2Title")}
                   customClass={selectedTicket==2? styles.Tickets__Selected : ''}
-                  button={<SecondaryButton disabled={selectedTicket==2} text={t("ticketSelect")} onClick={() => selectTicket(2)} />}
+                  button={
+                    <Tippy disabled={ticketLimits.ticket2Count < ticketLimitMax.ticket2Count} content={t("ticketNotAvailable")}>
+                      <span>
+                        <SecondaryButton disabled={selectedTicket==2 || ticketLimits.ticket2Count >= ticketLimitMax.ticket2Count} text={t("ticketSelect")} onClick={() => selectTicket(2)} />
+                      </span>
+                    </Tippy>
+                  }
                   description={
                     <span>
                       {t("ticket2Desc")}<br /><br />
@@ -566,7 +589,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     <PriceCard
                     title={t("ticketExtra1")}
                     customClass={wantsDayExtra? styles.Tickets__Selected : ''}
-                    button={<SecondaryButton disabled={extra1Limit >= 20} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />}
+                    button={
+                    <Tippy disabled={ticketLimits.extra1Count < ticketLimitMax.extra1Count} content={t("ticketNotAvailable")}>
+                      <span>
+                        <SecondaryButton disabled={ticketLimits.extra1Count >= ticketLimitMax.extra1Count} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />
+                      </span>
+                    </Tippy>
+                    }
                     description={
                       <span>
                         {t("ticketE1Desc")}<br /><br />
