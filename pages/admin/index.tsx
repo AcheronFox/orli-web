@@ -54,7 +54,6 @@ const Admin: NextPage<Props> = (props: Props) => {
     })
     .catch((err) => {
       setIsAuthenticated(false)
-      console.log(err)
       Router.push('/')
     })
     .finally(() => {
@@ -83,7 +82,7 @@ const Admin: NextPage<Props> = (props: Props) => {
       constructChartData(res.data.ticket, 'ticket')
       constructChartData(res.data.verified, 'verified')
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {return})
   }
 
   const getParticipants = async () => {
@@ -91,7 +90,7 @@ const Admin: NextPage<Props> = (props: Props) => {
     .then((res) => {
       constructChartData(res.data, 'part')
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {return})
   }
 
   const constructChartData = (data: any[], type: string) => {

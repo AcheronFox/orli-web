@@ -3,6 +3,46 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/utils/mysql'
 import isMethodAllowed from '@/utils/isMethodAllowed';
 import _ from 'lodash';
+import { ITicketCount } from '@/models/ticket-count.model';
+
+
+const ticketLimitQuery = async () => {
+    return new Promise<undefined | ITicketCount>(async (resolve) => {
+        const query = 
+        `
+        SELECT
+        SUM(
+            ticket.extra1
+        ) AS extra1Count,
+        SUM(
+            CASE 
+            WHEN ticket.ticketType = '1' THEN 1
+            ELSE 0
+            END
+        ) AS ticket1Count,
+        SUM(
+            CASE 
+            WHEN ticket.ticketType = '2' THEN 1
+            ELSE 0
+            END
+        ) AS ticket2Count
+        FROM ticket
+        `
+
+        database.query(query, async (err: any, result: ITicketCount[]) => {
+            if (err) {
+                console.log("ERROR: ", err);
+                resolve(undefined);
+            }
+            if (result.length) {
+                resolve(result[0])
+            }
+            else {
+                resolve(undefined)
+            }
+        });
+    })
+}
 
 
 export default async function handler(
@@ -16,33 +56,12 @@ export default async function handler(
         res.status(code).json(data)
     }
 
-    let response: number = 0;
-    const query = async () => {
-        return new Promise(async (resolve) => {
-            const query = 
-            `
-            SELECT
-            COUNT(ticket.extra1)
-            AS count
-            FROM ticket
-            WHERE ticket.extra1 = '1'
-            `
+    const response: ITicketCount | undefined = await ticketLimitQuery();
 
-            database.query(query, async (err: any, result: number[]) => {
-                if (err) {
-                    console.log("ERROR: ", err);
-                    sendResponse(500, {message: "Unknown Error", e_code: "part_1"}); 
-                    resolve(false);
-                }
-                response = result[0]
-                resolve(true);
-            });
-        }).catch(() => {
-            sendResponse(500, {message: "Unknown Error", e_code: "part_2"}); 
-        });
-    }
-
-    if (await query()) {
+    if (response != undefined) {
         sendResponse(200, response);
     }
+    else sendResponse(500, {message: "Unknown Error", e_code: "tck_limit_1"}); 
 }
+
+export {ticketLimitQuery}

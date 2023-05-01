@@ -74,7 +74,6 @@ const AdminUser: NextPage<Props> = (props: Props) => {
             })
             .catch((err) => {
                 setIsAuthenticated(false)
-                console.log(err)
                 Router.push('/')
             })
             .finally(() => {
@@ -106,7 +105,6 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                     Router.push('/admin/search')
                 }
                 else {
-                    console.log(err)
                     AddFloatingMessage({
                         autocloses: true,
                         type: "Error",
@@ -120,7 +118,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                 setEmailLimit(res.data)
             })
             .catch((err) => {
-                console.log(err)
+                return
             })
 
         setIsLoading(false)
@@ -172,7 +170,6 @@ const AdminUser: NextPage<Props> = (props: Props) => {
             getDefaults()
         })
         .catch((err) => {
-            console.log(err)
             AddFloatingMessage({
                 autocloses: true,
                 type: "Error",
