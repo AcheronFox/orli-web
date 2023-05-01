@@ -46,6 +46,6 @@ export default async function handler(
     }
 
     if (await query()) {
-        sendResponse(200, _.orderBy(response, ['fursonaName'],['desc']));
+        sendResponse(200, _.orderBy(response, ['fursonaName'],['asc']));
     }
 }

@@ -16,6 +16,9 @@ import { getEarlyBirdExpDate, getStartDate } from '../defaults/ticket';
 import { IFood } from '@/models/food.model';
 import createDatePatternFromDate from "@/root/functions/createDatePattern";
 import { ticketDates } from '../defaults/ticket/date';
+import { ticketLimitQuery } from './limits';
+import { ITicketForm } from '@/models/ticket-form.model';
+import { ticketMax } from '../defaults/ticket/max';
 
 
 const toSqlDatetime = (inputDate: Date) => {
@@ -61,7 +64,7 @@ export default async function handler(
     if (tokenPayload) {
         const serverDate = new Date()
         if (!((serverDate.getTime() > ticketDates.from.getTime()) && (serverDate.getTime() < ticketDates.to.getTime()))) {
-            sendResponse(400, {message: "Time limit exceeded", e_code: "tcrt_16"});
+            sendResponse(400, {message: "Time limit exceeded", e_code: "tcrt_17"});
             return;
         }
 
@@ -81,6 +84,7 @@ export default async function handler(
                         resolve(true);
                     }
                     if (result.length) {
+                        sendResponse(400, {message: "User already has ticket", e_code: "tcrt_16"})
                         resolve(true)
                     }
                     else resolve(false);
@@ -90,9 +94,31 @@ export default async function handler(
             });
         }
 
-        const hasConflict = await conflict()
+        const limitQuery = async (queryData: ITicketForm) => {
+            return new Promise<boolean>(async (resolve) => {
+                const currentState = await ticketLimitQuery()
+                if (!currentState) return resolve(true)
+                let result = false
+
+                switch (queryData.ticketType) {
+                    case '1':
+                        if (currentState.ticket1Count >= ticketMax.ticket1Count) result = true
+                        break;
+                    case '2':
+                        if (currentState.ticket2Count >= ticketMax.ticket2Count) result = true
+                        if (queryData.extra1 && currentState.extra1Count >= ticketMax.extra1Count) result = true
+                        break;
+                    default:
+                        break;
+                }
+                resolve(result)
+            })
+        }
+
+        if (await conflict()) return;
+        const hasReachedLimit = await limitQuery(req.body)
     
-        if (!hasConflict) {
+        if (!hasReachedLimit) {
             const runCreate = async () => {
                 return await new Promise<boolean>(async (mainResolve) => {
                     database.getConnection((err, connection) => {
@@ -313,7 +339,7 @@ export default async function handler(
             }
         }
         else {
-            sendResponse(400, {message: "User already has ticket", e_code: "tcrt_15"})
+            sendResponse(400, {message: "Ticket limit reached", e_code: "tcrt_15"})
         }
     } else return;
 }

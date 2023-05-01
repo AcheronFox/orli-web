@@ -456,7 +456,9 @@
   "profSelected": "Kiválasztva",
   "profNotSelectable": "A kiválasztott jegyed nem tartalmaz szobát.",
   "profTicketNotVerified": "Szoba választás csak a jegy vásárlás megerősítése után lesz elérhető",
-  
+  "profImageLimit1": "",
+  "profImageLimit2": "után feltöltött képek nem kerülnek fel a badge-re.",
+
   "SECTION": "--------------------TICKETS-------------------------",
 
   "ticketTickets": "Jegyek",
@@ -551,6 +553,7 @@
   "ticketSupport2Inc1": "Póló",
   "ticketSupport2Inc2": "A Nicobar repohara",
   "ticketSupport2Inc3": "...és egy kis meglepetés",
+  "ticketNotAvailable": "Ez a jegy jelenleg nem elérhető. Kérlek nézz vissza később.",
 
   "SECTION": "--------------------PRICES-------------------------",
 

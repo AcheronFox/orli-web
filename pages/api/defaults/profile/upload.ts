@@ -2,9 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import isMethodAllowed from '@/utils/isMethodAllowed';
 
-const regDates = {
-    from: new Date(2023, 0, 1),
-    to: new Date(2023, 5, 18)
+const uploadDate = {
+    to: new Date(2023, 5, 2)
 }
 
 export default async function handler(
@@ -19,12 +18,10 @@ export default async function handler(
     }
 
     const response = {
-        fromDate: regDates.from,
-        toDate: regDates.to,
-        serverDate: new Date(),
+        toDate: uploadDate.to,
     }
 
     sendResponse(200, response);
 }
 
-export {regDates}
+export {uploadDate}
