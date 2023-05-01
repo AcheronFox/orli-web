@@ -7,6 +7,7 @@ import { useTranslate } from "@/hooks/useTranslate";
 import DropDown from "./DropDown";
 import SecondaryButton from "./SecondaryButton";
 import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri"
+import Link from "next/link";
 
 type Props = {
     columnData: Array<string>;
@@ -56,45 +57,68 @@ const PaginationTable: NextPage<Props> = (props: Props) => {
     }
     return (
         <div className={`${styles.Table__Wrapper}`}>
-            <table className={`${styles.Table} ${props.customTableClass}`}>
-                <thead>
-                    <tr className={`${styles.Table__Header} ${props.customHeaderClass}`}>
+            <div className={`${styles.Table__Wrapper__Internal}`}>
+                <table className={`${styles.Table} ${props.customTableClass}`}>
+                    <thead>
+                        <tr className={`${styles.Table__Header} ${props.customHeaderClass}`}>
+                            {
+                                (props.columnData.length != 0) &&
+                                props.columnData.map((val: string, i) => {
+                                    return (
+                                        <th key={i}>{capitalizeLetter(val)}</th>
+                                    );
+                                })
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
                         {
-                            (props.columnData.length != 0) &&
-                            props.columnData.map((val: string, i) => {
+                            (props.tableData.length != 0) &&
+                            props.tableData.map((val: any, i) => {
                                 return (
-                                    <th key={i}>{capitalizeLetter(val)}</th>
+                                    <>
+                                        {
+                                            (!props.onRowClick) &&
+                                            <tr key={i} className={`${styles.Table__Row} ${props.customRowClass}`}>
+                                                {
+                                                    
+                                                    Object.keys(val).map((key: string, j) => {
+                                                        if (key.toLowerCase() == 'nationality') {
+                                                            val = {...val, nationality: getNationality(val[key as keyof any], locale)?.name || val[key]}
+                                                        }
+                                                        return (
+                                                            <td key={j} className={`${styles.Table__Cell} ${props.customCellClass}`}>{isDate(val[key])? createDatePatternFromDate(new Date(val[key])) : val[key]}</td>
+                                                        );
+                                                    })
+                                                }
+                                            </tr>
+                                        }
+                                        {
+                                            (props.onRowClick) &&
+                                            <Link key={i} className={`${styles.Table__Row} ${styles.Table__Row_clickable} ${props.customRowClass}`} href={`/admin/user?id=${val.id}`}>      
+                                                    {
+                                                        Object.keys(val).map((key: string, j) => {
+                                                            if (key.toLowerCase() == 'nationality') {
+                                                                val = {...val, nationality: getNationality(val[key as keyof any], locale)?.name || val[key]}
+                                                            }
+                                                            return (
+                                                                <td key={j} data-label={key} className={`${styles.Table__Cell} ${props.customCellClass}`}>{isDate(val[key])? createDatePatternFromDate(new Date(val[key])) : val[key]}</td>
+                                                            );
+                                                        })
+                                                    }
+                                            </Link>
+                                        }
+                                    </>
                                 );
                             })
                         }
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        (props.tableData.length != 0) &&
-                        props.tableData.map((val: any, i) => {
-                            return (
-                                <tr key={i} className={`${styles.Table__Row} ${props.onRowClick && styles.Table__Row_clickable} ${props.customRowClass}`} onMouseUp={(e) => rowClick(val.id)}>
-                                    { 
-                                        Object.keys(val).map((key: string, j) => {
-                                            if (key.toLowerCase() == 'nationality') {
-                                                val = {...val, nationality: getNationality(val[key as keyof any], locale)?.name || val[key]}
-                                            }
-                                            return (
-                                                <td key={j} className={`${styles.Table__Cell} ${props.customCellClass}`}>{isDate(val[key])? createDatePatternFromDate(new Date(val[key])) : val[key]}</td>
-                                            );
-                                        })
-                                    }
-                                </tr>
-                            );
-                        })
-                    }
-                    {
-                        (props.tableData.length == 0) &&
-                        <tr style={{color: "red"}}>{t("adminNoData")}</tr>
-                    }
-                </tbody>
-            </table>
+                        {
+                            (props.tableData.length == 0) &&
+                            <tr style={{color: "red"}}>{t("adminNoData")}</tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
             <div className={`${styles.Table__Footer}`}>
                 <span>
                     {`${t("paginationNumber")}: ${props.numberOfItems || props.tableData.length} | ${t("paginationPage")}: ${props.currentPage+1}/${Math.ceil(props.numberOfItems / props.pageSize)}`}
