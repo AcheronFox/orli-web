@@ -38,7 +38,7 @@ const createDatePatternWithOffset = (date: Date, index: number) => {
 }
 const evalAmountOfDays = (input: Date[]) => {
     if (!input.length) return 0
-    if (input.length == 1) {
+    if (input.length == 1 || (input[0].valueOf() == input[1].valueOf())) {
       return 1
     }
     else {
@@ -254,7 +254,7 @@ export default async function handler(
                                     const foodTable: CustomFoodDataInterface = (account.nationality == "hu")? require("@/root/locales/hu.food.json") : require("@/root/locales/en.food.json")
                                     switch (ticketPayload.ticketType) {
                                         case '0':
-                                            ticketRow = `<tr><td>${translationTable.ticket0Title} (${createDatePatternFromDate(new Date(ticketPayload.startDay!))}) * ${amountOfDays}</td><td>${(prices[0].hu * amountOfDays)} HUF</td></tr>`
+                                            ticketRow = `<tr><td>${translationTable.ticket0Title} * ${amountOfDays} (${amountOfDays==1? createDatePatternFromDate(new Date(ticketPayload.startDay!)) : `${createDatePatternFromDate(new Date(ticketPayload.startDay!))} - ${createDatePatternFromDate(new Date(ticketPayload.endDay!))}`})</td><td>${(prices[0].hu * amountOfDays)} HUF</td></tr>`
                                             break;
                                         case '1':
                                             ticketRow = `<tr><td>${translationTable.ticket1Title} (${createDatePatternFromDate(new Date(ticketPayload.startDay!))} - ${createDatePatternFromDate(new Date(ticketPayload.endDay!))})</td><td>${prices[1].hu} HUF</td></tr>`
