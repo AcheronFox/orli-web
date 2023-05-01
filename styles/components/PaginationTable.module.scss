@@ -4,10 +4,15 @@
     padding: 1rem;
     border-collapse: collapse;
     border: .1rem solid $grey-5;
+    margin: 0;
 
     &__Wrapper {
         display: flex;
         flex-direction: column;
+
+        &__Internal {
+            overflow: auto;
+        }
     }
 
     &__Header {
@@ -60,8 +65,14 @@
 
     &__Row {
         &_clickable {
+            display: table-row;
+            color: $white;
             cursor: pointer;
             transition: all .2s;
+
+            &:visited, &:link {
+                color: $white;
+            }
             
             &:hover {
                 background-color: rgba($primary-color, .4);
@@ -84,6 +95,36 @@
             & > * {
                 width: 100%;
             }
+        }
+    }
+
+    @include respond(phone) {
+        &__Header {
+            border: none;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        &__Row {
+            display: block;
+            margin-bottom: 5rem;
+        }
+
+        &__Cell {
+            display: block;
+            text-align: right;
+        }
+
+        &__Cell::before {
+            content: attr(data-label);
+            float: left;
+            font-weight: bold;
+            text-transform: uppercase;
         }
     }
 }
