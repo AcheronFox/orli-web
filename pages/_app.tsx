@@ -105,6 +105,10 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <FloatingMessageWrapper>
             <AuthProvider>
               <>
+                <Head>
+                  <meta key="robots" name="robots" content="noindex,follow" />
+                  <meta key="googlebot" name="googlebot" content="noindex,follow" />
+                </Head>
                 <Navbar></Navbar>
                 <CustomHead></CustomHead>
                 <div className={style.BG__Img}></div>
