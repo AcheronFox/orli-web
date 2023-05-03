@@ -11,22 +11,27 @@ const ticketLimitQuery = async () => {
         const query = 
         `
         SELECT
-        SUM(
-            ticket.extra1
-        ) AS extra1Count,
-        SUM(
-            CASE 
-            WHEN ticket.ticketType = '1' THEN 1
-            ELSE 0
-            END
-        ) AS ticket1Count,
-        SUM(
-            CASE 
-            WHEN ticket.ticketType = '2' THEN 1
-            ELSE 0
-            END
-        ) AS ticket2Count
+            SUM(
+                CASE 
+                WHEN ticket.extra1 = '1' THEN 1
+                ELSE 0
+                END
+            ) AS extra1Count,
+            SUM(
+                CASE 
+                WHEN ticket.ticketType = '1' THEN 1
+                ELSE 0
+                END
+            ) AS ticket1Count,
+            SUM(
+                CASE 
+                WHEN ticket.ticketType = '2' THEN 1
+                ELSE 0
+                END
+            ) AS ticket2Count
         FROM ticket
+        RIGHT JOIN account ON ticket.TicketKey = account.TicketKey
+        WHERE account.isStaff = "0"
         `
 
         database.query(query, async (err: any, result: ITicketCount[]) => {

@@ -63,6 +63,8 @@ const Profile: NextPage<Props> = (props: Props) => {
   const [userRoom, setUserRoom] = useState<IRoom>()
   const [password, setPassword] = useState<string>("");
   const [contact, setContact] = useState<string>("");
+  const [fursonaName, setFursonaName] = useState<string>("");
+  const [species, setSpecies] = useState<string>("");
   const [isFursuiter, setIsFursuiter] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -70,12 +72,16 @@ const Profile: NextPage<Props> = (props: Props) => {
   const [errorStates, setErrorStates] = useState<any>({
     password: '',
     contact: '',
+    fursonaName: '',
+    species: ''
   });
 
   useEffect(() => {
     if (user) {
       setIsFursuiter(user.isFursuiter)
       setContact(user.contact)
+      setFursonaName(user.fursonaName)
+      setSpecies(user.fursonaSpecies)
       setIsLoading(false)
     }
   }, [user])
@@ -123,8 +129,16 @@ const Profile: NextPage<Props> = (props: Props) => {
     if (errorStates.contact != "") validateContact()
   }, [contact]);
   useEffect(() => {
+    if (errorStates.fursonaName != "") validateFursonaName()
+  }, [fursonaName]);
+  useEffect(() => {
+    if (errorStates.species != "") validateSpecies()
+  }, [species]);
+  useEffect(() => {
     errorStates.password && validatePass()
     errorStates.contact && validateContact()
+    errorStates.fursonaName && validateFursonaName()
+    errorStates.species && validateSpecies()
   }, [locale])
 
   // ===============================================
@@ -149,6 +163,12 @@ const Profile: NextPage<Props> = (props: Props) => {
   }
   const validateContact = () => {
     return updateState(contact.trim() == "", "contact", t("regContactErr"))
+  }
+  const validateFursonaName = () => {
+    return updateState(fursonaName.trim() == "", "fursonaName", t("regSonaNameError"))
+  }
+  const validateSpecies = () => {
+    return updateState(species.trim() == "", "species", t("regSonaSpeciesError"))
   }
 
   // ===============================================
@@ -268,7 +288,9 @@ const Profile: NextPage<Props> = (props: Props) => {
     const isPassChanged = password.trim() != ""
     const isContactChanged = user?.contact != contact.trim()
     const isSuiterChanged = user?.isFursuiter != isFursuiter
-    if (!isSuiterChanged && !isContactChanged && !isPassChanged || isDisabled || !user) {
+    const isFusronaNameChanged = user?.fursonaName != fursonaName.trim()
+    const isSpeciesChanged = user?.fursonaSpecies != species.trim()
+    if (!isFusronaNameChanged && !isSpeciesChanged && !isSuiterChanged && !isContactChanged && !isPassChanged || isDisabled || !user) {
       setIsChanged(false)
       return
     }
@@ -287,6 +309,8 @@ const Profile: NextPage<Props> = (props: Props) => {
 
     const form: IUpdateForm = {
       contact: isContactChanged? contact : undefined,
+      fursonaName: isFusronaNameChanged? fursonaName : undefined,
+      fursonaSpecies: isSpeciesChanged? species : undefined,
       isFursuiter: isSuiterChanged? isFursuiter : undefined,
       password: isPassChanged? crypto.createHash("sha256").update(password.trim()).digest("hex") : undefined,
     }
@@ -406,6 +430,34 @@ const Profile: NextPage<Props> = (props: Props) => {
                 {t("profData")}
               </h3>
               <div className={styles.Profile__Body__Form}>
+                <span className={styles.Profile__Body__Form__Row}>
+                  <Input
+                    label={`${t("regFursonaName")}: `}
+                    placeholder={t("regFursonaName")}
+                    list="autoCompleteOff"
+                    autoComplete="disabled"
+                    value={fursonaName}
+                    onChange={(e) => {setFursonaName(e.target.value); setIsChanged(true);}}
+                    onBlur={() => validateFursonaName()}
+                    inputClass={errorStates.fursonaName && styles.Profile__Body__Error}
+                    maxlength={10}
+                  ></Input>
+                  <p className={styles.Profile__Body__Error__Text}>{errorStates.fursonaName}</p>
+                </span>
+                <span className={styles.Profile__Body__Form__Row}>
+                  <Input
+                    label={`${t("regSpecies")}: `}
+                    placeholder={t("regSpecies")}
+                    list="autoCompleteOff"
+                    autoComplete="disabled"
+                    value={species}
+                    onChange={(e) => {setSpecies(e.target.value); setIsChanged(true);}}
+                    onBlur={() => validateSpecies()}
+                    inputClass={errorStates.species && styles.Profile__Body__Error}
+                    maxlength={10}
+                  ></Input>
+                  <p className={styles.Profile__Body__Error__Text}>{errorStates.species}</p>
+                </span>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
                     label={`${t("profPassword")}: `}

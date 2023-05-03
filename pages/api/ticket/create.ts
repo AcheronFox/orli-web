@@ -20,6 +20,14 @@ import { ticketLimitQuery } from './limits';
 import { ITicketForm } from '@/models/ticket-form.model';
 import { ticketMax } from '../defaults/ticket/max';
 
+/*
+    ===========================================================================================================
+    ===========================================================================================================
+    WARNING!!! >> Onde day ticket and one night ticket dates are offset by one (15. is 14. 22:00) << WARNING!!!
+    ===========================================================================================================
+    ===========================================================================================================
+
+*/
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
@@ -46,7 +54,7 @@ const evalAmountOfDays = (input: Date[]) => {
       const diffDays = Math.round(Math.abs((input[0].valueOf() - input[1].valueOf()) / oneDay));
       return diffDays
     }
-  }
+}
 
 export default async function handler(
   req: NextApiRequest,
