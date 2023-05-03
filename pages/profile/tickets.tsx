@@ -32,7 +32,7 @@ interface CustomFoodDataInterface   {[index: number]: IFood[];}
 interface CustomFoodSearchInterface {[index: number]: string; }
 interface CustomFoodSelectInterface {[index: number]: string; }
 interface CustomFoodValueInterface  {[index: number]: number; }
-type ShirtSizeInterface = 'S' | 'M' | 'L' | 'XL' | 'XXL' | null;
+type ShirtSizeInterface = 'S' | 'M' | 'L' | 'XL' | 'XXL' | '3XL' | null;
 
 const Tickets: NextPage<Props> = (props: Props) => {
   const { t, locale } = useTranslate();
@@ -81,6 +81,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
     'L',
     'XL',
     'XXL',
+    '3XL'
   ])
   const [sponsorAmount, setSponsorAmount] = useState<number>(0)
   const [ticketLimits, setTicketLimits] = useState<ITicketCount>()
