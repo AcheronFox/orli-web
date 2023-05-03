@@ -15,6 +15,7 @@ import Footer from "@/comp/Footer";
 import AuthProvider from "@/hooks/AuthProvider";
 import CustomHead from "@/comp/CustomHead";
 import { deleteCookie, getCookie } from "cookies-next";
+import Head from "next/head";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
