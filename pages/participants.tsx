@@ -37,25 +37,30 @@ ChartJS.register(
 const WindowScroller = _WindowScroller as unknown as FC<AutoSizerProps>;
 type Props = {}
 
-const Row = ({index, setSize, windowWidth, participants, size}: any) => {
-  const items = [];
+const calculateIndex = (index: number, listLength: number, size: any) => {
   let fromIndex = index * 3
-  let toIndex = Math.min(fromIndex + 3, participants.length);
+  let toIndex = Math.min(fromIndex + 3, listLength);
 
   if (size.width <= parseInt(styles.smallDesktop)) {
     fromIndex = index * 2;
-    toIndex = Math.min(fromIndex + 2, participants.length);
+    toIndex = Math.min(fromIndex + 2, listLength);
   }
 
   if (size.width <= parseInt(styles.tinyDesktop)) {
     fromIndex = index * 2;
-    toIndex = Math.min(fromIndex + 2, participants.length);
+    toIndex = Math.min(fromIndex + 2, listLength);
   }
 
   if (size.width <= parseInt(styles.phone)) {
     fromIndex = index * 1;
-    toIndex = Math.min(fromIndex + 1, participants.length);
+    toIndex = Math.min(fromIndex + 1, listLength);
   }
+  return {fromIndex, toIndex}
+}
+
+const Row = ({index, setSize, windowWidth, participants, size}: any) => {
+  const items = [];
+  const {fromIndex, toIndex} = calculateIndex(index, participants.length, size)
 
   const rowRef = useRef<any>();
 
@@ -68,9 +73,11 @@ const Row = ({index, setSize, windowWidth, participants, size}: any) => {
   }
 
   useEffect(() => {
-    const calc = rowRef.current.getBoundingClientRect().height? (rowRef.current.getBoundingClientRect().height+50) : 0
+    const calc = (rowRef.current?.getBoundingClientRect().height? (rowRef.current.getBoundingClientRect().height+50) : 0)
     setSize(index, calc);
   }, [setSize, index, windowWidth]);
+
+  if (!items.length) return null
 
   return (
     <div
@@ -261,7 +268,7 @@ const Participants: NextPage<Props> = (props: Props) => {
   const getSize = (index: number) => {
     //fallback
     if (!sizeMap.current) return 500
-    return sizeMap.current[index]
+    return sizeMap.current[index]? sizeMap.current[index] : null
   };
 
   const handleScroll = ({scrollTop}: any) => {
@@ -325,19 +332,22 @@ const Participants: NextPage<Props> = (props: Props) => {
               width={"100%"}
               ref={listRef}
               >
-              {({ index, style }) => (
-                <div
-                  style={style}
-                >
-                  <Row
-                  index={index}
-                  setSize={setSize}
-                  windowWidth={size.width}
-                  participants={participants}
-                  size={size}
-                  />
-              </div>
-              )}
+              {({ index, style }) => {
+                return (
+                  <div
+                    style={style}
+                    key={index}
+                  >
+                    <Row
+                    index={index}
+                    setSize={setSize}
+                    windowWidth={size.width}
+                    participants={participants}
+                    size={size}
+                    />
+                  </div>
+                )
+              }}
             </List>
             }
           </div>
