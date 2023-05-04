@@ -93,7 +93,7 @@ const Participants: NextPage<Props> = (props: Props) => {
   const [isLoading2, setIsLoading2] = useState<boolean>(true)
   const [rawChartData, setRawChartData] = useState<INationalityCount[]>([])
   const size = UseWindowDimensions()
-  let didInit = false;
+  const [didInit, setDidInit] = useState<boolean>(false);
 
   const sizeMap = useRef<any>();
   const setSize = useCallback((index: any, size: any) => {
@@ -102,7 +102,7 @@ const Participants: NextPage<Props> = (props: Props) => {
   }, []);
 
   const listRef = useRef<any>(null);
-  const labels = [t("partNationality")];
+  const [labels] = useState<string[]>([t("partNationality")]);
 
   const [options, setOptions] = useState({
     maintainAspectRatio: false,
@@ -202,7 +202,7 @@ const Participants: NextPage<Props> = (props: Props) => {
 
   useEffect(() => {
     if (didInit) return
-    didInit = true;
+    setDidInit(true);
     getParticipants()
     getChartData()
   }, [])
@@ -311,35 +311,37 @@ const Participants: NextPage<Props> = (props: Props) => {
             </div>
           }
         </Section>
-        <div className={styles.Participants__List}>
-          <WindowScroller onScroll={handleScroll}>
-            {() => <div />}
-          </WindowScroller>
-          { typeof window !== "undefined" && participants &&
-            <List
-            className={styles.Participants__List__Overwrite}
-            itemCount={participants.length}
-            itemSize={getSize}
-            height={window.innerHeight}
-            width={"100%"}
-            ref={listRef}
-            >
-            {({ index, style }) => (
-              <div
-                style={style}
+        { (didInit) &&
+          <div className={styles.Participants__List}>
+            <WindowScroller onScroll={handleScroll}>
+              {() => <div />}
+            </WindowScroller>
+            { participants &&
+              <List
+              className={styles.Participants__List__Overwrite}
+              itemCount={participants.length}
+              itemSize={getSize}
+              height={window.innerHeight}
+              width={"100%"}
+              ref={listRef}
               >
-                <Row
-                index={index}
-                setSize={setSize}
-                windowWidth={size.width}
-                participants={participants}
-                size={size}
-                />
-            </div>
-            )}
-          </List>
-          }
-        </div>
+              {({ index, style }) => (
+                <div
+                  style={style}
+                >
+                  <Row
+                  index={index}
+                  setSize={setSize}
+                  windowWidth={size.width}
+                  participants={participants}
+                  size={size}
+                  />
+              </div>
+              )}
+            </List>
+            }
+          </div>
+        }
       </div>
     </>
   )
