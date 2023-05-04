@@ -102,7 +102,7 @@ const Participants: NextPage<Props> = (props: Props) => {
   }, []);
 
   const listRef = useRef<any>(null);
-  const [labels] = useState<string[]>([t("partNationality")]);
+  const labels = [t("partNationality")];
 
   const [options, setOptions] = useState({
     maintainAspectRatio: false,
