@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import isMethodAllowed from '@/utils/isMethodAllowed';
 
 const ticketMax = {
-    ticket2Count: 90,
+    ticket2Count: 88,
     ticket1Count: 50,
     extra1Count: 20
 }
