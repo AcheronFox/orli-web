@@ -47,7 +47,7 @@ const ticketLimitWatcher = async () => {
             if (unpaidTickets[i].creationDate && unpaidTickets[i].TicketKey && !isError) {
                 const ticketDate = new Date(unpaidTickets[i].creationDate!)
                 
-                if ((ticketDate.getTime() + (1000 * 60 * 60 * 24 * 7)) <= currentDate.getTime()) {
+                if ((ticketDate.getTime() + (1000 * 60 * 60 * 24 * 8)) <= currentDate.getTime()) {
                     const deletionStatus = await deleteTicket(unpaidTickets[i].TicketKey!)
                     if (!deletionStatus) isError = true
                     else deletionCount++
