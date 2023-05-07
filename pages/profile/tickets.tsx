@@ -57,6 +57,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   const [minDate, setMinDate] = useState<Date>()
   const [maxDate, setMaxDate] = useState<Date>()
   const [selectedDate, setSelectedDate] = useState<Date[]>([])
+  const [selectedStartingDayIndex, setSelectedStartingDayIndex] = useState<number | null>(null)
   const [selectedDayIndex, setSelectedDayIndex] = useState<number | null>(null)
   const [calendarKey, setCalendarKey] = useState<number>(0)
 
@@ -194,33 +195,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
     setMaxDate(defaultMaxDate)
     setCalendarKey(calendarKey? 0 : 1)
     setSelectedDayIndex(null)
+    setSelectedStartingDayIndex(null)
     resetFoodSystem()
-  }
-
-  const evaluateDateLimits = (e?: Date) => {
-    if (selectedTicket!=1) return
-    if (e) {
-      const minDate = new Date(e.valueOf());
-      const maxDate = new Date(e.valueOf());
-
-      const newMinDate = minDate.getDate() - 1
-      const newMaxDate = maxDate.getDate() + 1
-
-      minDate.setDate((newMinDate < defaultMinDate.getDate())? defaultMinDate.getDate() : newMinDate);
-      maxDate.setDate((newMaxDate > maxDate1Night.getDate())? maxDate1Night.getDate() : newMaxDate);
-      setMinDate(minDate)
-      setMaxDate(maxDate)
-    }
-    else if (Array.isArray(selectedDate)) {
-      setMinDate(selectedDate[0])
-      setMaxDate(selectedDate[1])
-    }
   }
 
   useEffect(() => {
     if (selectedDate.length == 2) {
       evaluateDayIndex()
-      evaluateDateLimits()
     }
   }, [selectedDate])
 
@@ -232,6 +213,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
         }
         else {
           setSelectedDayIndex(null)
+          setSelectedStartingDayIndex(null)
           setSelectedDate([])
           setMinDate(defaultMinDate)
           setMaxDate(defaultMaxDate)
@@ -240,6 +222,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       }
       else {
         setSelectedDayIndex(null)
+        setSelectedStartingDayIndex(null)
         resetFoodSystem()
         setSelectedDate(e)
       }
@@ -253,9 +236,11 @@ const Tickets: NextPage<Props> = (props: Props) => {
       const utcMax1 = Date.UTC(defaultMinDate.getFullYear(), defaultMinDate.getMonth(), defaultMinDate.getDate());
       const utcMax2 = Date.UTC(selectedDate[1].getFullYear(), selectedDate[1].getMonth(), selectedDate[1].getDate());
 
-      const dayDiffMax = Math.floor((utcMax2 - utcMax1) / MS_PER_DAY) + offset;
+      const utcMax1Start = Date.UTC(defaultMinDate.getFullYear(), defaultMinDate.getMonth(), defaultMinDate.getDate());
+      const utcMax2Start = Date.UTC(selectedDate[0].getFullYear(), selectedDate[0].getMonth(), selectedDate[0].getDate());
 
-      setSelectedDayIndex(dayDiffMax)
+      setSelectedStartingDayIndex(Math.floor((utcMax2Start - utcMax1Start) / MS_PER_DAY) + offset)
+      setSelectedDayIndex(Math.floor((utcMax2 - utcMax1) / MS_PER_DAY) + offset)
     }
   }
 
@@ -342,14 +327,11 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }, [selectedFoods, selectedDayIndex, selectedDate, selectedTicket, wantsDay0, wantsDayExtra, shirtSize])
 
   const evalAmountOfDays = () => {
-    if (!selectedDate.length || selectedTicket != 0) return 0
-    if (selectedDate.length == 1) {
-      return 1
-    }
+    if (!selectedDate.length || selectedTicket == 2 || (selectedTicket == 1 && selectedDate.length != 2)) return 0
     else {
       const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
       const diffDays = Math.round(Math.abs((selectedDate[0].valueOf() - selectedDate[1].valueOf()) / oneDay));
-      return diffDays
+      return selectedTicket==1? diffDays-1 : diffDays
     }
   }
 
@@ -633,7 +615,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     minDate={minDate}
                     showNavigation={false}
                     selectRange={true}
-                    onClickDay={(e) => evaluateDateLimits(e)}
                     onChange={(e: Date | Date[]) => evaluateDateSelect(e)}
                     view={"month"}
                     allowPartialRange
@@ -646,7 +627,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
               </div>
             }
             {
-              (selectedTicket==2 || (selectedTicket==1 && selectedDayIndex)) &&
+              (selectedTicket==2 || (selectedTicket==1 && selectedDayIndex && selectedStartingDayIndex)) &&
               <div className={styles.Tickets__Content}>
                 <section className={styles.Tickets__Prices}>
                   <h2 className={styles.Tickets__Prices__Title}>{t("ticketFoodSelect")}</h2>
@@ -655,8 +636,11 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       foods &&
                       Object.keys(foods).map((food, i) => {
                         const key = parseInt(food)
-
-                        if (selectedTicket==1 && selectedDayIndex!-1 != key) return null
+                        console.log("START", selectedStartingDayIndex)
+                        console.log("END", selectedDayIndex)
+                        console.log(key >= selectedStartingDayIndex!-1)
+                        console.log(selectedDayIndex!-1 < key)
+                        if (selectedTicket==1 && key > selectedStartingDayIndex!-1 && selectedDayIndex!-1 < key) return null
                         if (selectedTicket==2 && ((key == 0 && !wantsDay0) || (key == Object.keys(foods).length-1 && !wantsDayExtra))) return null
                         
                         return (
@@ -758,7 +742,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         (selectedTicket==1) &&
                         <tr>
                           <td>{t("ticketDays")}</td>
-                          <td>{selectedDate.length == 2 && `${createDatePatternFromDate(selectedDate[0])},`} {selectedDate.length == 2 && createDatePatternFromDate(selectedDate[1])} {!Array.isArray(selectedDate) || selectedDate.length < 2 && <span style={{"color": "red"}}>{t(`ticketNoDays`)}</span>}</td>
+                          <td>{selectedDate.length == 2 && `${createDatePatternFromDate(selectedDate[0])} -`} {selectedDate.length == 2 && createDatePatternFromDate(selectedDate[1])} {!Array.isArray(selectedDate) || selectedDate.length < 2 && <span style={{"color": "red"}}>{t(`ticketNoDays`)}</span>}</td>
                         </tr>
                       }
                       {
@@ -858,7 +842,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         <tr className={styles.Tickets__Overview__Price}>
                           <td>{`${t("ticketFinalPrice")}`}</td>
                           <td>{`${
-                            (selectedTicket==0? (prices[0].hu * evalAmountOfDays()) : 0) + (selectedTicket==1? prices[1].hu : 0) + (selectedTicket==2? prices[2].hu : 0)
+                            (selectedTicket==0? (prices[0].hu * evalAmountOfDays()) : 0) + (selectedTicket==1? (prices[1].hu * evalAmountOfDays()) : 0) + (selectedTicket==2? prices[2].hu : 0)
                             +
                             (wantsDay0? prices.extra0.hu : 0) 
                             +
