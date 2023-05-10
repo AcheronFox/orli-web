@@ -341,11 +341,16 @@ const Tickets: NextPage<Props> = (props: Props) => {
     
     Object.keys(foods).forEach((food) => {
       const key = parseInt(food)
-      if (
+      if (selectedTicket == 1 && ((selectedDayIndex!-1 >= key && key > selectedStartingDayIndex!-1) &&
+        selectedFoods[key] == undefined)) {
+        hasMissingFood = true
+      }
+      else if (
+        selectedTicket == 2 && (
         ((key == 0 && wantsDay0) && selectedFoods[key] == undefined) ||
         ((key == Object.keys(foods).length-1) && wantsDayExtra && selectedFoods[key] == undefined) ||
         ((key != 0 && key != Object.keys(foods).length-1) && selectedFoods[key] == undefined)
-        ) {
+        )) {
           hasMissingFood = true
       }
     })
@@ -355,7 +360,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       selectedTicket == 0 && (!selectedDate.length) ||
 
       selectedTicket == 1 && (selectedDate.length < 2) ||
-      selectedTicket == 1 && selectedDayIndex && (selectedFoods[selectedDayIndex-1] == undefined) ||
+      selectedTicket == 1 && hasMissingFood ||
 
       selectedTicket == 2 && hasMissingFood ||
       (isSponsor && sponsorAmount > 10000) && !shirtSize
@@ -636,11 +641,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       foods &&
                       Object.keys(foods).map((food, i) => {
                         const key = parseInt(food)
-                        console.log("START", selectedStartingDayIndex)
-                        console.log("END", selectedDayIndex)
-                        console.log(key >= selectedStartingDayIndex!-1)
-                        console.log(selectedDayIndex!-1 < key)
-                        if (selectedTicket==1 && key > selectedStartingDayIndex!-1 && selectedDayIndex!-1 < key) return null
+                        
+                        if (selectedTicket==1 && (selectedDayIndex!-1 < key) || (key <= selectedStartingDayIndex!-1)) return null
                         if (selectedTicket==2 && ((key == 0 && !wantsDay0) || (key == Object.keys(foods).length-1 && !wantsDayExtra))) return null
                         
                         return (
@@ -729,7 +731,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       </tr>
                       <tr>
                         <td>{t("ticketOverviewTicket")}</td>
-                        <td>{selectedTicket!=undefined? t(`ticket${selectedTicket}Title`) : <span style={{"color": "red"}}>{t(`ticketNoTicket`)}</span>}</td>
+                        <td>{selectedTicket!=undefined? `${(selectedTicket==1&&evalAmountOfDays()>1)? (`${t(`ticket${selectedTicket}Title`)} * ${evalAmountOfDays()}`) : (t(`ticket${selectedTicket}Title`))}` : <span style={{"color": "red"}}>{t(`ticketNoTicket`)}</span>}</td>
                       </tr>
                       {
                         (selectedTicket==0) &&
@@ -763,7 +765,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                           Object.keys(foods).map((food, i) => {
                             const key = parseInt(food)
 
-                            if (selectedTicket==1 && selectedDayIndex!-1 != key) return null
+                            if (selectedTicket==1 && (selectedDayIndex!-1 < key) || (key <= selectedStartingDayIndex!-1)) return null
                             if (selectedTicket==2 && ((key == 0 && !wantsDay0) || (key == Object.keys(foods).length-1 && !wantsDayExtra))) return null
                             
                             return (

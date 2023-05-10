@@ -40,8 +40,8 @@ const Row = ({occupant, props}: RowProps) => {
         <div className={occupant.fursonaName && styles.RoomCard__Row} onClick={occupant.fursonaName? () => clickHandler() : undefined}>
             <span className={styles.RoomCard__Image}>
                 <picture>
-                    <source srcSet={`${occupant.picture? (`/uploads/${occupant.picture.split('.')[0]}_thumb.jpg 1x`) : '/Default_profile_thumb.jpg 1x,'}`} media="(max-width: 37.5em)" />
-                    <img srcSet={`${occupant.picture? (`/uploads/${occupant.picture.split('.')[0]}_thumb.jpg 1x`) : '/Default_profile_thumb.jpg 1x,'}`} alt="User Image" src="/Default_profile_thumb.jpg" loading="lazy"/>
+                    <source srcSet={`${occupant.picture? (`/uploads/${occupant.picture.split('.')[0]}_thumb.${occupant.picture.split('.')[1]} 1x`) : '/Default_profile_thumb.jpg 1x,'}`} media="(max-width: 37.5em)" />
+                    <img srcSet={`${occupant.picture? (`/uploads/${occupant.picture.split('.')[0]}_thumb.${occupant.picture.split('.')[1]} 1x`) : '/Default_profile_thumb.jpg 1x,'}`} alt="User Image" src="/Default_profile_thumb.jpg" loading="lazy"/>
                 </picture>
             </span>
             <Tippy disabled={!isTitleOverflow} content={occupant.fursonaName}>
