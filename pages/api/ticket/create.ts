@@ -20,15 +20,6 @@ import { ticketLimitQuery } from './limits';
 import { ITicketForm } from '@/models/ticket-form.model';
 import { ticketMax } from '../defaults/ticket/max';
 
-/*
-    ===========================================================================================================
-    ===========================================================================================================
-    WARNING!!! >> Onde day ticket and one night ticket dates are offset by one (15. is 14. 22:00) << WARNING!!!
-    ===========================================================================================================
-    ===========================================================================================================
-
-*/
-
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
     const dateWithOffest = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
@@ -208,10 +199,13 @@ export default async function handler(
 
                             const now = new Date()
                             const prices = getPrices(now)
-                            const amountOfDays = evalAmountOfDays([new Date(ticketPayload.startDay!), new Date(ticketPayload.endDay!)])
+                            let amountOfDays = evalAmountOfDays([new Date(ticketPayload.startDay!), new Date(ticketPayload.endDay!)])
+                            if (ticketPayload.ticketType == '1') {
+                                amountOfDays = amountOfDays-1
+                            }
                             const price =
                                 (ticketPayload.ticketType==='0'? (prices[0].hu * amountOfDays) : 0) +
-                                (ticketPayload.ticketType==='1'? prices[1].hu : 0) +
+                                (ticketPayload.ticketType==='1'? (prices[1].hu * amountOfDays) : 0) +
                                 (ticketPayload.ticketType==='2'? prices[2].hu : 0) +
                                 (ticketPayload.extra0? prices.extra0.hu : 0) +
                                 (ticketPayload.extra1? prices.extra1.hu : 0) +
@@ -265,7 +259,7 @@ export default async function handler(
                                             ticketRow = `<tr><td>${translationTable.ticket0Title} * ${amountOfDays} (${amountOfDays==1? createDatePatternFromDate(new Date(ticketPayload.startDay!)) : `${createDatePatternFromDate(new Date(ticketPayload.startDay!))} - ${createDatePatternFromDate(new Date(ticketPayload.endDay!))}`})</td><td>${(prices[0].hu * amountOfDays)} HUF</td></tr>`
                                             break;
                                         case '1':
-                                            ticketRow = `<tr><td>${translationTable.ticket1Title} (${createDatePatternFromDate(new Date(ticketPayload.startDay!))} - ${createDatePatternFromDate(new Date(ticketPayload.endDay!))})</td><td>${prices[1].hu} HUF</td></tr>`
+                                            ticketRow = `<tr><td>${translationTable.ticket1Title} * ${amountOfDays} (${createDatePatternFromDate(new Date(ticketPayload.startDay!))} - ${createDatePatternFromDate(new Date(ticketPayload.endDay!))})</td><td>${prices[1].hu * amountOfDays} HUF</td></tr>`
                                             break;
                                         case '2':
                                             ticketRow = `<tr><td>${translationTable.ticket2Title}</td><td>${prices[2].hu} HUF</td></tr>`

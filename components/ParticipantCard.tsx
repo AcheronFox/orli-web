@@ -63,11 +63,11 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
                         <img srcSet={`${props.picture? (`${props.picture}_x1.jpg 1x, ${props.picture}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy"/>
                     </picture>
                 }
-                {
+                {   
                     (!props.isStaffMode) &&
                     <picture>
-                        <source srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.jpg 1x, /uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                        <img srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.jpg 1x, /uploads/${props.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy"/>
+                        <source srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.${props.picture.split('.')[1]} 1x, /uploads/${props.picture.split('.')[0]}_x2.${props.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
+                        <img srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.${props.picture.split('.')[1]} 1x, /uploads/${props.picture.split('.')[0]}_x2.${props.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy"/>
                     </picture>
                 }
                 <div className={styles.ParticipantCard__Flag}>
