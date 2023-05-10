@@ -409,8 +409,8 @@ const Rooms: NextPage<Props> = (props: Props) => {
           <section ref={overlayRef} className={styles.Modal__Header}>
             <div className={styles.Modal__Header__Picture}>
               <picture>
-                <source srcSet={`${overlayData.picture? (`/uploads/${overlayData.picture.split('.')[0]}_x1.jpg 1x, /uploads/${overlayData.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                <img srcSet={`${overlayData.picture? (`/uploads/${overlayData.picture.split('.')[0]}_x1.jpg 1x, /uploads/${overlayData.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="User Picture" src="/Default_profile_x2.jpg" loading="lazy" />
+                <source srcSet={`${overlayData.picture? (`/uploads/${overlayData.picture.split('.')[0]}_x1.${overlayData.picture.split('.')[1]} 1x, /uploads/${overlayData.picture.split('.')[0]}_x2.${overlayData.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
+                <img srcSet={`${overlayData.picture? (`/uploads/${overlayData.picture.split('.')[0]}_x1.${overlayData.picture.split('.')[1]} 1x, /uploads/${overlayData.picture.split('.')[0]}_x2.${overlayData.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="User Picture" src="/Default_profile_x2.jpg" loading="lazy" />
               </picture>
             </div>
             <div className={styles.Modal__Header__Content}>
