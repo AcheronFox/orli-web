@@ -136,6 +136,16 @@
 
     &__Picture {
       @include picture;
+
+      @include respond(phone) {
+        width: 5rem;
+        height: 5rem;
+      }
+    
+      @include respond(tiny-desktop) {
+        width: 4rem;
+        height: 4rem;
+      }
     }
 
     &__Name {
