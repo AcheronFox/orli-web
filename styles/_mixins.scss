@@ -152,16 +152,6 @@
     width: 4vh;
     height: 4vh;
 
-    @include respond(phone) {
-    width: 5rem;
-    height: 5rem;
-    }
-
-    @include respond(tiny-desktop) {
-    width: 4rem;
-    height: 4rem;
-    }
-
     picture {
         display: flex;
         align-items: center;
