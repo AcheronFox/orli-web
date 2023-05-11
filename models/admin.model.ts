@@ -10,10 +10,11 @@ export interface ISearchQuery {
     email: string;
     nationality: string;
     dateOfBirth: string;
-    age: number | undefined;
+    fursonaName: string | undefined;
     isPaid: number | undefined;
     isVerified: number | undefined;
     paymentMethod: string;
+    boolean: Array<{[index: string]: string;}>
 }
 
 export const defaultSearchQuery: ISearchQuery = {
@@ -22,8 +23,9 @@ export const defaultSearchQuery: ISearchQuery = {
     email: '',
     nationality: '',
     dateOfBirth: '',
-    age: undefined,
+    fursonaName: undefined,
     isPaid: undefined,
     isVerified: undefined,
     paymentMethod: '',
+    boolean: []
 }
