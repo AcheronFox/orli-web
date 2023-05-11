@@ -229,8 +229,8 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                         <section className={styles.Admin__User}>
                             <div className={styles.Admin__User__Picture}>
                                 <picture>
-                                    <source srcSet={`${targetUser.user.picture ? (`/uploads/${targetUser.user.picture.split('.')[0]}_x1.jpg 1x, /uploads/${targetUser.user.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                                    <img srcSet={`${targetUser.user.picture ? (`/uploads/${targetUser.user.picture.split('.')[0]}_x1.jpg 1x, /uploads/${targetUser.user.picture.split('.')[0]}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="User Picture" src="/Default_profile_x2.jpg" loading="lazy" />
+                                    <source srcSet={`${targetUser.user.picture ? (`/uploads/${targetUser.user.picture.split('.')[0]}_x1.${targetUser.user.picture.split('.')[1]} 1x, /uploads/${targetUser.user.picture.split('.')[0]}_x2.${targetUser.user.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
+                                    <img srcSet={`${targetUser.user.picture ? (`/uploads/${targetUser.user.picture.split('.')[0]}_x1.${targetUser.user.picture.split('.')[1]} 1x, /uploads/${targetUser.user.picture.split('.')[0]}_x2.${targetUser.user.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="User Picture" src="/Default_profile_x2.jpg" loading="lazy" />
                                 </picture>
                             </div>
                             <div className={styles.Admin__User__Content}>

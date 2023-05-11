@@ -14,7 +14,6 @@ import { ISearchQuery, defaultSearchQuery } from "@/models/admin.model";
 import Input from "@/comp/Input";
 import NationalitySelector from "@/comp/NationalitySelector";
 import CustomDatePicker from "@/comp/CustomDatePicker";
-import DropDown from "@/comp/DropDown";
 import SecondaryButton from "@/comp/SecondaryButton";
 import CustomBackground from "@/comp/CustomBackground";
 
@@ -169,7 +168,14 @@ const AdminSearch: NextPage<Props> = (props: Props) => {
     }, [currentPage, pageSize, searchQuery])
 
     const updateState = (state: any, key: string, value: any) => {
-        state((val: any) => { return { ...val, [key]: value } });
+        if (key.split('.')[1] != undefined) {
+            state((val: any) => { return { ...val, [key.split('.')[0]]: [
+                {
+                    [key.split('.')[1]]: value
+                }
+            ] } });
+        }
+        else state((val: any) => { return { ...val, [key]: value } });
     }
 
 
@@ -229,13 +235,12 @@ const AdminSearch: NextPage<Props> = (props: Props) => {
                                 ></CustomDatePicker>
                                 <Input
                                     id={"in-4"}
-                                    label={`${t("adminAge")}: `}
-                                    placeholder={t("adminAge")}
-                                    type="number"
-                                    value={searchQuery.age}
-                                    onChange={(e) => updateState(setSearchQuery, 'age', parseInt(e.target.value))}
-                                    min={0}
-                                    max={200}
+                                    label={`${t("regFursonaName")}: `}
+                                    placeholder={t("regFursonaName")}
+                                    value={searchQuery.fursonaName}
+                                    list="autoCompleteOff"
+                                    autoComplete="nope"
+                                    onChange={(e) => updateState(setSearchQuery, 'fursonaName', e.target.value)}
                                     maxlength={255}
                                 ></Input>
                             </div>
@@ -252,15 +257,18 @@ const AdminSearch: NextPage<Props> = (props: Props) => {
                                     id="chk-2"
                                     label={t("adminPaidFalse")}
                                 ></Input>
-                                <DropDown
-                                    label={`${t("adminPaymentMethod")}:`}
-                                    buttonPlaceholder={t("natSelectSelect")}
-                                    data={paymentMethods}
-                                    onChange={(e: string) => updateState(setSearchQuery, 'paymentMethod', e)}
-                                    selected={searchQuery.paymentMethod}
-                                    setSelected={(e: string) => updateState(setSearchQuery, 'paymentMethod', e)}
-                                    setValue={(e: string) => updateState(setSearchQuery, 'paymentMethod', e)}
-                                />
+                                <Input
+                                    type="checkbox"
+                                    checked={(e) => updateState(setSearchQuery, 'boolean.AccomodationKey', e? 0 : undefined)}
+                                    id="chk-5"
+                                    label={t("adminRoomTrue")}
+                                ></Input>
+                                <Input
+                                    type="checkbox"
+                                    checked={(e) => updateState(setSearchQuery, 'boolean.AccomodationKey', e? 1 : undefined)}
+                                    id="chk-6"
+                                    label={t("adminRoomFalse")}
+                                ></Input>
                             </div>
                             <div className={styles.Admin__Content__Row}>
                                 <Input

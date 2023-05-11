@@ -649,5 +649,7 @@
   "adminLimit": "E-mail limitation",
   "adminRemoveRoom": "Remove Room",
   "adminNavSearch": "Admin Search",
-  "adminUser": "User"
+  "adminUser": "User",
+  "adminRoomFalse": "Has room",
+  "adminRoomTrue": "Has no room"
 }

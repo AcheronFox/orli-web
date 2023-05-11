@@ -6,7 +6,8 @@ import { getAccountByKey } from '@/utils/getData';
 import verifyToken from '@/utils/veryifToken';
 import { isAdminAccount } from './auth';
 import database from '@/utils/mysql';
-import { SafeAccountDatabase, TicketDatabase } from '@/models/database.model';
+import { AccomodationDatabase, DatabaseSuperClass, RoomDatabase, SafeAccountDatabase, TicketDatabase, UserDatabase } from '@/models/database.model';
+import generatePayload from '@/utils/generatePayload';
 
 
 const toSqlDatetime = (inputDate: Date) => {
@@ -29,6 +30,22 @@ const generateSelectQuery = (query: string, data: any, table: string) => {
     })
     return query
 }
+const generateBooleanQuery = (query: string, data: any, table: string) => {
+    data.forEach((key: { [x: string]: any; }, i: number) => {
+        const column = Object.keys(key)[0]
+        if (key[column as any]) {
+            query = `${query} ${table}.${column} IS NOT NULL OR ${table}.${column} != ''`
+        }
+        else {
+            query = `${query} ${table}.${column} IS NULL`
+        }
+        if (i+1 < data.length) {
+            query = `${query} AND`
+        }
+    })
+    return query
+}
+
 
 export default async function handler(
     req: NextApiRequest,
@@ -54,7 +71,7 @@ export default async function handler(
                 const pageSize = req.body.pageSize
                 const currentPage = req.body.currentPage
 
-                const getAccounts = (data: any, ticketData: any) => {
+                const getAccounts = (data: any, ticketData: any, userData: any, accomodationData: any, booleanData: any) => {
                     return new Promise<any[] | undefined>(async (resolve) => {
                         let query = 
                         `SELECT account.*,
@@ -62,21 +79,42 @@ export default async function handler(
                         ticket.sponsorLevel, ticket.isPaid, ticket.paymentMethod
                         FROM account
                         LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey
-                        LEFT JOIN user ON user.AccountKey = account.AccountKey`
+                        LEFT JOIN user ON user.AccountKey = account.AccountKey
+                        LEFT JOIN accomodation ON accomodation.AccountKey = account.AccountKey
+                        `
 
                         let didGenerateQuery: boolean = false
                         if (!_.isEmpty(data)) {
-                            didGenerateQuery = true
                             if (data.hasOwnProperty("dateOfBirth") && data.dateOfBirth) {
                                 data.dateOfBirth = toSqlDatetime(new Date(data.dateOfBirth.trim())).split(' ')[0];
                             }
                             query = `${query} WHERE`
                             query = generateSelectQuery(query, data, 'account')
+                            didGenerateQuery = true
                         }
                         if (!_.isEmpty(ticketData)) {
                             if (didGenerateQuery) query = `${query} AND`
                             else query = `${query} WHERE`
                             query = generateSelectQuery(query, ticketData, 'ticket')
+                            didGenerateQuery = true
+                        }
+                        if (!_.isEmpty(userData)) {
+                            if (didGenerateQuery) query = `${query} AND`
+                            else query = `${query} WHERE`
+                            query = generateSelectQuery(query, userData, 'user')
+                            didGenerateQuery = true
+                        }
+                        if (!_.isEmpty(accomodationData)) {
+                            if (didGenerateQuery) query = `${query} AND`
+                            else query = `${query} WHERE`
+                            query = generateSelectQuery(query, accomodationData, 'accomodation')
+                            didGenerateQuery = true
+                        }
+                        if (!_.isEmpty(booleanData)) {
+                            if (didGenerateQuery) query = `${query} AND`
+                            else query = `${query} WHERE`
+                            query = generateBooleanQuery(query, booleanData, 'account')
+                            didGenerateQuery = true
                         }
 
                         database.query(query, async (err: any, result: any[]) => {
@@ -93,25 +131,21 @@ export default async function handler(
                     });
                 }
 
-                let accountPayload = new SafeAccountDatabase();
-                _.assign(accountPayload , _.pick(req.body.searchQuery, _.keys(accountPayload)));
-                Object.keys(accountPayload).forEach((key) => {
-                    if(accountPayload[key as keyof typeof accountPayload] === '') {
-                        accountPayload[key as keyof typeof accountPayload] = undefined;
-                    }
-                })
-                accountPayload = JSON.parse(JSON.stringify(accountPayload))
+                const accountPayload = generatePayload(SafeAccountDatabase, req.body.searchQuery);
+                const ticketPayload = generatePayload(TicketDatabase, req.body.searchQuery);
+                const userPayload = generatePayload(UserDatabase, req.body.searchQuery)
+                const accomodation = generatePayload(AccomodationDatabase, req.body.searchQuery)
 
-                let ticketPayload = new TicketDatabase();
-                _.assign(ticketPayload , _.pick(req.body.searchQuery, _.keys(ticketPayload)));
-                Object.keys(ticketPayload).forEach((key) => {
-                    if(ticketPayload[key as keyof typeof ticketPayload] === '') {
-                        ticketPayload[key as keyof typeof ticketPayload] = undefined;
+                let booleanData = req.body.searchQuery.boolean
+                booleanData = booleanData.filter((element: any) => {
+                    if (Object.keys(element).length !== 0) {
+                      return true;
                     }
-                })
-                ticketPayload = JSON.parse(JSON.stringify(ticketPayload))
+                  
+                    return false;
+                  });
 
-                const accounts = await getAccounts(accountPayload, ticketPayload);
+                const accounts = await getAccounts(accountPayload, ticketPayload, userPayload, accomodation, booleanData);
 
                 if (accounts != undefined) {
                     if (accounts.length) {
