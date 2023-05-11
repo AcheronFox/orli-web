@@ -194,8 +194,7 @@
         }
 
         &__Picture {
-            display: inline-block;
-            position: relative;
+            @include picture;
             width: 15rem;
             height: 15rem;
             margin-right: 1rem;
@@ -216,23 +215,13 @@
                 height: 25rem;
             }
     
-            picture {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                max-width: 100%;
-                max-height: 100%;
-    
-                img {
-                    display: inline-block;
-                    max-height: 100%;
-                    max-width: 100%;
-        
+            picture {    
+                img {        
                     border-width: .2rem .2rem .2rem .2rem;
                     border-style: solid;
                     border-color: $white;
                     border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
-                    object-fit: cover;
+                    border-radius: 0;
                 }
             }
         }

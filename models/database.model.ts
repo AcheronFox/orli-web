@@ -1,4 +1,6 @@
-export class UserDatabase {
+export class DatabaseSuperClass {}
+
+export class UserDatabase extends DatabaseSuperClass {
     UserKey: string | undefined = undefined
     AccountKey: string | undefined = undefined
     fursonaName: string | undefined = undefined
@@ -7,7 +9,7 @@ export class UserDatabase {
     isFursuiter: boolean | undefined = undefined
 }
 
-export class AccountDatabase {
+export class AccountDatabase extends DatabaseSuperClass {
     firstName: string | undefined = undefined;
     lastName: string | undefined = undefined;
     email: string | undefined = undefined;
@@ -23,7 +25,7 @@ export class AccountDatabase {
     TicketKey: string | undefined = undefined;
 }
 
-export class TicketDatabase {
+export class TicketDatabase extends DatabaseSuperClass {
     AccountKey: string | undefined = undefined;
     TicketKey: string | undefined = undefined;
     ticketType: '0' | '1' | '2' | undefined = undefined;
@@ -41,7 +43,7 @@ export class TicketDatabase {
     isPaid: boolean | undefined = undefined;
 }
 
-export class AccomodationDatabase {
+export class AccomodationDatabase extends DatabaseSuperClass {
     AccountKey: string | undefined = undefined;
     AccomodationKey: string | undefined = undefined;
     creationDate: string | undefined = undefined;
@@ -49,7 +51,7 @@ export class AccomodationDatabase {
     telegram: string | undefined = undefined;
 }
 
-export class RoomDatabase {
+export class RoomDatabase extends DatabaseSuperClass {
     building: 'Fácán' | 'Vidra' | 'Kócsag' | undefined = undefined;
     roomNumber: string | undefined = undefined;
     size: number | undefined = undefined;
@@ -58,7 +60,7 @@ export class RoomDatabase {
     adminKey: string | undefined = undefined;
 }
 
-export class SafeUserDatabase {
+export class SafeUserDatabase extends DatabaseSuperClass {
     fursonaName: string | undefined = undefined
     fursonaSpecies: string | undefined = undefined
     picture: string | undefined = undefined
@@ -66,7 +68,7 @@ export class SafeUserDatabase {
     isFursuiter: boolean | undefined = undefined
 }
 
-export class SafeAccountDatabase {
+export class SafeAccountDatabase extends DatabaseSuperClass {
     firstName: string | undefined = undefined;
     lastName: string | undefined = undefined;
     email: string | undefined = undefined;

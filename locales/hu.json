@@ -647,5 +647,7 @@
   "adminLimit": "E-mail limitáció",
   "adminRemoveRoom": "Szoba Eltávolítása",
   "adminNavSearch": "Admin Keresés",
-  "adminUser": "Felhasználó"
+  "adminUser": "Felhasználó",
+  "adminRoomFalse": "Nincs szoba",
+  "adminRoomTrue": "Van szoba"
 }
