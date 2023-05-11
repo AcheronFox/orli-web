@@ -119,7 +119,7 @@ export default async function handler(
                     const accomodation = accomodations.find((o) => o.AccountKey == accounts[i].AccountKey)
     
                     if (user) {
-                        tempObj = {...tempObj, ...user, picture: user.picture? `${process.env.DOMAIN_ROOT}uploads/${user.picture}_x2.jpg` : null}
+                        tempObj = {...tempObj, ...user, picture: user.picture? `${process.env.DOMAIN_ROOT}uploads/${user.picture.split('.')[0]}_x2.${user.picture.split('.')[1]}` : null}
                     }
                     if (ticket) {
                         tempObj = {...tempObj, ...ticket, ticketCreationDate: ticket.creationDate}
