@@ -14,4 +14,5 @@ export interface IAccount {
     AccomodationKey: string
     TicketKey: string
     isAdmin: boolean
+    isStaff: boolean
 }

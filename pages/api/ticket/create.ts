@@ -19,6 +19,7 @@ import { ticketDates } from '../defaults/ticket/date';
 import { ticketLimitQuery } from './limits';
 import { ITicketForm } from '@/models/ticket-form.model';
 import { ticketMax } from '../defaults/ticket/max';
+import { IAccount } from '@/models/account.model';
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
@@ -93,8 +94,10 @@ export default async function handler(
             });
         }
 
-        const limitQuery = async (queryData: ITicketForm) => {
+        const limitQuery = async (queryData: ITicketForm, account: IAccount) => {
             return new Promise<boolean>(async (resolve) => {
+                if (account.isStaff) return resolve(false)
+                
                 const currentState = await ticketLimitQuery()
                 if (!currentState) return resolve(true)
                 let result = false
@@ -114,8 +117,11 @@ export default async function handler(
             })
         }
 
-        if (await conflict()) return;
-        const hasReachedLimit = await limitQuery(req.body)
+        const account = await getAccountByKey(tokenPayload.accountKey);
+        const user = await getUserByAccountKey(tokenPayload.accountKey)
+
+        if (await conflict() || !account || !user) return;
+        const hasReachedLimit = await limitQuery(req.body, account)
     
         if (!hasReachedLimit) {
             const runCreate = async () => {
@@ -227,9 +233,6 @@ export default async function handler(
                             let accountUpdatestate: boolean = false
                             if (ticketInsertionState && ticketKey) accountUpdatestate = await updateAccount(ticketKey);
                             let mailState: boolean = false
-                
-                            const account = await getAccountByKey(tokenPayload.accountKey);
-                            const user = await getUserByAccountKey(tokenPayload.accountKey)
 
                             if (!account || !user) {
                                 rollback(connection);
