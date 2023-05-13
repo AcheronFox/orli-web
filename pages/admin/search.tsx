@@ -42,11 +42,6 @@ const AdminSearch: NextPage<Props> = (props: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isAuthenTicated, setIsAuthenticated] = useState<boolean>(false)
     const [searchQuery, setSearchQuery] = useState<ISearchQuery>(routerQuery.query? (JSON.parse(routerQuery.query.toString())) : defaultSearchQuery)
-    const paymentMethods = [
-        'MKB',
-        'Paypal',
-        'Revolut',
-    ]
 
 
     interface stateTable {
@@ -259,13 +254,13 @@ const AdminSearch: NextPage<Props> = (props: Props) => {
                                 ></Input>
                                 <Input
                                     type="checkbox"
-                                    checked={(e) => updateState(setSearchQuery, 'boolean.AccomodationKey', e? 0 : undefined)}
+                                    checked={(e) => updateState(setSearchQuery, 'boolean.AccomodationKey', e? 1 : undefined)}
                                     id="chk-5"
                                     label={t("adminRoomTrue")}
                                 ></Input>
                                 <Input
                                     type="checkbox"
-                                    checked={(e) => updateState(setSearchQuery, 'boolean.AccomodationKey', e? 1 : undefined)}
+                                    checked={(e) => updateState(setSearchQuery, 'boolean.AccomodationKey', e? 0 : undefined)}
                                     id="chk-6"
                                     label={t("adminRoomFalse")}
                                 ></Input>

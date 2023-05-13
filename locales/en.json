@@ -650,6 +650,6 @@
   "adminRemoveRoom": "Remove Room",
   "adminNavSearch": "Admin Search",
   "adminUser": "User",
-  "adminRoomFalse": "Has room",
-  "adminRoomTrue": "Has no room"
+  "adminRoomFalse": "Has no room",
+  "adminRoomTrue": "Has room"
 }

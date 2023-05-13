@@ -25,7 +25,7 @@ export default async function handler(
                 const query = 
                 `
                 SELECT
-                account.AccountKey, account.firstName, account.lastName, account.email, account.nationality, account.dateOfBirth, account.contact, account.registeredAt, account.isAdmin, account.TicketKey, account.AccomodationKey,
+                account.AccountKey, account.firstName, account.lastName, account.email, account.nationality, account.dateOfBirth, account.contact, account.registeredAt, account.isAdmin, account.isStaff, account.TicketKey, account.AccomodationKey,
                 user.UserKey, user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter,
                 ticket.sponsorLevel, ticket.isPaid, ticket.ticketType
                 FROM account
