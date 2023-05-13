@@ -492,9 +492,9 @@ const Tickets: NextPage<Props> = (props: Props) => {
                   title={t("ticket1Title")}
                   customClass={selectedTicket==1? styles.Tickets__Selected : ''}
                   button={
-                    <Tippy disabled={ticketLimits.ticket1Count < ticketLimitMax.ticket1Count} content={t("ticketNotAvailable")}>
+                    <Tippy disabled={(ticketLimits.ticket1Count < ticketLimitMax.ticket1Count) || user.isStaff} content={t("ticketNotAvailable")}>
                       <span>
-                        <SecondaryButton disabled={selectedTicket==1 || ticketLimits.ticket1Count >= ticketLimitMax.ticket1Count} text={t("ticketSelect")} onClick={() => selectTicket(1)} />
+                        <SecondaryButton disabled={selectedTicket==1 || (ticketLimits.ticket1Count >= ticketLimitMax.ticket1Count) && !user.isStaff} text={t("ticketSelect")} onClick={() => selectTicket(1)} />
                       </span>
                     </Tippy>
                   }
@@ -521,9 +521,9 @@ const Tickets: NextPage<Props> = (props: Props) => {
                   title={t("ticket2Title")}
                   customClass={selectedTicket==2? styles.Tickets__Selected : ''}
                   button={
-                    <Tippy disabled={ticketLimits.ticket2Count < ticketLimitMax.ticket2Count} content={t("ticketNotAvailable")}>
+                    <Tippy disabled={(ticketLimits.ticket2Count < ticketLimitMax.ticket2Count) || user.isStaff} content={t("ticketNotAvailable")}>
                       <span>
-                        <SecondaryButton disabled={selectedTicket==2 || ticketLimits.ticket2Count >= ticketLimitMax.ticket2Count} text={t("ticketSelect")} onClick={() => selectTicket(2)} />
+                        <SecondaryButton disabled={selectedTicket==2 || (ticketLimits.ticket2Count >= ticketLimitMax.ticket2Count) && !user.isStaff} text={t("ticketSelect")} onClick={() => selectTicket(2)} />
                       </span>
                     </Tippy>
                   }
@@ -578,9 +578,9 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     title={t("ticketExtra1")}
                     customClass={wantsDayExtra? styles.Tickets__Selected : ''}
                     button={
-                    <Tippy disabled={ticketLimits.extra1Count < ticketLimitMax.extra1Count} content={t("ticketNotAvailable")}>
+                    <Tippy disabled={(ticketLimits.extra1Count < ticketLimitMax.extra1Count) || user.isStaff} content={t("ticketNotAvailable")}>
                       <span>
-                        <SecondaryButton disabled={ticketLimits.extra1Count >= ticketLimitMax.extra1Count} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />
+                        <SecondaryButton disabled={(ticketLimits.extra1Count >= ticketLimitMax.extra1Count) && !user.isStaff} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />
                       </span>
                     </Tippy>
                     }

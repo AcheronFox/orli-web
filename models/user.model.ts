@@ -6,6 +6,7 @@ export interface IUser {
     contact: string
     registeredAt: string
     isAdmin: boolean
+    isStaff: boolean
     AccomodationKey: string | null
     TicketKey: string | null
     ticketType: string | null
@@ -29,6 +30,7 @@ export class UserData {
     contact: string | undefined = undefined
     registeredAt: string | undefined = undefined
     isAdmin: boolean | undefined = undefined
+    isStaff: boolean | undefined = undefined
     AccomodationKey: string | null | undefined = undefined
     TicketKey: string | null | undefined = undefined
     ticketType: string | null | undefined = undefined
