@@ -649,5 +649,6 @@
   "adminNavSearch": "Admin Keresés",
   "adminUser": "Felhasználó",
   "adminRoomFalse": "Nincs szoba",
-  "adminRoomTrue": "Van szoba"
+  "adminRoomTrue": "Van szoba",
+  "adminRoomForce": "Szoba állítása"
 }
