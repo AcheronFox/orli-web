@@ -651,5 +651,6 @@
   "adminNavSearch": "Admin Search",
   "adminUser": "User",
   "adminRoomFalse": "Has no room",
-  "adminRoomTrue": "Has room"
+  "adminRoomTrue": "Has room",
+  "adminRoomForce": "Assign room"
 }

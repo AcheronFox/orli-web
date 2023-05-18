@@ -17,6 +17,8 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 import DropDown from "@/comp/DropDown";
 import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
 import CustomBackground from "@/comp/CustomBackground";
+import { IRoomRaw } from "@/models/room.model";
+import FilterableDropDown from "@/comp/FilterableDropDown";
 
 
 type Props = {}
@@ -30,10 +32,12 @@ const AdminUser: NextPage<Props> = (props: Props) => {
     const [userID, setUserID] = useState<number>()
     const [originalUser, setOriginalUser] = useState<any>()
     const [targetUser, setTargetUser] = useState<any>()
+    const [remainingRooms, setRemainingRooms] = useState<IRoomRaw[]>()
     const [emailLimit, setEmailLimit] = useState<number>()
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [isAuthenTicated, setIsAuthenticated] = useState<boolean>(false)
     const [showConfirm, setShowConfirm] = useState<boolean>(false)
+    const [selected, setSelected] = useState<string>();
 
     const [showRevertModal, setShowRevertModal] = useState<boolean>(false)
     const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false)
@@ -121,6 +125,14 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                 return
             })
 
+        await axiosInstance.get("/api/admin/rooms")
+            .then((res) => {
+                setRemainingRooms(res.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
         setIsLoading(false)
     }
 
@@ -166,10 +178,10 @@ const AdminUser: NextPage<Props> = (props: Props) => {
         const payload = diff(targetUser, originalUser)
 
         await axiosInstance.post(`api/admin/user/update/${userID}`, payload)
-        .then((res) => {
+        .then(() => {
             getDefaults()
         })
-        .catch((err) => {
+        .catch(() => {
             AddFloatingMessage({
                 autocloses: true,
                 type: "Error",
@@ -224,7 +236,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                     </div>
                 }
                 {
-                    (user && user.isAdmin && isAuthenTicated && userID && targetUser) &&
+                    (user && user.isAdmin && isAuthenTicated && userID && targetUser && remainingRooms) &&
                     <> 
                         <section className={styles.Admin__User}>
                             <div className={styles.Admin__User__Picture}>
@@ -282,6 +294,23 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                                         />
                                         <SecondaryButton text={t("adminPaymentConf")} type="right" disabled={_.isEmpty(targetUser.ticket) || (!_.isEmpty(targetUser.ticket) && targetUser.ticket.isPaid == 1)} classType={"success"} onClick={() => updateState(setTargetUser, 'ticket', true, 'isPaid')}/>
                                     </div>
+                                    {
+                                    (_.isEmpty(targetUser.accomodation) && targetUser.ticket.isPaid == true && targetUser.ticket.ticketType === '2') &&
+                                    <div>
+                                        <FilterableDropDown
+                                            label={`${t("adminRoomForce")}: `}
+                                            buttonPlaceholder={t("adminRoomForce")}
+                                            setSelected={setSelected}
+                                            setValue={(e: string) => updateState(setTargetUser, 'accomodation', e, "roomId")}
+                                            selected={selected}
+                                            searchPlaceholder={t("regSearchablePlaceholder")}
+                                            data={remainingRooms}
+                                            dataDisplayVal={["building", "roomNumber", "freeSpots"]}
+                                            dataValue={"id"}
+                                            onChange={(e: string) => updateState(setTargetUser, 'accomodation', e, "roomId")}
+                                        />
+                                    </div>
+                                    }
                                     <div>
                                         <SecondaryButton text={t("adminRemovePic")} disabled={!targetUser.user.picture} type="left" classType={"danger"} onClick={() => updateState(setTargetUser, 'user', null, 'picture')}/>
                                         <SecondaryButton text={t("adminRemoveRoom")} disabled={_.isEmpty(targetUser.accomodation)} type="right" classType={"danger"} onClick={() => updateState(setTargetUser, 'accomodation', null)}/>
