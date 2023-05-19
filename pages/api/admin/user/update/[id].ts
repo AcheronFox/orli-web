@@ -187,6 +187,9 @@ export default async function handler(
                                         if (data.hasOwnProperty("registeredAt")) {
                                             data.registeredAt = toSqlDatetime(new Date(data.registeredAt.trim()));
                                         }
+                                        if (data.hasOwnProperty("creationDate")) {
+                                            data.creationDate = toSqlDatetime(new Date(data.creationDate.trim()));
+                                        }
                                         Object.keys(data).forEach(k => {
                                             (typeof data[k] == 'string') ? (data[k] = data[k].trim()) : {};
                                         });
