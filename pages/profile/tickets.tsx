@@ -329,7 +329,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }, [selectedFoods, selectedDayIndex, selectedDate, selectedTicket, wantsDay0, wantsDayExtra, shirtSize])
 
   const evalAmountOfDays = () => {
-    console.log(selectedDate)
     if (selectedDate.length < 2 || selectedTicket == 2 || (selectedTicket == 1 && selectedDate.length != 2)) return 0
     else {
       const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
