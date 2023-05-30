@@ -554,6 +554,8 @@
   "ticketSupport2Inc2": "A Nicobar repohara",
   "ticketSupport2Inc3": "...és egy kis meglepetés",
   "ticketNotAvailable": "Ez a jegy jelenleg nem elérhető. Kérlek nézz vissza később.",
+  "ticketNotAllowed0": "Ez a jegy csak azoknak érhető el akik jönnek 1. napra.",
+  "ticketNotAllowed1": "Ez a jegy csak azoknak érhető el akik jönnek utolsó napra.",
 
   "SECTION": "--------------------PRICES-------------------------",
 
