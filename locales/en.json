@@ -554,6 +554,8 @@
   "ticketSupport2Inc2": "The Nicobar's refillable cup",
   "ticketSupport2Inc3": "... and a little surprise",
   "ticketNotAvailable": "This ticket is currently not available. Please check back later.",
+  "ticketNotAllowed0": "This ticket is only available for people who come to 1st day.",
+  "ticketNotAllowed1": "This ticket is only available for people who come to last day.",
 
   "SECTION": "--------------------PRICES-------------------------",
 

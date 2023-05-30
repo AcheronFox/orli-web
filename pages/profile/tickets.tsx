@@ -87,6 +87,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
   const [sponsorAmount, setSponsorAmount] = useState<number>(0)
   const [ticketLimits, setTicketLimits] = useState<ITicketCount>()
   const [ticketLimitMax, setTicketLimitMax] = useState<ITicketCount>()
+  const [isDay0Allowed, setIsDay0Allowed] = useState<boolean>(false)
+  const [isDay1Allowed, setIsDay1Allowed] = useState<boolean>(false)
   const minSponsor = 5000
   const maxSponsor = 50000
 
@@ -392,6 +394,44 @@ const Tickets: NextPage<Props> = (props: Props) => {
     earliest.setDate(tempMinDate);
     last.setDate(tempMaxDate);
 
+    let startDay: string;
+    if (selectedTicket == 2) {
+      if (wantsDay0) {
+        startDay = earliest.toString();
+      } else {
+        startDay = defaultMinDate.toString();
+      }
+    } else if (selectedTicket == 1) {
+      if (wantsDay0) {
+        startDay = earliest.toString();
+      } else {
+        startDay = selectedDate[0].toString();
+      }
+    } else {
+      startDay = selectedDate[0].toString();
+    }
+
+    let endDay: string;
+    if (selectedTicket == 2) {
+      if (wantsDayExtra) {
+        endDay = last.toString();
+      } else {
+        endDay = offsetMax.toString();
+      }
+    } else if (selectedTicket == 1) {
+      if (wantsDayExtra) {
+        endDay = last.toString();
+      } else {
+        endDay = selectedDate[1].toString();
+      }
+    } else {
+      if (selectedDate[1]) {
+        endDay = selectedDate[1].toString();
+      } else {
+        endDay = selectedDate[0].toString();
+      }
+    }
+
     const payload: ITicketForm = {
       ticketType: selectedTicket!.toString() as '0' | '1' | '2',
       extra0: wantsDay0,
@@ -400,8 +440,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
       shirt: isSponsor? (sponsorAmount > 10000? shirtSize : null) : null,
       sponsorPrice: sponsorAmount,
       foodData: selectedTicket==0? null : selectedFoods,
-      startDay: selectedTicket==2? (wantsDay0? earliest.toString() : defaultMinDate.toString()) : (selectedDate[0].toString()),
-      endDay: selectedTicket==2? (wantsDayExtra? last.toString() : offsetMax.toString()) : (selectedDate[1]? selectedDate[1].toString() : selectedDate[0].toString()),
+      startDay: startDay,
+      endDay: endDay,
     }
 
     setShowDialog(false)
@@ -433,6 +473,30 @@ const Tickets: NextPage<Props> = (props: Props) => {
       setIsDisabled(false)
     })
   }
+
+  useEffect(() => {
+    if (selectedStartingDayIndex == null || selectedDayIndex == null) {
+      setIsDay0Allowed(false)
+      setIsDay1Allowed(false)
+      setWantsDay0(false)
+      setWantsDayExtra(false)
+      return;
+    }
+
+    const offsetMax = new Date(defaultMaxDate.valueOf());
+    let tempMaxDate: number | undefined = undefined
+    tempMaxDate = offsetMax.getDate() + 1
+    offsetMax.setDate(tempMaxDate);
+
+    const last = new Date(offsetMax.valueOf());
+    tempMaxDate = last.getDate() + 1
+    last.setDate(tempMaxDate);
+
+    const maxDaysIndex = getDifference(defaultMinDate, last)
+
+    if (selectedStartingDayIndex == 1) setIsDay0Allowed(true)
+    if (selectedDayIndex == maxDaysIndex) setIsDay1Allowed(true)
+  }, [selectedStartingDayIndex, selectedDayIndex])
 
   return (
     <>
@@ -547,7 +611,45 @@ const Tickets: NextPage<Props> = (props: Props) => {
               </section>
             </div>
             {
-              (selectedTicket==2) &&
+            (selectedTicket==0 || selectedTicket==1) &&
+              <div className={styles.Tickets__Content}>
+                <section className={styles.Tickets__DaySelect}>
+                  <h2>{t("ticketDaySelect")}</h2>
+                  <div>
+                    <Calendar
+                    key={calendarKey}
+                    locale={locale}
+                    value={Array.isArray(selectedDate)? [selectedDate[0], selectedDate[1]] : selectedDate}
+                    defaultActiveStartDate={new Date(2023, 5, 14)}
+                    maxDate={(maxDate==defaultMaxDate && selectedTicket==1)? maxDate1Night : maxDate}
+                    minDate={minDate}
+                    showNavigation={false}
+                    selectRange={true}
+                    onChange={(e: Date | Date[]) => evaluateDateSelect(e)}
+                    view={"month"}
+                    allowPartialRange
+                    tileClassName={({ date }) => {
+                      let zeroDay = new Date(defaultMinDate)
+                      zeroDay.setDate(zeroDay.getDate() -1)
+                      let extraDay = new Date(maxDate1Night)
+                      extraDay.setDate(extraDay.getDate() +1)
+                      
+                      if ((wantsDay0 && zeroDay.valueOf() == date.valueOf()) ||
+                        (wantsDayExtra && extraDay.valueOf() == date.valueOf())) {
+                        return 'react-calendar__tile--highlight';
+                       }
+                       else return null
+                    }}
+                    />
+                  </div>
+                  <div className={styles.Tickets__DaySelect__Button}>
+                    <SecondaryButton text={t("ticketClear")} onClick={() => resetCalendar()}/>
+                  </div>
+                </section>
+              </div>
+            }
+            {
+              (selectedTicket==2 || selectedTicket==1) &&
               <div className={styles.Tickets__Content}>
                 <section className={styles.Tickets__Prices}>
                   <h2 className={styles.Tickets__Prices__Title}>{t("ticketExtra")}</h2>
@@ -555,7 +657,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     <PriceCard
                     title={t("ticketExtra0")}
                     customClass={wantsDay0? styles.Tickets__Selected : ''}
-                    button={<SecondaryButton text={wantsDay0? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDay0((o) => !o)} />}
+                    button={
+                      <Tippy disabled={isDay0Allowed || selectedTicket!=1} content={t("ticketNotAllowed0")}>
+                        <span>
+                          <SecondaryButton disabled={!isDay0Allowed && selectedTicket == 1} text={wantsDay0? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDay0((o) => !o)} />
+                        </span>
+                      </Tippy>
+                    }
                     description={
                       <span>
                         {t("ticketE0Desc")}<br /><br />
@@ -578,9 +686,9 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     title={t("ticketExtra1")}
                     customClass={wantsDayExtra? styles.Tickets__Selected : ''}
                     button={
-                    <Tippy disabled={(ticketLimits.extra1Count < ticketLimitMax.extra1Count) || user.isStaff} content={t("ticketNotAvailable")}>
+                    <Tippy disabled={((ticketLimits.extra1Count < ticketLimitMax.extra1Count) || user.isStaff) && (isDay1Allowed || selectedTicket!=1)} content={(!isDay1Allowed && selectedTicket == 1)? t("ticketNotAllowed1") : t("ticketNotAvailable")}>
                       <span>
-                        <SecondaryButton disabled={(ticketLimits.extra1Count >= ticketLimitMax.extra1Count) && !user.isStaff} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />
+                        <SecondaryButton disabled={((ticketLimits.extra1Count >= ticketLimitMax.extra1Count) && !user.isStaff) || (!isDay1Allowed && selectedTicket == 1)} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />
                       </span>
                     </Tippy>
                     }
@@ -606,32 +714,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
               </div>
             }
             {
-            (selectedTicket==0 || selectedTicket==1) &&
-              <div className={styles.Tickets__Content}>
-                <section className={styles.Tickets__DaySelect}>
-                  <h2>{t("ticketDaySelect")}</h2>
-                  <div>
-                    <Calendar
-                    key={calendarKey}
-                    locale={locale}
-                    value={Array.isArray(selectedDate)? [selectedDate[0], selectedDate[1]] : selectedDate}
-                    defaultActiveStartDate={new Date(2023, 5, 14)}
-                    maxDate={(maxDate==defaultMaxDate && selectedTicket==1)? maxDate1Night : maxDate}
-                    minDate={minDate}
-                    showNavigation={false}
-                    selectRange={true}
-                    onChange={(e: Date | Date[]) => evaluateDateSelect(e)}
-                    view={"month"}
-                    allowPartialRange
-                    />
-                  </div>
-                  <div className={styles.Tickets__DaySelect__Button}>
-                    <SecondaryButton text={t("ticketClear")} onClick={() => resetCalendar()}/>
-                  </div>
-                </section>
-              </div>
-            }
-            {
               (selectedTicket==2 || (selectedTicket==1 && selectedDayIndex && selectedStartingDayIndex)) &&
               <div className={styles.Tickets__Content}>
                 <section className={styles.Tickets__Prices}>
@@ -642,7 +724,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       Object.keys(foods).map((food, i) => {
                         const key = parseInt(food)
                         
-                        if (selectedTicket==1 && (selectedDayIndex!-1 < key) || (key <= selectedStartingDayIndex!-1)) return null
+                        if (selectedTicket==1 && ((selectedDayIndex!-1 < key && !wantsDayExtra) || (key <= selectedStartingDayIndex!-1 && !wantsDay0))) return null
                         if (selectedTicket==2 && ((key == 0 && !wantsDay0) || (key == Object.keys(foods).length-1 && !wantsDayExtra))) return null
                         
                         return (

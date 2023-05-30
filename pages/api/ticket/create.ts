@@ -205,7 +205,13 @@ export default async function handler(
 
                             const now = new Date()
                             const prices = getPrices(now)
-                            let amountOfDays = evalAmountOfDays([new Date(ticketPayload.startDay!), new Date(ticketPayload.endDay!)])
+                            let startDay = new Date(ticketPayload.startDay!)
+                            let endDay = new Date(ticketPayload.endDay!)
+                            if (ticketPayload.ticketType == '1') {
+                                if (ticketPayload.extra0) startDay.setDate(startDay.getDate() +1)
+                            }
+
+                            let amountOfDays = evalAmountOfDays([startDay, endDay])
                             if (ticketPayload.ticketType == '1') {
                                 amountOfDays = amountOfDays-1
                             }
