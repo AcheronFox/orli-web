@@ -16,6 +16,7 @@ export interface IRoomRaw {
     customName?: string;
     roomPin?: string;
     adminKey?: string;
+    freeSpots?: number;
 }
 
 export interface IRoomStructure {[index: string]: IRoom[]; };

@@ -35,9 +35,6 @@ const PaginationTable: NextPage<Props> = (props: Props) => {
         if (props.currentPage >= ((props.numberOfItems || props.tableData.length) / props.pageSize)-1) move(0)
         if (props.onPageSizeChange) props.onPageSizeChange(e)
     }
-    const rowClick = (e: number) => {
-        if (props.onRowClick) props.onRowClick(e)
-    }
 
 
     const capitalizeLetter = (string: string) => {

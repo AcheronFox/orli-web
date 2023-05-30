@@ -9,11 +9,11 @@ import LinkButton from "@/comp/LinkButton";
 
 type Props = {}
 
-interface CustomQuestionInterface {[index: number]: {title: string; content: string[] | string;} }
+interface CustomQuestionInterface {title: string; content: string[] | string;}
 
 const FAQ: NextPage<Props> = (props: Props) => {
   const { t, locale } = useTranslate();
-  const [questions, setQuestions] = useState<CustomQuestionInterface>(
+  const [questions, setQuestions] = useState<CustomQuestionInterface[]>(
     locale == "en"
       ? require("../locales/en.faq.json")
       : require("../locales/hu.faq.json")
@@ -55,16 +55,14 @@ const FAQ: NextPage<Props> = (props: Props) => {
               <div className={styles.Content__Questions}>
                 {
                   questions &&
-                  Object.keys(questions).map((questionIndex, i) => {
-                    const key = parseInt(questionIndex)
-
+                  questions.map((val, i) => {
                     return (
-                    <InfoPanel key={key} title={questions[key].title}>
+                    <InfoPanel key={i} title={val.title}>
                       {
-                        (typeof questions[key].content === "string" && questions[key].content.includes('$') && questions[key].content.includes('ß')) &&
+                        (typeof val.content === "string" && val.content.includes('$') && val.content.includes('ß')) &&
                         <span>
                           {
-                            (questions[key].content as string).split(/[$ß]/).map((cont, i) => {
+                            (val.content as string).split(/[$ß]/).map((cont, i) => {
                               return (
                               <span key={i}>
                                 {
@@ -82,14 +80,14 @@ const FAQ: NextPage<Props> = (props: Props) => {
                         </span>
                       }
                       {
-                        (typeof questions[key].content === "string" && !questions[key].content.includes('$') && !questions[key].content.includes('ß')) &&
-                        questions[key].content
+                        (typeof val.content === "string" && !val.content.includes('$') && !val.content.includes('ß')) &&
+                        val.content
                       }
                       {
-                        (Array.isArray(questions[key].content)) &&
+                        (Array.isArray(val.content)) &&
                         <ul className={styles.Content__Questions__List}>
                           {
-                            (questions[key].content as Array<string>).map((cont, i) => {
+                            (val.content as Array<string>).map((cont, i) => {
                               return (
                                 <li key={i}>{cont}</li>
                               );

@@ -23,7 +23,7 @@ type Props = {
   searchPlaceholder: string;
   filteredData?: any[];
   data: any[];
-  dataDisplayVal: string;
+  dataDisplayVal: string | string[];
   dataValue: string;
   inputClass?: string;
 };
@@ -131,7 +131,27 @@ const FilterableDropDown: NextPage<Props> = ({
         ref={rowRef}
         key={index}
       >
-        {filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]}
+        {
+          (Array.isArray(dataDisplayVal))?
+          <span>
+            {
+              dataDisplayVal.map((val, i) => {
+                return (
+                  <>
+                    {
+                      (i+1 < dataDisplayVal.length)?
+                      `${filteredData?.length? filteredData[index][val] : data[index][val]} - `
+                      :
+                      filteredData?.length? filteredData[index][val] : data[index][val]
+                    }
+                  </>
+                );
+              })
+            }
+          </span>
+          :
+          filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]
+        }
       </div>
     );
   }
@@ -187,8 +207,24 @@ const FilterableDropDown: NextPage<Props> = ({
             {({ index, style }) => (
               <div style={style} className={styles.Selector__Item} 
                 onMouseDown={() => {
-                  setValue(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);
-                  setSelected(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);
+                  if (Array.isArray(dataDisplayVal)) {
+                    let stringData: string = '';
+                    dataDisplayVal.forEach((val, i) => {
+                      if (filteredData?.length) {
+                        stringData = `${stringData}${filteredData[index][val]}`
+                      }
+                      else {
+                        stringData = `${stringData}${data[index][val]}`
+                      }
+                      if (i+1 < dataDisplayVal.length) stringData = `${stringData} - `
+                    })
+                    setValue(stringData);
+                    setSelected(stringData);  
+                  }
+                  else {
+                    setValue(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);
+                    setSelected(filteredData?.length? filteredData[index][dataDisplayVal] : data[index][dataDisplayVal]);  
+                  }
                   setOpen(false);
                   if (onChange) onChange(filteredData?.length? filteredData[index][dataValue] : data[index][dataValue]);
                 }}>
