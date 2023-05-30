@@ -130,7 +130,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                 setRemainingRooms(res.data)
             })
             .catch((err) => {
-                console.log(err)
+                return
             })
 
         setIsLoading(false)
