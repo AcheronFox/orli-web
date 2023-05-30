@@ -7,11 +7,11 @@ import { NextPage } from "next";
 import { useEffect, useState } from "react";
 
 type Props = {}
-interface CustomProgramInterface {[index: number]: {title: string; description: string[];} }
+interface CustomProgramInterface {title: string; description: string[];}
 
 const Programs: NextPage<Props> = (props: Props) => {
   const { t, locale } = useTranslate()
-  const [programs, setPrograms] = useState<CustomProgramInterface>(
+  const [programs, setPrograms] = useState<CustomProgramInterface[]>(
     locale == "en"
       ? require("../locales/en.programs.json")
       : require("../locales/hu.programs.json")
@@ -57,16 +57,15 @@ const Programs: NextPage<Props> = (props: Props) => {
             <span>
               {
                 (programs != undefined) &&
-                Object.keys(programs).map((index, i) => {
-                  const key = parseInt(index)
+                programs.map((val, i) => {
                   return (
                     <div key={i}>
                       <br />
                       <span>
-                        <span className={styles.Programs__Content__Title}><h3>{programs[key].title}</h3></span>
+                        <span className={styles.Programs__Content__Title}><h3>{val.title}</h3></span>
                         <div className={styles.Programs__Content__Desc}>
                           {
-                            programs[key].description.map((content, j) => {
+                            programs[i].description.map((content, j) => {
                               return (
                                 <span key={j}>
                                     {

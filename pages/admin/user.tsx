@@ -295,7 +295,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                                         <SecondaryButton text={t("adminPaymentConf")} type="right" disabled={_.isEmpty(targetUser.ticket) || (!_.isEmpty(targetUser.ticket) && targetUser.ticket.isPaid == 1)} classType={"success"} onClick={() => updateState(setTargetUser, 'ticket', true, 'isPaid')}/>
                                     </div>
                                     {
-                                    (_.isEmpty(targetUser.accomodation) && targetUser.ticket.isPaid == true && targetUser.ticket.ticketType === '2') &&
+                                    (_.isEmpty(originalUser.accomodation) && targetUser.ticket.isPaid == true && targetUser.ticket.ticketType === '2') &&
                                     <div>
                                         <FilterableDropDown
                                             label={`${t("adminRoomForce")}: `}
