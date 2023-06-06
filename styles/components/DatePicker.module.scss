@@ -60,6 +60,16 @@
         }
 
         & > * {
+            & > div {
+                min-width: 50vw;
+                max-width: 50vw;
+
+                @include respond(phone) {
+                    min-width: 95vw;
+                    max-width: 95vw;
+                }
+            }
+
             &:not(:last-child) {
                 margin-bottom: 5rem;
             }
