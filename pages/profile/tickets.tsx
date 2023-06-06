@@ -344,7 +344,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
     Object.keys(foods).forEach((food) => {
       const key = parseInt(food)
       if (selectedTicket == 1 && ((selectedDayIndex!-1 >= key && key > selectedStartingDayIndex!-1) &&
-        selectedFoods[key] == undefined)) {
+        selectedFoods[key] == undefined) || (key == 0 && wantsDay0) && selectedFoods[key] == undefined ||
+        (key == Object.keys(foods).length-1) && wantsDayExtra && selectedFoods[key] == undefined) {
         hasMissingFood = true
       }
       else if (
@@ -397,38 +398,38 @@ const Tickets: NextPage<Props> = (props: Props) => {
     let startDay: string;
     if (selectedTicket == 2) {
       if (wantsDay0) {
-        startDay = earliest.toString();
+        startDay = earliest.toISOString();
       } else {
-        startDay = defaultMinDate.toString();
+        startDay = defaultMinDate.toISOString();
       }
     } else if (selectedTicket == 1) {
       if (wantsDay0) {
-        startDay = earliest.toString();
+        startDay = earliest.toISOString();
       } else {
-        startDay = selectedDate[0].toString();
+        startDay = selectedDate[0].toISOString();
       }
     } else {
-      startDay = selectedDate[0].toString();
+      startDay = selectedDate[0].toISOString();
     }
 
     let endDay: string;
     if (selectedTicket == 2) {
       if (wantsDayExtra) {
-        endDay = last.toString();
+        endDay = last.toISOString();
       } else {
-        endDay = offsetMax.toString();
+        endDay = offsetMax.toISOString();
       }
     } else if (selectedTicket == 1) {
       if (wantsDayExtra) {
-        endDay = last.toString();
+        endDay = last.toISOString();
       } else {
-        endDay = selectedDate[1].toString();
+        endDay = selectedDate[1].toISOString();
       }
     } else {
       if (selectedDate[1]) {
-        endDay = selectedDate[1].toString();
+        endDay = selectedDate[1].toISOString();
       } else {
-        endDay = selectedDate[0].toString();
+        endDay = selectedDate[0].toISOString();
       }
     }
 
@@ -847,9 +848,9 @@ const Tickets: NextPage<Props> = (props: Props) => {
                           Object.keys(foods).map((food, i) => {
                             const key = parseInt(food)
 
-                            if (selectedTicket==1 && (selectedDayIndex!-1 < key) || (key <= selectedStartingDayIndex!-1)) return null
+                            if (selectedTicket==1 && ((selectedDayIndex!-1 < key && !wantsDayExtra) || (key <= selectedStartingDayIndex!-1 && !wantsDay0))) return null
                             if (selectedTicket==2 && ((key == 0 && !wantsDay0) || (key == Object.keys(foods).length-1 && !wantsDayExtra))) return null
-                            
+                                
                             return (
                               <tr key={i}>
                                 <td>
@@ -897,7 +898,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         (selectedTicket != undefined && prices != undefined) &&
                         <tr>
                           <td>{t("ticketTicket")}</td>
-                          <td>{`${(selectedTicket==0 && prices[0].hu) || (selectedTicket==1 && prices[1].hu) || (selectedTicket==2 && prices[2].hu)} ${selectedTicket==0? (evalAmountOfDays() <= 1)? '' : `(* ${evalAmountOfDays()})` : ''} HUF`}</td>
+                          <td>{`${(selectedTicket==0 && prices[0].hu) || (selectedTicket==1 && prices[1].hu) || (selectedTicket==2 && prices[2].hu)} ${(selectedTicket==0 || selectedTicket==1)? (evalAmountOfDays() <= 1)? '' : `(* ${evalAmountOfDays()})` : ''} HUF`}</td>
                         </tr>
                       }
                       {
@@ -926,8 +927,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         <tr className={styles.Tickets__Overview__Price}>
                           <td>{`${t("ticketFinalPrice")}`}</td>
                           <td>{`${
-                            (selectedTicket==0? (prices[0].hu * evalAmountOfDays()) : 0) + (selectedTicket==1? (prices[1].hu * evalAmountOfDays()) : 0) + (selectedTicket==2? prices[2].hu : 0)
-                            +
+                            (selectedTicket==0? (prices[0].hu * (evalAmountOfDays() || 1)) : 0) + (selectedTicket==1? (prices[1].hu * evalAmountOfDays()) : 0) + (selectedTicket==2? prices[2].hu : 0)
+                            + 
                             (wantsDay0? prices.extra0.hu : 0) 
                             +
                             (wantsDayExtra? prices.extra1.hu : 0)
