@@ -21,7 +21,7 @@ const PrimaryButton: NextPage<Props> = ({
 
   if (link) {
     return (
-      <Link onClick={() => onClick? onClick() : {}} href={link}
+      <Link onClick={() => onClick? onClick() : {}} href={link} target="_blank"
         className={`
         ${styles.Button}
         ${type == "left" && styles.Button_left}

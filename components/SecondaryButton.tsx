@@ -49,7 +49,7 @@ const SecondaryButton: NextPage<Props> = ({
     }
     else if (link) {
       return (
-        <Link id={id} href={link} onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={(e) => handleMouseOut(e)} 
+        <Link id={id} href={link} onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={(e) => handleMouseOut(e)} target="_blank"
           className={`${styles.Button} ${type == "left" && styles.Button_left} ${type == "center" && styles.Button_center} ${type == "right" && styles.Button_right} ${classType && styles.Button__Disabled}
             ${disabled && styles.Button__Disabled}
             ${classType == "danger" && styles.Button_danger} ${classType == "success" && styles.Button_success}`}>
