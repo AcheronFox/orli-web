@@ -1,9 +1,6 @@
-import PrimaryButton from "@/comp/PrimaryButton"
 import styles from "@/styles/pages/Home.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
-import Separator from "@/comp/Separator";
-import { RiArrowDropDownLine } from "react-icons/ri"
 
 type Props = {}
 
@@ -12,9 +9,6 @@ const Home: NextPage<Props> = (props: Props) => {
 
   return (
     <div>
-      <section className={styles.Home}>
-        <Separator IconComp={<RiArrowDropDownLine />} text={t("homeScroll")}></Separator>
-      </section>
       <section className={styles.Home__Content}>
         <div className={styles.Home__Wrapper}>
           <span className={styles.Home__Title}>
@@ -38,9 +32,6 @@ const Home: NextPage<Props> = (props: Props) => {
             {t("homeText5")}
           </span>
           
-          <div className={styles.Home__Btn}>
-            <PrimaryButton text={t("homeReg")} link="/registration"></PrimaryButton>
-          </div>
         </div>
       </section>
     </div>
