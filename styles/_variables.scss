@@ -15,6 +15,20 @@ Droid Sans,
 Helvetica Neue,
 sans-serif;
 
+$tiki-font-family:
+Tiki-Font,
+-apple-system,
+BlinkMacSystemFont,
+Segoe UI,
+Roboto,
+Oxygen,
+Ubuntu,
+Cantarell,
+Fira Sans,
+Droid Sans,
+Helvetica Neue,
+sans-serif;
+
 $default-font-size: 1.6rem;
 
 $default-font-family:
@@ -53,8 +67,8 @@ $default-red: #ff0000;
 $default-green: #00ff00;
 $default-blue: #0000ff;
 
-$primary-color: #F741D5;
-$secondary-color: #0BBFFC;
+$primary-color: #ffae00;
+$secondary-color: #9a0d8b;
 
 // SITE
 $background-color: #181818;
@@ -64,12 +78,35 @@ $default-error: #ff0000;
 $default-success: #00ff00;
 $default-info: #ffffff;
 
-:export {
-    smallPhone: $smallPhone;
-    phone: $phone;
-    tinyDesktop: $tiny-desktop;
-    smallDesktop: $small-desktop;
-    primaryColor: $primary-color;
-    secondaryColor: $secondary-color;
-    grey2: $grey-2;
-}
+$default-font-size: 1.6rem;
+
+$default-font-family:
+Roboto,
+-apple-system,
+BlinkMacSystemFont,
+Segoe UI,
+Oxygen,
+Ubuntu,
+Cantarell,
+Fira Sans,
+Droid Sans,
+Helvetica Neue,
+sans-serif;
+
+// FEEDBACK
+$color-error: rgb(235, 20, 20);
+$color-warning: rgb(235, 120, 20);
+$color-success: rgb(20, 235, 20);
+$color-info: rgb(200, 200, 200);
+
+// SIZES
+$size-icon-large: 3.2rem;
+$size-icon-normal: 2.6rem;
+$size-icon-small: 1.8rem;
+
+$size-large: 2.5rem;
+$size-normal: 2rem;
+$size-small: 1.5rem;
+
+// CARDS
+$card-shadow:  0rem 0rem 0.6rem 0.1rem rgba($black, 0.25);

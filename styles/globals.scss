@@ -2,6 +2,10 @@
   font-family: "Default-Font";
   src: url("../public/Bahiana-Regular.otf");
 }
+@font-face {
+  font-family: "Tiki-Font";
+  src: url("../public/TradeWinds-Regular.otf");
+}
 
 *,
 *::after,
@@ -26,22 +30,10 @@ html {
   }
 
   font-family: $default-font-family;
-
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-
-    @include respond(phone) {
-      display: initial;
-    }
-  }
 }
 
 body {
   font-size: $default-font-size;
-  background-color: $background-color;
 
   box-sizing: border-box;
 

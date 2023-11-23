@@ -10,7 +10,7 @@ const CustomHead: NextPage<Props> = (props: Props) => {
 
     return (
         <Head>
-            <title>{`${props.title? `${props.title} - ` : ''} Örli Försztivál | Agárd Hungary`}</title>
+            <title>{`${props.title? `${props.title} - ` : ''} Örli Försztivál 2024 Contact`}</title>
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"></meta>
         </Head>
     );

@@ -3,10 +3,10 @@ import "@/styles/globals.scss";
 import type { AppProps } from "next/app";
 import style from "@/styles/global.module.scss";
 import React from "react";
-import TranslateProvider from "@/hooks/TranslateProvider";
-import CustomHead from "@/comp/CustomHead";
+import TranslateProvider from "@/hooks/translate/TranslateProvider";
+import CustomHead from "@/components/CustomHead";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const OrliWeb = ({ Component, pageProps }: AppProps) => {
 
 
   return (
@@ -20,4 +20,4 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   );
 }
 
-export default MyApp;
+export default OrliWeb;

@@ -5,28 +5,5 @@
     min-height: 100vh;
     min-width: 100vw;
     background-color: $black;
-    background-size: 100%;
     z-index: -10;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-
-    /*
-    background-image: url("../public/main_x2.jpg");
-    background-image: image-set(
-        url("../public/main_x1.webp") type("image/webp") 1x,
-        url("../public/main_x2.webp") type("image/webp") 2x,
-        url("../public/main_x1.jpg") type("image/jpeg") 1x,
-        url("../public/main_x2.jpg") type("image/jpeg") 2x,
-    );
-
-    @include respond(tiny-desktop) {
-        background-image: url("../public/main_phone_x2.jpg");
-        background-image: image-set(
-            url("../public/main_phone_x1.webp") type("image/webp") 1x,
-            url("../public/main_phone_x2.webp") type("image/webp") 2x,
-            url("../public/main_phone_x1.jpg") type("image/jpeg") 1x,
-            url("../public/main_phone_x2.jpg") type("image/jpeg") 2x,
-        );
-    }
-    */
 }
