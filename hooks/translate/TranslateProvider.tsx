@@ -35,7 +35,6 @@ const TranslateProvider: NextPage<Props> = ({ children }: Props) => {
   }
 
   useEffect(() => {
-    if (localStorage.getItem("lang")) localStorage.setItem("lang", currLang)
     setSelectedLang(Languages[currLang])
   }, [currLang])
 
@@ -44,7 +43,7 @@ const TranslateProvider: NextPage<Props> = ({ children }: Props) => {
     if (didInit) return
     didInit = true
     const storedLang = localStorage.getItem("lang")
-    if (storedLang) setCurrLang(storedLang as LanguagesType);
+    if (storedLang) changeLang(storedLang as LanguagesType);
     else {
       const lang: string = navigator.language;
       const langNew: string = lang.slice(0, 2);
