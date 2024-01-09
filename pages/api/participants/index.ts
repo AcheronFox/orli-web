@@ -41,7 +41,7 @@ export default async function handler(
                 resolve(true);
             });
         }).catch(() => {
-            sendResponse(500, {message: "Unknown Error", e_code: "part_2"}); 
+            sendResponse(500, {message: "Unknown Error", e_code: "part_2"});
         });
     }
 
