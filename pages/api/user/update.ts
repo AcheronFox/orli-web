@@ -65,7 +65,7 @@ export default async function handler(
                             Object.keys(data).forEach(k => {
                                 (typeof data[k] == 'string') ? (data[k] = data[k].trim()) : {};
                             });
-                            connection.query(mysql.format(`UPDATE user SET ? WHERE AccountKey = '${tokenPayload.accountKey}'`, [data]), async (err) => {
+                            connection.query(mysql.format(`UPDATE user SET ? WHERE AccountKey = ?`, [data, tokenPayload.accountKey]), async (err) => {
                                 if (err) {
                                     console.log("ERROR: ", err);
                                     sendResponse(500, { message: "Insertion Failed.", e_code: "upd_3" });
@@ -90,7 +90,7 @@ export default async function handler(
                             Object.keys(data).forEach(k => {
                                 (typeof data[k] == 'string') ? (data[k] = data[k].trim()) : {};
                             });
-                            connection.query(mysql.format(`UPDATE account SET ? WHERE AccountKey = '${tokenPayload.accountKey}'`, [data]), async (err) => {
+                            connection.query(mysql.format(`UPDATE account SET ? WHERE AccountKey = ?`, [data, tokenPayload.accountKey]), async (err) => {
                                 if (err) {
                                     console.log("ERROR: ", err);
                                     sendResponse(500, { message: "Insertion Failed.", e_code: "upd_5" });

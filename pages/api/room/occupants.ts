@@ -34,7 +34,7 @@ export default async function handler(
                 LEFT JOIN room ON user.AccountKey = room.adminKey
                 LEFT JOIN ticket ON user.AccountKey = ticket.AccountKey
                 LEFT JOIN account ON user.AccountKey = account.AccountKey
-                WHERE accomodation.roomId IS NOT NULL
+                WHERE accomodation.roomId IS NOT NULL;
                 `
 
                 database.query(query, async (err: any, result: IOccupantRaw[]) => {
@@ -57,7 +57,7 @@ export default async function handler(
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT * FROM room
+                SELECT * FROM room;
                 `
 
                 database.query(query, async (err: any, result: IRoom[]) => {

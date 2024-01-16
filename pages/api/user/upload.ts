@@ -97,10 +97,10 @@ export default async function handler(
                         const query = 
                         `
                         UPDATE user SET picture = '${filePath}'
-                        WHERE AccountKey = '${tokenPayload.accountKey}'
+                        WHERE AccountKey = ?
                         `
         
-                        database.query(query, async (err: any, result: any) => {
+                        database.query(query, [tokenPayload.accountKey], async (err: any, result: any) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "upload_2"}); 
