@@ -78,7 +78,7 @@ export default async function handler(
 
         if (await query() && await getRooms()) {
             let result: IOccupant[] = response.map((item) => {
-                const isAdmin = item.adminKey? true : false
+                const isAdmin = !!item.adminKey
                 return {...item, isRoomAdmin: isAdmin, adminKey: undefined}
             })
 

@@ -18,7 +18,7 @@ import { deleteCookie, getCookie } from "cookies-next";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
-    process.env.TEMP_LOGIN_STATE?.toLowerCase() == "enabled" ? false : true
+    process.env.TEMP_LOGIN_STATE?.toLowerCase() != "enabled"
   );
   const [username, setUsername] = useState<string>("");
   const [pass, setPass] = useState<string>("");

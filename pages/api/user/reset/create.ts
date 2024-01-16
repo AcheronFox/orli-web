@@ -1,14 +1,13 @@
-import { IUser } from '@/models/user.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type {NextApiRequest, NextApiResponse} from 'next'
 import database from '@/utils/mysql'
 import isMethodAllowed from '@/utils/isMethodAllowed';
 import crypto from "crypto";
-import { IAccount } from '@/models/account.model';
+import {IAccount} from '@/models/account.model';
 import * as mysql from "mysql";
-import { findTemplate, sendMail } from '@/utils/mail-controller';
+import {findTemplate, sendMail} from '@/utils/mail-controller';
 import handlebars from "handlebars";
-import { getAccountByEmail, getUserByAccountKey } from '@/utils/getData';
+import {getAccountByEmail, getUserByAccountKey} from '@/utils/getData';
 
 
 export default async function handler(
@@ -99,8 +98,7 @@ export default async function handler(
                     fursonaName: user.fursonaName,
                     resetURL: `${process.env.DOMAIN_ROOT}reset?token=${token}`,
                 };
-                const htmlToSend = template(replacements);
-                props.mail = htmlToSend
+                props.mail = template(replacements)
 
                 await sendMail({...props, address: account.email}, (err: string, result: string) => {
                     if (err) {

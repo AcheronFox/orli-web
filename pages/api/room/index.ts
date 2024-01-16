@@ -44,7 +44,7 @@ export default async function handler(
 
         if (await query()) {
             let finalData: IRoom[] = response.map((item) => {
-                const hasPin = item.roomPin ? true : false
+                const hasPin = !!item.roomPin
                 return {...item, hasRoomPin: hasPin, roomPin: undefined, adminKey: undefined}
             })
 

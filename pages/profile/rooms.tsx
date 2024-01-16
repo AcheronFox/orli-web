@@ -431,10 +431,10 @@ const Rooms: NextPage<Props> = (props: Props) => {
                     }
                   </span>
                 </div>
-                { (overlayData.isFursuiter == true || overlayData.sponsorLevel && parseInt(overlayData.sponsorLevel) > 0) &&
+                { (overlayData.isFursuiter || overlayData.sponsorLevel && parseInt(overlayData.sponsorLevel) > 0) &&
                   <div className={styles.Modal__Header__Badges}>
                     {
-                      (overlayData.isFursuiter == true) &&
+                      overlayData.isFursuiter &&
                       <Tippy className={styles.Tooltip} content={t("partSuiter")}>
                           <span>
                               <FursuiterIcon style={{"fill": "#F741D5"}} />
@@ -522,7 +522,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
                       />
                     </span>
                     {
-                      (shouldLock == true) &&
+                      shouldLock &&
                       <span>
                         <Input
                           id={"inp-2"}

@@ -6,12 +6,7 @@ import { getAccountByKey } from '@/utils/getData';
 import verifyToken from '@/utils/veryifToken';
 
 const isAdminAccount = async (account: IAccount) => {
-    if (account.isAdmin) {
-        return true
-    }
-    else {
-        return false
-    }
+    return account.isAdmin;
 }
 
 export default async function handler(
