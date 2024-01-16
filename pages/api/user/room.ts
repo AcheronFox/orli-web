@@ -30,11 +30,11 @@ export default async function handler(
                 `
                 SELECT room.id, room.building, room.roomNumber, room.size, room.customName, room.roomPin FROM room
                 LEFT OUTER JOIN accomodation ON accomodation.roomId = room.id
-                WHERE accomodation.AccountKey = '${tokenPayload.accountKey}'
-                LIMIT 1
+                WHERE accomodation.AccountKey = ?
+                LIMIT 1;
                 `
 
-                database.query(query, async (err: any, result: IRoomRaw[]) => {
+                database.query(query, [tokenPayload.accountKey],async (err: any, result: IRoomRaw[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "u_room_1"}); 
@@ -56,10 +56,10 @@ export default async function handler(
                 COUNT(accomodation.roomId)
                 AS count
                 FROM accomodation
-                WHERE accomodation.roomId = ${id}
+                WHERE accomodation.roomId = ?;
                 `
 
-                database.query(query, async (err: any, result: {count: number}[]) => {
+                database.query(query, [id], async (err: any, result: {count: number}[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "u_room_3"}); 

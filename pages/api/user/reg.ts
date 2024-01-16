@@ -98,7 +98,7 @@ export default async function handler(
         // ====================================================
         const hasAccountConflict = async () => {
             return new Promise(async (resolve) => {
-                database.query(`SELECT * FROM account WHERE email = '${req.body.email.toLowerCase().trim()}' OR AccountKey = '${newAccountKey}'`, async (err: any, result: string | any[]) => {
+                database.query(`SELECT * FROM account WHERE email = ? OR AccountKey = ?`, [req.body.email.toLowerCase().trim(), newAccountKey],async (err: any, result: string | any[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "reg_1"});
@@ -128,7 +128,7 @@ export default async function handler(
         }
         const hasUserConflict = async () => {
             return new Promise(async (resolve) => {
-                database.query(`SELECT * FROM user WHERE UserKey = '${newUserKey}'`, async (err: any, result: string | any[]) => {
+                database.query(`SELECT * FROM user WHERE UserKey = ?`, [newUserKey],async (err: any, result: string | any[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "reg_5"});

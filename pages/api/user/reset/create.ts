@@ -32,10 +32,10 @@ export default async function handler(
                 const query = 
                 `
                 DELETE FROM password_reset_tokens
-                WHERE AccountKey = '${account.AccountKey}'
+                WHERE AccountKey = ?;
                 `
     
-                database.query(query, async (err: any, result: IAccount[]) => {
+                database.query(query, [account.AccountKey], async (err: any, result: IAccount[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "resCreate_1"}); 

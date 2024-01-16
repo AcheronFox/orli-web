@@ -73,11 +73,11 @@ export default async function handler(
                 const query = 
                 `
                 SELECT * FROM ticket
-                WHERE AccountKey = '${tokenPayload.accountKey}'
-                LIMIT 1
+                WHERE AccountKey = ?
+                LIMIT 1;
                 `
 
-                database.query(query, async (err: any, result: any) => {
+                database.query(query, [tokenPayload.accountKey],async (err: any, result: any) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "tcrt_1"}); 
@@ -178,7 +178,7 @@ export default async function handler(
                             const updateAccount = async (data: string) => {
                                 return new Promise<boolean>(async (resolve) => {
                                     
-                                    connection.query(`UPDATE account SET TicketKey = '${data}' WHERE AccountKey = '${tokenPayload.accountKey}'`, (err: any) => {
+                                    connection.query(`UPDATE account SET TicketKey = ? WHERE AccountKey = ?;`, [data, tokenPayload.accountKey], (err: any) => {
                                         if (err) {
                                             console.log("ERROR: ", err);
                                             rollback(connection);

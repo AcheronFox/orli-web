@@ -31,11 +31,11 @@ export default async function handler(
                 FROM account
                 INNER JOIN user ON account.AccountKey = user.AccountKey
                 LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey
-                WHERE account.AccountKey = '${tokenPayload.accountKey}'
-                LIMIT 1
+                WHERE account.AccountKey = ?
+                LIMIT 1;
                 `
 
-                database.query(query, async (err: any, result: IUser[]) => {
+                database.query(query, [tokenPayload.accountKey],async (err: any, result: IUser[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "me_1"}); 

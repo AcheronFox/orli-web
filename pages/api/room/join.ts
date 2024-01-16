@@ -56,10 +56,10 @@ export default async function handler(
                 return new Promise<undefined | IRoomRaw>(async (resolve) => {
                     const query = 
                     `
-                    SELECT * FROM room WHERE id = ${req.body.roomId}
+                    SELECT * FROM room WHERE id = ?;
                     `
 
-                    database.query(query, async (err: any, result: IRoomRaw[]) => {
+                    database.query(query, [req.body.roomId], async (err: any, result: IRoomRaw[]) => {
                         if (err) {
                             console.log("ERROR: ", err);
                             sendResponse(500, {message: "Unknown Error", e_code: "room_join_1"}); 
@@ -79,10 +79,10 @@ export default async function handler(
                 return new Promise<undefined | IAccomodationRaw[]>(async (resolve) => {
                     const query = 
                     `
-                    SELECT * FROM accomodation WHERE roomId = ${req.body.roomId}
+                    SELECT * FROM accomodation WHERE roomId = ?;
                     `
 
-                    database.query(query, async (err: any, result: IAccomodationRaw[]) => {
+                    database.query(query, [req.body.roomId],async (err: any, result: IAccomodationRaw[]) => {
                         if (err) {
                             console.log("ERROR: ", err);
                             sendResponse(500, {message: "Unknown Error", e_code: "room_join_3"}); 
@@ -138,10 +138,10 @@ export default async function handler(
                                     return new Promise<boolean>(async (resolve) => {
                                         const query = 
                                         `
-                                        DELETE FROM accomodation WHERE AccountKey = '${tokenPayload.accountKey}'
+                                        DELETE FROM accomodation WHERE AccountKey = ?;
                                         `
 
-                                        connection.query(query, (err: any) => {
+                                        connection.query(query, [tokenPayload.accountKey],(err: any) => {
                                             if (err) {
                                                 console.log("ERROR: ", err);
                                                 rollback(connection);
@@ -160,10 +160,10 @@ export default async function handler(
                                     return new Promise<boolean>(async (resolve) => {
                                         const query = 
                                         `
-                                        SELECT * FROM room WHERE adminKey = '${tokenPayload.accountKey}'
+                                        SELECT * FROM room WHERE adminKey = ?;
                                         `
 
-                                        connection.query(query, (err: any, room: any[]) => {
+                                        connection.query(query, [tokenPayload.accountKey], (err: any, room: any[]) => {
                                             if (err) {
                                                 console.log("ERROR: ", err);
                                                 rollback(connection);
@@ -174,10 +174,10 @@ export default async function handler(
                                             else if (room.length) {  
                                                 const query = 
                                                 `
-                                                SELECT * FROM accomodation WHERE roomId = ${room[0].id} ORDER BY creationDate ASC
+                                                SELECT * FROM accomodation WHERE roomId = ? ORDER BY creationDate ASC;
                                                 `
 
-                                                connection.query(query, async (err: any, accomodations: IAccomodationRaw[]) => {
+                                                connection.query(query, [room[0].id], async (err: any, accomodations: IAccomodationRaw[]) => {
                                                     if (err) {
                                                         console.log("ERROR: ", err);
                                                         rollback(connection);
@@ -248,7 +248,7 @@ export default async function handler(
                                             }
                                         })
 
-                                        connection.query(mysql.format(`UPDATE room SET ? WHERE id = ${id}`, [data]), (err: any) => {
+                                        connection.query(mysql.format(`UPDATE room SET ? WHERE id = ?;`, [data, id]), (err: any) => {
                                             if (err) {
                                                 console.log("ERROR: ", err);
                                                 rollback(connection);
@@ -266,7 +266,7 @@ export default async function handler(
                                 const updateAccount = async (data: string) => {
                                     return new Promise<boolean>(async (resolve) => {
                                         
-                                        connection.query(`UPDATE account SET AccomodationKey = '${data}' WHERE AccountKey = '${tokenPayload.accountKey}'`, (err: any) => {
+                                        connection.query(`UPDATE account SET AccomodationKey = ? WHERE AccountKey = ?;`, [data, tokenPayload.accountKey], (err: any) => {
                                             if (err) {
                                                 console.log("ERROR: ", err);
                                                 rollback(connection);
