@@ -139,11 +139,11 @@ export default async function handler(
                     let accountInsertionState: boolean = false;
                     if (!_.isEmpty(userPayload)) {
                         userInsertionState = await updateUserData(userPayload);
-                        if (userInsertionState == false) return mainResolve(false);
+                        if (!userInsertionState) return mainResolve(false);
                     }
                     if (!_.isEmpty(accountPayload)) {
                         accountInsertionState = await updateAccountData(accountPayload);
-                        if (accountInsertionState == false) return mainResolve(false);
+                        if (!accountInsertionState) return mainResolve(false);
                     }
 
                     if ((!_.isEmpty(userPayload) && userInsertionState) ||

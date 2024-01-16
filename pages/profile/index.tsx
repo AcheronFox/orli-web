@@ -382,10 +382,10 @@ const Profile: NextPage<Props> = (props: Props) => {
                     {user.fursonaSpecies}
                   </h3>
                 </div>
-                { (user.isFursuiter == true || user.sponsorLevel && user.sponsorLevel > 0) &&
+                { (user.isFursuiter || user.sponsorLevel && user.sponsorLevel > 0) &&
                   <div className={styles.Profile__Header__Badges}>
                     {
-                      (user.isFursuiter == true) &&
+                      user.isFursuiter &&
                       <Tippy className={styles.Tooltip} content={t("partSuiter")}>
                           <span>
                               <FursuiterIcon style={{"fill": "#F741D5"}} />

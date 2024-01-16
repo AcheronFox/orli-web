@@ -32,10 +32,10 @@ export default async function handler(
                     return new Promise<any | undefined>(async (resolve) => {
                         const query = 
                         `
-                        SELECT * FROM account WHERE account.id = ${userId}
+                        SELECT * FROM account WHERE account.id = ?;
                         `
 
-                        database.query(query, async (err: any, result: any[]) => {
+                        database.query(query, [userId], async (err: any, result: any[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "admin_search_usr_2"}); 
@@ -57,10 +57,10 @@ export default async function handler(
                     return new Promise<any | undefined>(async (resolve) => {
                         const query = 
                         `
-                        SELECT * FROM user WHERE user.AccountKey = '${key}'
+                        SELECT * FROM user WHERE user.AccountKey = ?;
                         `
 
-                        database.query(query, async (err: any, result: any[]) => {
+                        database.query(query, [key], async (err: any, result: any[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "admin_search_usr_4"}); 
@@ -76,10 +76,10 @@ export default async function handler(
                     return new Promise<any | undefined>(async (resolve) => {
                         const query = 
                         `
-                        SELECT * FROM ticket WHERE ticket.AccountKey = '${key}'
+                        SELECT * FROM ticket WHERE ticket.AccountKey = ?;
                         `
 
-                        database.query(query, async (err: any, result: any[]) => {
+                        database.query(query, [key], async (err: any, result: any[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "admin_search_usr_5"}); 
@@ -95,10 +95,10 @@ export default async function handler(
                     return new Promise<any | undefined>(async (resolve) => {
                         const query = 
                         `
-                        SELECT * FROM accomodation WHERE accomodation.AccountKey = '${key}'
+                        SELECT * FROM accomodation WHERE accomodation.AccountKey = ?;
                         `
 
-                        database.query(query, async (err: any, result: any[]) => {
+                        database.query(query, [key],async (err: any, result: any[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "admin_search_usr_6"}); 

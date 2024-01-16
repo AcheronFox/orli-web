@@ -97,7 +97,7 @@ export default async function handler(
                         const query = 
                         `
                         UPDATE user SET picture = '${filePath}'
-                        WHERE AccountKey = ?
+                        WHERE AccountKey = ?;
                         `
         
                         database.query(query, [tokenPayload.accountKey], async (err: any, result: any) => {

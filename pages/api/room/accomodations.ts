@@ -25,7 +25,7 @@ export default async function handler(
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT id, roomId FROM accomodation
+                SELECT id, roomId FROM accomodation;
                 `
 
                 database.query(query, async (err: any, result: IAccomodation[]) => {

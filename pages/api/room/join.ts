@@ -15,8 +15,8 @@ import { getTicketByAccountKey } from '@/utils/getData';
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
-    const dateWithOffest = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-    return dateWithOffest
+    const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+    return dateWithOffset
         .toISOString()
         .slice(0, 19)
         .replace('T', ' ')
@@ -36,17 +36,11 @@ export default async function handler(
     }
 
     const isJoinForm = (x: any): x is IJoinForm => {
-        if (typeof x.roomId === 'number') {
-                return true
-            }
-        else return false
+        return typeof x.roomId === 'number';
     }
 
     const isValidForm = (x: IJoinForm) => {
-        if (x.roomId != undefined) {
-                return true
-            }
-        else return false
+        return x.roomId != undefined;
     }
 
     if (tokenPayload) {

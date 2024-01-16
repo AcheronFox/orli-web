@@ -25,7 +25,7 @@ export default async function handler(
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT * FROM room
+                SELECT * FROM room;
                 `
 
                 database.query(query, async (err: any, result: IRoom[]) => {

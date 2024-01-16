@@ -57,7 +57,7 @@ const Staff: NextPage<Props> = (props: Props) => {
           (false) &&
           <div className={styles.Staff__Footer}>
             <Section title={t("staffVolunteers")}>
-            
+
             </Section>
           </div>
         }
@@ -65,5 +65,5 @@ const Staff: NextPage<Props> = (props: Props) => {
     </>
   )
 }
-
+// INFO: What does the above code do? Starting from (false)
 export default Staff;

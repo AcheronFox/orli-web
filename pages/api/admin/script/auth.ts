@@ -23,7 +23,7 @@ export default async function handler(
             const isValid = await bcrypt.compare(req.body.password.trim(), account.password)
 
             if (isValid) {
-                if (account.isAdmin == false) {
+                if (!account.isAdmin) {
                     sendResponse(401, { message: `Unauthorized`, e_code: "auth_script_1" });
                     resolve();
                 }

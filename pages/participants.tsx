@@ -52,7 +52,7 @@ const calculateIndex = (index: number, listLength: number, size: any) => {
   }
 
   if (size.width <= parseInt(styles.phone)) {
-    fromIndex = index * 1;
+    fromIndex = index;
     toIndex = Math.min(fromIndex + 1, listLength);
   }
   return {fromIndex, toIndex}
@@ -67,8 +67,8 @@ const Row = ({index, setSize, windowWidth, participants, size}: any) => {
   for (let i = fromIndex; i < toIndex; i++) {
     items.push(
       <ParticipantCard key={i} name={participants[i].fursonaName} species={participants[i].fursonaSpecies} nationality={participants[i].nationality}
-      isFursuiter={participants[i].isFursuiter? true : false} isSponsor={parseInt(participants[i].sponsorLevel) > 0} picture={participants[i].picture}
-      isSuperSponsor={parseInt(participants[i].sponsorLevel) == 2}></ParticipantCard>
+                       isFursuiter={!!participants[i].isFursuiter} isSponsor={parseInt(participants[i].sponsorLevel) > 0} picture={participants[i].picture}
+                       isSuperSponsor={parseInt(participants[i].sponsorLevel) == 2}></ParticipantCard>
     )
   }
 
@@ -224,7 +224,7 @@ const Participants: NextPage<Props> = (props: Props) => {
     .then((res) => {
       setParticipants(res.data)
       setParticipantCount(res.data.length)
-      setSuiterCount(res.data.filter((o) => o.isFursuiter == true).length)
+      setSuiterCount(res.data.filter((o) => o.isFursuiter).length)
     })
     .catch((err) => {return})
     .finally(() => setIsLoading(false))
