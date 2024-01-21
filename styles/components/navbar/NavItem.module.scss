@@ -12,6 +12,8 @@
   overflow: hidden;
   text-align: center;
   text-transform: capitalize;
+  font-family: $styled-font-family;
+  font-size: $styled-font-size;
 
   &__Default {
     height: 100%;
