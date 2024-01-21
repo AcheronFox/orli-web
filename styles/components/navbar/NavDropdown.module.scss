@@ -4,6 +4,8 @@
   background: none;
   text-align: center;
   text-transform: capitalize;
+  font-family: $styled-font-family;
+  font-size: $styled-font-size;
 
   @include navItemHighlight();
   @include navItemBackground();

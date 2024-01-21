@@ -12,6 +12,7 @@ import IconButton from "../button/IconButton";
 import { useRouter } from "next/router";
 import useTranslate from "@/hooks/translate/useTranslate";
 import ReactCountryFlag from "react-country-flag";
+import { useWindowSize } from "usehooks-ts";
 
 interface Props {
     brandImageSrc: string
@@ -31,13 +32,14 @@ const Navbar = ({
     const [isVisible, setIsVisible] = useState<boolean>(false)
     const navbar = (typeof window !== 'undefined')? document.getElementById('navbar') : null
     const itemsRef = useRef<any>(null)
+    const size = useWindowSize()
 
     const navbarHeight = useMemo<number>(() => {
         if (!navbar) return 0
         else {
             return navbar.clientHeight
         }
-    }, [navbar, isMobile])
+    }, [navbar, size])
 
     const layout = useMemo<INavLayout[]>(() => {
         if (customLayout) return customLayout
