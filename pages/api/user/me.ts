@@ -1,9 +1,9 @@
 import { IUser } from '@/models/user.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import verifyToken from '@/utils/veryifToken';
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import database from '@/functions/utils/mysql'
+import verifyToken from '@/functions/auth/veryifToken';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 
 
 export default async function handler(

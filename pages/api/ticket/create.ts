@@ -2,19 +2,19 @@ import { getAccountByKey, getUserByAccountKey } from '@/utils/getData';
 import { TicketDatabase } from './../../../models/database.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import verifyToken from '@/utils/veryifToken';
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import database from '@/functions/utils/mysql'
+import verifyToken from '@/functions/auth/veryifToken';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import * as mysql from "mysql";
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import { getPrices } from '../defaults/ticket/prices';
-import { findTemplate, sendMail } from '@/utils/mail-controller';
+import { findTemplate, sendMail } from '@/functions/mail/mail-controller';
 import handlebars from 'handlebars';
-import i18n from '@/root/i18n';
+import i18n from '@/i18n';
 import { getEarlyBirdExpDate, getStartDate } from '../defaults/ticket';
 import { IFood } from '@/models/food.model';
-import createDatePatternFromDate from "@/root/functions/createDatePattern";
+import createDatePatternFromDate from "@/functions/utils/createDatePattern";
 import { ticketDates } from '../defaults/ticket/date';
 import { ticketLimitQuery } from './limits';
 import { ITicketForm } from '@/models/ticket-form.model';

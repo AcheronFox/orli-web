@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey } from '@/utils/getData';
-import verifyToken from '@/utils/veryifToken';
+import verifyToken from '@/functions/auth/veryifToken';
 import { isAdminAccount } from '../auth';
-import database from '@/utils/mysql';
+import database from '@/functions/utils/mysql';
 
 
 export default async function handler(

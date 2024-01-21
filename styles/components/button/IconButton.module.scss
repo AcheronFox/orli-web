@@ -1,0 +1,72 @@
+.IconButton {
+    background: none;
+    position: relative;
+    width: max-content;
+    height: max-content;
+    border-radius: .3rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: filter linear .25s;
+
+    &__Disabled {
+        pointer-events: none;
+    }
+
+    &__Tooltip {
+        position: absolute;
+        top: 0;
+        font-size: 1.6rem;
+        color: $white;
+        padding: .5rem .8rem;
+        border-radius: .5rem;
+        box-shadow: 0 1rem 1rem .1rem rgba($black, 0.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        left: 50%;
+        transform: translate(-50%);
+
+        &::before {
+            position: absolute;
+            content: "";
+            height: .8rem;
+            width: .8rem;
+            background: inherit;
+            bottom: -.3rem;
+            left: 50%;
+            transform: translate(-50%) rotate(45deg);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @include respond(phone) {
+            top: -4.5rem;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+    }
+
+    &__Icon {
+        position: relative;
+        padding: .5rem;
+        margin: .5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    &:hover, &:focus-visible {
+        filter: brightness(1.2);
+    }
+
+    &:hover &, &:focus-visible & {
+        &__Tooltip {
+            top: -4.5rem;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+    }
+}

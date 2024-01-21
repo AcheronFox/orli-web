@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { IRegistrationForm } from '@/models/registration-form.model';
-import database from '@/utils/mysql'
+import database from '@/functions/utils/mysql'
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import * as mysql from "mysql";
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import { regDates } from '../defaults/registration';
 
 const toSqlDatetime = (inputDate: Date) => {

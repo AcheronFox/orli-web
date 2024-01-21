@@ -5,7 +5,7 @@ import { VariableSizeList as List } from "react-window";
 import SecondaryButton from "./SecondaryButton";
 import Input from "./Input";
 import styles from "@/styles/components/FilterableDropDown.module.scss";
-import UseWindowDimensions from "@/hooks/useWindowDimensions";
+import UseWindowDimensions from "@/hooks/utils/useWindowDimensions";
 import { RiArrowRightSLine } from "react-icons/ri"
 
 type Props = {

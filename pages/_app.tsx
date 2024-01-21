@@ -1,22 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "@/styles/globals.scss";
 import type { AppProps } from "next/app";
-import Navbar from "@/comp/SideNav";
+import Navbar from "@/comp/navbar/Navbar";
 import { useEffect, useState } from "react";
 import styles from "@/styles/LoginTemp.module.scss";
 import style from "@/styles/global.module.scss";
 import crypto from "crypto";
 import React from "react";
-import axiosInstance from "@/utils/axiosConfig";
-import TranslateProvider from "@/hooks/TranslateProvider";
-import CustomScrollBar from "@/comp/Scrollbar";
-import FloatingMessageWrapper from "@/hooks/FloatingMessageWrapper";
+import axiosInstance from "@/functions/utils/axiosConfig";
 import Footer from "@/comp/Footer";
-import AuthProvider from "@/hooks/AuthProvider";
 import CustomHead from "@/comp/CustomHead";
 import { deleteCookie, getCookie } from "cookies-next";
+import MainProvider from "@/hooks/MainProvider";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const Orli = ({ Component, pageProps }: AppProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
     process.env.TEMP_LOGIN_STATE?.toLowerCase() != "enabled"
   );
@@ -99,21 +96,19 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   if (loggedIn) {
     return (
-      <CustomScrollBar>
-        <TranslateProvider>
-          <FloatingMessageWrapper>
-            <AuthProvider>
-              <>
-                <Navbar></Navbar>
-                <CustomHead></CustomHead>
-                <div className={style.BG__Img}></div>
-                <Component {...pageProps} />
-                <Footer />
-              </>
-            </AuthProvider>
-          </FloatingMessageWrapper>
-        </TranslateProvider>
-      </CustomScrollBar>
+      <MainProvider>
+        <>
+          <Navbar
+            brandImageSrc={"/logo.png"}
+          >
+
+          </Navbar>
+          <CustomHead></CustomHead>
+          <div className={style.BG__Img}></div>
+          <Component {...pageProps} />
+          <Footer />
+        </>
+      </MainProvider>
     );
   } else {
     return (
@@ -157,4 +152,4 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }
 }
 
-export default MyApp;
+export default Orli;

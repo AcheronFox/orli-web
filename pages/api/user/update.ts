@@ -1,12 +1,12 @@
-import { generateCookies } from '@/utils/token-handler';
+import { generateCookies } from '@/functions/auth/token-handler';
 import * as mysql from "mysql";
-import database from '@/utils/mysql';
-import verifyToken from '@/utils/veryifToken'
+import database from '@/functions/utils/mysql';
+import verifyToken from '@/functions/auth/veryifToken'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from "@/utils/isMethodAllowed";
+import isMethodAllowed from "@/functions/auth/isMethodAllowed";
 import { SafeAccountDatabase, SafeUserDatabase } from "@/models/database.model";
 import _ from 'lodash';
-import resetPassword from "@/utils/password-handler";
+import resetPassword from "@/functions/auth/password-handler";
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)

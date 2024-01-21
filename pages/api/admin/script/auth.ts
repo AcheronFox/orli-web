@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as bcrypt from 'bcrypt';
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
-import { generateJWT } from '@/utils/token-handler';
+import { generateJWT } from '@/functions/auth/token-handler';
 import { IAccount } from '@/models/account.model';
 import { getAccountByEmail } from '@/utils/getData';
 import * as jwt from 'jsonwebtoken';

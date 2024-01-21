@@ -1,9 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import { verifyScript } from '@/utils/veryifToken';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import { verifyScript } from '@/functions/auth/veryifToken';
 import { IFood } from '@/models/food.model';
-import i18n from '@/root/i18n';
+import i18n from '@/i18n';
 
 
 export default async function handler(

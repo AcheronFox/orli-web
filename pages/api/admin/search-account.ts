@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey } from '@/utils/getData';
-import verifyToken from '@/utils/veryifToken';
+import verifyToken from '@/functions/auth/veryifToken';
 import { isAdminAccount } from './auth';
-import database from '@/utils/mysql';
-import { AccomodationDatabase, DatabaseSuperClass, RoomDatabase, SafeAccountDatabase, TicketDatabase, UserDatabase } from '@/models/database.model';
+import database from '@/functions/utils/mysql';
+import { AccomodationDatabase, SafeAccountDatabase, TicketDatabase, UserDatabase } from '@/models/database.model';
 import generatePayload from '@/utils/generatePayload';
 
 

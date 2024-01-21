@@ -7,7 +7,7 @@ import PrimaryButton from "./PrimaryButton";
 import { IOccupant } from "@/models/occupant.model";
 import AdminIcon from "./svg/AdminIcon";
 import Tippy from "@tippyjs/react";
-import { useIsOverflow } from "@/hooks/useIsOverflow";
+import { useIsOverflow } from "@/hooks/utils/useIsOverflow";
 import { IRoom } from "@/models/room.model";
 import { useUser } from "@/hooks/useUser";
 

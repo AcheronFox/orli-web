@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/components/navbar/NavDropDown.module.scss";
-import useWindowDimensions from "@/hooks/useWindowDimensions";
+import useWindowDimensions from "@/hooks/utils/useWindowDimensions";
 import { useUser } from "@/hooks/useUser";
 
 type Props = {

@@ -1,9 +1,9 @@
 import { IRoomRaw } from '@/models/room.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import verifyToken from '@/utils/veryifToken';
+import database from '@/root/functions/utils/mysql'
+import isMethodAllowed from '@/root/functions/auth/isMethodAllowed';
+import verifyToken from '@/root/functions/auth/veryifToken';
 import { IJoinForm } from '@/models/join-form.model';
 import { IAccomodationRaw } from '@/models/accomodation.model';
 import * as mysql from "mysql";

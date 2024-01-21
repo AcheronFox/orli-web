@@ -2,7 +2,7 @@
 import { NextPage } from "next";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/components/CustomBackground.module.scss"
-import UseWindowDimensions from "@/hooks/useWindowDimensions";
+import UseWindowDimensions from "@/hooks/utils/useWindowDimensions";
 
 type Props = {
     numberOfParticles?: number

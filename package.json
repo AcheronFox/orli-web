@@ -71,6 +71,7 @@
     "tsx": "^4.7.0",
     "typescript": "5.3.3",
     "unique-string": "^3.0.0",
+    "usehooks-ts": "^2.9.5",
     "uuid": "^9.0.0",
     "webpack": "^5.12.0",
     "webpack-subresource-integrity": "^5.2.0-rc.1"

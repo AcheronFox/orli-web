@@ -1,8 +1,8 @@
-import resetPassword from '@/utils/password-handler';
+import resetPassword from '@/functions/auth/password-handler';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import { IPasswordResetToken } from '@/models/password-reset-token.model';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey } from '@/utils/getData';

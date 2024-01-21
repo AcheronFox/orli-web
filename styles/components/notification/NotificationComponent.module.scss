@@ -1,0 +1,63 @@
+.Notification {
+    width: 20em;
+    height: fit-content;
+    background-color: $background-color;
+    box-shadow: 0 0px 4px 2px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin: 10px;
+    padding: 5px;
+    padding-bottom: 10px;
+
+    position: relative;
+    overflow: hidden;
+
+    &.slideIn {
+        animation: slideIn 175ms linear;
+    }
+
+    &.slideOut {
+        animation: slideOut 175ms linear;
+    }
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0px;
+        height: 4px;
+        background-color: $default-red;
+        animation: counter var(--duration) linear;
+    }
+
+    &__Divider {
+        margin: 0;
+        color: lighten($background-color, 10%);
+    }
+
+    &__Description {
+        color: $white;
+    }
+
+    &__Title {
+        font-size: 1.3em;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        &__Close {
+            cursor: pointer;
+            color: $white;
+        }
+
+        &.ErrorType {
+            color: $color-error;
+        }
+
+        &.NotificationType {
+            color: $color-info;
+        }
+
+        &.SuccessType {
+            color: $color-success;
+        }
+    }
+}

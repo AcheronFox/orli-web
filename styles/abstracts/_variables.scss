@@ -2,7 +2,7 @@
 $styled-font-size: 3.0rem;
 
 $styled-font-family:
-Default-Font,
+Styled-Font,
 -apple-system,
 BlinkMacSystemFont,
 Segoe UI,
@@ -39,6 +39,7 @@ $smallPhone: 410;
 
 // COLORS
 $black: #000000;
+$grey-0: #121212;
 $grey-1: #181818;
 $grey-2: #272727;
 $grey-3: #3a3a3a;
@@ -49,27 +50,36 @@ $grey-7: #cccccc;
 $grey-8: #e6e6e6;
 $white: #ffffff;
 
-$default-red: #ff0000;
-$default-green: #00ff00;
-$default-blue: #0000ff;
+$color-red: #ff0000;
+$color-green: #00ff00;
+$color-blue: #0000ff;
 
-$primary-color: #F741D5;
-$secondary-color: #0BBFFC;
+$color-primary: #ffae00;
+$color-secondary: #9a0d8b;
+$color-tertiary: #ffff00;
 
 // SITE
-$background-color: #181818;
+$background-color: $grey-1;
 
-// FLOATING MESSAGE
-$default-error: #ff0000;
-$default-success: #00ff00;
-$default-info: #ffffff;
+//NAVBAR
+$nav-item-line: $color-primary;
+$nav-linear-gradient-color-1: rgba($black,1);
+$nav-linear-gradient-color-2: transparent;
 
-:export {
-    smallPhone: $smallPhone;
-    phone: $phone;
-    tinyDesktop: $tiny-desktop;
-    smallDesktop: $small-desktop;
-    primaryColor: $primary-color;
-    secondaryColor: $secondary-color;
-    grey2: $grey-2;
-}
+// FEEDBACK
+$color-error: #ff0000;
+$color-success: #00ff00;
+$color-info: #ffffff;
+$color-warning: #eb7814;
+
+// SIZES
+$size-icon-large: 3.2rem;
+$size-icon-normal: 2.6rem;
+$size-icon-small: 1.8rem;
+
+$size-large: 2.5rem;
+$size-normal: 2rem;
+$size-small: 1.5rem;
+
+// CARDS
+$card-shadow:  0rem 0rem 0.6rem 0.1rem rgba($black, 0.25);
