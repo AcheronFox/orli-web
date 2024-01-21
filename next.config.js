@@ -61,7 +61,7 @@ const nextConfig = {
     API_SECRET: process.env.API_SECRET,
     TEMP_LOGIN_STATE: process.env.TEMP_LOGIN_STATE
   },
-  experimental: { transpilePackages: ['ol', 'rlayers'] },
+  transpilePackages: ['ol', 'rlayers']
 }
 
 module.exports = nextConfig;
