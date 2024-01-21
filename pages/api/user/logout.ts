@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { destroy } from '@/utils/token-handler';
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import { destroy } from '@/functions/auth/token-handler';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 
 export default async function handler(
     req: NextApiRequest,

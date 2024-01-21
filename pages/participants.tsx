@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import UseWindowDimensions from "@/hooks/useWindowDimensions";
+import UseWindowDimensions from "@/hooks/utils/useWindowDimensions";
 import { IParticipant } from "@/models/participant.model";
 import styles from "@/styles/pages/Participants.module.scss"
-import axiosInstance from "@/utils/axiosConfig";
+import axiosInstance from "@/functions/utils/axiosConfig";
 import { NextPage } from "next";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { VariableSizeList as List } from "react-window";
@@ -22,7 +22,7 @@ import { Bar } from 'react-chartjs-2';
 import { useTranslate } from "@/hooks/useTranslate";
 import { INationalityCount } from "@/models/nationality-count.model";
 import LoadingOverlay from "@/comp/LoadingOverlay";
-import getNationality from "functions/getNationality";
+import getNationality from "@/functions/utils/getNationality";
 import CustomHead from "@/comp/CustomHead";
 
 ChartJS.register(

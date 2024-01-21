@@ -1,7 +1,7 @@
 import type { NextApiResponse } from 'next'
 import * as jwt from 'jsonwebtoken';
 import fs from 'fs'
-import { getAccountByKey } from './getData';
+import { getAccountByKey } from '../../utils/getData';
 
 const publicKey = fs.readFileSync('private/public.key', 'utf8');
 const privateKey = fs.readFileSync('private/private.key', 'utf8');

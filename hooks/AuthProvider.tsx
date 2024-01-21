@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { IUser } from '@/models/user.model';
-import axiosInstance from '@/utils/axiosConfig';
+import axiosInstance from '@/functions/utils/axiosConfig';
 import { getCookie } from 'cookies-next';
 import { NextPage } from 'next';
 import { useEffect, useState } from 'react';

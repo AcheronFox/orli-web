@@ -1,7 +1,7 @@
 
 import * as bcrypt from "bcrypt"
 import { v4 as uuidv4 } from 'uuid';
-import database from '@/utils/mysql'
+import database from '@/root/functions/utils/mysql'
 
 const hasLowerCase = (str: string) => {
     return str.toUpperCase() != str;

@@ -1,14 +1,10 @@
 import CustomHead from "@/comp/CustomHead";
 import LinkButton from "@/comp/LinkButton";
-import LoadingOverlay from "@/comp/LoadingOverlay";
 import PriceCard from "@/comp/PriceCard"
 import Section from "@/comp/Section";
 import { useTranslate } from "@/hooks/useTranslate";
-import { IPrices } from "@/models/prices.model";
 import styles from "@/styles/pages/Prices.module.scss"
-import axiosInstance from "@/utils/axiosConfig";
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
 
 type Props = {}
 

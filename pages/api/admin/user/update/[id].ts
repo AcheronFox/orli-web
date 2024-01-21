@@ -1,16 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey, getUserByAccountKey } from '@/utils/getData';
-import verifyToken from '@/utils/veryifToken';
-import database from '@/utils/mysql';
+import verifyToken from '@/functions/auth/veryifToken';
+import database from '@/functions/utils/mysql';
 import { isAdminAccount } from '../../auth';
 import { AccomodationDatabase, SafeAccountDatabase, SafeUserDatabase, TicketDatabase } from '@/models/database.model';
 import * as mysql from "mysql";
 import { IAccomodationRaw } from '@/models/accomodation.model';
 import handlebars from 'handlebars';
-import { findTemplate, sendMail } from '@/utils/mail-controller';
+import { findTemplate, sendMail } from '@/functions/mail/mail-controller';
 import { v4 as uuidv4 } from 'uuid';
 import { IRoomRaw } from '@/models/room.model';
 

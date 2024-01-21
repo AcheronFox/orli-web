@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { auth, authScript } from './token-handler';
 import { isValidUUIDV4 } from 'is-valid-uuid-v4';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { IToken } from '@/models/token.model';
 
 
 const verifyTokenPayload = (token: string) => {
     try {
-        const payload: IToken = jwt_decode(token);
+        const payload: IToken = jwtDecode(token);
         const isValid = isValidUUIDV4(payload.accountKey)
 
         if (isValid) return payload;

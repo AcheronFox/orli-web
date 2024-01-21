@@ -54,7 +54,7 @@
             border-style: solid;
             border-color: $white;
 
-            border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
+            border-image: linear-gradient(90deg, $color-primary, $color-secondary) 20 stretch;
 
             @include respond(phone) {
                 width: 100%;

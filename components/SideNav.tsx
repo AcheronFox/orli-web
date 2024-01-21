@@ -13,7 +13,7 @@ import ReactCountryFlag from "react-country-flag"
 
 import { SingletonRouter, withRouter } from "next/router";
 import Link from "next/link";
-import useWindowDimensions from "@/hooks/useWindowDimensions";
+import useWindowDimensions from "@/hooks/utils/useWindowDimensions";
 import { useUser } from "@/hooks/useUser";
 
 type Props = {

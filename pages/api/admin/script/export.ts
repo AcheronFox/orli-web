@@ -1,9 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import { authAdmin } from '@/utils/token-handler';
-import { verifyScript } from '@/utils/veryifToken';
-import database from '@/utils/mysql';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import { authAdmin } from '@/functions/auth/token-handler';
+import { verifyScript } from '@/functions/auth/veryifToken';
+import database from '@/functions/utils/mysql';
 import { json2csv } from 'json-2-csv';
 
 export default async function handler(

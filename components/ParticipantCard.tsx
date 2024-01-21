@@ -9,7 +9,7 @@ import 'tippy.js/dist/tippy.css';
 import SponsorIcon from "./svg/SponsorIcon";
 import ReactCountryFlag from "react-country-flag";
 import getNationality from "functions/getNationality";
-import { useIsOverflow } from "@/hooks/useIsOverflow";
+import { useIsOverflow } from "@/hooks/utils/useIsOverflow";
 
 type Props = {
     name: string;

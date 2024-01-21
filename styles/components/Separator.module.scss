@@ -50,12 +50,12 @@
 
   &__Left {
     left: .5%;
-    background: linear-gradient(270deg, $primary-color, $secondary-color);
+    background: linear-gradient(270deg, $color-primary, $color-secondary);
   }
 
   &__Right {
     right: .5%;
-    background: linear-gradient(90deg, $primary-color, $secondary-color);
+    background: linear-gradient(90deg, $color-primary, $color-secondary);
   }
 
   &__Center {
@@ -63,7 +63,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: $primary-color;
+    color: $color-primary;
     filter: drop-shadow(0 .5rem .2rem rgba($black, .8));
 
     span {

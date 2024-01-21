@@ -1,9 +1,9 @@
-import { IRoom, IRoomRaw, IRoomStructure } from '@/models/room.model';
+import { IRoom, IRoomRaw } from '@/models/room.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import verifyToken from '@/utils/veryifToken';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import verifyToken from '@/functions/auth/veryifToken';
 
 /*
 FIX THIS SHIT

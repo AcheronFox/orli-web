@@ -1,0 +1,36 @@
+@keyframes ripple{
+    to {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes counter {
+    from {
+        width: 100%;
+        margin-left: 0%;
+    }
+    to {
+        width: 0%;
+        
+        margin-left: 100%;
+    }
+}

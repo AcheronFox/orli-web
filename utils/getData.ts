@@ -1,6 +1,6 @@
 import { IAccount } from "@/models/account.model";
 import { IUser } from "@/models/user.model";
-import database from './mysql';
+import database from '../functions/utils/mysql';
 import { TicketDatabase } from "@/models/database.model";
 
 const getAccountByEmail = async (email: string) => {

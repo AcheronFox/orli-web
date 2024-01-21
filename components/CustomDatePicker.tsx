@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/components/DatePicker.module.scss";
-import { RiCalendar2Fill, RiCloseFill } from "react-icons/ri";
+import { RiCalendar2Fill } from "react-icons/ri";
 import Calendar from 'react-calendar';
 import { useTranslate } from "@/hooks/useTranslate";
 import Input from "./Input";
 import SecondaryButton from "./SecondaryButton";
-import { useClickOutside } from "@/hooks/useClickOutside";
+import { useClickOutside } from "@/hooks/utils/useClickOutside";
 
 type Props = {
   id?: string;
