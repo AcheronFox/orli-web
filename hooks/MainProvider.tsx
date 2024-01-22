@@ -1,7 +1,7 @@
 import CustomScrollBar from "@/comp/Scrollbar"
-import AuthProvider from "./AuthProvider"
 import FloatingMessageWrapper from "./FloatingMessageWrapper"
 import TranslateProvider from "./translate/TranslateProvider"
+import UserProvider from "./user/UserProvider"
 
 interface Props {
     children: React.ReactNode
@@ -12,9 +12,9 @@ const MainProvider = ({children}: Props) => {
         <CustomScrollBar>
             <TranslateProvider>
                 <FloatingMessageWrapper>
-                    <AuthProvider>
+                    <UserProvider>
                         {children}
-                    </AuthProvider>
+                    </UserProvider>
                 </FloatingMessageWrapper>
             </TranslateProvider>
         </CustomScrollBar>

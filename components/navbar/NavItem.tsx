@@ -16,6 +16,7 @@ interface Props {
   icon?: React.ReactElement<IconType>
   iconPlacement?: 'left' | 'right' | 'both'
   click?: () => void 
+  onClick?: () => void
 }
 
 interface ContentProps {
@@ -79,6 +80,7 @@ const NavItem = ({
     icon,
     iconPlacement = 'left',
     click,
+    onClick,
   }: Props) => {
   const currentPath = useRouter();
   const [isActive, setIsActive] = useState<boolean>(false);
@@ -100,6 +102,9 @@ const NavItem = ({
         <Link
           href={linkTo}
           target={target}
+          onClick={() => {
+            onClick? onClick() : undefined;
+          }}
         >
           <NavContent
             isActive={isActive}
@@ -113,7 +118,10 @@ const NavItem = ({
           </NavContent>
         </Link>
         :
-        <a onClick={click? ()=>click() : undefined }>
+        <a onClick={() => {
+          click? click() : undefined;
+          onClick? onClick() : undefined;
+        }}>
           <NavContent
             isActive={isActive}
             className={className}

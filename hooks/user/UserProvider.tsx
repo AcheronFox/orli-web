@@ -4,13 +4,13 @@ import axiosInstance from '@/functions/utils/axiosConfig';
 import { getCookie } from 'cookies-next';
 import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import { AuthContext } from './AuthContext';
+import { UserContext } from './UserContext';
 
 type Props = {
     children?: React.ReactNode;
 };
 
-const AuthProvider: NextPage<Props> = ({ children }: Props) => {
+const UserProvider: NextPage<Props> = ({ children }: Props) => {
     const [user, setLocalUser] = useState<IUser | null>(null)
     const [didUserInit, setDidUserInit] = useState<boolean>(false)
     let didInit = false
@@ -51,7 +51,7 @@ const AuthProvider: NextPage<Props> = ({ children }: Props) => {
     };
 
     return (
-        <AuthContext.Provider value={{
+        <UserContext.Provider value={{
             user,
             didUserInit,
             setUser: (v: IUser | null) => {
@@ -62,8 +62,8 @@ const AuthProvider: NextPage<Props> = ({ children }: Props) => {
             }
         }}>
             {children}
-        </AuthContext.Provider>
+        </UserContext.Provider>
     );
 };
 
-export default AuthProvider;
+export default UserProvider;

@@ -1,18 +1,18 @@
 import { IUser } from '@/models/user.model';
-import axiosInstance from '@/utils/axiosConfig';
+import axiosInstance from '@/functions/utils/axiosConfig';
 import { useContext } from 'react';
-import { AuthContext } from './AuthContext';
+import { UserContext } from './UserContext';
 import Router, { useRouter } from 'next/router';
 import { ILoginForm } from '@/models/login-form.model';
-import { useTranslate } from './useTranslate';
-import { FloatingMessageContext } from './FloatingMessageContext';
+import useTranslate from '@/hooks/translate/useTranslate';
+import { FloatingMessageContext } from '../FloatingMessageContext';
 import { IUpdateForm } from '@/models/update.model';
 import { IResetForm } from '@/models/reset-form.model';
 import { IResetAuthForm } from '@/models/reset-auth-form.model';
 
 export const useUser = () => {
-    const { user, setUser, didUserInit, setDidUserInit } = useContext(AuthContext);
-    const { t } = useTranslate()
+    const { user, setUser, didUserInit, setDidUserInit } = useContext(UserContext);
+    const { lang } = useTranslate()
     const { AddFloatingMessage } = useContext(FloatingMessageContext);
     const router = useRouter();
     
@@ -50,7 +50,7 @@ export const useUser = () => {
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("loginErrNotFound"),
+                            message: lang.errLoginNotFound,
                         });
                         break;
                     case 401:
@@ -58,14 +58,14 @@ export const useUser = () => {
                             AddFloatingMessage({
                                 autocloses: true,
                                 type: "Error",
-                                message: t("loginUnverifiedErr"),
+                                message: lang.errLoginUnverified,
                             });
                             break;
                         } else {
                             AddFloatingMessage({
                                 autocloses: true,
                                 type: "Error",
-                                message: t("loginPassErr"),
+                                message: lang.errLoginPass,
                             });
                             break;
                         }
@@ -73,14 +73,14 @@ export const useUser = () => {
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("errBadRequest"),
+                            message: lang.errBadRequest,
                         });
                         break;
                     default:
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("errDefault"),
+                            message: lang.errDefault,
                         });
                         break;
                 }
@@ -88,7 +88,7 @@ export const useUser = () => {
                 AddFloatingMessage({
                     autocloses: true,
                     type: "Error",
-                    message: t("errDefault"),
+                    message: lang.errDefault,
                 });
             }
         })
@@ -112,7 +112,7 @@ export const useUser = () => {
                 AddFloatingMessage({
                     autocloses: true,
                     type: "Success",
-                    message: t("profSuccess"),
+                    message: lang.profSuccess,
                 });
                 return
             }
@@ -124,14 +124,14 @@ export const useUser = () => {
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("errBadRequest"),
+                            message: lang.errBadRequest,
                         });
                         break;
                     default:
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("errDefault"),
+                            message: lang.errDefault,
                         });
                         break;
                 }
@@ -139,7 +139,7 @@ export const useUser = () => {
                 AddFloatingMessage({
                     autocloses: true,
                     type: "Error",
-                    message: t("errDefault"),
+                    message: lang.errDefault,
                 });
             }
         })
@@ -156,7 +156,7 @@ export const useUser = () => {
             AddFloatingMessage({
                 autocloses: true,
                 type: "Success",
-                message: t("resetEmailSent"),
+                message: lang.resetEmailSent,
             });
         })
         .catch((err) => {
@@ -166,21 +166,21 @@ export const useUser = () => {
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("resetErrNotFound"),
+                            message: lang.errResetNotFound,
                         });
                         break;
                     case 400:
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("errBadRequest"),
+                            message: lang.errBadRequest,
                         });
                         break;
                     default:
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("errDefault"),
+                            message: lang.errDefault,
                         });
                         break;
                 }
@@ -188,7 +188,7 @@ export const useUser = () => {
                 AddFloatingMessage({
                     autocloses: true,
                     type: "Error",
-                    message: t("errDefault"),
+                    message: lang.errDefault,
                 });
             }
         })
@@ -205,7 +205,7 @@ export const useUser = () => {
             AddFloatingMessage({
                 autocloses: true,
                 type: "Success",
-                message: t("resetSuccess"),
+                message: lang.resetSuccess,
             });
         })
         .catch((err) => {
@@ -216,21 +216,21 @@ export const useUser = () => {
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("resetTokenErr"),
+                            message: lang.errResetToken,
                         });
                         break;
                     case 400:
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("errBadRequest"),
+                            message: lang.errBadRequest,
                         });
                         break;
                     default:
                         AddFloatingMessage({
                             autocloses: true,
                             type: "Error",
-                            message: t("errDefault"),
+                            message: lang.errDefault,
                         });
                         break;
                 }
@@ -238,7 +238,7 @@ export const useUser = () => {
                 AddFloatingMessage({
                     autocloses: true,
                     type: "Error",
-                    message: t("errDefault"),
+                    message: lang.errDefault,
                 });
             }
         })
