@@ -17,6 +17,7 @@ type Props = {
     color?: 'error' | 'warning' | 'success' | 'info' | 'primary' | 'secondary' | 'tertiary'
     customColor?: Color
     disabled?: boolean
+    tooltipColor?: 'white' | 'black'
 }
 const IconButton: NextPage<Props> = ({
     children,
@@ -28,6 +29,7 @@ const IconButton: NextPage<Props> = ({
     color = 'primary',
     customColor,
     disabled,
+    tooltipColor = "white",
 }: Props) =>{
     const [buttonColor, setButtonColor] = useState<Color>()
     const [icon, setIcon] = useState<React.ReactElement<IconType>>()
@@ -98,62 +100,80 @@ const IconButton: NextPage<Props> = ({
 
     if (link) {
         return (
-            <Link
-                ref={buttonRef}
-                href={link}
-                target={target}
-                onClick={onClick}
+            <div
                 className={`
                     ${styles.IconButton}
-                    ${disabled? styles.IconButton__Disabled : ''}
                 `}
             >
                 {
                     (tooltip != undefined) &&
                     <span
                         className={styles.IconButton__Tooltip}
-                        style={{background: buttonColor?.hex()}}
+                        style={{
+                            background: buttonColor?.hex(),
+                            color: tooltipColor
+                        }}
                     >
                         {tooltip}
                     </span>
                 }
-                <span
-                    style={{color: buttonColor?.hex()}}
-                    className={styles.IconButton__Icon}
+                <Link
+                    ref={buttonRef}
+                    href={link}
+                    target={target}
+                    onClick={onClick}
+                    className={`
+                        ${styles.IconButton__Button}
+                        ${disabled? styles.IconButton__Disabled : ''}
+                    `}
                 >
-                    {icon}
-                </span>
-                {ripples}
-            </Link>
+                    <span
+                        style={{color: buttonColor?.hex()}}
+                        className={styles.IconButton__Icon}
+                    >
+                        {icon}
+                    </span>
+                    {ripples}
+                </Link>
+            </div>
         );
     }
     else {
         return (
-            <button
-                ref={buttonRef}
-                onClick={onClick}
+            <div
                 className={`
                     ${styles.IconButton}
-                    ${disabled? styles.IconButton__Disabled : ''}
                 `}
             >
                 {
                     (tooltip != undefined) &&
                     <span
                         className={styles.IconButton__Tooltip}
-                        style={{background: buttonColor?.hex()}}
+                        style={{
+                            background: buttonColor?.hex(),
+                            color: tooltipColor
+                        }}
                     >
                         {tooltip}
                     </span>
                 }
-                <span
-                    style={{color: buttonColor?.hex()}}
-                    className={styles.IconButton__Icon}
+                <button
+                    ref={buttonRef}
+                    onClick={onClick}
+                    className={`
+                        ${styles.IconButton__Button}
+                        ${disabled? styles.IconButton__Disabled : ''}
+                    `}
                 >
-                    {icon}
-                </span>
-                {ripples}
-            </button>
+                    <span
+                        style={{color: buttonColor?.hex()}}
+                        className={styles.IconButton__Icon}
+                    >
+                        {icon}
+                    </span>
+                    {ripples}
+                </button>
+            </div>
         );
     }
 }

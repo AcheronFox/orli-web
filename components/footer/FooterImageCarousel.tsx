@@ -2,7 +2,7 @@
 import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import styles from "styles/components/footer/FooterImageCarousel.module.scss";
-import Picture from "./Picture";
+import Picture from "./../Picture";
 import Link from "next/link";
 
 type CarouselImage = {

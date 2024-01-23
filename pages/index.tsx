@@ -3,6 +3,8 @@ import { NextPage } from "next";
 import Separator from "@/comp/Separator";
 import { RiArrowDropDownLine } from "react-icons/ri"
 import useTranslate from "@/hooks/translate/useTranslate";
+import Button from "@/comp/button/Button";
+import ButtonGroup from "@/comp/button/ButtonGroup";
 
 type Props = {}
 
@@ -38,6 +40,17 @@ const Home: NextPage<Props> = (props: Props) => {
           </span>
           
           <div className={styles.Home__Btn}>
+            <ButtonGroup>
+              <Button onClick={() => console.log('a')}>
+                Test
+              </Button>
+              <Button variant="outlined" onClick={() => console.log('a')}>
+                Test
+              </Button>
+              <Button variant="text" onClick={() => console.log('a')}>
+                Test
+              </Button>
+            </ButtonGroup>
           {
             /*
                         <PrimaryButton text={lang.homeReg} link="/registration"></PrimaryButton>

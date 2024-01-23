@@ -42,7 +42,6 @@ const NavContent = ({
   const itemRef = useRef<HTMLDivElement>(null)
   const ripples = useRipple(itemRef)
 
-
   return (
     <div
       ref={itemRef}

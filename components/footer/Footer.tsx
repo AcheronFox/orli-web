@@ -2,8 +2,9 @@ import { NextPage } from 'next'
 import React from 'react'
 import styles from "styles/components/footer/Footer.module.scss"
 import FooterImageCarousel from './FooterImageCarousel'
-import { RiQuestionLine, RiMailLine, RiInformationLine, RiFileList3Line, RiDatabase2Line, RiFacebookCircleLine, RiTelegramLine, RiDiscussLine, RiNotification2Line } from "react-icons/ri";
+import { RiQuestionLine, RiMailLine, RiInformationLine, RiFileList3Line, RiDatabase2Line, RiFacebookCircleLine, RiTelegramLine, RiDiscussLine, RiNotification2Line, RiTelegramFill } from "react-icons/ri";
 import useTranslate from '@/hooks/translate/useTranslate';
+import IconButton from '../button/IconButton';
 
 type Props = {}
 
@@ -46,13 +47,30 @@ const Footer: NextPage<Props> = (props: Props) => {
                         <h3>{lang.footerFind}</h3>
                     </div>
                     <div className={styles.Footer__Item__Find}>
-                        {
-                            /*
-                            <SocialMediaButton link='https://www.facebook.com/events/2502630689892634/' icon={<RiFacebookCircleLine />} label={lang.footerFacebook}/>
-                        <SocialMediaButton link='https://t.me/orliforstivalHU' icon={<RiTelegramLine />} icon2={<RiDiscussLine />} label={lang.footerTelegramChat}/>
-                        <SocialMediaButton link='https://t.me/orliforsztival' icon={<RiTelegramLine />} icon2={<RiNotification2Line />} label={lang.footerTelegramAnnounce}/>
-                            */
-                        }
+                        <IconButton
+                            size='large'
+                            link='https://www.facebook.com/events/2502630689892634/'
+                            tooltip={lang.footerFacebook}
+                            tooltipColor='black'
+                        >
+                            <RiFacebookCircleLine />
+                        </IconButton>
+                        <IconButton
+                            size='large'
+                            link='https://t.me/orliforstivalHU'
+                            tooltip={lang.footerTelegramChat}
+                            tooltipColor='black'
+                        >
+                            <RiTelegramFill />
+                        </IconButton>
+                        <IconButton
+                            size='large'
+                            link='https://t.me/orliforsztival'
+                            tooltip={lang.footerTelegramAnnounce}
+                            tooltipColor='black'
+                        >
+                            <RiTelegramLine />
+                        </IconButton>
                     </div>
                 </div>
             </div>

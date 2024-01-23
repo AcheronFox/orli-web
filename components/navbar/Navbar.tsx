@@ -6,7 +6,7 @@ import NavItem from "./NavItem";
 import Link from "next/link";
 import NavDropdown from "./NavDropdown";
 import INavLayout from "@/models/navbar/navLayout.model";
-import { RiAccountBoxLine, RiAdminLine, RiCamera3Line, RiClipboardLine, RiCloseFill, RiFileList2Line, RiFilePaper2Line, RiHome2Line, RiInformationLine, RiLoginBoxLine, RiLogoutBoxLine, RiMapLine, RiMapPin2Line, RiMenu3Line, RiPriceTag3Line, RiProfileLine, RiQuestionLine, RiTicket2Line, RiUser2Line, RiUserAddLine } from "react-icons/ri";
+import { RiAccountBoxLine, RiAdminLine, RiBarChart2Line, RiCamera3Line, RiClipboardLine, RiCloseFill, RiFileList2Line, RiFilePaper2Line, RiHome2Line, RiInformationLine, RiLoginBoxLine, RiLogoutBoxLine, RiMapLine, RiMapPin2Line, RiMenu3Line, RiPriceTag3Line, RiProfileLine, RiQuestionLine, RiTicket2Line, RiUser2Line, RiUserAddLine } from "react-icons/ri";
 import useIsMobile from "@/hooks/utils/useIsMobile";
 import IconButton from "../button/IconButton";
 import { useRouter } from "next/router";
@@ -81,16 +81,22 @@ const Navbar = ({
                             icon: <RiPriceTag3Line />,
                         },
                         {
-                            title: lang.navStaff,
-                            link: '/staff',
-                            iconPlacement: "right",
-                            icon: <RiUser2Line />,
-                        },
-                        {
                             title: lang.navParticipants,
                             link: '/participants',
                             iconPlacement: "right",
                             icon: <RiFileList2Line />,
+                        },
+                        {
+                            title: lang.navStatistics,
+                            link: '/statistics',
+                            iconPlacement: "right",
+                            icon: <RiBarChart2Line />,
+                        },
+                        {
+                            title: lang.navStaff,
+                            link: '/staff',
+                            iconPlacement: "right",
+                            icon: <RiUser2Line />,
                         }
                     ]
                 },
@@ -224,7 +230,7 @@ const Navbar = ({
             if (!isMobile) {
                 layout.push(
                     {
-                        title: <ReactCountryFlag countryCode={ currLang == "hu"? "gb" : "hu" } svg />,
+                        title: <ReactCountryFlag style={{height: "2.2rem", width: "2.2rem"}} countryCode={ currLang == "hu"? "gb" : "hu" } svg />,
                         align: 'right',
                         click: () => {changeLang(currLang == "hu"? "en" : "hu")},
                     }
@@ -309,7 +315,7 @@ const Navbar = ({
                             color="info"
                         >
                             <>
-                                <ReactCountryFlag style={{height: "2.8rem"}} countryCode={ currLang == "hu"? "gb" : "hu" } svg />
+                                <ReactCountryFlag style={{height: "2.2rem", width: "2.2rem"}} countryCode={ currLang == "hu"? "gb" : "hu" } svg />
                             </>
                         </IconButton>
                         <IconButton
