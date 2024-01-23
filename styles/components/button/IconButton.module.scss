@@ -1,15 +1,24 @@
 .IconButton {
-    background: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    width: max-content;
-    height: max-content;
-    border-radius: .3rem;
-    overflow: hidden;
-    cursor: pointer;
-    transition: filter linear .25s;
 
     &__Disabled {
         pointer-events: none;
+    }
+
+    &__Button {
+        display: inline-block;
+        overflow: hidden;
+        background: none;
+        border-radius: .3rem;
+        cursor: pointer;
+        transition: filter linear .25s;
+
+        &:hover, &:focus-visible {
+            filter: brightness(1.2);
+        }
     }
 
     &__Tooltip {
@@ -55,10 +64,6 @@
         align-items: center;
         flex-direction: column;
         transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    }
-
-    &:hover, &:focus-visible {
-        filter: brightness(1.2);
     }
 
     &:hover &, &:focus-visible & {
