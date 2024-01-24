@@ -1,6 +1,5 @@
 .Home {
     position: relative;
-    min-height: 100vh;
     height: 100%;
     width: 90%;
     margin: auto;
@@ -8,6 +7,46 @@
     justify-content: center;
     align-items: flex-end;
 
+
+    &__Scroll {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 12rem;
+        animation: seperatorIcon 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite alternate;
+        color: $color-primary;
+        cursor: pointer;
+        transition: filter .2s;
+        
+        @include respond(phone) {
+            width: 8rem;
+        }
+
+        @include respond(big-desktop) {
+            width: 14rem;
+        }
+
+        @include respond(4k-desktop) {
+            width: 16rem;
+        }
+
+        margin: 0 .5rem;
+
+        & > * {
+            width: 100%;
+            height: 100%;
+        }
+
+        &:hover, &:focus-visible {
+            color: $color-primary;
+            filter: brightness(1.25);
+        }
+
+        a:focus, a:active {
+            color: $color-primary;
+        }
+    }
 
     &__Title {
         @include TertiaryTitle;

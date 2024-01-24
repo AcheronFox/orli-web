@@ -1,10 +1,4 @@
-@keyframes ripple{
-    to {
-        transform: scale(2.5);
-        opacity: 0;
-    }
-}
-
+// NOTIFICATIONS
 @keyframes slideOut {
     from {
         transform: translateX(0%);
@@ -13,7 +7,6 @@
         transform: translateX(100%);
     }
 }
-
 @keyframes slideIn {
     from {
         transform: translateX(100%);
@@ -22,7 +15,6 @@
         transform: translateX(0%);
     }
 }
-
 @keyframes counter {
     from {
         width: 100%;
@@ -32,5 +24,28 @@
         width: 0%;
         
         margin-left: 100%;
+    }
+}
+
+// MISC
+@keyframes ripple {
+    to {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+@keyframes seperatorIcon {
+    from {
+        top: .4rem;
+        transform: scale(1.1);
+    }
+    25% {
+        top: -.4rem;
+        transform: scale(1.05);
+    }
+    40%, 100% {
+        top: 0rem;
+        transform: scale(1);
     }
 }

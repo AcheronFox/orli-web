@@ -2,12 +2,14 @@
 import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
 import styles from "styles/components/footer/FooterImageCarousel.module.scss";
-import Picture from "./../Picture";
+import Picture from "../utils/Picture";
 import Link from "next/link";
 
 type CarouselImage = {
   imgPath: string;
   link: string;
+  alt: string;
+  sizes: string;
 };
 
 type Props = {
@@ -75,7 +77,9 @@ const FooterImageCarousel: NextPage<Props> = ({
             <Picture
               defaultSrc={imgPaths[indexOfNextImage ?? 0].imgPath}
               className={`${styles.ImageCarousel__Image}`}
-            ></Picture>
+              alt={imgPaths[indexOfNextImage ?? 0].alt}
+              sizes={imgPaths[indexOfNextImage ?? 0].sizes}
+            />
           </div>
         </Link>
       </div>
@@ -84,6 +88,8 @@ const FooterImageCarousel: NextPage<Props> = ({
           <div>
             <Picture
               defaultSrc={imgPaths[indexOfShownImage].imgPath}
+              alt={imgPaths[indexOfShownImage].alt}
+              sizes={imgPaths[indexOfShownImage].sizes}
               className={styles.ImageCarousel__Image}
             ></Picture>
           </div>

@@ -3,6 +3,33 @@
     src: url("../public/custom.otf");
 }
 
+#root, #__next {
+    isolation: isolate;
+}
+
+#content-root {
+    display: flex;
+    flex-direction: column;
+    height: max-content;
+    padding: 0; 
+    margin: 0;
+    width: 100%;
+    min-height: 100vh;
+
+    #content {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        flex-grow: 1;
+    }
+}
+
+html, body {
+    height: 100%;
+    padding: 0; 
+    margin: 0;
+    width: 100%;
+}
 
 *,
 *::after,

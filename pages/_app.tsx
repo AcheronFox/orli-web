@@ -97,17 +97,17 @@ const Orli = ({ Component, pageProps }: AppProps) => {
   if (loggedIn) {
     return (
       <MainProvider>
-        <>
+        <main id="content-root">
           <Navbar
             brandImageSrc={"/logo.png"}
-          >
-
-          </Navbar>
-          <CustomHead></CustomHead>
-          <div className={style.BG__Img}></div>
-          <Component {...pageProps} />
+          />
+          <CustomHead />
+          <main id="content">
+            <div className={style.BG__Img}></div>
+            <Component {...pageProps} />
+          </main>
           <Footer />
-        </>
+        </main>
       </MainProvider>
     );
   } else {
