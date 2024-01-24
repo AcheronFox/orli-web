@@ -102,6 +102,7 @@
         }
         @include respond(phone) {
             padding-right: 0;
+            overflow: hidden;
             justify-content: flex-end;
             align-items: center;
         }

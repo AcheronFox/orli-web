@@ -1,10 +1,10 @@
 import styles from "@/styles/pages/Home.module.scss"
 import { NextPage } from "next";
-import Separator from "@/comp/Separator";
-import { RiArrowDropDownLine } from "react-icons/ri"
+import { RiArrowDownDoubleFill } from "react-icons/ri"
 import useTranslate from "@/hooks/translate/useTranslate";
 import Button from "@/comp/button/Button";
 import ButtonGroup from "@/comp/button/ButtonGroup";
+import Link from "next/link";
 
 type Props = {}
 
@@ -14,9 +14,11 @@ const Home: NextPage<Props> = (props: Props) => {
   return (
     <div>
       <section className={styles.Home}>
-        <Separator IconComp={<RiArrowDropDownLine />} text={lang.homeScroll}></Separator>
+        <Link className={styles.Home__Scroll} href="/#read_more">
+          <RiArrowDownDoubleFill />
+        </Link>
       </section>
-      <section className={styles.Home__Content}>
+      <section className={styles.Home__Content} id="read_more">
         <div className={styles.Home__Wrapper}>
           <span className={styles.Home__Title}>
             <h3>

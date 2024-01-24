@@ -177,16 +177,12 @@
 
     h3 {
         font-family: $styled-font-family;
-        font-size: calc($styled-font-size * 1);
-        background-image: linear-gradient(90deg, $color-primary, $color-secondary);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
+        font-size: $styled-font-size;
+        color: $color-secondary;
         letter-spacing: .2rem;
 
         word-wrap: break-word;
         hyphens: manual;
-
 
         @include respond(big-desktop) {
             font-size: calc($styled-font-size * 1.2);

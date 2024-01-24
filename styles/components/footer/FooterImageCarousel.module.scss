@@ -5,11 +5,11 @@
   overflow: hidden;
 
   @include respond(big-desktop) {
-    width: 21.333333333333333333333333333333rem;
+    width: 22rem;
     height: 12rem;
   }
   @include respond(4k-desktop) {
-    width: 24.888888888888888888888888888889rem;
+    width: 25rem;
     height: 14rem;
   }
 
@@ -21,11 +21,11 @@
     position: relative;
 
     @include respond(big-desktop) {
-      width: 21.333333333333333333333333333333rem;
+      width: 22rem;
       height: 12rem;
     }
     @include respond(4k-desktop) {
-      width: 24.888888888888888888888888888889rem;
+      width: 25rem;
       height: 14rem;
     }
   }

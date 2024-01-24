@@ -2,15 +2,17 @@ import { NextPage } from 'next'
 import React from 'react'
 import styles from "styles/components/footer/Footer.module.scss"
 import FooterImageCarousel from './FooterImageCarousel'
-import { RiQuestionLine, RiMailLine, RiInformationLine, RiFileList3Line, RiDatabase2Line, RiFacebookCircleLine, RiTelegramLine, RiDiscussLine, RiNotification2Line, RiTelegramFill } from "react-icons/ri";
+import { RiQuestionLine, RiMailLine, RiFileList3Line, RiDatabase2Line, RiFacebookCircleLine, RiTelegramLine, RiTelegramFill, RiExternalLinkLine } from "react-icons/ri";
 import useTranslate from '@/hooks/translate/useTranslate';
 import IconButton from '../button/IconButton';
+import ButtonGroup from '../button/ButtonGroup';
+import Button from '../button/Button';
 
 type Props = {}
 
 const Footer: NextPage<Props> = (props: Props) => {
     const { lang } = useTranslate();
-    
+
     return (
         <footer className={styles.Footer} id={"footer"}>
             <div className={styles.Footer__Item}>
@@ -23,7 +25,7 @@ const Footer: NextPage<Props> = (props: Props) => {
                         {lang.footerOrliText2}<br />
                         {lang.footerOrliText3}<br />
                         <span className={styles.Footer__Item__Orli__Copy}>
-                            Copyright &copy; F Terminal 2023    
+                            Copyright &copy; F Terminal 2024    
                         </span>
                     </div>
                 </div>
@@ -36,7 +38,14 @@ const Footer: NextPage<Props> = (props: Props) => {
                             <h3>{lang.footerPartners}</h3>
                         </div>
                         <div className={styles.Footer__Item__Partners}>
-                            <FooterImageCarousel lengthToSwitch={5} imgPaths={[{imgPath:"orli.png",link:"https://google.com"}, {imgPath:"test.jpg", link:"https://youtube.com"}, {imgPath:"test.png",link:"https://reddit.com"}]}></FooterImageCarousel>
+                            <FooterImageCarousel
+                                lengthToSwitch={5}
+                                imgPaths={[
+                                    {imgPath:"orli.png", link:"https://google.com", alt: "partner1", sizes: "(max-width: 125em) 22rem, (max-width: 187.5em) 25rem, 16rem"},
+                                    {imgPath:"test.jpg", link:"https://youtube.com", alt: "partner2", sizes: "(max-width: 125em) 22rem, (max-width: 187.5em) 25rem, 16rem"},
+                                    {imgPath:"test.png", link:"https://reddit.com", alt: "partner3", sizes: "(max-width: 125em) 22rem, (max-width: 187.5em) 25rem, 16rem"}]
+                                }
+                            />
                         </div>
                     </div>
                 </div>
@@ -81,13 +90,26 @@ const Footer: NextPage<Props> = (props: Props) => {
                         <h3>{lang.footerHelp}</h3>
                     </div>
                     <div className={styles.Footer__Item__Help}>
-                        {
-                            /*
-                                                    <LinkButton text={lang.footerFaq} link={"/faq"} icon={<RiQuestionLine />} isInternal={true}></LinkButton>
-                        <LinkButton text={lang.footerContact} link={"/contact"} icon={<RiMailLine />} isInternal={true}></LinkButton>
-
-                            */
-                        }
+                        <ButtonGroup
+                            orientation='vertical'
+                        >
+                            <Button
+                                link="/faq"
+                                variant='text'
+                                startIcon={<RiQuestionLine />}
+                                endIcon={<RiExternalLinkLine />}
+                            >
+                                {lang.footerFaq}
+                            </Button>
+                            <Button
+                                link="/contact"
+                                variant='text'
+                                startIcon={<RiMailLine />}
+                                endIcon={<RiExternalLinkLine />}
+                            >
+                                {lang.footerContact}
+                            </Button>
+                        </ButtonGroup>
                     </div>
                 </div>
             </div>
@@ -97,13 +119,26 @@ const Footer: NextPage<Props> = (props: Props) => {
                         <h3>{lang.footerLegal}</h3>
                     </div>
                     <div className={styles.Footer__Item__Legal}>
-                        {
-                            /*
-                        <LinkButton text={lang.footerRules} link={"/legal/rules"} icon={<RiFileList3Line />} isInternal={true}></LinkButton>
-                        <LinkButton text={lang.footerData} link={"/legal/data"} icon={<RiDatabase2Line />} isInternal={true}></LinkButton>
-
-                            */
-                        }
+                        <ButtonGroup
+                            orientation='vertical'
+                        >
+                            <Button
+                                link="/legal/rules"
+                                variant='text'
+                                startIcon={<RiFileList3Line />}
+                                endIcon={<RiExternalLinkLine />}
+                            >
+                                {lang.footerRules}
+                            </Button>
+                            <Button
+                                link="/legal/data"
+                                variant='text'
+                                startIcon={<RiDatabase2Line />}
+                                endIcon={<RiExternalLinkLine />}
+                            >
+                                {lang.footerData}
+                            </Button>
+                        </ButtonGroup>
                     </div>
                 </div>
             </div>
