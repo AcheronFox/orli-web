@@ -75,15 +75,17 @@ declare interface Language {
     faqIntro: string;
 
     // HOME
-    homeReg: string;
-    homeTitle1: string;
-    homeTitle2: string;
-    homeText1: string;
-    homeText2: string;
-    homeText3: string;
-    homeText4: string;
+    homeBtnReg: string;
+    homeBtnGallery: string;
+    homeBtnLocation: string;
+    homeNext: string;
+    homeLocation: string;
+    homeTheme: string;
+    homeThemeDesc1: string;
+    homeThemeDesc2: string;
+    homeAbout1: string;
+    homeAbout2: string;
     homeText5: string;
-    homeScroll: string;
 
     // LOCATION
     locMapOpen: string;

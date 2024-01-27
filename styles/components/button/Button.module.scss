@@ -12,6 +12,7 @@
     padding: .5rem 1rem;
     user-select: none;
     text-align: center;
+    font-size: $default-font-size !important;
 
     :not(:last-child) {
         margin-right: .5rem;
