@@ -1,8 +1,8 @@
 .Footer {
   font-size: $default-font-size;
   max-width: 100%;
-  background-color: $grey-2;
-  box-shadow: 0 -1rem 1rem rgba($black, .25);
+  background-color: $background-color;
+  box-shadow: 0 -.3rem .6rem .4rem rgba($black, .4);
   z-index: 9999;
   overflow: hidden;
 
@@ -30,7 +30,7 @@
     padding: .5rem 1rem 2rem 1rem;
 
     &:not(:last-child) {
-      border-right: .2rem solid $background-color;
+      border-right: .2rem solid $grey-0;
     }
 
     @include respond(tiny-desktop) {

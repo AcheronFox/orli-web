@@ -1,10 +1,11 @@
 import styles from "@/styles/pages/Home.module.scss"
 import { NextPage } from "next";
-import { RiArrowDownDoubleFill } from "react-icons/ri"
+import { RiArrowDownSLine, RiBrush2Line, RiQuestionLine } from "react-icons/ri"
 import useTranslate from "@/hooks/translate/useTranslate";
 import Button from "@/comp/button/Button";
 import ButtonGroup from "@/comp/button/ButtonGroup";
 import Link from "next/link";
+import TextCard from "@/comp/TextCard";
 
 type Props = {}
 
@@ -14,51 +15,61 @@ const Home: NextPage<Props> = (props: Props) => {
   return (
     <div>
       <section className={styles.Home}>
+        <div className={styles.Home__Title}>
+          <h3>Örli Försztivál</h3>
+        </div>
+        <div className={styles.Home__Location}>
+          {lang.homeLocation}
+        </div>
+        <div className={styles.Home__Date}>
+          2024.06.12.-16.
+        </div>
         <Link className={styles.Home__Scroll} href="/#read_more">
-          <RiArrowDownDoubleFill />
+          <RiArrowDownSLine />
         </Link>
       </section>
       <section className={styles.Home__Content} id="read_more">
         <div className={styles.Home__Wrapper}>
-          <span className={styles.Home__Title}>
-            <h3>
-              {lang.homeTitle1}
-            </h3>
-            <h3>
-              {lang.homeTitle2}
-            </h3>
-          </span><br /><br />
-          <span>
-            {lang.homeText1}<br />
-            {lang.homeText2}<br /><br />
-            {lang.homeText3}<br /><br />
-            {lang.homeText4}
-          </span><br /><br />
-          <div className={styles.Home__Center}>
-            <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/ZV7x83_KOIM/" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen={true}></iframe>
-          </div><br /><br />
-          <span>
-            {lang.homeText5}
-          </span>
-          
-          <div className={styles.Home__Btn}>
-            <ButtonGroup>
-              <Button onClick={() => console.log('a')}>
-                Test
-              </Button>
-              <Button variant="outlined" onClick={() => console.log('a')}>
-                Test
-              </Button>
-              <Button variant="text" onClick={() => console.log('a')}>
-                Test
-              </Button>
-            </ButtonGroup>
-          {
-            /*
-                        <PrimaryButton text={lang.homeReg} link="/registration"></PrimaryButton>
+          <div className={styles.Home__Wrapper__Row}>
+            <TextCard
+              title="Örli Försztivál"
+              icon={<RiQuestionLine />}
+              variant="simple"
+            >
+              {lang.homeAbout1}<br /><br />
+              {lang.homeAbout2}
+            </TextCard>
 
-            */
-          }
+            <TextCard
+              title={lang.homeTheme}
+              icon={<RiBrush2Line />}
+              variant="simple"
+            >
+              {lang.homeThemeDesc1}<br /><br />
+              {lang.homeThemeDesc2}
+            </TextCard>
+          </div>
+
+          <div className={styles.Home__Wrapper__Row}>
+            <TextCard
+              title={lang.homeNext}
+              variant="simple"
+            >
+              {lang.homeText5}
+              <div className={styles.Home__Btn}>
+                <ButtonGroup>
+                  <Button variant="outlined" link="/gallery">
+                    {lang.homeBtnGallery}
+                  </Button>
+                  <Button variant="contained" link="/registration">
+                    {lang.homeBtnReg}
+                  </Button>
+                  <Button variant="outlined" link="/location">
+                    {lang.homeBtnLocation}
+                  </Button>
+                </ButtonGroup>
+              </div>
+            </TextCard>
           </div>
         </div>
       </section>

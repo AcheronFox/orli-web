@@ -1,0 +1,74 @@
+.TextCard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: .5rem;
+
+    &_Contained {
+        border: .2rem solid $grey-0;
+        background-color: rgba($background-color, .5);
+        box-shadow: 0 .2rem .2rem rgba($black, .4);
+
+        &:before {
+            content: '';
+            backdrop-filter: blur(.2rem);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+        }
+    }
+
+    &_Outlined {
+        border: .2rem solid $grey-0;
+        box-shadow: 0 .2rem .2rem rgba($black, .4);
+        background: none;
+    }
+
+    &__Title {
+        width: 100%;
+        font-size: calc($styled-font-size * 1.5);
+        text-align: start;
+        border-bottom: .2rem solid $grey-0;
+        text-transform: capitalize;
+        padding: 1rem;
+    }
+
+    &__Image {
+        &_top {
+            border-bottom: .2rem solid $grey-0;
+        }
+    }
+
+    &__Body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+
+        & > * {
+            &:not(:only-child) {
+                &:not(:first-child) {
+                    border-left: .2rem solid $grey-0;
+                }
+            }
+        }
+    }
+
+    &__Icon {
+        align-self: flex-start;
+        height: 100%;
+        & > * {
+            width: 4rem;
+            height: 4rem;
+        }
+    }
+
+    &__Content {
+        padding: 1rem;
+        text-align: justify;
+    }
+}
