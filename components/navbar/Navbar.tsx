@@ -103,6 +103,7 @@ const Navbar = ({
                 {
                     title: lang.navLocation,
                     align: 'left',
+                    link: "/location",
                     iconPlacement: "right",
                     icon: <RiMapPin2Line />,
                 },

@@ -6,6 +6,7 @@
     border-radius: .5rem;
 
     &_Contained {
+        position: relative;
         border: .2rem solid $grey-0;
         background-color: rgba($background-color, .5);
         box-shadow: 0 .2rem .2rem rgba($black, .4);
@@ -13,12 +14,11 @@
         &:before {
             content: '';
             backdrop-filter: blur(.2rem);
+            display: block;
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
             z-index: -1;
+            height: 100%;
+            width: 100%;
         }
     }
 

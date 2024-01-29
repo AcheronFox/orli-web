@@ -5,15 +5,8 @@ import styles from "styles/components/footer/FooterImageCarousel.module.scss";
 import Picture from "../utils/Picture";
 import Link from "next/link";
 
-type CarouselImage = {
-  imgPath: string;
-  link: string;
-  alt: string;
-  sizes: string;
-};
-
 type Props = {
-  imgPaths: CarouselImage[];
+  imgPaths: CustomImage[];
   startImage?: number;
   lengthToSwitch?: number;
 };

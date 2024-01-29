@@ -1,5 +1,5 @@
 import { createContext } from "react"
-import hu from "@/locales/hu.lang";
+import hu from "@/locales/hu/hu.lang";
 
 interface ITranslateContext {
     changeLang: (v: any) => void,

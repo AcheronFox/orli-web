@@ -7,9 +7,7 @@ type Props = {
     children?: string | React.ReactNode
     icon?: React.ReactNode
     title?: string | React.ReactNode
-    image?: string
-    imageAlt?: string
-    imageSizes?: string
+    image?: CustomImage
     imagePlacement?: 'top' | 'right'
     variant?: 'contained' | 'outlined' | 'simple'
 };
@@ -19,8 +17,6 @@ const TextCard: NextPage<Props> = ({
     icon,
     title,
     image,
-    imageAlt,
-    imageSizes,
     imagePlacement = 'top',
     variant = 'contained'
 }: Props) => {
@@ -40,9 +36,9 @@ const TextCard: NextPage<Props> = ({
             {
                 (image != undefined) && imagePlacement == 'top' &&
                 <Picture
-                    sizes={imageSizes || '100vw'}
-                    alt={imageAlt || "Text Card Image"}
-                    defaultSrc={image}
+                    sizes={image.sizes}
+                    alt={image.alt || "Text Card Image"}
+                    defaultSrc={image.imgPath}
                     className={styles.TextCard__Image_top}
                 />
             }
@@ -59,9 +55,9 @@ const TextCard: NextPage<Props> = ({
                 {
                     (image != undefined) && imagePlacement == 'right' &&
                     <Picture
-                        sizes={imageSizes || '100vw'}
-                        alt={imageAlt || "Text Card Image"}
-                        defaultSrc={image}
+                        sizes={image.sizes || '100vw'}
+                        alt={image.alt || "Text Card Image"}
+                        defaultSrc={image.imgPath}
                         className={styles.TextCard__Image_right}
                     />
                 }
