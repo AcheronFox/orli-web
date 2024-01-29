@@ -6,15 +6,24 @@ import Button from "@/comp/button/Button";
 import ButtonGroup from "@/comp/button/ButtonGroup";
 import Link from "next/link";
 import TextCard from "@/comp/TextCard";
+import Picture from "@/comp/utils/Picture";
+import useIsMobile from "@/hooks/utils/useIsMobile";
 
 type Props = {}
 
 const Home: NextPage<Props> = (props: Props) => {
   const { lang } = useTranslate();
+  const isMobile = useIsMobile()
 
   return (
     <div>
       <section className={styles.Home}>
+        <Picture
+          alt={"Main art"}
+          defaultSrc={isMobile? "main_phone_x2.jpg" : "main_x2.jpg"}
+          sizes={"100wv"}
+          className={styles.Home__Background}
+        />
         <div className={styles.Home__Title}>
           <h3>Örli Försztivál</h3>
         </div>

@@ -56,7 +56,7 @@ const hu: Language = {
     footerOrliText2: "2024.06.12. - 2024.06.16.",
     footerOrliText3: "Pákász Tanya Kemping, Agárd, Magyarország",
     footerFacebook: "Facebook Esemény",
-    footerTelegramChat: "Telegram Csoport",
+    footerTelegramChat: "Telegram Csevegő",
     footerTelegramAnnounce: "Telegram Hírfolyam",
 
     // INFOCARD

@@ -56,7 +56,7 @@ const en: Language = {
     footerOrliText2: "2024.06.12. - 2024.06.16.",
     footerOrliText3: "Pákász Tanya Camping, Agárd, Hungary",
     footerFacebook: "Facebook Event",
-    footerTelegramChat: "Telegram Group",
+    footerTelegramChat: "Telegram Chat",
     footerTelegramAnnounce: "Telegram Announcements",
 
     // INFOCARD

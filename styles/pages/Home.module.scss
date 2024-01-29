@@ -9,7 +9,20 @@
     align-items: center;
     min-height: 90vh;
     margin-bottom: 5rem;
+    backface-visibility: hidden;
 
+    &__Background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        min-height: 100vh;
+        min-width: 100vw;
+        background-color: $black;
+        background-size: 100%;
+        z-index: -10;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+    }
 
     &__Scroll {
         position: relative;
@@ -59,7 +72,10 @@
         animation: grow 1.4s ease-out forwards;
         opacity: 0;
         transform: scale(.8);
-        backface-visibility: hidden;
+
+        h3 {
+            text-align: center;
+        }
     }
     &__Location {
         font-size: 2.5rem;
@@ -68,7 +84,6 @@
         animation: grow 1.4s ease-out .4s forwards;
         opacity: 0;
         transform: scale(.8);
-        backface-visibility: hidden;
     }
     &__Date {
         font-size: 3rem;
@@ -77,7 +92,6 @@
         animation: grow 1.4s ease-out .6s forwards;
         opacity: 0;
         transform: scale(.8);
-        backface-visibility: hidden;
     }
 
     &__Content {
@@ -97,12 +111,14 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
+            width: 100%;
 
             &:not(:last-child) {
                 margin-bottom: 5rem;
             }
 
             & > * {
+                width: 100%;
                 &:not(:first-child) {
                     margin-left: 4rem;
                 }

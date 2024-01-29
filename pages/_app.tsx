@@ -4,7 +4,6 @@ import type { AppProps } from "next/app";
 import Navbar from "@/comp/navbar/Navbar";
 import { useEffect, useState } from "react";
 import styles from "@/styles/LoginTemp.module.scss";
-import style from "@/styles/global.module.scss";
 import crypto from "crypto";
 import React from "react";
 import axiosInstance from "@/functions/utils/axiosConfig";
@@ -103,7 +102,6 @@ const Orli = ({ Component, pageProps }: AppProps) => {
           />
           <CustomHead />
           <main id="content">
-            <div className={style.BG__Img}></div>
             <Component {...pageProps} />
           </main>
           <Footer />

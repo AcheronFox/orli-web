@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
-import hu from "@/locales/hu.lang";
-import en from "@/locales/en.lang";
+import hu from "@/locales/hu/hu.lang";
+import en from "@/locales/en/en.lang";
 import React, { useEffect, useState } from "react";
 import { TranslateContext } from "./TranslateContext";
 
@@ -10,7 +10,7 @@ const Languages = {
   en
 }
 
-type LanguagesType = keyof typeof Languages;
+export type LanguagesType = keyof typeof Languages;
 type Props = {
   children: React.ReactNode
 }
@@ -51,7 +51,7 @@ const TranslateProvider: NextPage<Props> = ({ children }: Props) => {
       value={{
         changeLang: (v: LanguagesType) => changeLangLocal(v) ,
         lang: selectedLang,
-        currLang
+        currLang: currLang
       }}
     >
       {children}

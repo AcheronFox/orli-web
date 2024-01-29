@@ -1,41 +1,27 @@
 import styles from "@/styles/pages/Location.module.scss"
-import { useTranslate } from "@/hooks/useTranslate";
-import Section from "@/comp/Section";
-import LinkButton from "@/comp/LinkButton";
 import { RiMapPin2Line, RiArrowLeftUpFill } from "react-icons/ri";
-import InfoCard from "@/comp/InfoCard";
 import { NextPage } from "next";
 import {fromLonLat} from 'ol/proj';
 import {Point} from 'ol/geom';
 import 'ol/ol.css';
 import {RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle, MapBrowserEvent} from 'rlayers';
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CustomHead from "@/comp/CustomHead";
 import { IPOI } from "@/models/poi.model";
+import useTranslate from "@/hooks/translate/useTranslate";
+import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";
 
 type Props = {}
 
 const Location: NextPage<Props> = (props: Props) => {
-  const { t, locale } = useTranslate();
+  const { lang, currLang } = useTranslate();
   const [didInit, setDidInit] = useState<boolean>(false)
 
   useEffect(() => {
     setDidInit(true)
   }, [])
 
-  const [POIs, setPOIs] = useState<IPOI[]>(
-    locale == "en"
-        ? require("../locales/en.poi.json")
-        : require("../locales/hu.poi.json")
-  );
-
-  useEffect(() => {
-    setPOIs(
-      locale == "en"
-        ? require("../locales/en.poi.json")
-        : require("../locales/hu.poi.json")
-    )
-  }, [locale])
+  const POIs: IPOI[] = useLocaleSwitch(currLang, "poi.json")
 
   const onPointermove = (e: MapBrowserEvent<UIEvent>) => {
     const pixel = e.target.getEventPixel(e.originalEvent);
@@ -45,85 +31,84 @@ const Location: NextPage<Props> = (props: Props) => {
 
   return (
     <>
-      <CustomHead title={t("navLocation")} />
-      <a id="eventCenter"></a>
+      <CustomHead title={lang.navLocation} />
       <div className={styles.MainWrapper}>
         <div className={styles.Title}>
           <h1>
-            {t("navLocation")}
+            {lang.navLocation}
           </h1>
         </div>
         <div className={styles.Location}>
-          <Section
-            title={t("navEventCenter")}
-            text={t("locEventC1")}
+          {
+            /*
+            <Section
+            title={lang.navEventCenter}
+            text={lang.locEventC1}
           >
             <span className={styles.Location__Buttons}>
-              {t("locEventC20")} {<LinkButton isInternal={true} text={t("locPolicy")} link={"/legal/rules"} />} {`${t("locEventC21")} ${t("locEventC22")}`} {<LinkButton isInternal={true} text={t("locFAQ")} link={"/faq"} />} {t("locEventC23")}
+              {lang.locEventC20} {<LinkButton isInternal={true} text={lang.locPolicy} link={"/legal/rules"} />} {`${lang.locEventC21} ${lang.locEventC22}`} {<LinkButton isInternal={true} text={lang.locFAQ} link={"/faq"} />} {lang.locEventC23}
             </span>
           </Section>
           <Section
-            id="accomodation"
-            title={t("navAccom")}
-            text={<span>{t("locAccom1")}<br /><br />{t("locAccom2")}</span>}
+            title={lang.navAccom}
+            text={<span>{lang.locAccom1}<br /><br />{lang.locAccom2}</span>}
           >
             <span>
-              <br />{t("locAccom3")} {<b>{t("locAccom31")}</b>} {t("locAccom32")}<br/>
-              {t("locAccom4")}<br/><br/><br/>
-              <span className={styles.Location__Title}><h3>{t("locAccomT1")}</h3></span>
+              <br />{lang.locAccom3} {<b>{lang.locAccom31}</b>} {lang.locAccom32}<br/>
+              {lang.locAccom4}<br/><br/><br/>
+              <span className={styles.Location__Title}><h3>{lang.locAccomT1}</h3></span>
               <ul>
-                <li>{t("locAccomT1L1")}</li>
-                <li>{t("locAccomT1L2")}</li>
-                <li>{t("locAccomT1L3")}</li>
-                <li>{t("locAccomT1L4")}</li>
+                <li>{lang.locAccomT1L1}</li>
+                <li>{lang.locAccomT1L2}</li>
+                <li>{lang.locAccomT1L3}</li>
+                <li>{lang.locAccomT1L4}</li>
               </ul>
               <br />
-              <span className={styles.Location__Title}><h3>{t("locAccomT2")}</h3></span>
+              <span className={styles.Location__Title}><h3>{lang.locAccomT2}</h3></span>
               <ul>
-                <li>{t("locAccomT2L1")}</li>
-                <li>{t("locAccomT2L2")}</li>
-                <li>{t("locAccomT2L3")}</li>
-                <li>{t("locAccomT2L4")}</li>
+                <li>{lang.locAccomT2L1}</li>
+                <li>{lang.locAccomT2L2}</li>
+                <li>{lang.locAccomT2L3}</li>
+                <li>{lang.locAccomT2L4}</li>
               </ul>
               <br />
-              <span className={styles.Location__Title}><h3>{t("locAccomT3")}</h3></span>
+              <span className={styles.Location__Title}><h3>{lang.locAccomT3}</h3></span>
               <ul>
-                <li>{t("locAccomT3L1")}</li>
-                <li>{t("locAccomT3L2")}</li>
-                <li>{t("locAccomT3L3")}</li>
-                <li>{t("locAccomT3L4")}</li>
+                <li>{lang.locAccomT3L1}</li>
+                <li>{lang.locAccomT3L2}</li>
+                <li>{lang.locAccomT3L3}</li>
+                <li>{lang.locAccomT3L4}</li>
               </ul>
               <br />
-              <span className={styles.Location__Title}><h3>{t("locAccomT4")}</h3></span>
+              <span className={styles.Location__Title}><h3>{lang.locAccomT4}</h3></span>
               <ul>
-                <li>{t("locAccomT4L1")}</li>
-                <li>{t("locAccomT4L2")}</li>
-                <li>{t("locAccomT4L3")}</li>
-                <li>{t("locAccomT4L4")}</li>
+                <li>{lang.locAccomT4L1}</li>
+                <li>{lang.locAccomT4L2}</li>
+                <li>{lang.locAccomT4L3}</li>
+                <li>{lang.locAccomT4L4}</li>
               </ul>
             </span>
           </Section>
           <Section
-            id="route"
-            title={t("navGetting")}
+            title={lang.navGetting}
           > 
             <span>
               <br />
-              <span className={styles.Location__Title}><h3>{t("locGetting1")}</h3></span>
-              {t("locGetting1L1")}<br />
-              {t("locGetting1L2")}<br /><br />
-              <span className={styles.Location__Title}><h3>{t("locGetting2")}</h3></span>
-              {t("locGetting2L1")}<br />
-              {t("locGetting2L2")}<br /><br />
-              <span className={styles.Location__Title}><h3>{t("locGetting3")}</h3></span>
-              {t("locGetting3L1")}<br />
-              {t("locGetting3L2")}<br /><br />
-              <span className={styles.Location__Title}><h3>{t("locGetting4")}</h3></span>
-              {t("locGetting4L1")}<br />
-              {t("locGetting4L2")}<br /><br />
-              <span className={styles.Location__Title}><h3>{t("locGetting5")}</h3></span>
-              {t("locGetting5L1")}<br />
-              {t("locGetting5L2")}<br /><br />
+              <span className={styles.Location__Title}><h3>{lang.locGetting1}</h3></span>
+              {lang.locGetting1L1}<br />
+              {lang.locGetting1L2}<br /><br />
+              <span className={styles.Location__Title}><h3>{lang.locGetting2}</h3></span>
+              {lang.locGetting2L1}<br />
+              {lang.locGetting2L2}<br /><br />
+              <span className={styles.Location__Title}><h3>{lang.locGetting3}</h3></span>
+              {lang.locGetting3L1}<br />
+              {lang.locGetting3L2}<br /><br />
+              <span className={styles.Location__Title}><h3>{lang.locGetting4}</h3></span>
+              {lang.locGetting4L1}<br />
+              {lang.locGetting4L2}<br /><br />
+              <span className={styles.Location__Title}><h3>{lang.locGetting5}</h3></span>
+              {lang.locGetting5L1}<br />
+              {lang.locGetting5L2}<br /><br />
             </span>
             {
               didInit &&
@@ -148,22 +133,21 @@ const Location: NextPage<Props> = (props: Props) => {
                     }}
                     >
                     <ROverlay className={styles.Location__Map__Overlay}>
-                        {t("locLocation")}
+                        {lang.locLocation}
                         <br />
-                        <em><RiArrowLeftUpFill /> {t("locZoom")}</em>
+                        <em><RiArrowLeftUpFill /> {lang.locZoom}</em>
                     </ROverlay>
                   </RFeature>
                 </RLayerVector>
               </RMap>
             }
             <div className={styles.Location__Btn}>
-              <LinkButton text={t("locMapOpen")} link="https://goo.gl/maps/UpJbVx4yDh77Lypv8" icon={<RiMapPin2Line />}></LinkButton>
+              <LinkButton text={lang.locMapOpen} link="https://goo.gl/maps/UpJbVx4yDh77Lypv8" icon={<RiMapPin2Line />}></LinkButton>
             </div>
           </Section>
           <Section
-            id="poi"
-            title={t("navPoi")}
-            text={t("locPoi")}
+            title={lang.navPoi}
+            text={lang.locPoi}
           >
             <div className={styles.Location__Poi}>
               {
@@ -181,8 +165,8 @@ const Location: NextPage<Props> = (props: Props) => {
                           })
                         }</span>}
                       text={<span>
-                        <p>{`${t("locAddress")}: ${poi.address}`}</p>
-                        <p>{`${t("locDistance")}: ${poi.distance}`}</p>
+                        <p>{`${lang.locAddress}: ${poi.address}`}</p>
+                        <p>{`${lang.locDistance}: ${poi.distance}`}</p>
                         </span>}
                       link={poi.link}
                     />
@@ -191,6 +175,8 @@ const Location: NextPage<Props> = (props: Props) => {
               }
             </div>
           </Section>
+            */
+          }
         </div>
       </div>
     </>

@@ -109,6 +109,40 @@
 }
 
 
+// BACKGROUND
+@mixin DefaultBackground {
+    position: relative;
+    color: $white;
+    min-height: 100vh;
+    height: 100%;
+    padding: 7rem 10rem;
+    width: 65%;
+    margin: auto;
+
+    @include respond(small-desktop) {
+        padding: 4rem 10rem;
+        width: 70%;
+    }
+    
+    @include respond(tiny-desktop) {
+        padding: 3rem 3rem;
+        width: 90%;
+    }
+    
+    @include respond(phone) {
+        padding: 5rem 2rem;
+        width: 100%;
+    }
+    
+    @include respond(small-phone) {
+        padding: 5rem 1rem;
+    }
+
+    @include respond(big-desktop) {
+        padding: 10rem 10rem;
+    }
+}
+
 
 // TITLES, TEXTS, TYPOGRAPHY
 @mixin PrimaryTitle {
@@ -191,31 +225,6 @@
         @include respond(4k-desktop) {
             font-size: calc($styled-font-size * 1.4);
         }
-    }
-}
-
-// SECTIONS, SHADOWS
-@mixin SectionShadowDefaults {
-    &:before {
-        content: "";
-        z-index: -1;
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        border-radius: inherit;
-        height: .5rem;
-    }
-    &::after {
-        content: "";
-        z-index: -1;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: inherit;
-        border-radius: inherit;
     }
 }
 
