@@ -38,8 +38,16 @@
     }
 
     &__Image {
+        padding: 0 1rem;
+        align-self: stretch;
+        min-width: 30%;
+
         &_top {
             border-bottom: .2rem solid $grey-0;
+            width: 100%;
+        }
+        &_right {
+            height: 100%;
         }
     }
 

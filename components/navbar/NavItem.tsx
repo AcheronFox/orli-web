@@ -86,8 +86,6 @@ const NavItem = ({
 
 
   useEffect(() => {
-    console.log(currentPath.asPath.split("/")[1])
-    console.log(linkTo)
     if (currentPath.asPath.split("/")[1] == linkTo.replace('/', "") && (linkTo || target)) {
       setIsActive(true);
     } else {
