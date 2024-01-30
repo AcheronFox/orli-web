@@ -18,7 +18,7 @@ const TextCard: NextPage<Props> = ({
     title,
     image,
     imagePlacement = 'top',
-    variant = 'contained'
+    variant = 'contained',
 }: Props) => {
 
     return (
@@ -35,12 +35,14 @@ const TextCard: NextPage<Props> = ({
             }
             {
                 (image != undefined) && imagePlacement == 'top' &&
-                <Picture
-                    sizes={image.sizes}
-                    alt={image.alt || "Text Card Image"}
-                    defaultSrc={image.imgPath}
-                    className={styles.TextCard__Image_top}
-                />
+                <div className={styles.TextCard__Image}>
+                    <Picture
+                        sizes={image.sizes}
+                        alt={image.alt || "Text Card Image"}
+                        defaultSrc={image.imgPath}
+                        className={`${styles.TextCard__Image_top} ${image.customStyle? image.customStyle : ''}`}
+                    />
+                </div>
             }
             <div className={styles.TextCard__Body}>
                 {
@@ -54,12 +56,14 @@ const TextCard: NextPage<Props> = ({
                 </div>
                 {
                     (image != undefined) && imagePlacement == 'right' &&
-                    <Picture
-                        sizes={image.sizes || '100vw'}
-                        alt={image.alt || "Text Card Image"}
-                        defaultSrc={image.imgPath}
-                        className={styles.TextCard__Image_right}
-                    />
+                    <div className={styles.TextCard__Image}>
+                        <Picture
+                            sizes={image.sizes || '100vw'}
+                            alt={image.alt || "Text Card Image"}
+                            defaultSrc={image.imgPath}
+                            className={`${styles.TextCard__Image_right} ${image.customStyle? image.customStyle : ''}`}
+                        />
+                    </div>
                 }
             </div>
         </div>

@@ -53,6 +53,12 @@ const Home: NextPage<Props> = (props: Props) => {
               title={lang.homeTheme}
               icon={<RiBrush2Line />}
               variant="simple"
+              image={{
+                imgPath: "tiki.png",
+                sizes: "(max-width: 1400px) 50vw, 20vw",
+                alt: "Tiki Statue"
+              }}
+              imagePlacement="right"
             >
               {lang.homeThemeDesc1}<br /><br />
               {lang.homeThemeDesc2}
