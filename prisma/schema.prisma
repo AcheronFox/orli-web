@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model accomodation {
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime?  @db.Timestamp(0)
+  ownerContact String?    @db.VarChar(32)
+  isOwner      Int?       @default(0) @db.TinyInt
+  roomId       Int?
+  room         room?      @relation(fields: [roomId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_accomodation_room1")
+  attendee     attendee[]
+
+  @@index([roomId], map: "fk_accomodation_room1_idx")
+}
+
+model attendee {
+  id                   Int                 @default(autoincrement())
+  firstName            String              @db.VarChar(35)
+  lastName             String              @db.VarChar(35)
+  email                String              @db.VarChar(256)
+  password             String              @db.VarChar(255)
+  dateOfBirth          DateTime            @db.Date
+  phone                Int?
+  telegram             String?             @db.VarChar(32)
+  allergy              String?             @db.VarChar(1024)
+  registeredAt         DateTime?           @db.Timestamp(0)
+  verified             Int                 @db.TinyInt
+  admin                Int                 @db.TinyInt
+  staff                Int                 @db.TinyInt
+  fursonaId            Int                 @unique(map: "fursonaId_UNIQUE")
+  nationalityId        Int
+  accomodationId       Int?
+  passwordResetTokenId Int?
+  ticketId             Int?
+  accomodation         accomodation?       @relation(fields: [accomodationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_accomodation1")
+  fursona              fursona             @relation(fields: [fursonaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_fursona")
+  nationality          nationality         @relation(fields: [nationalityId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_nationality1")
+  passwordresettoken   passwordresettoken? @relation(fields: [passwordResetTokenId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_passwordResetToken1")
+  ticket               ticket?             @relation(fields: [ticketId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_ticket1")
+
+  @@id([id, nationalityId, fursonaId])
+  @@index([accomodationId], map: "fk_attendee_accomodation1_idx")
+  @@index([fursonaId], map: "fk_attendee_fursona_idx")
+  @@index([nationalityId], map: "fk_attendee_nationality1_idx")
+  @@index([passwordResetTokenId], map: "fk_attendee_passwordResetToken1_idx")
+  @@index([ticketId], map: "fk_attendee_ticket1_idx")
+}
+
+model fursona {
+  id                Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  name              String    @db.VarChar(10)
+  species           String    @db.VarChar(10)
+  pathToPictureFile String    @db.VarChar(255)
+  hasFursuit        Int       @default(0) @db.TinyInt
+  attendee          attendee?
+}
+
+model nationality {
+  id                   Int        @id @default(autoincrement())
+  iso2                 String     @db.VarChar(2)
+  iso3                 String     @db.VarChar(3)
+  countryNameEnglish   String     @db.VarChar(64)
+  countryNameHungarian String     @db.VarChar(64)
+  phoneCode            String     @db.VarChar(32)
+  timezone             String     @db.VarChar(64)
+  currency             String     @db.VarChar(24)
+  languageCodes        String     @db.VarChar(100)
+  attendee             attendee[]
+}
+
+model passwordresettoken {
+  id              Int        @id @default(autoincrement())
+  token           String     @db.VarChar(255)
+  tokenExpireTime Int
+  attendee        attendee[]
+}
+
+model room {
+  id           Int            @id @default(autoincrement())
+  building     room_building
+  number       String         @db.VarChar(15)
+  size         Int
+  customName   String?        @db.VarChar(20)
+  pin          Int?
+  accomodation accomodation[]
+}
+
+model ticket {
+  id            Int                   @id @default(autoincrement())
+  type          String                @default("Normal") @db.VarChar(64)
+  earlyArrival  Int                   @default(0) @db.TinyInt
+  lateDeparture Int                   @default(0) @db.TinyInt
+  sponsorLevel  ticket_sponsorLevel   @default(None)
+  shirtSize     ticket_shirtSize?
+  sponsorPrice  Int
+  totalPrice    Int
+  paymentMethod ticket_paymentMethod?
+  isPaid        Int                   @default(0) @db.TinyInt
+  foodData      Json?
+  arrivalDate   DateTime              @db.Date
+  departureDate DateTime              @db.Date
+  createdAt     DateTime?             @db.Timestamp(0)
+  attendee      attendee[]
+}
+
+enum room_building {
+  F_c_n            @map("Fácán")
+  Vidra
+  K_csag           @map("Kócsag")
+  EMPTY_ENUM_VALUE @map("")
+}
+
+enum ticket_sponsorLevel {
+  None
+  Regular
+  Super
+}
+
+enum ticket_shirtSize {
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+}
+
+enum ticket_paymentMethod {
+  MKB
+  PayPal
+  Revolut
+  EMPTY_ENUM_VALUE @map("")
+}
