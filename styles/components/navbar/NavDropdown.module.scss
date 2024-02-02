@@ -10,7 +10,7 @@
   @include navItemHighlight();
   @include navItemBackground();
 
-  @include respond(phone) {
+  @include respond(tiny-desktop) {
     @include navItemHighlight(subItem);
     @include navItemBackground(subItem);
   }
@@ -18,7 +18,7 @@
   &__Active {
     @include navItemActive;
 
-    @include respond(phone) {
+    @include respond(tiny-desktop) {
       @include navItemActive(subItem)
     }
   }
@@ -39,7 +39,7 @@
     @include respond(tiny-desktop) {
       padding: .25rem .5rem;
     }
-    @include respond(phone) {
+    @include respond(tiny-desktop) {
       justify-content: flex-start;
       padding: 1rem 1.5rem;
       font-size: 2rem;
@@ -79,7 +79,7 @@
       z-index: -1;
     }
 
-    @include respond(phone) {
+    @include respond(tiny-desktop) {
       position: relative;
       border-top: none;
       border-left: none;

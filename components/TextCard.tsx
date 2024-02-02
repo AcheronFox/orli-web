@@ -9,7 +9,10 @@ type Props = {
     title?: string | React.ReactNode
     image?: CustomImage
     imagePlacement?: 'top' | 'right'
-    variant?: 'contained' | 'outlined' | 'simple'
+    variant?: 'contained' | 'outlined' | 'simple' | 'filled'
+    shadowEnabled?: boolean
+    customTitleClass?: string
+    customBodyClass?: string
 };
 
 const TextCard: NextPage<Props> = ({
@@ -19,6 +22,9 @@ const TextCard: NextPage<Props> = ({
     image,
     imagePlacement = 'top',
     variant = 'contained',
+    shadowEnabled,
+    customTitleClass,
+    customBodyClass,
 }: Props) => {
 
     return (
@@ -26,10 +32,15 @@ const TextCard: NextPage<Props> = ({
             ${styles.TextCard}
             ${variant == "outlined"? styles.TextCard_Outlined : ''}
             ${variant == "contained"? styles.TextCard_Contained : ''} 
+            ${variant == "filled"? styles.TextCard_Filled : ''}
+            ${shadowEnabled? styles.TextCard__Shadow : ''}
         `}>
             {
                 (title != undefined) &&
-                <div className={styles.TextCard__Title}>
+                <div className={`
+                    ${styles.TextCard__Title}
+                    ${customTitleClass? customTitleClass : ''}
+                `}>
                     {title}
                 </div>
             }
@@ -44,7 +55,10 @@ const TextCard: NextPage<Props> = ({
                     />
                 </div>
             }
-            <div className={styles.TextCard__Body}>
+            <div className={`
+                ${styles.TextCard__Body}
+                ${customBodyClass? customBodyClass : ''}
+            `}>
                 {
                     (icon != undefined) &&
                     <div className={styles.TextCard__Icon}>

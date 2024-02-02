@@ -9,15 +9,15 @@ interface Props {
 
 const MainProvider = ({children}: Props) => {
     return (
-        <CustomScrollBar>
-            <TranslateProvider>
-                <FloatingMessageWrapper>
-                    <UserProvider>
+        <TranslateProvider>
+            <FloatingMessageWrapper>
+                <UserProvider>
+                    <CustomScrollBar>
                         {children}
-                    </UserProvider>
-                </FloatingMessageWrapper>
-            </TranslateProvider>
-        </CustomScrollBar>
+                    </CustomScrollBar>
+                </UserProvider>
+            </FloatingMessageWrapper>
+        </TranslateProvider>
     );
 }
 

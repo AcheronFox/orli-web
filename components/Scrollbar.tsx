@@ -2,6 +2,8 @@
 import type { NextPage } from "next";
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import styles from "@/styles/components/Scrollbar.module.scss";
+import { useRouter } from "next/router";
+import useTranslate from "@/hooks/translate/useTranslate";
 
 const SCROLL_BOX_MIN_HEIGHT = 20;
 
@@ -18,6 +20,8 @@ const CustomScrollBar: NextPage<Props> = ({children}: Props) => {
   const [show, setShow] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(false);
   let timeout: NodeJS.Timeout | undefined = undefined;
+  const router = useRouter()
+  const {currLang} = useTranslate()
 
   const ref = useRef<any>();
   const thumb = useRef<any>();
@@ -134,6 +138,10 @@ const CustomScrollBar: NextPage<Props> = ({children}: Props) => {
         setShow(false)
       }, 2000)
   }
+
+  useEffect(() => {
+    handleResize()
+  }, [router.pathname, currLang])
 
   useEffect(() => {
     handleResize()

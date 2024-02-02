@@ -89,6 +89,7 @@ const hu: Language = {
 
     // LOCATION
     locMapOpen: "Kattints ide a Google Térkép megnyitásához.",
+    locPOIOpen: "Térkép Megnyitása",
     locLocation: "Pákász Tanya Kemping",
     locZoom: "kattints a nagyításhoz",
     locAddress: "Cím",

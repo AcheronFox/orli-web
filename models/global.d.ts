@@ -89,6 +89,7 @@ declare interface Language {
 
     // LOCATION
     locMapOpen: string;
+    locPOIOpen: string;
     locLocation: string;
     locZoom: string;
     locAddress: string;

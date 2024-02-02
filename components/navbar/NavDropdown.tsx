@@ -20,7 +20,7 @@ const NavDropdown = ({
     iconPlacement = 'left',
     }: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const isMobile = useIsMobile()
+    const isMobile = useIsMobile(true)
     const RefDropDown = useRef<HTMLDivElement>(null)
     const panelRef = useRef<HTMLDivElement>(null)
     const navbar = (typeof window !== 'undefined')? document.getElementById('navbar') : null
