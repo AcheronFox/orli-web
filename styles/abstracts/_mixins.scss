@@ -111,31 +111,44 @@
 
 // BACKGROUND
 @mixin DefaultBackground {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url(../../public/test.jpg);
+    background-repeat: repeat;
+    height: 100%;
+    width: 100%;
+    filter: brightness(.1);
+    box-shadow: inset 0 -2rem 3rem rgba($black, .7), inset 0 2rem 3rem rgba($black, .7);
+}
+
+@mixin DefaultLayout {
     position: relative;
     color: $white;
-    min-height: 100vh;
     height: 100%;
     padding: 7rem 10rem;
-    width: 65%;
+    width: 55%;
     margin: auto;
 
     @include respond(small-desktop) {
         padding: 4rem 10rem;
-        width: 70%;
+        width: 65%;
     }
     
     @include respond(tiny-desktop) {
         padding: 3rem 3rem;
-        width: 90%;
+        width: 85%;
     }
     
     @include respond(phone) {
         padding: 5rem 2rem;
-        width: 100%;
+        width: 95%;
     }
     
     @include respond(small-phone) {
         padding: 5rem 1rem;
+        width: 100%;
     }
 
     @include respond(big-desktop) {

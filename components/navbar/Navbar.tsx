@@ -27,7 +27,7 @@ const Navbar = ({
     customBrandClass,
     customLayout
     }: Props) => {
-    const isMobile = useIsMobile()
+    const isMobile = useIsMobile(true)
     const { lang, currLang, changeLang } = useTranslate()
     const { user, didUserInit, logout } = useUser()
     const router = useRouter()

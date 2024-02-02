@@ -1,5 +1,5 @@
 import styles from "@/styles/pages/Location.module.scss"
-import { RiMapPin2Line, RiArrowLeftUpFill } from "react-icons/ri";
+import { RiMapPin2Line, RiArrowLeftUpFill, RiExternalLinkFill } from "react-icons/ri";
 import { NextPage } from "next";
 import {fromLonLat} from 'ol/proj';
 import {Point} from 'ol/geom';
@@ -10,6 +10,8 @@ import CustomHead from "@/comp/CustomHead";
 import { IPOI } from "@/models/poi.model";
 import useTranslate from "@/hooks/translate/useTranslate";
 import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";
+import TextCard from "@/comp/TextCard";
+import Button from "@/comp/button/Button";
 
 type Props = {}
 
@@ -32,153 +34,239 @@ const Location: NextPage<Props> = (props: Props) => {
   return (
     <>
       <CustomHead title={lang.navLocation} />
-      <div className={styles.MainWrapper}>
-        <div className={styles.Title}>
-          <h1>
-            {lang.navLocation}
-          </h1>
-        </div>
+        <div className={styles.Location__Background} />
         <div className={styles.Location}>
-          {
-            /*
-            <Section
-            title={lang.navEventCenter}
-            text={lang.locEventC1}
-          >
-            <span className={styles.Location__Buttons}>
-              {lang.locEventC20} {<LinkButton isInternal={true} text={lang.locPolicy} link={"/legal/rules"} />} {`${lang.locEventC21} ${lang.locEventC22}`} {<LinkButton isInternal={true} text={lang.locFAQ} link={"/faq"} />} {lang.locEventC23}
-            </span>
-          </Section>
-          <Section
-            title={lang.navAccom}
-            text={<span>{lang.locAccom1}<br /><br />{lang.locAccom2}</span>}
-          >
-            <span>
-              <br />{lang.locAccom3} {<b>{lang.locAccom31}</b>} {lang.locAccom32}<br/>
-              {lang.locAccom4}<br/><br/><br/>
-              <span className={styles.Location__Title}><h3>{lang.locAccomT1}</h3></span>
-              <ul>
-                <li>{lang.locAccomT1L1}</li>
-                <li>{lang.locAccomT1L2}</li>
-                <li>{lang.locAccomT1L3}</li>
-                <li>{lang.locAccomT1L4}</li>
-              </ul>
-              <br />
-              <span className={styles.Location__Title}><h3>{lang.locAccomT2}</h3></span>
-              <ul>
-                <li>{lang.locAccomT2L1}</li>
-                <li>{lang.locAccomT2L2}</li>
-                <li>{lang.locAccomT2L3}</li>
-                <li>{lang.locAccomT2L4}</li>
-              </ul>
-              <br />
-              <span className={styles.Location__Title}><h3>{lang.locAccomT3}</h3></span>
-              <ul>
-                <li>{lang.locAccomT3L1}</li>
-                <li>{lang.locAccomT3L2}</li>
-                <li>{lang.locAccomT3L3}</li>
-                <li>{lang.locAccomT3L4}</li>
-              </ul>
-              <br />
-              <span className={styles.Location__Title}><h3>{lang.locAccomT4}</h3></span>
-              <ul>
-                <li>{lang.locAccomT4L1}</li>
-                <li>{lang.locAccomT4L2}</li>
-                <li>{lang.locAccomT4L3}</li>
-                <li>{lang.locAccomT4L4}</li>
-              </ul>
-            </span>
-          </Section>
-          <Section
-            title={lang.navGetting}
-          > 
-            <span>
-              <br />
-              <span className={styles.Location__Title}><h3>{lang.locGetting1}</h3></span>
-              {lang.locGetting1L1}<br />
-              {lang.locGetting1L2}<br /><br />
-              <span className={styles.Location__Title}><h3>{lang.locGetting2}</h3></span>
-              {lang.locGetting2L1}<br />
-              {lang.locGetting2L2}<br /><br />
-              <span className={styles.Location__Title}><h3>{lang.locGetting3}</h3></span>
-              {lang.locGetting3L1}<br />
-              {lang.locGetting3L2}<br /><br />
-              <span className={styles.Location__Title}><h3>{lang.locGetting4}</h3></span>
-              {lang.locGetting4L1}<br />
-              {lang.locGetting4L2}<br /><br />
-              <span className={styles.Location__Title}><h3>{lang.locGetting5}</h3></span>
-              {lang.locGetting5L1}<br />
-              {lang.locGetting5L2}<br /><br />
-            </span>
-            {
-              didInit &&
-              <RMap className={styles.Location__Map} initial={{center: fromLonLat([18.5886954, 47.1914420]), zoom: 16}} onPointerMove={(e) => onPointermove(e)}>
-                <ROSM />
-                <RLayerVector zIndex={10}>
-                  <RStyle.RStyle>
-                    <RStyle.RIcon scale={.05} src={'/map-pin.svg'} anchor={[0.5, 0.8]} />
-                  </RStyle.RStyle>
-                  <RFeature
-                    geometry={new Point(fromLonLat([18.5886954, 47.1914420]))}
-                    onClick={(e) => {
-                      const geometry = e.target.getGeometry()
-                      if (!geometry) return undefined
-                      else
-                      return (
-                        e.map.getView().fit(geometry.getExtent(), {
-                          duration: 250,
-                          maxZoom: 16
-                        })
-                      )
-                    }}
-                    >
-                    <ROverlay className={styles.Location__Map__Overlay}>
-                        {lang.locLocation}
-                        <br />
-                        <em><RiArrowLeftUpFill /> {lang.locZoom}</em>
-                    </ROverlay>
-                  </RFeature>
-                </RLayerVector>
-              </RMap>
-            }
-            <div className={styles.Location__Btn}>
-              <LinkButton text={lang.locMapOpen} link="https://goo.gl/maps/UpJbVx4yDh77Lypv8" icon={<RiMapPin2Line />}></LinkButton>
+          <section className={styles.Location__Row}>
+            <TextCard
+              title={lang.navEventCenter}
+              customTitleClass={styles.Location__Title}
+              customBodyClass={styles.Location__Body}
+              variant="filled"
+              shadowEnabled
+            >
+              {lang.locEventC1}
+              <br/>
+              <br/>
+              <span className={styles.Location__Buttons}>
+                {lang.locEventC20}
+                {<Button variant="text" endIcon={<RiExternalLinkFill />} link={"/legal/rules"} >{lang.locPolicy}</Button>}
+                {`${lang.locEventC21} ${lang.locEventC22}`}
+                {<Button variant="text" endIcon={<RiExternalLinkFill />} link={"/faq"} >{lang.locFAQ}</Button>}
+                {lang.locEventC23}
+              </span>
+            </TextCard>
+          </section>
+
+          <section className={styles.Location__Row}>
+            <TextCard
+              title={lang.navAccom}
+              customTitleClass={styles.Location__Title}
+              customBodyClass={styles.Location__Body}
+              variant="filled"
+              shadowEnabled
+            >
+              <span>
+                {lang.locAccom1}
+              </span>
+              <br/>
+              <br/>
+              <span>
+                {lang.locAccom2}
+              </span>
+              <br/>
+              <br/>
+              <span>
+                {lang.locAccom3} {<b><i>{lang.locAccom31}</i></b>} {lang.locAccom32} {lang.locAccom4}
+              </span>
+            </TextCard>
+            <div className={styles.Location__Row__Items}>
+              <TextCard
+                title={lang.locAccomT1}
+                customTitleClass={styles.Location__Title_Secondary}
+                variant="contained"
+                shadowEnabled
+              >
+                <ul>
+                  <li>{lang.locAccomT1L1}</li>
+                  <li>{lang.locAccomT1L2}</li>
+                  <li>{lang.locAccomT1L3}</li>
+                  <li>{lang.locAccomT1L4}</li>
+                </ul>
+              </TextCard>
+              <TextCard
+                title={lang.locAccomT2}
+                customTitleClass={styles.Location__Title_Secondary}
+                variant="contained"
+                shadowEnabled
+              >
+                <ul>
+                  <li>{lang.locAccomT2L1}</li>
+                  <li>{lang.locAccomT2L2}</li>
+                  <li>{lang.locAccomT2L3}</li>
+                  <li>{lang.locAccomT2L4}</li>
+                </ul>
+              </TextCard>
+              <TextCard
+                title={lang.locAccomT3}
+                customTitleClass={styles.Location__Title_Secondary}
+                variant="contained"
+                shadowEnabled
+              >
+                <ul>
+                  <li>{lang.locAccomT3L1}</li>
+                  <li>{lang.locAccomT3L2}</li>
+                  <li>{lang.locAccomT3L3}</li>
+                  <li>{lang.locAccomT3L4}</li>
+                </ul>
+              </TextCard>
+              <TextCard
+                title={lang.locAccomT4}
+                customTitleClass={styles.Location__Title_Secondary}
+                variant="contained"
+                shadowEnabled
+              >
+                <ul>
+                  <li>{lang.locAccomT4L1}</li>
+                  <li>{lang.locAccomT4L2}</li>
+                  <li>{lang.locAccomT4L3}</li>
+                  <li>{lang.locAccomT4L4}</li>
+                </ul>
+              </TextCard>
             </div>
-          </Section>
-          <Section
-            title={lang.navPoi}
-            text={lang.locPoi}
-          >
-            <div className={styles.Location__Poi}>
+          </section>
+
+          <section className={styles.Location__Row}>
+            <TextCard
+              title={lang.navGetting}
+              customTitleClass={styles.Location__Title}
+              customBodyClass={styles.Location__Body__Map}
+              variant="filled"
+              shadowEnabled
+            >
               {
+                didInit &&
+                <RMap className={styles.Location__Map} initial={{center: fromLonLat([18.5886954, 47.1914420]), zoom: 16}} onPointerMove={(e) => onPointermove(e)}>
+                  <ROSM />
+                  <RLayerVector zIndex={10}>
+                    <RStyle.RStyle>
+                      <RStyle.RIcon scale={.05} src={'/map-pin.svg'} anchor={[0.5, 0.8]} />
+                    </RStyle.RStyle>
+                    <RFeature
+                      geometry={new Point(fromLonLat([18.5886954, 47.1914420]))}
+                      onClick={(e) => {
+                        const geometry = e.target.getGeometry()
+                        if (!geometry) return undefined
+                        else
+                        return (
+                          e.map.getView().fit(geometry.getExtent(), {
+                            duration: 250,
+                            maxZoom: 16
+                          })
+                        )
+                      }}
+                      >
+                      <ROverlay className={styles.Location__Map__Overlay}>
+                          {lang.locLocation}
+                          <br />
+                          <em><RiArrowLeftUpFill /> {lang.locZoom}</em>
+                      </ROverlay>
+                    </RFeature>
+                  </RLayerVector>
+                </RMap>
+              }
+              <div className={styles.Location__Buttons}>
+                <Button target="_blank" variant="text" link="https://goo.gl/maps/UpJbVx4yDh77Lypv8" startIcon={<RiMapPin2Line />} endIcon={<RiExternalLinkFill/>}>{lang.locMapOpen}</Button>
+              </div>
+            </TextCard>
+            <div className={styles.Location__Row__Items}>
+              <TextCard
+                title={lang.locGetting1}
+                customTitleClass={styles.Location__Title_Secondary}
+                customBodyClass={styles.Location__Body}
+                variant="contained"
+                shadowEnabled
+              >
+                {lang.locGetting1L1}<br />
+                {lang.locGetting1L2}
+              </TextCard>
+              <TextCard
+                title={lang.locGetting2}
+                customTitleClass={styles.Location__Title_Secondary}
+                customBodyClass={styles.Location__Body}
+                variant="contained"
+                shadowEnabled
+              >
+                {lang.locGetting2L1}<br />
+                {lang.locGetting2L2}
+              </TextCard>
+              <TextCard
+                title={lang.locGetting3}
+                customTitleClass={styles.Location__Title_Secondary}
+                customBodyClass={styles.Location__Body}
+                variant="contained"
+                shadowEnabled
+              >
+                {lang.locGetting3L1}<br />
+                {lang.locGetting3L2}
+              </TextCard>
+              <TextCard
+                title={lang.locGetting4}
+                customTitleClass={styles.Location__Title_Secondary}
+                customBodyClass={styles.Location__Body}
+                variant="contained"
+                shadowEnabled
+              >
+                {lang.locGetting4L1}<br />
+                {lang.locGetting4L2}
+              </TextCard>
+            </div>
+          </section>
+
+          <section className={styles.Location__Row}>
+            <TextCard
+              title={lang.navPoi}
+              customTitleClass={styles.Location__Title}
+              customBodyClass={styles.Location__Body}
+              variant="filled"
+              shadowEnabled
+            >
+              {lang.locPoi}
+            </TextCard>
+            <div className={styles.Location__Row__Items}>
+              {
+                (POIs != undefined) &&
                 POIs.map((poi, i) => {
                   return(
-                    <InfoCard
+                    <TextCard
                       key={i}
                       title={poi.title}
-                      description={poi.description}
-                      time={<span>{
-                          poi.time.map((time, j) => {
-                            return (
-                              <p key={j}>{time}</p>
-                            );
-                          })
-                        }</span>}
-                      text={<span>
+                      customTitleClass={styles.Location__Title_Tertiary}
+                      customBodyClass={styles.Location__Body_Tertiary}
+                      variant="contained"
+                      shadowEnabled
+                    >
+                      {poi.description}
+                      <span>{
+                        poi.time.map((time, j) => {
+                          return (
+                            <p key={j}>{time}</p>
+                          );
+                        })
+                      }</span>
+                      <span>
                         <p>{`${lang.locAddress}: ${poi.address}`}</p>
                         <p>{`${lang.locDistance}: ${poi.distance}`}</p>
-                        </span>}
-                      link={poi.link}
-                    />
+                      </span>
+                      <div className={styles.Location__Buttons}>
+                        <Button variant="text" target="_blank" link={poi.link} startIcon={<RiMapPin2Line />} endIcon={<RiExternalLinkFill/>}>{lang.locPOIOpen}</Button>
+                      </div>
+                    </TextCard>
                   );
                 })
               }
             </div>
-          </Section>
-            */
-          }
+          </section>
         </div>
-      </div>
     </>
   )
 }
