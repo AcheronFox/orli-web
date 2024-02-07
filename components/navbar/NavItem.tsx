@@ -47,8 +47,9 @@ const NavContent = ({
       ref={itemRef}
       className={`
         ${styles.NavItem} ${className? className : ''}
-        ${isActive? (activeClass ? activeClass : styles.NavItem__Active) : ''}
+        ${(isActive && !isDropDownItem)? (activeClass ? activeClass : styles.NavItem__Active) : ''}
         ${isDropDownItem? styles.NavItem__DropDown : styles.NavItem__Default}
+        ${(isActive && isDropDownItem)? styles.NavItem__DropDown__Active : ''}
       `}
     >
       {ripples}

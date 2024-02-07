@@ -9,7 +9,7 @@ import useRipple from "@/hooks/utils/useRipple";
 
 type Props = {
     children: React.ReactElement<IconType>
-    size?: 'normal' | 'small' | 'large'
+    size?: 'normal' | 'small' | 'large' | string
     tooltip?: string
     link?: string
     target?: React.HTMLAttributeAnchorTarget
@@ -18,7 +18,43 @@ type Props = {
     customColor?: Color
     disabled?: boolean
     tooltipColor?: 'white' | 'black'
+    tooltipVariant?: 'default' | 'internal'
+    variant?: 'basic' | 'outlined' | 'contained'
 }
+
+
+type TooltipProps = {
+    variant: 'default' | 'internal'
+    color: 'white' | 'black'
+    text: string
+    buttonColor?: Color
+}
+
+
+const Tooltip: NextPage<TooltipProps> = ({
+    variant,
+    color,
+    text,
+    buttonColor,
+}: TooltipProps) => {
+
+    return (
+        <span
+            className={`
+                ${styles.IconButton__Tooltip}
+                ${(variant=='internal')? styles.IconButton__Tooltip__Internal : ''}
+            `}
+            style={{
+                background: (variant=="internal")? '' : buttonColor?.hex(),
+                color: color
+            }}
+        >
+            {text}
+        </span>
+    )
+}
+
+
 const IconButton: NextPage<Props> = ({
     children,
     size = 'normal',
@@ -30,6 +66,8 @@ const IconButton: NextPage<Props> = ({
     customColor,
     disabled,
     tooltipColor = "white",
+    tooltipVariant = "default",
+    variant = "basic"
 }: Props) =>{
     const [buttonColor, setButtonColor] = useState<Color>()
     const [icon, setIcon] = useState<React.ReactElement<IconType>>()
@@ -85,6 +123,8 @@ const IconButton: NextPage<Props> = ({
             case "small":
                 tempSize = variables.smallIconSize
                 break;
+            default:
+                tempSize = size? size : variables.normalIconSize
         }
 
         const element = React.cloneElement(children, {size: tempSize} as Partial<IconType> & Attributes)
@@ -106,16 +146,13 @@ const IconButton: NextPage<Props> = ({
                 `}
             >
                 {
-                    (tooltip != undefined) &&
-                    <span
-                        className={styles.IconButton__Tooltip}
-                        style={{
-                            background: buttonColor?.hex(),
-                            color: tooltipColor
-                        }}
-                    >
-                        {tooltip}
-                    </span>
+                    (tooltip != undefined && tooltipVariant == "default") &&
+                    <Tooltip 
+                        variant={"default"}
+                        color={tooltipColor}
+                        buttonColor={buttonColor}
+                        text={tooltip}
+                    />
                 }
                 <Link
                     ref={buttonRef}
@@ -124,9 +161,20 @@ const IconButton: NextPage<Props> = ({
                     onClick={onClick}
                     className={`
                         ${styles.IconButton__Button}
+                        ${(variant == "outlined")? styles.IconButton__Button_Outlined : ''}
+                        ${(variant == "contained")? styles.IconButton__Button_Contained : ''}
                         ${disabled? styles.IconButton__Disabled : ''}
                     `}
                 >
+                    {
+                        (tooltip != undefined && tooltipVariant == "internal") &&
+                        <Tooltip 
+                            variant={"internal"}
+                            color={tooltipColor}
+                            buttonColor={buttonColor}
+                            text={tooltip}
+                        />
+                    }
                     <span
                         style={{color: buttonColor?.hex()}}
                         className={styles.IconButton__Icon}
@@ -146,25 +194,33 @@ const IconButton: NextPage<Props> = ({
                 `}
             >
                 {
-                    (tooltip != undefined) &&
-                    <span
-                        className={styles.IconButton__Tooltip}
-                        style={{
-                            background: buttonColor?.hex(),
-                            color: tooltipColor
-                        }}
-                    >
-                        {tooltip}
-                    </span>
+                    (tooltip != undefined && tooltipVariant == "default") &&
+                    <Tooltip 
+                        variant={"default"}
+                        color={tooltipColor}
+                        buttonColor={buttonColor}
+                        text={tooltip}
+                    />
                 }
                 <button
                     ref={buttonRef}
                     onClick={onClick}
                     className={`
                         ${styles.IconButton__Button}
+                        ${(variant == "outlined")? styles.IconButton__Button_Outlined : ''}
+                        ${(variant == "contained")? styles.IconButton__Button_Contained : ''}
                         ${disabled? styles.IconButton__Disabled : ''}
                     `}
                 >
+                    {
+                        (tooltip != undefined && tooltipVariant == "internal") &&
+                        <Tooltip 
+                            variant={"internal"}
+                            color={tooltipColor}
+                            buttonColor={buttonColor}
+                            text={tooltip}
+                        />
+                    }
                     <span
                         style={{color: buttonColor?.hex()}}
                         className={styles.IconButton__Icon}

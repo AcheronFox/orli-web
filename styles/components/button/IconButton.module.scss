@@ -3,6 +3,10 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    user-select: none;
+    width: max-content;
+    height: max-content;
+    z-index: 0;
 
     &__Disabled {
         pointer-events: none;
@@ -15,6 +19,28 @@
         border-radius: .3rem;
         cursor: pointer;
         transition: filter linear .25s;
+        z-index: 0;
+
+        &_Contained {
+            position: relative;
+            border: .2rem solid $grey-0;
+            background: linear-gradient(180deg, rgba($grey-1, .5), transparent);
+    
+            &:before {
+                content: '';
+                backdrop-filter: blur(.2rem);
+                display: block;
+                position: absolute;
+                z-index: -1;
+                height: 100%;
+                width: 100%;
+            }
+        }
+    
+        &_Outlined {
+            border: .2rem solid $grey-0;
+            background: none;
+        }
 
         &:hover, &:focus-visible {
             filter: brightness(1.2);
@@ -34,6 +60,8 @@
         transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         left: 50%;
         transform: translate(-50%);
+        text-align: center;
+        word-wrap: break-word;
 
         &::before {
             position: absolute;
@@ -53,6 +81,35 @@
             visibility: visible;
             pointer-events: auto;
         }
+
+        &__Internal {
+            top: 50%;
+            background:  rgba($grey-0, .5);
+            border-radius: .3rem;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            user-select: none;
+            transition: all .2s ease-out;
+
+            @include respond(phone) {
+                top: 0;
+                opacity: 1;
+                visibility: visible;
+            }
+
+            &::before {
+                all: unset;
+                content: '';
+                backdrop-filter: blur(.2rem);
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: -1;
+            }
+        }
     }
 
     &__Icon {
@@ -64,6 +121,7 @@
         align-items: center;
         flex-direction: column;
         transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        z-index: 0;
     }
 
     &:hover &, &:focus-visible & {
@@ -72,6 +130,10 @@
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
+
+            &__Internal {
+                top: 0;
+            }
         }
     }
 }
