@@ -92,14 +92,14 @@
       align-items: center;
       margin: 2rem 0;
 
-      @include respond(tiny-desktop) {
-        padding: 0 1rem;
+      @include respond(big-desktop) {
+        padding: 0 5rem;
       }
       @include respond(small-desktop) {
         padding: 0 1.5rem;
       }
-      @include respond(big-desktop) {
-        padding: 0 5rem;
+      @include respond(tiny-desktop) {
+        padding: 1.5rem 1rem;
       }
     }
 

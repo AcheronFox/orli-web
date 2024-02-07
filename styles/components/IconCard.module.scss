@@ -8,7 +8,7 @@
 
     background-color: $grey-2;
     padding: 3rem;
-    border-radius: 2rem;
+    border-radius: .3rem;
     border: .2rem solid transparent;
 
     box-shadow: 0 1rem 2rem .5rem rgba($black, .5);
@@ -41,18 +41,14 @@
     @supports selector(:focus-visible) {
         &:focus-visible {
             background-color: rgba($grey-2, .7);
-            border: .2rem solid $primary-color;
-            box-shadow:
-            0 1rem 2rem .5rem rgba($black, .5),
-            inset 0 0 2rem .5rem rgba($primary-color, .5);
+            border: .2rem solid $color-primary;
+            box-shadow: 0 0 2rem .5rem rgba($black, .5);
         }
     }
 
     &:hover {
         background-color: rgba($grey-2, .7);
-        border: .2rem solid $primary-color;
-        box-shadow:
-        0 1rem 2rem .5rem rgba($black, .5),
-        inset 0 0 2rem .5rem rgba($primary-color, .5);
+        border: .2rem solid $color-primary;
+        box-shadow: 0 0 2rem .5rem rgba($black, .5);
     }
 }

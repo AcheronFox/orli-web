@@ -5,9 +5,10 @@ import { RiArrowDownSFill } from "react-icons/ri";
 import { IconType } from "react-icons/lib";
 import useIsMobile from "@/hooks/utils/useIsMobile";
 import useRipple from "@/hooks/utils/useRipple";
+import { useRouter } from "next/router";
 
 interface Props {
-    children: React.ReactNode
+    children: React.ReactNode[]
     title: string | React.ReactNode
     icon?: React.ReactElement<IconType>
     iconPlacement?: 'left' | 'right' | 'both'
@@ -20,6 +21,9 @@ const NavDropdown = ({
     iconPlacement = 'left',
     }: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isActive, setIsActive] = useState<boolean>(false);
+
+    const currentPath = useRouter();
     const isMobile = useIsMobile(true)
     const RefDropDown = useRef<HTMLDivElement>(null)
     const panelRef = useRef<HTMLDivElement>(null)
@@ -46,6 +50,17 @@ const NavDropdown = ({
     }
 
     useEffect(() => {
+        let temp = false;
+
+        children.forEach((child) => {
+            if (currentPath.asPath.split("/")[1] == (child as any)?.props?.linkTo.replace('/', "")) {
+                temp = true
+            }
+        })
+        setIsActive(temp);
+    }, [currentPath.asPath])
+
+    useEffect(() => {
         window.addEventListener("click", ClickOutside);
 
         return () => {
@@ -57,7 +72,7 @@ const NavDropdown = ({
         <>
             <div
                 className={`
-                    ${styles.NavDropdown} ${isOpen ? styles.NavDropdown__Active : ""}
+                    ${styles.NavDropdown} ${(isOpen || isActive)? styles.NavDropdown__Active : ""}
                 `}
                 ref={RefDropDown}
             >
