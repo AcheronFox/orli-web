@@ -38,18 +38,28 @@ model attendee {
   accomodationId       Int?
   passwordResetTokenId Int?
   ticketId             Int?
+  dailyTicketId        Int?
   accomodation         accomodation?       @relation(fields: [accomodationId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_accomodation1")
+  dailyTicket          dailyTicket?        @relation(fields: [dailyTicketId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_dailyTicket1")
   fursona              fursona             @relation(fields: [fursonaId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_fursona")
   nationality          nationality         @relation(fields: [nationalityId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_nationality1")
-  passwordresettoken   passwordresettoken? @relation(fields: [passwordResetTokenId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_passwordResetToken1")
+  passwordResetToken   passwordResetToken? @relation(fields: [passwordResetTokenId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_passwordResetToken1")
   ticket               ticket?             @relation(fields: [ticketId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_attendee_ticket1")
 
   @@id([id, nationalityId, fursonaId])
   @@index([accomodationId], map: "fk_attendee_accomodation1_idx")
+  @@index([dailyTicketId], map: "fk_attendee_dailyTicket1_idx")
   @@index([fursonaId], map: "fk_attendee_fursona_idx")
   @@index([nationalityId], map: "fk_attendee_nationality1_idx")
   @@index([passwordResetTokenId], map: "fk_attendee_passwordResetToken1_idx")
   @@index([ticketId], map: "fk_attendee_ticket1_idx")
+}
+
+model dailyTicket {
+  id              Int        @id
+  currentValidity DateTime   @db.Date
+  pastValidities  String?    @db.VarChar(512)
+  attendee        attendee[]
 }
 
 model fursona {
@@ -74,7 +84,7 @@ model nationality {
   attendee             attendee[]
 }
 
-model passwordresettoken {
+model passwordResetToken {
   id              Int        @id @default(autoincrement())
   token           String     @db.VarChar(255)
   tokenExpireTime Int
@@ -102,7 +112,7 @@ model ticket {
   totalPrice    Int
   paymentMethod ticket_paymentMethod?
   isPaid        Int                   @default(0) @db.TinyInt
-  foodData      Json?
+  foodData      String?               @db.LongText
   arrivalDate   DateTime              @db.Date
   departureDate DateTime              @db.Date
   createdAt     DateTime?             @db.Timestamp(0)
@@ -110,10 +120,9 @@ model ticket {
 }
 
 enum room_building {
-  F_c_n            @map("Fácán")
+  Facan
   Vidra
-  K_csag           @map("Kócsag")
-  EMPTY_ENUM_VALUE @map("")
+  Kocsag
 }
 
 enum ticket_sponsorLevel {
@@ -135,5 +144,4 @@ enum ticket_paymentMethod {
   MKB
   PayPal
   Revolut
-  EMPTY_ENUM_VALUE @map("")
 }
