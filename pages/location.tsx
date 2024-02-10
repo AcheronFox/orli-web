@@ -7,7 +7,7 @@ import 'ol/ol.css';
 import {RMap, ROSM, RLayerVector, RFeature, ROverlay, RStyle, MapBrowserEvent} from 'rlayers';
 import { useEffect, useState } from "react";
 import CustomHead from "@/comp/CustomHead";
-import { IPOI } from "@/models/poi.model";
+import { IPOI } from "@/models/locale/poi.model";
 import useTranslate from "@/hooks/translate/useTranslate";
 import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";
 import TextCard from "@/comp/TextCard";
