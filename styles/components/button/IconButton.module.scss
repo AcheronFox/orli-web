@@ -13,6 +13,7 @@
     }
 
     &__Button {
+        filter: brightness(1.001);
         display: inline-block;
         overflow: hidden;
         background: none;

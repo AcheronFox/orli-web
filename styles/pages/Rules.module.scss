@@ -1,93 +1,31 @@
-.Rules {
-    position: relative;
-    color: $white;
-    min-height: 100vh;
-    height: 100%;
-    padding: 7rem 10rem;
-    width: 65%;
-    margin: auto;
+.Legal {
+    @include DefaultLayout;
 
-    @include respond(small-desktop) {
-        padding: 4rem 10rem;
-        width: 70%;
-    }
-    
-    @include respond(tiny-desktop) {
-        padding: 3rem 3rem;
-        width: 90%;
-    }
-    
-    @include respond(phone) {
-        padding: 5rem 2rem;
-        width: 100%;
-    }
-    
-    @include respond(small-phone) {
-        padding: 5rem 1rem;
-    }
+    display: flex;
+    flex-direction: column;
 
-    @include respond(big-desktop) {
-        padding: 10rem 10rem;
-    }
+    & > * {
+        &:not(:nth-child(1)) {
+            margin-top: 5rem;
+        }
 
-    &__Title {
-        @include PrimaryTitle;
-        margin-bottom: 3rem;
-        background: rgba($grey-2, .9);
-        border-radius: 2.5rem;
-        box-shadow: 0 1rem 1rem rgba($black, .5);
-
-        @include respond(min-phone) {
-            backdrop-filter: blur(.2rem);
+        &:not(:last-child) {
+            margin-bottom: 5rem;
         }
     }
 
-    &__Content {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        justify-content: space-between;
-
-        & > * {
-            &:not(:nth-child(1)) {
-                margin-top: 5rem;
-            }
-            &:not(:last-child) {
-                margin-bottom: 5rem;
-            }
-        }
-    }
-
-    &__Main {
-        display: flex;
-        flex-direction: column;
-
-        & > * {
-            &:not(:nth-child(1)) {
-                margin-top: 1.75rem;
-            }
-            &:not(:last-child) {
-                margin-bottom: 1.75rem;
-            }
+    &__Body {
+        ul, ol {
+            margin-left: 1rem;
         }
 
-        &__Data {
-            @include TertiaryTitle;
-            align-items: flex-start;
-            flex-direction: column;
+        ul {
+            padding-left: 2rem;
         }
 
-        &__List {
-            margin-left: 2.5rem;
-            
+        ol {
             & > * {
-                &:not(:nth-child(1)) {
-                    margin-top: .75rem;
-                }
-                &:not(:last-child) {
-                    margin-bottom: .75rem;
-                }
+                margin: 0 1rem;
             }
         }
     }
