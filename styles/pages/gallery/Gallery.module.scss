@@ -1,0 +1,12 @@
+.Gallery {
+    @include DefaultLayout;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+
+    &__Background {
+        @include DefaultBackground;
+    }
+}

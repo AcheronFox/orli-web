@@ -71,6 +71,10 @@ declare interface Language {
     // CONTACT
     contact: string;
 
+    // GALLERY
+    galleryVideos: string;
+    galleryImages: string;
+
     // FAQ
     faqIntro: string;
 

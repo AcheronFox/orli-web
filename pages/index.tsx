@@ -20,18 +20,20 @@ const Home: NextPage<Props> = (props: Props) => {
       <section className={styles.Home}>
         <Picture
           alt={"Main art"}
-          defaultSrc={isMobile? "main_phone_x2.jpg" : "main_x2.jpg"}
+          defaultSrc={isMobile? "main_phone.jpg" : "main.jpg"}
           sizes={"100wv"}
           className={styles.Home__Background}
         />
-        <div className={styles.Home__Title}>
-          <h3>Örli Försztivál</h3>
-        </div>
-        <div className={styles.Home__Location}>
-          {lang.homeLocation}
-        </div>
-        <div className={styles.Home__Date}>
-          2024.06.12.-16.
+        <div className={styles.Home__Text}>
+          <div className={styles.Home__Title}>
+            <h3>Örli Försztivál</h3>
+          </div>
+          <div className={styles.Home__Location}>
+            {lang.homeLocation}
+          </div>
+          <div className={styles.Home__Date}>
+            2024.06.12.-16.
+          </div>
         </div>
         <Link className={styles.Home__Scroll} href="/#read_more">
           <RiArrowDownSLine />
