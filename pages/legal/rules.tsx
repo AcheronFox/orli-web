@@ -1,4 +1,4 @@
-import styles from "@/styles/pages/Rules.module.scss"
+import styles from "@/styles/pages/legal/Rules.module.scss"
 import { NextPage } from "next";
 import CustomHead from "@/comp/CustomHead";
 import useTranslate from "@/hooks/translate/useTranslate";

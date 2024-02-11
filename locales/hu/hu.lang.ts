@@ -71,6 +71,10 @@ const hu: Language = {
     // CONTACT
     contact: "Kérdésed van vagy problémába ütköztél? Esetleg bug-ot találtál az oldalon? Keress fel minket a lent található e-mail címen!",
 
+    // GALLERY
+    galleryVideos: "Videók",
+    galleryImages: "Képek",
+
     // FAQ
     faqIntro: "A rendezvénnyel kapcsolatban legtöbbször felmerült kérdésekre alább gyűjtöttük össze a válaszokat. Elképzelhető azonban, hogy minden igyekezetünk ellenére további kíváncsiskodás indokolt, ezért kérünk vedd fel a kapcsolatot a szervezőkkel e-mailben vagy Telegramon.",
 
