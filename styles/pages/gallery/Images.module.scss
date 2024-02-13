@@ -1,4 +1,4 @@
-.Gallery {
+.Images {
     &__Content {
         display: flex;
         flex-direction: row;
@@ -8,7 +8,7 @@
         width: 100%;
         padding: 1rem;
 
-        @include respond(phone) {
+        @include respond(tiny-desktop) {
             flex-direction: column;
         }
     }
@@ -22,7 +22,7 @@
         max-height: max-content;
         cursor: pointer;
 
-        @include respond(phone) {
+        @include respond(tiny-desktop) {
             max-width: 100%;
         }
 
@@ -36,7 +36,6 @@
             transform: scale(1);
             object-fit: cover;
             filter: drop-shadow(0 .3rem .5rem rgba($black, .7));
-            border-radius: 2px;
 
             transition: all .3s, border .5s;
             background-clip: padding-box;
