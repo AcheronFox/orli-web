@@ -18,6 +18,10 @@
         }
     }
 
+    &__Image {
+        max-height: 20rem;
+    }
+
     &__Title {
         color: $color-primary;
         font-family: $styled-font-family;

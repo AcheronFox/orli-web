@@ -5,9 +5,9 @@ const useLocaleSwitch = (locale: string, fileName: string) => {
     const [data, setData] = useState<any>();
 
     useEffect(() => {
-        setData(
-            require(`../../locales/${locale}/${locale}.${fileName}`)
-        )
+        const temp = require(`../../locales/${locale}/${locale}.${fileName}`)
+        
+        setData(temp.default? temp.default : temp)
     }, [locale, fileName]);
 
     return data;
