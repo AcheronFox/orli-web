@@ -23,7 +23,7 @@ const Location: NextPage<Props> = (props: Props) => {
     setDidInit(true)
   }, [])
 
-  const POIs: IPOI[] = useLocaleSwitch(currLang, "poi.json")
+  const POIs: IPOI[] = useLocaleSwitch(currLang, "poi.ts")
 
   const onPointermove = (e: MapBrowserEvent<UIEvent>) => {
     const pixel = e.target.getEventPixel(e.originalEvent);
@@ -42,6 +42,12 @@ const Location: NextPage<Props> = (props: Props) => {
             customTitleClass={styles.Location__Title}
             customBodyClass={styles.Location__Body}
             variant="filled"
+            image={{
+              imgPath: "pakasz.jpg",
+              alt: "Location_Img",
+              sizes: "(max-width: 1000px) 100vw, 60vw",
+              customStyle: styles.Location__Image
+            }}
             shadowEnabled
           >
             {lang.locEventC1}
@@ -64,6 +70,12 @@ const Location: NextPage<Props> = (props: Props) => {
             customBodyClass={styles.Location__Body}
             variant="filled"
             shadowEnabled
+            image={{
+              imgPath: "stickers/st_bed.png",
+              alt: "Bed Sticker",
+              sizes: "(max-width: 1400px) 50vw, 20vw",
+            }}
+            imagePlacement="right"
           >
             <span>
               {lang.locAccom1}

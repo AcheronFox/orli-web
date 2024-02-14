@@ -54,6 +54,8 @@
             width: 100%;
         }
         &_right {
+            display: flex;
+            justify-content: center;
             height: auto;
             object-fit: scale-down;
         }
