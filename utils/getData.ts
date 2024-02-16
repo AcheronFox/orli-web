@@ -2,15 +2,23 @@ import { IAccount } from "@/models/account.model";
 import { IUser } from "@/models/user.model";
 import database from '../functions/utils/mysql';
 import { TicketDatabase } from "@/models/database.model";
+import dbPrisma from "@/database/DatabaseClient";
 
 const getAccountByEmail = async (email: string) => {
-    const query =
-        `
-        SELECT * FROM account
-        WHERE email = ?;
-        `
 
-    return getPromiseFromDatabase<IAccount>(query, email.toLowerCase());
+    return dbPrisma.attendee.findFirst({
+        where: {
+            email: email.toLowerCase()
+        }
+    })
+
+    // const query =
+    //     `
+    //     SELECT * FROM account
+    //     WHERE email = ?;
+    //     `
+    //
+    // return getPromiseFromDatabase<IAccount>(query, email.toLowerCase());
 }
 
 const getAccountByKey = async (key: string) => {
