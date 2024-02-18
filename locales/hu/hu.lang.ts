@@ -373,10 +373,6 @@ const hu: Language = {
     priceOutro5: "Kérünk mindenkit, hogy a gördülékeny bejelentkezés érdekében készüljön a megfelelő bankjegyekkel.",
     
     // PROGRAMS
-    progIntro1: "A korábbi rendezvényekhez hasonlóan idén is széles programkínálattal jelentkezünk és igyekszünk mindenki számára tartalmas és eseménydús kikapcsolódást biztosítani.",
-    progIntro2: "Az alábbi listába szedtük össze a találkozó helyszínén fellelhető folyamatos vagy egyszeri időtöltési lehetőségeket.",
-    progIntro3: "Hiányolsz egy programot? Esetleg új ötleted van, amit szeretnél megvalósítani? Vedd fel a kapcsolatot a szervezőkkel az",
-    progIntro4: "címen!",
     progList: "Programlista",
     
     // ROOM

@@ -1,95 +1,62 @@
 import CustomHead from "@/comp/CustomHead";
-import LinkButton from "@/comp/LinkButton";
-import Section from "@/comp/Section";
-import { useTranslate } from "@/hooks/useTranslate";
+import TextCard from "@/comp/TextCard";
+import useTranslate from "@/hooks/translate/useTranslate";
+import { useHTMLString } from "@/hooks/utils/useHTMLString";
+import useIsMobile from "@/hooks/utils/useIsMobile";
+import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";
+import { IProgram } from "@/models/locale/program.model";
 import styles from "@/styles/pages/Programs.module.scss"
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { RiClipboardLine } from "react-icons/ri";
 
 type Props = {}
-interface CustomProgramInterface {title: string; description: string[];}
 
 const Programs: NextPage<Props> = (props: Props) => {
-  const { t, locale } = useTranslate()
-  const [programs, setPrograms] = useState<CustomProgramInterface[]>(
-    locale == "en"
-      ? require("../locales/en.programs.json")
-      : require("../locales/hu.programs.json")
-  );
-
-  useEffect(() => {
-    setPrograms(
-      locale == "en"
-      ? require("../locales/en.programs.json")
-      : require("../locales/hu.programs.json")
-    )
-  }, [locale])
-
-  const isValidUrl = (urlString: string) => {
-    try { 
-      return Boolean(new URL(urlString)); 
-    }
-    catch(e){ 
-      return false; 
-    }
-  }
+  const { lang, currLang } = useTranslate()
+  const data: IProgram = useLocaleSwitch(currLang, 'programs.ts')
+  const parse = useHTMLString()
+  const isMobile = useIsMobile(true)
 
   return (
     <>
-      <CustomHead title={t("navPrograms")} />
+      <CustomHead title={lang.navPrograms} />
+      <div className={styles.Programs__Background} />
       <div className={styles.Programs}>
-        <div className={styles.Programs__Title}>
-            <h1>
-                {t("navPrograms")}
-            </h1>
-        </div>
-        <div className={styles.Programs__Content}>
-          <Section>
-            <span>
-              {t("progIntro1")}<br />
-              {t("progIntro2")}<br />
-              {t("progIntro3")} {<LinkButton text={"orlifurstival@gmail.com"} link={"mailto:orlifurstival@gmail.com"} isInternal={false}></LinkButton>} {t("progIntro4")}
-            </span>
-          </Section>
-          <Section
-            title={t("progList")}
+        <TextCard
+          title={lang.navPrograms}
+          variant="filled"
+          shadowEnabled
+          icon={<RiClipboardLine />}
+          customBodyClass={styles.Programs__Body}
+          customTitleClass={styles.Programs__Title}
+        >
+          {
+            data?.intro.map((o) => {
+              const str = o+'<br/>'
+              return parse(str)
+            })
+          }
+        </TextCard>
+        <TextCard
+            title={lang.progList}
+            variant="filled"
+            shadowEnabled
+            customBodyClass={styles.Programs__Body}
+            customTitleClass={styles.Programs__Title}
+            image={isMobile? undefined : {
+              sizes: "(max-width: 1400px) 50vw, 20vw",
+              alt: "Explain Sticker",
+              imgPath: "stickers/st_explain.png",
+            }}
+            imagePlacement="right"
           >
-            <span>
-              {
-                (programs != undefined) &&
-                programs.map((val, i) => {
-                  return (
-                    <div key={i}>
-                      <br />
-                      <span>
-                        <span className={styles.Programs__Content__Title}><h3>{val.title}</h3></span>
-                        <div className={styles.Programs__Content__Desc}>
-                          {
-                            programs[i].description.map((content, j) => {
-                              return (
-                                <span key={j}>
-                                    {
-                                      (isValidUrl(content)) &&
-                                      <LinkButton text={content} link={content}></LinkButton>
-                                    }
-                                    {
-                                      (!isValidUrl(content)) &&
-                                      content
-                                    }
-                                  <br />
-                                </span>
-                              );
-                            })
-                          }
-                        </div>
-                      </span>
-                    </div>
-                  );
-                })
-              }
-            </span>
-          </Section>
-        </div>
+            {
+              data?.content.map((o) => {
+                const str = o+'<br/>'
+                return parse(str)
+              })
+            }
+          </TextCard>
       </div>
     </>
   )

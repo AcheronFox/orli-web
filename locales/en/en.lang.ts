@@ -373,10 +373,6 @@ const en: Language = {
     priceOutro5: "We kindly ask you to prepare the appropriate banknotes of cash for a smooth check-in.",
 
     // PROGRAMS
-    progIntro1: "Just as in previous events, this year we will also offer a wide range of activities while trying to provide a meaningful and fulfilling experience for everyone.",
-    progIntro2: "Below we have compiled the following list of ongoing or one-off activities available at the meeting venue.",
-    progIntro3: "Missing a program? Or maybe you have a new idea that you would want to implement? Contact the organizers at the following e-mail address:",
-    progIntro4: "!",
     progList: "Program List",
 
     // ROOM

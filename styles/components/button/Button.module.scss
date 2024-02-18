@@ -13,6 +13,8 @@
     user-select: none;
     text-align: center;
     font-size: $default-font-size !important;
+    width: max-content;
+    display: inline-flex;
 
     :not(:last-child) {
         margin-right: .5rem;
@@ -64,6 +66,7 @@
     }
 
     &__Text {
+        text-transform: none;
         background: none;
         filter: brightness(1.001);
         transition: filter cubic-bezier(0.25, 0.8, 0.25, 1) 400ms;
