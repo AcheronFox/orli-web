@@ -373,10 +373,6 @@ declare interface Language {
     priceOutro5: string;
 
     // PROGRAMS
-    progIntro1: string;
-    progIntro2: string;
-    progIntro3: string;
-    progIntro4: string;
     progList: string;
 
     // ROOM

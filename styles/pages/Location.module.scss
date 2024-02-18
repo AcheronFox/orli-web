@@ -49,6 +49,11 @@
         &_Tertiary {
             width: 100%;
             justify-content: flex-start;
+
+            & > * {
+                width: 100%;
+                justify-content: flex-start;
+            }
         }
     }
 
