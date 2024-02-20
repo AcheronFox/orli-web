@@ -1,4 +1,8 @@
 export interface IProgram {
     intro: string[]
-    content: string[]
+    body: string[]
+    content: {
+        title: string
+        body: string[]
+    }[]
 }

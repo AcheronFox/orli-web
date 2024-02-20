@@ -2,6 +2,8 @@ import { NextPage } from "next";
 import React from "react";
 import styles from "@/styles/components/TextCard.module.scss";
 import Picture from "./utils/Picture";
+import useHyphenate from "@/hooks/utils/useHyphenate";
+import useTranslate from "@/hooks/translate/useTranslate";
 
 type Props = {
     children?: string | React.ReactNode
@@ -13,6 +15,8 @@ type Props = {
     shadowEnabled?: boolean
     customTitleClass?: string
     customBodyClass?: string
+    floatImage?: boolean
+    floatIcon?: boolean
 };
 
 const TextCard: NextPage<Props> = ({
@@ -25,6 +29,8 @@ const TextCard: NextPage<Props> = ({
     shadowEnabled,
     customTitleClass,
     customBodyClass,
+    floatImage = false,
+    floatIcon = false,
 }: Props) => {
 
     return (
@@ -60,17 +66,34 @@ const TextCard: NextPage<Props> = ({
                 ${customBodyClass? customBodyClass : ''}
             `}>
                 {
-                    (icon != undefined) &&
+                    (icon != undefined && floatIcon == false) &&
                     <div className={styles.TextCard__Icon}>
                         {icon}
                     </div>
                 }
                 <div className={styles.TextCard__Content}>
+                    {
+                        (icon != undefined && floatIcon == true) &&
+                        <div className={`${styles.TextCard__Icon} ${styles.TextCard__Icon_float}`}>
+                            {icon}
+                        </div>
+                    }
+                    {
+                        (image != undefined && imagePlacement == 'right' && floatImage == true) &&
+                        <div className={`${styles.TextCard__Image} ${styles.TextCard__Image_right} ${styles.TextCard__Image_float}`}>
+                            <Picture
+                                sizes={image.sizes || '100vw'}
+                                alt={image.alt || "Text Card Image"}
+                                defaultSrc={image.imgPath}
+                                className={`${image.customStyle? image.customStyle : ''}`}
+                            />
+                        </div>
+                    }
                     {children}
                 </div>
                 {
-                    (image != undefined) && imagePlacement == 'right' &&
-                    <div className={styles.TextCard__Image}>
+                    (image != undefined && imagePlacement == 'right' && floatImage == false) &&
+                    <div className={`${styles.TextCard__Image}`}>
                         <Picture
                             sizes={image.sizes || '100vw'}
                             alt={image.alt || "Text Card Image"}
