@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import parse, { HTMLReactParserOptions, Element, attributesToProps, domToReact, DOMNode } from 'html-react-parser';
 import Button from "@/comp/button/Button";
 import { NextPage } from "next";
+import useHyphenate from "./useHyphenate";
+import useTranslate from "../translate/useTranslate";
 
 
 const options: HTMLReactParserOptions = {
@@ -36,8 +38,12 @@ const replaceDOMWithElement = (DOM: Element, Element: NextPage, elementName: str
 
 
 export const useHTMLString = () => {
+    const { currLang } = useTranslate()
+    const hyphenate = useHyphenate()
+
+
     const parseString = (str: string) => {
-        return parse(str, options)
+        return parse((hyphenate(currLang, str) as string), options)
     } 
 
     return parseString

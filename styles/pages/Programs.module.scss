@@ -34,6 +34,8 @@
     }
 
     &__Body {
+        text-align: left !important;
+
         a {
             text-align: justify;
             text-indent: 0;
@@ -43,18 +45,30 @@
             align-items: center;
             padding: 0;
         }
+    }
 
-        ul, ol {
-            margin-left: 1rem;
+    &__Content {
+        margin-top: 2rem;
+        background: none;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+        flex-wrap: wrap;
+
+        &__Title {
+            font-weight: bold;
+            padding: .5rem;
+            font-size: $styled-font-size;
         }
 
-        ul {
-            padding-left: 2rem;
+        & > * {
+            max-width: 45%;
         }
 
-        ol {
+        @include respond(small-desktop) {
             & > * {
-                margin: 0 1rem;
+                max-width: 100%;
             }
         }
     }

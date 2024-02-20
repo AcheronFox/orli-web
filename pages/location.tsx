@@ -75,6 +75,7 @@ const Location: NextPage<Props> = (props: Props) => {
               alt: "Bed Sticker",
               sizes: "(max-width: 1400px) 50vw, 20vw",
             }}
+            floatImage
             imagePlacement="right"
           >
             <span>
