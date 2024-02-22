@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import styles from "@/styles/pages/Rooms.module.scss"
+/*
+  import styles from "@/styles/pages/Rooms.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
 import { useUser } from "@/hooks/useUser";
@@ -672,3 +673,17 @@ const Rooms: NextPage<Props> = (props: Props) => {
 }
 
 export default Rooms;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Rooms: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Rooms

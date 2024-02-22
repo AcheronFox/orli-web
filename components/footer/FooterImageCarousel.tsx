@@ -4,9 +4,10 @@ import React, { useEffect, useState } from "react";
 import styles from "styles/components/footer/FooterImageCarousel.module.scss";
 import Picture from "../utils/Picture";
 import Link from "next/link";
+import { ICarousalImage } from "@/models/image.model";
 
 type Props = {
-  imgPaths: CustomImage[];
+  imgPaths: ICarousalImage[];
   startImage?: number;
   lengthToSwitch?: number;
 };
@@ -16,11 +17,8 @@ const FooterImageCarousel: NextPage<Props> = ({
   startImage = 0,
   lengthToSwitch = 5,
 }: Props) => {
-  const [indexOfShownImage, setIndexOfShownImage] =
-    useState<number>(startImage);
-  const [indexOfNextImage, setIndexOfNextImage] = useState<
-    number | null | undefined
-  >();
+  const [indexOfShownImage, setIndexOfShownImage] = useState<number>(startImage);
+  const [indexOfNextImage, setIndexOfNextImage] = useState<number | null | undefined>();
   const [isSwitching, setIsSwitching] = useState<boolean>(false);
 
   const SwitchImages = () => {

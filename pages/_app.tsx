@@ -8,7 +8,7 @@ import crypto from "crypto";
 import React from "react";
 import axiosInstance from "@/functions/utils/axiosConfig";
 import Footer from "@/comp/footer/Footer";
-import CustomHead from "@/comp/CustomHead";
+import CustomHead from "@/comp/utils/CustomHead";
 import { deleteCookie, getCookie } from "cookies-next";
 import MainProvider from "@/hooks/MainProvider";
 

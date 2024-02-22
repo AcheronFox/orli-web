@@ -1,6 +1,6 @@
 import styles from "@/styles/pages/legal/Rules.module.scss"
 import { NextPage } from "next";
-import CustomHead from "@/comp/CustomHead";
+import CustomHead from "@/comp/utils/CustomHead";
 import useTranslate from "@/hooks/translate/useTranslate";
 import TextCard from "@/comp/TextCard";
 import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";

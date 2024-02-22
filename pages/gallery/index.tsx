@@ -1,7 +1,7 @@
 import styles from "@/styles/pages/gallery/Gallery.module.scss"
 import { RiCamera3Line, RiVideoLine } from "react-icons/ri";
 import { NextPage } from "next";
-import CustomHead from "@/comp/CustomHead";
+import CustomHead from "@/comp/utils/CustomHead";
 import IconButton from "@/comp/button/IconButton";
 import useTranslate from "@/hooks/translate/useTranslate";
 

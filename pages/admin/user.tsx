@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import styles from "@/styles/pages/AdminUser.module.scss"
+/*
+    import styles from "@/styles/pages/AdminUser.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
 import { useUser } from "@/hooks/useUser";
@@ -366,3 +367,17 @@ const AdminUser: NextPage<Props> = (props: Props) => {
 }
 
 export default AdminUser;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const AdminUser: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default AdminUser

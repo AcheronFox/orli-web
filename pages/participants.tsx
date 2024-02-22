@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import UseWindowDimensions from "@/hooks/utils/useWindowDimensions";
+/*
+  import UseWindowDimensions from "@/hooks/utils/useWindowDimensions";
 import { IParticipant } from "@/models/participant.model";
 import styles from "@/styles/pages/Participants.module.scss"
 import axiosInstance from "@/functions/utils/axiosConfig";
@@ -358,3 +359,18 @@ const Participants: NextPage<Props> = (props: Props) => {
 }
 
 export default Participants;
+*/
+
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Participants: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Participants
