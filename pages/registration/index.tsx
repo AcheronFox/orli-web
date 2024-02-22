@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import CustomDatePicker from "@/comp/CustomDatePicker";
+/*
+  import CustomDatePicker from "@/comp/CustomDatePicker";
 import Input from "@/comp/Input";
 import NationalitySelector from "@/comp/NationalitySelector";
 import PrimaryButton from "@/comp/PrimaryButton";
@@ -680,3 +681,17 @@ const Registration: NextPage<Props> = (props: Props) => {
 }
 
 export default Registration;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Registration: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Registration

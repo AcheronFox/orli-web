@@ -11,7 +11,7 @@ import Button from '../button/Button';
 type Props = {}
 
 const Footer: NextPage<Props> = (props: Props) => {
-    const { lang } = useTranslate();
+    const { lang, currLang } = useTranslate();
 
     return (
         <footer className={styles.Footer} id={"footer"}>
@@ -58,6 +58,7 @@ const Footer: NextPage<Props> = (props: Props) => {
                     <div className={styles.Footer__Item__Find}>
                         <IconButton
                             size='large'
+                            target='_blank'
                             link='https://www.facebook.com/events/2502630689892634/'
                             tooltip={lang.footerFacebook}
                             tooltipColor='black'
@@ -66,7 +67,12 @@ const Footer: NextPage<Props> = (props: Props) => {
                         </IconButton>
                         <IconButton
                             size='large'
-                            link='https://t.me/orliforstivalHU'
+                            target='_blank'
+                            link={
+                                (currLang=='hu')
+                                ? 'https://t.me/orliforstivalHU'
+                                : 'https://t.me/orliforstivalEN'
+                            }
                             tooltip={lang.footerTelegramChat}
                             tooltipColor='black'
                         >
@@ -74,6 +80,7 @@ const Footer: NextPage<Props> = (props: Props) => {
                         </IconButton>
                         <IconButton
                             size='large'
+                            target='_blank'
                             link='https://t.me/orliforsztival'
                             tooltip={lang.footerTelegramAnnounce}
                             tooltipColor='black'

@@ -1,25 +1,18 @@
-import CustomHead from "@/comp/CustomHead";
-import LinkButton from "@/comp/LinkButton";
-import PriceCard from "@/comp/PriceCard"
-import Section from "@/comp/Section";
-import { useTranslate } from "@/hooks/useTranslate";
+import CustomHead from "@/comp/utils/CustomHead";
+import useTranslate from "@/hooks/translate/useTranslate";
 import styles from "@/styles/pages/Prices.module.scss"
 import { NextPage } from "next";
 
 type Props = {}
 
 const Prices: NextPage<Props> = (props: Props) => {
-    const { t } = useTranslate();
+    const { lang } = useTranslate();
 
     return (
         <>
-            <CustomHead title={t("navPrices")} />
+            <CustomHead title={lang.navPrices} />
+            <div className={styles.Prices__Background} />
             <div className={styles.Prices}>
-                <div className={styles.Prices__Title}>
-                    <h1>
-                        {t("navPrices")}
-                    </h1>
-                </div>
                 <div className={styles.Prices__Content}>
                     <Section>
                         <span>

@@ -1,4 +1,4 @@
-import CustomHead from "@/comp/CustomHead";
+import CustomHead from "@/comp/utils/CustomHead";
 import TextCard from "@/comp/TextCard";
 import useTranslate from "@/hooks/translate/useTranslate";
 import { useHTMLString } from "@/hooks/utils/useHTMLString";

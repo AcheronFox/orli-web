@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/*
 import styles from "@/styles/pages/Tickets.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
@@ -972,3 +973,17 @@ const Tickets: NextPage<Props> = (props: Props) => {
 }
 
 export default Tickets;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Tickets: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Tickets

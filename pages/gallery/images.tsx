@@ -1,6 +1,6 @@
 import styles from "@/styles/pages/gallery/Images.module.scss";
 import { NextPage } from "next";
-import CustomHead from "@/comp/CustomHead";
+import CustomHead from "@/comp/utils/CustomHead";
 import useTranslate from "@/hooks/translate/useTranslate";
 import Link from "next/link";
 import Picture from "@/comp/utils/Picture";
