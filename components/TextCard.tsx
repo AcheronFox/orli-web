@@ -2,14 +2,13 @@ import { NextPage } from "next";
 import React from "react";
 import styles from "@/styles/components/TextCard.module.scss";
 import Picture from "./utils/Picture";
-import useHyphenate from "@/hooks/utils/useHyphenate";
-import useTranslate from "@/hooks/translate/useTranslate";
+import { ICustomImage } from "@/models/image.model";
 
 type Props = {
     children?: string | React.ReactNode
     icon?: React.ReactNode
     title?: string | React.ReactNode
-    image?: CustomImage
+    image?: ICustomImage
     imagePlacement?: 'top' | 'right'
     variant?: 'contained' | 'outlined' | 'simple' | 'filled'
     shadowEnabled?: boolean
