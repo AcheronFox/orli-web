@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next"
 import styles from "@/styles/components/input/Input.module.scss"
-import { HTMLInputTypeAttribute, useEffect } from "react"
+import { HTMLInputTypeAttribute, useEffect, useState } from "react"
 
 type Props = {
     type?: HTMLInputTypeAttribute
@@ -10,7 +11,8 @@ type Props = {
     disabled?: boolean
     startAdornment?: React.ReactElement
     endAdornment?: React.ReactElement
-    variant?: 'text' | 'outlined'
+    value?: string
+    onChange?: (val: string) => void
 }
 const Input: NextPage<Props> = ({
     id,
@@ -19,8 +21,15 @@ const Input: NextPage<Props> = ({
     disabled,
     startAdornment,
     endAdornment,
-    variant = 'text'
+    value,
+    onChange
 }: Props) => {
+    const [val, setVal] = useState<string>(value || '')
+    const [isFocused, setIsFocused] = useState<boolean>(false)
+
+    useEffect(() => {
+        if (onChange) onChange(val)
+    }, [val])
 
     return (
         <div
@@ -31,14 +40,16 @@ const Input: NextPage<Props> = ({
         >
             {
                 (startAdornment != undefined) &&
-                <div className={styles.Input__Start}>
+                <div className={`
+                    ${styles.Input__Start}
+                    ${isFocused? styles.Input__Start__Active : ''}
+                `}>
                     {startAdornment}
                 </div>
             }
             <div
                 className={`
                     ${styles.Input__Wrapper__Input}
-                    ${(variant=="outlined")? styles.Input__Outlined : ''}
                 `}
             >
                 <input
@@ -47,6 +58,10 @@ const Input: NextPage<Props> = ({
                     className={styles.Input}
                     placeholder={label}
                     id={id || 'input'}
+                    value={val}
+                    onChange={(o) => setVal(o.target.value)}
+                    onFocus={() => setIsFocused(true)}
+                    onBlur={() => setIsFocused(false)}
                 />
                 {
                     (label != undefined) &&
@@ -60,7 +75,10 @@ const Input: NextPage<Props> = ({
             </div>
             {
                 (endAdornment != undefined) &&
-                <div className={styles.Input__End}>
+                <div className={`
+                    ${styles.Input__End}
+                    ${isFocused? styles.Input__End__Active : ''}
+                `}>
                     {endAdornment}
                 </div>
             }
