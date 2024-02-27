@@ -77,6 +77,7 @@ declare interface Language {
 
     // FAQ
     faqIntro: string;
+    faqSearch: string;
 
     // HOME
     homeBtnReg: string;

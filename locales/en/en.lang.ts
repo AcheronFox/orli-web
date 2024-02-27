@@ -77,6 +77,7 @@ const en: Language = {
 
     // FAQ
     faqIntro: "Below you can find some answers to the most frequently asked questions about the event. However, despite our best efforts, it is possible that not all of your concerns are answered here, if you have additional questions please get in contact with the organisers via e-mail or Telegram.",
+    faqSearch: "Search",
 
     // HOME
     homeBtnReg: "Registration",

@@ -77,6 +77,7 @@ const hu: Language = {
 
     // FAQ
     faqIntro: "A rendezvénnyel kapcsolatban legtöbbször felmerült kérdésekre alább gyűjtöttük össze a válaszokat. Elképzelhető azonban, hogy minden igyekezetünk ellenére további kíváncsiskodás indokolt, ezért kérünk vedd fel a kapcsolatot a szervezőkkel e-mailben vagy Telegramon.",
+    faqSearch: "Keresés",
 
     // HOME
     homeBtnReg: "Regisztrálás",
@@ -340,8 +341,6 @@ const hu: Language = {
         "Ha adminisztrátorként lépsz ki egy szobából, akkor a rang a Téged időrendben követő következő tagra száll át. Ha a szoba kiürül, az adatok törlődnek rendszerünkből.",
         "Ha egyedül vagy egy szobában, úgy 72 órád van szobatársat találni, ellenkező esetben a rendszer kiléptet a szobából."
     ],
-    
-    // INFO
 
 
     // ADMIN
