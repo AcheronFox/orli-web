@@ -304,7 +304,7 @@ const Navbar = ({
     return (
         <nav className={styles.Navbar} id="navbar">
             <Link href="/" className={`${styles.Navbar__BrandImage} ${customBrandClass || ""}`}>
-                <Image src={brandImageSrc} alt="Brand Logo" sizes="7.375em" width="0" height="0"/>
+                <Image src={brandImageSrc} alt="Brand Logo" sizes="20%" width="0" height="0"/>
             </Link>
             {
                 (isMobile == true)?
