@@ -29,11 +29,6 @@
 
             width: 4.5rem;
             height: 4.5rem;
-
-            @include respond(big-desktop) {
-                width: 10.25em;
-                height: 10.25em;
-            }
         }
     }
 
