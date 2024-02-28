@@ -9,6 +9,10 @@
     flex-direction: column;
     margin: auto;
 
+    &__Background {
+        @include DefaultBackground;
+    }
+
     @include respond(small-desktop) {
         padding: 4rem 10rem;
         width: 70%;
