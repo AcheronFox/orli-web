@@ -1,8 +1,8 @@
-import resetPassword from '@/utils/password-handler';
+import resetPassword from '@/functions/auth/password-handler';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import { IPasswordResetToken } from '@/models/password-reset-token.model';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey } from '@/utils/getData';
@@ -24,11 +24,11 @@ export default async function handler(
             const query = 
             `
             SELECT * FROM password_reset_tokens
-            WHERE token = '${req.body.token}'
-            LIMIT 1
+            WHERE token = ?
+            LIMIT 1;
             `
 
-            database.query(query, async (err: any, result: IPasswordResetToken[]) => {
+            database.query(query, [req.body.token], async (err: any, result: IPasswordResetToken[]) => {
                 if (err) {
                     console.log("ERROR: ", err);
                     sendResponse(500, {message: "Unknown Error", e_code: "reset_1"}); 
@@ -55,10 +55,10 @@ export default async function handler(
                         const query = 
                         `
                         DELETE FROM password_reset_tokens
-                        WHERE AccountKey = '${account.AccountKey}'
+                        WHERE AccountKey = ?;
                         `
             
-                        database.query(query, async (err: any, result: IAccount[]) => {
+                        database.query(query, [account.AccountKey], async (err: any, result: IAccount[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "reset_3"}); 

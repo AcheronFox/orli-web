@@ -1,45 +1,92 @@
-import PrimaryButton from "@/comp/PrimaryButton"
 import styles from "@/styles/pages/Home.module.scss"
-import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
-import Separator from "@/comp/Separator";
-import { RiArrowDropDownLine } from "react-icons/ri"
+import { RiArrowDownSLine, RiBrush2Line, RiQuestionLine } from "react-icons/ri"
+import useTranslate from "@/hooks/translate/useTranslate";
+import Button from "@/comp/button/Button";
+import ButtonGroup from "@/comp/button/ButtonGroup";
+import Link from "next/link";
+import TextCard from "@/comp/TextCard";
+import Picture from "@/comp/utils/Picture";
+import useIsMobile from "@/hooks/utils/useIsMobile";
 
 type Props = {}
 
 const Home: NextPage<Props> = (props: Props) => {
-  const { t } = useTranslate();
+  const { lang } = useTranslate();
+  const isMobile = useIsMobile()
 
   return (
     <div>
       <section className={styles.Home}>
-        <Separator IconComp={<RiArrowDropDownLine />} text={t("homeScroll")}></Separator>
+        <Picture
+          alt={"Main art"}
+          defaultSrc={isMobile? "main_phone.jpg" : "main.jpg"}
+          sizes={"100wv"}
+          className={styles.Home__Background}
+        />
+        <div className={styles.Home__Text}>
+          <div className={styles.Home__Title}>
+            <h3>Örli Försztivál</h3>
+          </div>
+          <div className={styles.Home__Location}>
+            {lang.homeLocation}
+          </div>
+          <div className={styles.Home__Date}>
+            2024.06.12.-16.
+          </div>
+        </div>
+        <Link className={styles.Home__Scroll} href="/#read_more">
+          <RiArrowDownSLine />
+        </Link>
       </section>
-      <section className={styles.Home__Content}>
+      <section className={styles.Home__Content} id="read_more">
         <div className={styles.Home__Wrapper}>
-          <span className={styles.Home__Title}>
-            <h3>
-              {t("homeTitle1")}
-            </h3>
-            <h3>
-              {t("homeTitle2")}
-            </h3>
-          </span><br /><br />
-          <span>
-            {t("homeText1")}<br />
-            {t("homeText2")}<br /><br />
-            {t("homeText3")}<br /><br />
-            {t("homeText4")}
-          </span><br /><br />
-          <div className={styles.Home__Center}>
-            <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/ZV7x83_KOIM/" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen={true}></iframe>
-          </div><br /><br />
-          <span>
-            {t("homeText5")}
-          </span>
-          
-          <div className={styles.Home__Btn}>
-            <PrimaryButton text={t("homeReg")} link="/registration"></PrimaryButton>
+          <div className={styles.Home__Wrapper__Row}>
+            <TextCard
+              title="Örli Försztivál"
+              icon={<RiQuestionLine />}
+              variant="simple"
+            >
+              {lang.homeAbout1}<br /><br />
+              {lang.homeAbout2}
+            </TextCard>
+
+            <TextCard
+              title={lang.homeTheme}
+              icon={<RiBrush2Line />}
+              variant="simple"
+              image={{
+                imgPath: "tiki.png",
+                sizes: "(max-width: 1400px) 50vw, 20vw",
+                alt: "Tiki Statue"
+              }}
+              imagePlacement="right"
+            >
+              {lang.homeThemeDesc1}<br /><br />
+              {lang.homeThemeDesc2}
+            </TextCard>
+          </div>
+
+          <div className={styles.Home__Wrapper__Row}>
+            <TextCard
+              title={lang.homeNext}
+              variant="simple"
+            >
+              {lang.homeText5}
+              <div className={styles.Home__Btn}>
+                <ButtonGroup>
+                  <Button variant="outlined" link="/gallery">
+                    {lang.homeBtnGallery}
+                  </Button>
+                  <Button variant="contained" link="/registration">
+                    {lang.homeBtnReg}
+                  </Button>
+                  <Button variant="outlined" link="/location">
+                    {lang.homeBtnLocation}
+                  </Button>
+                </ButtonGroup>
+              </div>
+            </TextCard>
           </div>
         </div>
       </section>

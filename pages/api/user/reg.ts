@@ -1,11 +1,11 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { IRegistrationForm } from '@/models/registration-form.model';
-import database from '@/utils/mysql'
+import database from '@/functions/utils/mysql'
 import * as bcrypt from 'bcrypt';
 import { v4 as uuidv4 } from 'uuid';
 import * as mysql from "mysql";
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import { regDates } from '../defaults/registration';
 
 const toSqlDatetime = (inputDate: Date) => {
@@ -46,7 +46,7 @@ export default async function handler(
     }
 
     const isRegistrationForm = (x: any): x is IRegistrationForm => {
-        if (typeof x.firstName === 'string' &&
+        return typeof x.firstName === 'string' &&
             typeof x.lastName === 'string' &&
             typeof x.fursonaName === 'string' &&
             typeof x.fursonaSpecies === 'string' &&
@@ -55,14 +55,11 @@ export default async function handler(
             typeof x.age === 'number' &&
             typeof x.password === 'string' &&
             typeof x.nationality === 'string' &&
-            typeof x.contact === 'string') {
-                return true
-            }
-        else return false
+            typeof x.contact === 'string';
     }
 
     const isValidForm = (x: IRegistrationForm) => {
-        if (x.firstName != '' &&
+        return x.firstName != '' &&
             x.lastName != '' &&
             x.fursonaName != '' &&
             x.fursonaSpecies != '' &&
@@ -71,10 +68,7 @@ export default async function handler(
             x.age != 0 &&
             x.password != '' &&
             x.nationality != '' &&
-            x.contact != '') {
-                return true
-            }
-        else return false
+            x.contact != '';
     }
 
     if (req.body.otherPass != "") {
@@ -98,7 +92,7 @@ export default async function handler(
         // ====================================================
         const hasAccountConflict = async () => {
             return new Promise(async (resolve) => {
-                database.query(`SELECT * FROM account WHERE email = '${req.body.email.toLowerCase().trim()}' OR AccountKey = '${newAccountKey}'`, async (err: any, result: string | any[]) => {
+                database.query(`SELECT * FROM account WHERE email = ? OR AccountKey = ?;`, [req.body.email.toLowerCase().trim(), newAccountKey],async (err: any, result: string | any[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "reg_1"});
@@ -106,7 +100,7 @@ export default async function handler(
                     }
                     if (result.length) {
                         if (result[0].email == req.body.email.toLowerCase().trim()) {
-                            sendResponse(409, {message: "Email already registrated", e_code: "reg_2"});
+                            sendResponse(409, {message: "Email already registered", e_code: "reg_2"});
                             resolve(true);
                         }
                         else {
@@ -128,7 +122,7 @@ export default async function handler(
         }
         const hasUserConflict = async () => {
             return new Promise(async (resolve) => {
-                database.query(`SELECT * FROM user WHERE UserKey = '${newUserKey}'`, async (err: any, result: string | any[]) => {
+                database.query(`SELECT * FROM user WHERE UserKey = ?;`, [newUserKey],async (err: any, result: string | any[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "reg_5"});

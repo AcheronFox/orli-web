@@ -1,0 +1,105 @@
+.Input {
+    font-family: inherit;
+    width: 100%;
+    border: 0;
+    border-bottom: .2rem solid $grey-4;
+    outline: 0;
+    color: $white;
+    padding: .7rem 1rem;
+    background: transparent;
+    font-size: 1.8rem;
+    transition: border-color .2s;
+    position: relative;
+    background-color: $grey-0;
+
+    &:required, &:invalid { box-shadow:none; }
+
+    &::placeholder {
+        color: transparent;
+    }
+
+    &:placeholder-shown ~ & {
+        &__Label {
+            font-size: 1.8rem;
+            cursor: text;
+            top: 2.1rem;
+        }
+    }
+
+    &:focus {
+        border-color: $color-primary;
+    }
+
+    &__Label {
+        position: absolute;
+        top: 0rem;
+        margin-left: 1.1rem;
+        padding: 0 1rem;
+        display: block;
+        transition: 0.2s;
+        font-size: 1.5rem;
+        color: $grey-4;
+        background-color: $grey-0;
+        border-radius: .3rem;
+        backface-visibility: hidden;
+    }
+
+    &:focus ~ & {
+        &__Label {
+            position: absolute;
+            top: 0rem;
+            display: block;
+            transition: 0.2s;
+            font-size: 1.5rem;
+            color: $color-primary;
+            font-weight: 700;
+            padding: 0 1rem;
+        }
+    }
+
+    &__Wrapper {
+        position: relative;
+        padding: 1.5rem 0 0;
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__Input {
+            flex-grow: 1;
+        }
+    }
+
+    &__Disabled {
+        pointer-events: none;
+        opacity: .9;
+    }
+
+    &__Start, &__End {
+        color: rgba($white, .8);
+        border-bottom: .2rem solid $grey-4;
+        padding: .3rem;
+        min-height: 4rem;
+        background: rgba($grey-2, .4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: border-color .2s;
+
+        &__Active {
+            border-color: $color-primary !important;
+        }
+    }
+
+    &__Start {
+        border-top-left-radius: .3rem;
+        border-bottom-left-radius: .3rem;
+        border-left: .2rem solid $grey-4;
+    }
+
+    &__End {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+        border-right: .2rem solid $grey-4;
+    }
+}

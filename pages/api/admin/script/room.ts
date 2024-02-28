@@ -1,9 +1,9 @@
 import { IRoom } from '@/models/room.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import { verifyScript } from '@/utils/veryifToken';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import { verifyScript } from '@/functions/auth/veryifToken';
 
 
 export default async function handler(
@@ -25,7 +25,7 @@ export default async function handler(
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT * FROM room
+                SELECT * FROM room;
                 `
 
                 database.query(query, async (err: any, result: IRoom[]) => {

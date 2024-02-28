@@ -1,0 +1,226 @@
+import { IFAQ } from "@/models/locale/faq.model"
+
+const faq: IFAQ = {
+    cat1: {
+        translation: 'category 1',
+        data: [
+            {
+                title: "What is \"Örli Försztivál\"?",
+                content: [
+                    "The \"Örli Försztivál\" is a multi-day international meet for people interested in the furry subculture."
+                ]
+            },
+            {
+                title: "Do I need to register in order to participate?",
+                content: [
+                    "Yes. It is important that you understand and accept the rules and business conditions of this meet. Unfortunately, without this, we will not be able to let you into the meet area."
+                ]
+            },
+            {
+                title: "Is there an age limit for the event?",
+                content: [
+                    "The age limit is being 18 years old by the start of the event. If you are younger and would like to attend, please contact the organisers."
+                ]
+            },
+            {
+                title: "How long will it take to process my payment?",
+                content: [
+                    "The organisers are working day and night to make sure that the registration process goes as smoothly as possible, but they ask for at least 24 hours to fully process your payment."
+                ]
+            }
+        ],
+    },
+    
+    cat2: {
+        translation: 'category 2',
+        data: [
+            {
+                title: "Where can I find place for my food and drinks that need refrigeration?",
+                content: [
+                    "There are several kitchens and fridges in the buildings, waiting to be stocked with various products. To avoid any inconvenience, please clearly mark your goodies with the provided tools and note where you have put them. Don't touch other people's food or drinks, and don't adjust the temperature of the fridges!"
+                ]
+            },
+            {
+                title: "Can I use the grills and barbecues in the garden area freely?",
+                content: [
+                    "Depending on the available capacity, garden barbecues, grills, grill grates, kettles, utensils, sauces, condiments, firewood and fire starters are free to use at any time. If you are not confident in your fire starting skills, please ask the organisers for assistance."
+                ]
+            },
+            {
+                title: "Where can I pile up the accumulated waste?",
+                content: [
+                    "There are several separate waste collection places in the area. If one of the bags are full, let the organisers know!"
+                ]
+            },
+            {
+                title: "Can food and drink be brought into the event area?",
+                content: [
+                    "Yes. There are no quantity or quality restrictions during the event."
+                ]
+            }
+        ],
+    },
+    
+    cat3: {
+        translation: 'category 3',
+        data: [
+            {
+                title: "Is there a drinks bar, buffet, or sales of hot food available on site?",
+                content: [
+                    "Our very own bar, the NicoBar, will help at quenching your thirst during the afternoon and until dawn. The resort does not sell food, so unlimited quantities can be ordered or brought into the event area."
+                ]
+            },
+            {
+                title: "What information do I need to provide during registration?",
+                content: [
+                    "It is important that you provide your real civil name, nationality and date of birth, as well as a valid e-mail address when registering. We can check the authenticity of these details when you arrive at the event, also you can find out how they are being handled under \"Data Handling\". In case of false data, the organisers may refuse entry. All other data are arbitrary, they help the meet participants and the organisers in recognising each other and are of statistical importance."
+                ]
+            },
+            {
+                title: "How can I support the event?",
+                content: [
+                    "We welcome any support, whether financial, moral or physical. If you would like to support us financially, you can do so at the ticket selection."
+                ]
+            },
+            {
+                title: "Can my pet come with me to the event?",
+                content: [
+                    "Yes, our event venue welcomes pets. If you wish to bring your pet with you, please get in contact with the organisers via e-mail or Telegram."
+                ]
+            }
+        ],
+    },
+
+    cat4: {
+        translation: 'category 4',
+        data: [
+            {
+                title: "Will there be a suitwalk?",
+                content: [
+                    "An organised and provided suitwalk is not part of the program list."
+                ]
+            },
+            {
+                title: "How much time do I have to pay for the package I have chosen?",
+                content: [
+                    "You have 7 days from the date that you have selected your packages, but we need to receive your payment before your arrival at the event. Otherwise, your selected packages will be deleted from our system. We will not allow you to enter the event without the payment of your chosen package."
+                ]
+            },
+            {
+                title: "How can I book a room?",
+                content: [
+                    "Reservations are only available after your payment has been confirmed. The process is as follows:",
+                    "Select the Rooms option in the menu and you will see all the available rooms at the venue. If there is no name displayed next to a room number, then you will have the option to get in that room and become the room's administrator. You can change the name of the room, create a PIN code or share your Telegram contact details with others.",
+                    "If there is no room available or you would like to join others in another room, then you will need to click on your desired Room and enter its PIN code in order to gain entry to that room.",
+                    "If you don't have a PIN code that has been shared with you, then you will need to get in contact with the room's administrator first.",
+                    "If you leave a room as an administrator, then your rank will pass down to the next member that joined that room in chronological order after you. When a room becomes empty, all of it's data will be deleted from our system.",
+                    "If you are alone in a room, then you will have 72 hours to find a roommate, otherwise the system will kick you out of that room."
+                ]
+            }
+        ],
+    },
+
+    cat5: {
+        translation: 'category 5',
+        data: [
+            {
+                title: "I can't find any empty rooms anymore, but there are still some rooms with free spaces available. What can I do?",
+                content: [
+                    "To help you find a roommate, you can use the room-sharing Telegram group of the Försztivál here: $https://t.me/+fsRN7t4bdJJlNzg0ß. It's important that you read the chat's description first and follow its rules! If you can't find a room by midnight on June 4, our system will automatically assign you to one of the still available places."
+                ]
+            },
+            {
+                title: "What is included in each ticket?",
+                content: [
+                    "Different packages and options offer different variations of tickets, so be sure to check the \"Prices\" section before you make a payment."
+                ]
+            },
+            {
+                title: "Do I have to choose a breakfast option?",
+                content: [
+                    "Yes, because this is a mandatory part of the overnight stay. If you don't fancy breakfast, you can be sure that the meal of your choice will find other hungry mouths to feed."
+                ]
+            }
+        ],
+    },
+
+    cat6: {
+        translation: 'category 6',
+        data: [
+            {
+                title: "When can I enter the event area?",
+                content: [
+                    "We open the gates for newcomers at 2:00 PM. The only exception from this is Day Zero, where we welcome our participants from 4:00 PM."
+                ]
+            },
+            {
+                title: "Can I buy a ticket on the spot?",
+                content: [
+                    "Yes, but a registration prior to this is required. You can only buy tickets on the spot if you accept the rules and register first on our website."
+                ]
+            },
+            {
+                title: "I have already paid for my ticket, but I cannot attend the event. What are my options?",
+                content: [
+                    "No refunds are allowed on already paid tickets. If you wish to transfer your ticket to someone else, then both of you need to get in contact with the organisers."
+                ]
+            }
+        ],
+    },
+
+    cat7: {
+        translation: 'category 7',
+        data: [
+            {
+                title: "Why do I have to hand in a photo ID at the check-in?",
+                content: [
+                    "Our host is obliged by current legislation to digitally record your ID. We will try to return your ID cards back to you as soon as possible."
+                ]
+            },
+            {
+                title: "What do I need to know about the resting areas?",
+                content: [
+                    "These designated areas are mainly reserved for our guests arriving with their tents. Please do not disturb the peace and quiet of this place and try to meet your social needs elsewhere in other areas of the resort instead."
+                ]
+            },
+            {
+                title: "Is there free internet access on the site?",
+                content: [
+                    "Yes, free Wi-Fi access will be provided for event participants."
+                ]
+            }
+        ],
+    },
+
+    cat8: {
+        translation: 'category 8',
+        data: [
+            {
+                title: "What do I need to know about camping in tents?",
+                content: [
+                    "Camping in tents is only possible in the resting areas. For our camping guests, cleaning is possible in the bathrooms and toilets of the Vidra and Fácán houses, along with the public toilets of the campsite. Electricity is available at several points of the site. It is important to note that it is your responsiblity to bring your own tent, bedding and toiletries if needed!"
+                ]
+            },
+            {
+                title: "I will arrive by vehicle. Where can I park?",
+                content: [
+                    "You can leave your vehicles in the closed parking area inside the resort or in the outside parking area in front of the gates."
+                ]
+            },
+            {
+                title: "Where can I get help if I have a problem?",
+                content: [
+                    "The organisers will always try to help you or to find a solution to your problems. They will be indicated by a red neckband throughout the event."
+                ]
+            },
+            {
+                title: "Can I pay for more than one person's packages at the same time?",
+                content: [
+                    "Yes. In this case, it is important that each person's identity is clearly separated in the comment/communication part when making your payment. The organisers will not give out IDs to third parties, so you will have to ask each other for them."
+                ]
+            }
+        ]
+    }
+}
+
+export default faq

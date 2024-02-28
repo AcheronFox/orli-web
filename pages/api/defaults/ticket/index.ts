@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import verifyToken from '@/utils/veryifToken';
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import verifyToken from '@/functions/auth/veryifToken';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 
 
 const getEarlyBirdExpDate = () => {

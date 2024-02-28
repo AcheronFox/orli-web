@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { NextPage } from 'next'
+/*
+    import { NextPage } from 'next'
 import React, { useEffect } from 'react'
 import styles from "@/styles/pages/Registration.module.scss";
 import Router, { SingletonRouter, withRouter } from 'next/router'
@@ -58,3 +59,18 @@ const RegSuccess: NextPage<Props> = (props: Props) => {
 }
 
 export default withRouter(RegSuccess)
+*/
+
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const RegSuccess: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default RegSuccess

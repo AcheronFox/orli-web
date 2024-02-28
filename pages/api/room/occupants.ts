@@ -1,9 +1,9 @@
 import { IOccupant, IOccupantRaw } from '@/models/occupant.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import verifyToken from '@/utils/veryifToken';
+import database from '@/root/functions/utils/mysql'
+import isMethodAllowed from '@/root/functions/auth/isMethodAllowed';
+import verifyToken from '@/root/functions/auth/veryifToken';
 import { IRoom } from '@/models/room.model';
 
 
@@ -34,7 +34,7 @@ export default async function handler(
                 LEFT JOIN room ON user.AccountKey = room.adminKey
                 LEFT JOIN ticket ON user.AccountKey = ticket.AccountKey
                 LEFT JOIN account ON user.AccountKey = account.AccountKey
-                WHERE accomodation.roomId IS NOT NULL
+                WHERE accomodation.roomId IS NOT NULL;
                 `
 
                 database.query(query, async (err: any, result: IOccupantRaw[]) => {
@@ -57,7 +57,7 @@ export default async function handler(
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT * FROM room
+                SELECT * FROM room;
                 `
 
                 database.query(query, async (err: any, result: IRoom[]) => {
@@ -78,7 +78,7 @@ export default async function handler(
 
         if (await query() && await getRooms()) {
             let result: IOccupant[] = response.map((item) => {
-                const isAdmin = item.adminKey? true : false
+                const isAdmin = !!item.adminKey
                 return {...item, isRoomAdmin: isAdmin, adminKey: undefined}
             })
 

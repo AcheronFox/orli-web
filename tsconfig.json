@@ -22,7 +22,8 @@
       "@/hooks/*": ["./hooks/*"],
       "@/utils/*": ["./utils/*"],
       "@/public/*": ["./public/*"],
-      "@/root/*": ["./*"],
+      "@/locales/*": ["./locales/*"],
+      "@/*": ["./*"],
     },
   },
   "include": [
@@ -35,6 +36,7 @@
     "./hooks/**/*",
     "./utils/**/*",
     "./public/**/*",
+    "./locales/**/*",
     "./.daemon/**/*",
     "./**/*"
   ],

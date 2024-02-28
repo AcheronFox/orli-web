@@ -1,12 +1,12 @@
 import { getUserByAccountKey } from '@/utils/getData';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import verifyToken from '@/utils/veryifToken';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import verifyToken from '@/functions/auth/veryifToken';
 import formidable from 'formidable';
 import sharp from 'sharp';
 import fs from 'fs'
 import uniqueString from 'unique-string';
-import database from '@/utils/mysql';
+import database from '@/functions/utils/mysql';
 
 export const config = {
     api: {
@@ -97,10 +97,10 @@ export default async function handler(
                         const query = 
                         `
                         UPDATE user SET picture = '${filePath}'
-                        WHERE AccountKey = '${tokenPayload.accountKey}'
+                        WHERE AccountKey = ?;
                         `
         
-                        database.query(query, async (err: any, result: any) => {
+                        database.query(query, [tokenPayload.accountKey], async (err: any, result: any) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "upload_2"}); 

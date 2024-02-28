@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import styles from "@/styles/pages/AdminUser.module.scss"
+/*
+    import styles from "@/styles/pages/AdminUser.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
 import { useUser } from "@/hooks/useUser";
@@ -7,13 +8,13 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Router, { useRouter } from "next/router";
 import LoadingOverlay from "@/comp/LoadingOverlay";
 import CustomHead from "@/comp/CustomHead";
-import axiosInstance from "@/utils/axiosConfig";
+import axiosInstance from "@/functions/utils/axiosConfig";
 import _ from "lodash";
 import Tippy from "@tippyjs/react";
 import FursuiterIcon from "@/comp/svg/FursuiterIcon";
 import SponsorIcon from "@/comp/svg/SponsorIcon";
 import SecondaryButton from "@/comp/SecondaryButton";
-import { useClickOutside } from "@/hooks/useClickOutside";
+import { useClickOutside } from "@/hooks/utils/useClickOutside";
 import DropDown from "@/comp/DropDown";
 import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
 import CustomBackground from "@/comp/CustomBackground";
@@ -366,3 +367,17 @@ const AdminUser: NextPage<Props> = (props: Props) => {
 }
 
 export default AdminUser;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const AdminUser: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default AdminUser

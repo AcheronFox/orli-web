@@ -1,12 +1,12 @@
-import { generateCookies } from '@/utils/token-handler';
+import { generateCookies } from '@/functions/auth/token-handler';
 import * as mysql from "mysql";
-import database from '@/utils/mysql';
-import verifyToken from '@/utils/veryifToken'
+import database from '@/functions/utils/mysql';
+import verifyToken from '@/functions/auth/veryifToken'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from "@/utils/isMethodAllowed";
+import isMethodAllowed from "@/functions/auth/isMethodAllowed";
 import { SafeAccountDatabase, SafeUserDatabase } from "@/models/database.model";
 import _ from 'lodash';
-import resetPassword from "@/utils/password-handler";
+import resetPassword from "@/functions/auth/password-handler";
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
@@ -65,7 +65,7 @@ export default async function handler(
                             Object.keys(data).forEach(k => {
                                 (typeof data[k] == 'string') ? (data[k] = data[k].trim()) : {};
                             });
-                            connection.query(mysql.format(`UPDATE user SET ? WHERE AccountKey = '${tokenPayload.accountKey}'`, [data]), async (err) => {
+                            connection.query(mysql.format(`UPDATE user SET ? WHERE AccountKey = ?`, [data, tokenPayload.accountKey]), async (err) => {
                                 if (err) {
                                     console.log("ERROR: ", err);
                                     sendResponse(500, { message: "Insertion Failed.", e_code: "upd_3" });
@@ -90,7 +90,7 @@ export default async function handler(
                             Object.keys(data).forEach(k => {
                                 (typeof data[k] == 'string') ? (data[k] = data[k].trim()) : {};
                             });
-                            connection.query(mysql.format(`UPDATE account SET ? WHERE AccountKey = '${tokenPayload.accountKey}'`, [data]), async (err) => {
+                            connection.query(mysql.format(`UPDATE account SET ? WHERE AccountKey = ?`, [data, tokenPayload.accountKey]), async (err) => {
                                 if (err) {
                                     console.log("ERROR: ", err);
                                     sendResponse(500, { message: "Insertion Failed.", e_code: "upd_5" });
@@ -139,11 +139,11 @@ export default async function handler(
                     let accountInsertionState: boolean = false;
                     if (!_.isEmpty(userPayload)) {
                         userInsertionState = await updateUserData(userPayload);
-                        if (userInsertionState == false) return mainResolve(false);
+                        if (!userInsertionState) return mainResolve(false);
                     }
                     if (!_.isEmpty(accountPayload)) {
                         accountInsertionState = await updateAccountData(accountPayload);
-                        if (accountInsertionState == false) return mainResolve(false);
+                        if (!accountInsertionState) return mainResolve(false);
                     }
 
                     if ((!_.isEmpty(userPayload) && userInsertionState) ||

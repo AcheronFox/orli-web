@@ -1,8 +1,8 @@
 import { IParticipant } from '@/models/participant.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 
 
@@ -41,7 +41,7 @@ export default async function handler(
                 resolve(true);
             });
         }).catch(() => {
-            sendResponse(500, {message: "Unknown Error", e_code: "part_2"}); 
+            sendResponse(500, {message: "Unknown Error", e_code: "part_2"});
         });
     }
 

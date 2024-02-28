@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/*
 import styles from "@/styles/pages/Tickets.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
@@ -864,13 +865,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
                           })
                       }
                       {
-                        (isSponsor == true) &&
+                        isSponsor &&
                         <tr>
                           <td colSpan={2}><span className={styles.Tickets__Overview__Title}><h3>{t("ticketSponsor")}</h3></span></td>
                         </tr>
                       }
                       {
-                        (isSponsor == true) &&
+                        isSponsor &&
                         <>
                         <tr>
                           <td>{t("ticketSponsorAmount")}</td>
@@ -902,21 +903,21 @@ const Tickets: NextPage<Props> = (props: Props) => {
                         </tr>
                       }
                       {
-                        (selectedTicket != undefined && prices != undefined && wantsDay0 == true) &&
+                        (selectedTicket != undefined && prices != undefined && wantsDay0) &&
                         <tr>
                           <td>{t("ticketExtra0")}</td>
                           <td>{`+${prices.extra0.hu} HUF`}</td>
                         </tr>
                       }
                       {
-                        (selectedTicket != undefined && prices != undefined && wantsDayExtra == true) &&
+                        (selectedTicket != undefined && prices != undefined && wantsDayExtra) &&
                         <tr>
                           <td>{t("ticketExtra1")}</td>
                           <td>{`+${prices.extra1.hu} HUF`}</td>
                         </tr>
                       }
                       {
-                        (selectedTicket != undefined && isSponsor == true) &&
+                        (selectedTicket != undefined && isSponsor) &&
                         <tr>
                           <td>{t("ticketSponsor")}</td>
                           <td>{`+${sponsorAmount} HUF`}</td>
@@ -972,3 +973,17 @@ const Tickets: NextPage<Props> = (props: Props) => {
 }
 
 export default Tickets;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Tickets: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Tickets

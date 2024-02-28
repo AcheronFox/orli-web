@@ -1,17 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey } from '@/utils/getData';
-import verifyToken from '@/utils/veryifToken';
+import verifyToken from '@/functions/auth/veryifToken';
 
 const isAdminAccount = async (account: IAccount) => {
-    if (account.isAdmin) {
-        return true
-    }
-    else {
-        return false
-    }
+    return account.isAdmin;
 }
 
 export default async function handler(

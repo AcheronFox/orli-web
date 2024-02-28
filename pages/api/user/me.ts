@@ -1,9 +1,9 @@
 import { IUser } from '@/models/user.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import verifyToken from '@/utils/veryifToken';
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import database from '@/functions/utils/mysql'
+import verifyToken from '@/functions/auth/veryifToken';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 
 
 export default async function handler(
@@ -31,11 +31,11 @@ export default async function handler(
                 FROM account
                 INNER JOIN user ON account.AccountKey = user.AccountKey
                 LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey
-                WHERE account.AccountKey = '${tokenPayload.accountKey}'
-                LIMIT 1
+                WHERE account.AccountKey = ?
+                LIMIT 1;
                 `
 
-                database.query(query, async (err: any, result: IUser[]) => {
+                database.query(query, [tokenPayload.accountKey],async (err: any, result: IUser[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "me_1"}); 

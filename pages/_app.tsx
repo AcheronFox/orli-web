@@ -1,25 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "@/styles/globals.scss";
 import type { AppProps } from "next/app";
-import Navbar from "@/comp/SideNav";
+import Navbar from "@/comp/navbar/Navbar";
 import { useEffect, useState } from "react";
 import styles from "@/styles/LoginTemp.module.scss";
-import style from "@/styles/global.module.scss";
 import crypto from "crypto";
 import React from "react";
-import axiosInstance from "@/utils/axiosConfig";
-import TranslateProvider from "@/hooks/TranslateProvider";
-import CustomScrollBar from "@/comp/Scrollbar";
-import FloatingMessageWrapper from "@/hooks/FloatingMessageWrapper";
-import Footer from "@/comp/Footer";
-import AuthProvider from "@/hooks/AuthProvider";
-import CustomHead from "@/comp/CustomHead";
+import axiosInstance from "@/functions/utils/axiosConfig";
+import Footer from "@/comp/footer/Footer";
+import CustomHead from "@/comp/utils/CustomHead";
 import { deleteCookie, getCookie } from "cookies-next";
-import Head from "next/head";
+import MainProvider from "@/hooks/MainProvider";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const Orli = ({ Component, pageProps }: AppProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
-    process.env.TEMP_LOGIN_STATE?.toLowerCase() == "enabled" ? false : true
+    process.env.TEMP_LOGIN_STATE?.toLowerCase() != "enabled"
   );
   const [username, setUsername] = useState<string>("");
   const [pass, setPass] = useState<string>("");
@@ -100,25 +95,18 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   if (loggedIn) {
     return (
-      <CustomScrollBar>
-        <TranslateProvider>
-          <FloatingMessageWrapper>
-            <AuthProvider>
-              <>
-                <Head>
-                  <meta key="robots" name="robots" content="noindex,follow" />
-                  <meta key="googlebot" name="googlebot" content="noindex,follow" />
-                </Head>
-                <Navbar></Navbar>
-                <CustomHead></CustomHead>
-                <div className={style.BG__Img}></div>
-                <Component {...pageProps} />
-                <Footer />
-              </>
-            </AuthProvider>
-          </FloatingMessageWrapper>
-        </TranslateProvider>
-      </CustomScrollBar>
+      <MainProvider>
+        <main id="content-root">
+          <Navbar
+            brandImageSrc={"/logo.png"}
+          />
+          <CustomHead />
+          <main id="content">
+            <Component {...pageProps} />
+          </main>
+          <Footer />
+        </main>
+      </MainProvider>
     );
   } else {
     return (
@@ -162,4 +150,4 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }
 }
 
-export default MyApp;
+export default Orli;
