@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import styles from "@/styles/pages/Faq.module.scss"
 import { NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomHead from "@/comp/utils/CustomHead";
 import useTranslate from "@/hooks/translate/useTranslate";
 import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";
@@ -11,6 +12,9 @@ import Input from "@/comp/input/Input";
 import IconButton from "@/comp/button/IconButton";
 import { IconType } from "react-icons";
 import { useHTMLString } from "@/hooks/utils/useHTMLString";
+import { useDebounce } from "usehooks-ts";
+import PuffLoader from "react-spinners/PuffLoader";
+import variables from "@/styles/abstracts/exports.module.scss"
 
 
 type Props = {}
@@ -26,11 +30,28 @@ const icons: React.ReactElement<IconType>[] = [
 ]
 
 const FAQ: NextPage<Props> = (props: Props) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [didInit, setDidInit] = useState<boolean>(false)
+  const [tempSearchParam, setTempSearchParam] = useState<string>('')
   const [searchParam, setSearchParam] = useState<string>('')
 
   const { lang, currLang } = useTranslate();
   const data: IFAQ = useLocaleSwitch(currLang, 'faq.ts')
   const parse = useHTMLString()
+
+  const _debounced = useDebounce(tempSearchParam, 500);
+  useEffect(() => {
+    setSearchParam(tempSearchParam);
+    setIsLoading(false)
+  }, [_debounced.length]);
+
+  useEffect(() => {
+    if (didInit) setIsLoading(true)
+  }, [tempSearchParam])
+
+  useEffect(() => {
+    setDidInit(true)
+  }, [])
 
   return (
     <>
@@ -46,77 +67,79 @@ const FAQ: NextPage<Props> = (props: Props) => {
         >
           {lang.faqIntro}
           <br />
-          <Input 
+          <Input
             label={lang.faqSearch}
             startAdornment={
-              <RiSearch2Line />
+              (isLoading == true)
+              ?<PuffLoader color={variables.primaryColor} size={"1.6rem"} />
+              :<RiSearch2Line />
             }
             value={searchParam}
-            onChange={(val) => setSearchParam(val)}
+            onChange={(val) => setTempSearchParam(val)}
           />
         </TextCard>
         <TextCard
-          variant={searchParam==''? 'filled' : 'contained'}
+          variant={searchParam == '' ? 'filled' : 'contained'}
           shadowEnabled
           customBodyClass={
             (searchParam == '')
-            ? styles.Faq__Categories
-            : styles.Faq__Search
+              ? styles.Faq__Categories
+              : styles.Faq__Search
           }
         >
-            {
-              ((data != undefined) && (searchParam == '')) &&
-              Object.entries(data).map((o, i) => {
-                const key = o[0]
-                const content = o[1]
+          {
+            ((data != undefined) && (searchParam == '')) &&
+            Object.entries(data).map((o, i) => {
+              const key = o[0]
+              const content = o[1]
 
-                return (
-                  <IconButton
-                    key={i}
-                    link={`faq/${key}`}
-                    variant="contained"
-                    tooltip={content.translation}
-                    tooltipVariant="internal"
-                    size="10rem"
-                  >
-                    {icons[i]}
-                  </IconButton>
-                )
-              })
-            }
-            {
-              (searchParam != '') &&
-              Object.values(data).map((o) => {
-                return o.data.map((p, i) => {
-                  if (p.content.filter((o) => o.toLowerCase().includes(searchParam)).length || p.title.toLowerCase().includes(searchParam)) {
-                    return (
-                      <div
-                        key={i}
-                        className={styles.Faq__Search__Item}
+              return (
+                <IconButton
+                  key={i}
+                  link={`faq/${key}`}
+                  variant="contained"
+                  tooltip={content.translation}
+                  tooltipVariant="internal"
+                  size="10rem"
+                >
+                  {icons[i]}
+                </IconButton>
+              )
+            })
+          }
+          {
+            (searchParam != '') &&
+            Object.values(data).map((o) => {
+              return o.data.map((p, i) => {
+                if (p.content.filter((o) => o.toLowerCase().includes(searchParam)).length || p.title.toLowerCase().includes(searchParam)) {
+                  return (
+                    <div
+                      key={i}
+                      className={styles.Faq__Search__Item}
+                    >
+                      <TextCard
+                        variant="simple"
+                        customBodyClass={styles.Faq__Body}
+                        customTitleClass={styles.Faq__Title}
+                        title={
+                          <h4>{parse(p.title)}</h4>
+                        }
                       >
-                        <TextCard
-                          variant="simple"
-                          customBodyClass={styles.Faq__Body}
-                          customTitleClass={styles.Faq__Title}
-                          title={
-                            <h4>{parse(p.title)}</h4>
-                          }
-                        >
-                          {p.content.map((v) => {
-                            const str = v+'<br/>'
-                            return parse(str) 
-                          })}
-                          <br/>
-                          <br/>
-                          <br/>
-                        </TextCard>
-                      </div>
-                    );
-                  }
-                  else return null
-                })
+                        {p.content.map((v) => {
+                          const str = v + '<br/>'
+                          return parse(str)
+                        })}
+                        <br />
+                        <br />
+                        <br />
+                      </TextCard>
+                    </div>
+                  );
+                }
+                else return null
               })
-            }
+            })
+          }
         </TextCard>
       </div>
     </>
