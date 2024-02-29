@@ -17,15 +17,17 @@
         border-bottom: .2rem solid $grey-4;
         transition: border-color .2s;
 
-        //Reset retarded IOS forced styles
-        appearance: none;
-        border-radius: none;
-
         &:required, &:invalid { box-shadow:none; }
     
         &:focus {
             border-color: $color-primary;
         }
+    }
+
+    input {
+        //Reset retarded IOS forced styles
+        appearance: none !important;
+        border-radius: 0;
     }
 
     input:placeholder-shown ~ & {
