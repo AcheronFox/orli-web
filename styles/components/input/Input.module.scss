@@ -1,38 +1,44 @@
 .Input {
     font-family: inherit;
     width: 100%;
-    border: 0;
-    border-bottom: .2rem solid $grey-4;
-    outline: 0;
-    color: $white;
-    padding: .7rem 1rem;
-    background: transparent;
-    font-size: 1.8rem;
-    transition: border-color .2s;
     position: relative;
     background-color: $grey-0;
 
-    &:required, &:invalid { box-shadow:none; }
+    input {
+        height: 100%;
+        outline: 0;
+        border: 0;
+        color: $white;
+        font-size: 1.8rem;
+        padding: .7rem 1rem;
+        width: 100%;
+        background: transparent;
+        flex-grow: 1;
+        border-bottom: .2rem solid $grey-4;
+        transition: border-color .2s;
 
-    &::placeholder {
-        color: transparent;
-    }
-
-    &:placeholder-shown ~ & {
-        &__Label {
-            font-size: 1.8rem;
-            cursor: text;
-            top: 2.1rem;
+        &:required, &:invalid { box-shadow:none; }
+    
+        &:focus {
+            border-color: $color-primary;
         }
     }
 
-    &:focus {
-        border-color: $color-primary;
+    input:placeholder-shown ~ & {
+        &__Label {
+            font-size: 1.8rem;
+            cursor: text;
+            top: .5rem;
+        }
+    }
+
+    input::placeholder {
+        color: transparent;
     }
 
     &__Label {
         position: absolute;
-        top: 0rem;
+        top: -1.4rem;
         margin-left: 1.1rem;
         padding: 0 1rem;
         display: block;
@@ -44,10 +50,10 @@
         backface-visibility: hidden;
     }
 
-    &:focus ~ & {
+    input:focus ~ &, input:focus-visible ~ & {
         &__Label {
             position: absolute;
-            top: 0rem;
+            top: -1.4rem;
             display: block;
             transition: 0.2s;
             font-size: 1.5rem;
@@ -63,11 +69,7 @@
         margin-top: 1rem;
         display: flex;
         justify-content: space-between;
-        align-items: center;
-
-        &__Input {
-            flex-grow: 1;
-        }
+        align-items: stretch;
     }
 
     &__Disabled {
@@ -85,6 +87,8 @@
         justify-content: center;
         align-items: center;
         transition: border-color .2s;
+        border-color: $grey-4;
+        order: -1;
 
         &__Active {
             border-color: $color-primary !important;

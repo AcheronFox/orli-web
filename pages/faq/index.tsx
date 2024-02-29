@@ -12,7 +12,7 @@ import Input from "@/comp/input/Input";
 import IconButton from "@/comp/button/IconButton";
 import { IconType } from "react-icons";
 import { useHTMLString } from "@/hooks/utils/useHTMLString";
-import { useDebounce } from "usehooks-ts";
+import { useDebounceValue } from "usehooks-ts";
 import PuffLoader from "react-spinners/PuffLoader";
 import variables from "@/styles/abstracts/exports.module.scss"
 
@@ -33,21 +33,24 @@ const FAQ: NextPage<Props> = (props: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [didInit, setDidInit] = useState<boolean>(false)
   const [tempSearchParam, setTempSearchParam] = useState<string>('')
-  const [searchParam, setSearchParam] = useState<string>('')
+  const [searchParam, setSearchParam] = useDebounceValue<string>('', 500)
 
   const { lang, currLang } = useTranslate();
   const data: IFAQ = useLocaleSwitch(currLang, 'faq.ts')
   const parse = useHTMLString()
 
-  const _debounced = useDebounce(tempSearchParam, 500);
   useEffect(() => {
-    setSearchParam(tempSearchParam);
-    setIsLoading(false)
-  }, [_debounced.length]);
+    if (didInit) {
+      setIsLoading(true)
+      setSearchParam(tempSearchParam);
+    }
+  }, [tempSearchParam])
 
   useEffect(() => {
-    if (didInit) setIsLoading(true)
-  }, [tempSearchParam])
+    if (didInit) {
+      setIsLoading(false);
+    }
+  }, [searchParam])
 
   useEffect(() => {
     setDidInit(true)
@@ -74,7 +77,7 @@ const FAQ: NextPage<Props> = (props: Props) => {
               ?<PuffLoader color={variables.primaryColor} size={"1.6rem"} />
               :<RiSearch2Line />
             }
-            value={searchParam}
+            value={tempSearchParam}
             onChange={(val) => setTempSearchParam(val)}
           />
         </TextCard>

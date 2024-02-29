@@ -47,9 +47,6 @@ const FAQCategory: NextPage<Props> = (props: Props) => {
                         </>
                     }
                 >
-                    <div className={styles.Faq__Button}>
-                        
-                    </div>
                     {
                         (data != undefined) &&
                         data[props.category].data.map((o, i) => {
