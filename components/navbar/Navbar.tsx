@@ -6,7 +6,7 @@ import NavItem from "./NavItem";
 import Link from "next/link";
 import NavDropdown from "./NavDropdown";
 import INavLayout from "@/models/navbar/navLayout.model";
-import { RiAccountBoxLine, RiAdminLine, RiBarChart2Line, RiCamera3Line, RiClipboardLine, RiCloseFill, RiFileList2Line, RiFilePaper2Line, RiHome2Line, RiInformationLine, RiLoginBoxLine, RiLogoutBoxLine, RiMapLine, RiMapPin2Line, RiMenu3Line, RiPriceTag3Line, RiProfileLine, RiQuestionLine, RiTicket2Line, RiUser2Line, RiUserAddLine } from "react-icons/ri";
+import { RiAccountBoxLine, RiAdminLine, RiBarChart2Line, RiCamera3Line, RiClipboardLine, RiCloseFill, RiDatabase2Line, RiFileList2Line, RiFilePaper2Line, RiHome2Line, RiInformationLine, RiLoginBoxLine, RiLogoutBoxLine, RiMapLine, RiMapPin2Line, RiMenu3Line, RiPriceTag3Line, RiProfileLine, RiQuestionLine, RiTicket2Line, RiUser2Line, RiUserAddLine, RiVideoLine } from "react-icons/ri";
 import useIsMobile from "@/hooks/utils/useIsMobile";
 import IconButton from "../button/IconButton";
 import { useRouter } from "next/router";
@@ -15,6 +15,7 @@ import ReactCountryFlag from "react-country-flag";
 import { useWindowSize } from "usehooks-ts";
 import ButtonGroup from "../button/ButtonGroup";
 import { useUser } from "@/hooks/user/useUser";
+import useHyphenate from "@/hooks/utils/useHyphenate";
 
 interface Props {
     brandImageSrc: string
@@ -30,6 +31,7 @@ const Navbar = ({
     const isMobile = useIsMobile(true)
     const { lang, currLang, changeLang } = useTranslate()
     const { user, didUserInit, logout } = useUser()
+    const process = useHyphenate()
     const router = useRouter()
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [isVisible, setIsVisible] = useState<boolean>(false)
@@ -114,10 +116,16 @@ const Navbar = ({
                     icon: <RiInformationLine />,
                     children: [
                         {
-                            title: lang.navLegal,
-                            link: '/legal',
+                            title: process(currLang, lang.locPolicy) as string,
+                            link: '/legal/policy',
                             iconPlacement: "right",
                             icon: <RiFilePaper2Line />,
+                        },
+                        {
+                            title: process(currLang, lang.footerData) as string,
+                            link: '/legal/data',
+                            iconPlacement: "right",
+                            icon: <RiDatabase2Line />,
                         },
                         {
                             title: lang.navFaq,
@@ -129,10 +137,23 @@ const Navbar = ({
                 },
                 {
                     title: lang.navGallery,
-                    link: '/gallery',
                     align: 'left',
                     iconPlacement: "right",
-                    icon: <RiCamera3Line />
+                    icon: <RiCamera3Line />,
+                    children: [
+                        {
+                            title: lang.galleryImages,
+                            link: '/gallery/images',
+                            iconPlacement: "right",
+                            icon: <RiCamera3Line />,
+                        },
+                        {
+                            title: lang.galleryVideos,
+                            link: '/gallery/videos',
+                            iconPlacement: "right",
+                            icon: <RiVideoLine />,
+                        },
+                    ]
                 },
             )
 
