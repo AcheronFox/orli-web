@@ -13,6 +13,7 @@ type Props = {
     endAdornment?: React.ReactElement
     value?: string
     onChange?: (val: string) => void
+    autoFocus?: boolean
 }
 const Input: NextPage<Props> = ({
     id,
@@ -22,14 +23,10 @@ const Input: NextPage<Props> = ({
     startAdornment,
     endAdornment,
     value,
-    onChange
+    onChange,
+    autoFocus
 }: Props) => {
-    const [val, setVal] = useState<string>(value || '')
-    const [isFocused, setIsFocused] = useState<boolean>(false)
-
-    useEffect(() => {
-        if (onChange) onChange(val)
-    }, [val])
+    const [isActive, setIsActive] = useState<boolean>(false)
 
     return (
         <div
@@ -38,30 +35,20 @@ const Input: NextPage<Props> = ({
                 ${disabled? styles.Input__Disabled : ''}
             `}
         >
-            {
-                (startAdornment != undefined) &&
-                <div className={`
-                    ${styles.Input__Start}
-                    ${isFocused? styles.Input__Start__Active : ''}
-                `}>
-                    {startAdornment}
-                </div>
-            }
-            <div
-                className={`
-                    ${styles.Input__Wrapper__Input}
-                `}
-            >
+            
+            <div className={styles.Input}>
                 <input
                     disabled={disabled}
                     type={type}
-                    className={styles.Input}
                     placeholder={label}
                     id={id || 'input'}
-                    value={val}
-                    onChange={(o) => setVal(o.target.value)}
-                    onFocus={() => setIsFocused(true)}
-                    onBlur={() => setIsFocused(false)}
+                    value={value}
+                    autoFocus={autoFocus}
+                    onChange={(o) => {
+                        if (onChange) onChange(o.target.value)
+                    }}
+                    onFocus={() => setIsActive(true)}
+                    onBlur={() => setIsActive(false)}
                 />
                 {
                     (label != undefined) &&
@@ -74,14 +61,23 @@ const Input: NextPage<Props> = ({
                 }
             </div>
             {
-                (endAdornment != undefined) &&
+                (startAdornment != undefined) &&
                 <div className={`
-                    ${styles.Input__End}
-                    ${isFocused? styles.Input__End__Active : ''}
+                    ${styles.Input__Start}
+                    ${isActive? styles.Input__Start__Active : ''}
                 `}>
-                    {endAdornment}
+                    {startAdornment}
                 </div>
             }
+            {
+            (endAdornment != undefined) &&
+            <div className={`
+                ${styles.Input__End}
+                ${isActive? styles.Input__End__Active : ''}
+            `}>
+                {endAdornment}
+            </div>
+        }
         </div>
     );
 }
