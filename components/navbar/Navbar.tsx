@@ -117,7 +117,7 @@ const Navbar = ({
                     children: [
                         {
                             title: process(currLang, lang.locPolicy) as string,
-                            link: '/legal/policy',
+                            link: '/legal/rules',
                             iconPlacement: "right",
                             icon: <RiFilePaper2Line />,
                         },
