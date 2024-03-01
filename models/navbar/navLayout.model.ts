@@ -7,6 +7,7 @@ export default interface INavLayout {
     align?: 'left' | 'right' | 'center'
     icon?: React.ReactElement
     iconPlacement?: 'left' | 'right' | 'both'
+    style?: React.CSSProperties;
     children?: INavDDLayout[]
     click?: () => void
 }

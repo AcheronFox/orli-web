@@ -114,6 +114,7 @@ const Navbar = ({
                     align: 'left',
                     iconPlacement: "right",
                     icon: <RiInformationLine />,
+                    style: (currLang=='en')? {minWidth: "18rem"} : {minWidth: "16rem"},
                     children: [
                         {
                             title: process(currLang, lang.locPolicy) as string,
@@ -281,6 +282,7 @@ const Navbar = ({
                         title={item.title}
                         icon={item.icon}
                         iconPlacement={item.iconPlacement}
+                        style={item.style}
                     >
                         {renderItems(item.children, align, false)}
                     </NavDropdown>
