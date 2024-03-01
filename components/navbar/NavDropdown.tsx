@@ -12,6 +12,7 @@ interface Props {
     title: string | React.ReactNode
     icon?: React.ReactElement<IconType>
     iconPlacement?: 'left' | 'right' | 'both'
+    style?: React.CSSProperties
 }
 
 const NavDropdown = ({
@@ -19,6 +20,7 @@ const NavDropdown = ({
     title,
     icon,
     iconPlacement = 'left',
+    style,
     }: Props) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isActive, setIsActive] = useState<boolean>(false);
@@ -74,6 +76,7 @@ const NavDropdown = ({
                 className={`
                     ${styles.NavDropdown} ${(isOpen || isActive)? styles.NavDropdown__Active : ""}
                 `}
+                style={style}
                 ref={RefDropDown}
             >
                 <div
