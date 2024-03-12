@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
 import React, { useEffect, useState } from "react";
-import { useTranslate } from "@/hooks/useTranslate";
 import FilterableDropDown from "./FilterableDropDown";
+import useTranslate from "@/hooks/translate/useTranslate";
 
 type Props = {
   label: string;
@@ -25,24 +25,26 @@ const NationalitySelector: NextPage<Props> = ({
   onBlur,
   disabled
 }: Props) => {
-  const { locale } = useTranslate();
-  const [Codes, setCodes] = useState<[Codes]>(
-    locale == "en"
-      ? require("../locales/en.world.json")
-      : require("../locales/hu.world.json")
-  );
+  const { currLang, lang } = useTranslate();
   const [modifiedCodes, setModifiedCodes] = useState<Codes[]>();
   const [val, setVal] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
-  const { t } = useTranslate();
 
+  /*
+    NOTE: REPLACE THESE WITH DATA FROM BACKEND
+  */
+  const [Codes, setCodes] = useState<[Codes]>(
+    currLang == "en"
+      ? require("../../locales/en/en.world.json")
+      : require("../../locales/hu/hu.world.json")
+  );
   useEffect(() => {
     setCodes(
-      locale == "en"
-        ? require("../locales/en.world.json")
-        : require("../locales/hu.world.json")
+      currLang == "en"
+        ? require("../../locales/en/en.world.json")
+        : require("../../locales/hu/hu.world.json")
     );
-  }, [locale]);
+  }, [currLang]);
 
   useEffect(() => {
     if (Codes && value) {
@@ -59,9 +61,9 @@ const NationalitySelector: NextPage<Props> = ({
   }, [Codes, value]);
 
   const changeList = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: string
   ) => {
-    setVal(e.target.value);
+    setVal(e);
 
     let tempArr: Codes[] = [];
     Codes.map((x) => {
@@ -70,7 +72,7 @@ const NationalitySelector: NextPage<Props> = ({
       }
     });
 
-    if (e.target.value == "") {
+    if (e == "") {
       setModifiedCodes([]);
     } else {
       setModifiedCodes(tempArr);
@@ -84,8 +86,8 @@ const NationalitySelector: NextPage<Props> = ({
       setSelected={setSelected}
       selected={selected}
       setValue={setVal}
-      buttonPlaceholder={t("natSelectSelect")}
-      searchPlaceholder={t("natSelectPlaceholder")}
+      buttonPlaceholder={lang.natSelectSelect}
+      searchPlaceholder={lang.natSelectPlaceholder}
       searchValue={val}
       searchFunction={changeList}
       onBlur={onBlur}

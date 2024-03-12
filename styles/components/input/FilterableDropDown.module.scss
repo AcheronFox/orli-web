@@ -36,14 +36,6 @@
     color: $white;
     font-size: calc($default-font-size * 1.2);
     margin-right: .8rem;
-    
-    @include respond(big-desktop) {
-      font-size: calc($default-font-size * 1.4);
-    }
-
-    @include respond(4k-desktop) {
-      font-size: calc($default-font-size * 1.6);
-    }
   }
 
   &__DropDown {
@@ -58,10 +50,9 @@
     overflow: hidden;
     color: $black;
     z-index: 10000;
-    filter: drop-shadow(0rem 1rem 2rem rgba($black, .8));
+    box-shadow: 0 .5rem 1rem rgba($black, .8);
 
-    background-color: rgba($black, .8);
-
+    background-color: $grey-0;
     transition: all .25s ease-in;
   }
 
@@ -104,7 +95,7 @@
     &:last-child, &:first-child, &:only-child {
       border-style: solid;
       border-color: $white;
-      border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
+      border-image: $color-primary;
     }
 
     &:nth-last-child(2) {
@@ -127,14 +118,6 @@
     @include respond(phone) {
       padding-left: 1rem;
       width: 100%;
-    }
-
-    @include respond(big-desktop) {
-      font-size: calc($default-font-size * 1.4);
-    }
-
-    @include respond(4k-desktop) {
-      font-size: calc($default-font-size * 1.6);
     }
 
     @supports selector(:focus-visible) {

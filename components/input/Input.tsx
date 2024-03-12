@@ -11,20 +11,39 @@ type Props = {
     disabled?: boolean
     startAdornment?: React.ReactElement
     endAdornment?: React.ReactElement
-    value?: string
+    value?: string | number | readonly string[]
     onChange?: (val: string) => void
+    onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void
+    onClick?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
     autoFocus?: boolean
+    list?: string
+    autoComplete?: string
+    maxLength?: number
+    name?: string
+    customClass?: string
+    ref?: any
 }
 const Input: NextPage<Props> = ({
     id,
     type = "input",
     label,
+    error,
     disabled,
     startAdornment,
     endAdornment,
     value,
     onChange,
-    autoFocus
+    onBlur,
+    onClick,
+    autoFocus,
+    list,
+    autoComplete,
+    maxLength,
+    name,
+    customClass,
+    ref,
+    onKeyDown,
 }: Props) => {
     const [isActive, setIsActive] = useState<boolean>(false)
 
@@ -38,17 +57,35 @@ const Input: NextPage<Props> = ({
             
             <div className={styles.Input}>
                 <input
+                    ref={ref}
                     disabled={disabled}
                     type={type}
                     placeholder={label}
                     id={id || 'input'}
                     value={value}
                     autoFocus={autoFocus}
+                    list={list}
+                    name={name}
+                    autoComplete={autoComplete}
+                    maxLength={maxLength}
                     onChange={(o) => {
                         if (onChange) onChange(o.target.value)
                     }}
+                    onBlurCapture={(e) => {
+                        if (onBlur) onBlur(e)
+                    }}
+                    onClick={(e) => {
+                        if (onClick) onClick(e)
+                    }}
+                    onKeyDown={(e) => {
+                        if (onKeyDown) onKeyDown(e)
+                    }}
                     onFocus={() => setIsActive(true)}
                     onBlur={() => setIsActive(false)}
+                    className={`
+                        ${customClass? customClass : ''}
+                        ${error? styles.Input__Error : ''}
+                    `}
                 />
                 {
                     (label != undefined) &&
@@ -65,6 +102,7 @@ const Input: NextPage<Props> = ({
                 <div className={`
                     ${styles.Input__Start}
                     ${isActive? styles.Input__Start__Active : ''}
+                    ${error? styles.Input__Error : ''}
                 `}>
                     {startAdornment}
                 </div>
@@ -74,6 +112,7 @@ const Input: NextPage<Props> = ({
             <div className={`
                 ${styles.Input__End}
                 ${isActive? styles.Input__End__Active : ''}
+                ${error? styles.Input__Error : ''}
             `}>
                 {endAdornment}
             </div>
