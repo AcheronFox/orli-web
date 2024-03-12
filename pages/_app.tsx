@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "@/styles/globals.scss";
+import 'react-tippy/dist/tippy.css'
 import type { AppProps } from "next/app";
 import Navbar from "@/comp/navbar/Navbar";
 import { useEffect, useState } from "react";

@@ -2,11 +2,11 @@
 import { NextPage } from "next";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { VariableSizeList as List } from "react-window";
-import SecondaryButton from "./SecondaryButton";
 import Input from "./Input";
-import styles from "@/styles/components/FilterableDropDown.module.scss";
+import styles from "@/styles/components/input/FilterableDropDown.module.scss";
 import UseWindowDimensions from "@/hooks/utils/useWindowDimensions";
 import { RiArrowRightSLine } from "react-icons/ri"
+import Button from "../button/Button";
 
 type Props = {
   label: string;
@@ -25,7 +25,6 @@ type Props = {
   data: any[];
   dataDisplayVal: string | string[];
   dataValue: string;
-  inputClass?: string;
 };
 
 const FilterableDropDown: NextPage<Props> = ({
@@ -44,7 +43,6 @@ const FilterableDropDown: NextPage<Props> = ({
   onChange,
   setSelected,
   setValue,
-  inputClass
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [switchFlyOut, setSwitchFlyOut] = useState<boolean>(false);
@@ -79,8 +77,7 @@ const FilterableDropDown: NextPage<Props> = ({
       html.offsetHeight
     );
 
-    let shouldSwitch;
-    shouldSwitch = anchor.bottom >= height / 2;
+    const shouldSwitch = anchor.bottom >= height / 2;;
 
     if (shouldSwitch) {
       setSwitchFlyOut(true);
@@ -178,10 +175,20 @@ const FilterableDropDown: NextPage<Props> = ({
     <div ref={InputRef} className={styles.Selector}>
       <div className={styles.Selector__Selection} ref={dropdownAnchor}>
         <span className={styles.Selector__Label}>{label}</span>
-        <SecondaryButton
+        <Button
+          variant="outlined"
+          color="info"
           onClick={openDropDown}
-          text={<span className={styles.Selector__Button}>{selected || buttonPlaceholder} <RiArrowRightSLine size={18} className={`${styles.Selector__Button__Icon} ${open && styles.Selector__Button__Open}`} /></span>}
-        />
+          endIcon={
+            <RiArrowRightSLine size={18} className={`${styles.Selector__Button__Icon} ${open && styles.Selector__Button__Open}`} />
+          }
+        >
+          <span
+            className={styles.Selector__Button}
+          >
+            {selected || buttonPlaceholder}
+          </span>
+        </Button>
       </div>
       <div className={`${styles.Selector__DropDown} ${open && styles.Selector__Open} ${switchFlyOut && styles.Selector__Reversed}`}>
         <Input
@@ -190,8 +197,7 @@ const FilterableDropDown: NextPage<Props> = ({
             searchFunction? searchFunction(e) : {};
           }}
           value={searchValue}
-          placeholder={searchPlaceholder}
-          inputClass={`${styles.Selector__Input} ${inputClass}`}
+          label={searchPlaceholder}
           onBlur={onBlur}
         ></Input>
         <List

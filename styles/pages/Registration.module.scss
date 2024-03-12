@@ -1,3 +1,4 @@
+/*
 .Registration {
     min-height: 100vh;
     position: relative;
@@ -41,119 +42,6 @@
         }
     }
 
-    &__Content {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        justify-content: space-between;
-    }
-
-    &__Button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        margin: 2rem 0;
-    }
-
-    &__Error {
-        border-color: $default-red;
-        border-image: none;
-
-        &__Text {
-            color: $default-red;
-            font-size: calc($default-font-size / 1.2);
-        }
-    }
-
-    &__Form {
-        display: flex;
-        justify-content: space-between;
-        align-items: stretch;
-        flex-direction: column;
-
-        border-radius: 1.5rem;
-        background-color: rgba($grey-1, .9);
-
-        &__Pass {
-            clip: rect(0 0 0 0); 
-            clip-path: inset(50%);
-            height: 1px;
-            overflow: hidden;
-            position: absolute;
-            white-space: nowrap; 
-            width: 1px;
-        }
-
-        &__Inline {
-            display: flex;
-            align-items: center;
-            
-            div {
-                width: 100%;
-            }
-
-            & > * {
-                &:not(:last-child) {
-                    margin-right: .3rem;
-                }
-            }
-        }
-
-        & > * {
-            width: 100%;
-            margin: .2rem;
-            padding: 1rem;
-            
-            &:not(:last-child) {
-                margin-bottom: 1.5rem;
-            }
-        }
-
-        &__Label {
-            width: fit-content;
-
-            @include respond(tiny-desktop) {
-                flex-direction: column;
-            }
-
-            & > * {
-                &:last-child {
-                    width: max-content;
-                    margin-left: .5rem;
-
-                    @include respond(tiny-desktop) {
-                        margin-left: 0;
-                    }
-                }
-            }
-        }
-
-        &__Row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
-
-            @include respond(tiny-desktop) {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            & > * {
-                flex: 1;
-                &:not(:last-child) {
-                    margin-right: 1rem;
-                }
-
-                @include respond(tiny-desktop) {
-                    width: 100%;
-                }
-            }
-        }
-    }
-
 
     @include center;
 
@@ -182,6 +70,154 @@
 
                 @include respond(small-phone) {
                     margin: 0;
+                }
+            }
+        }
+    }
+}
+*/
+
+.Registration {
+    @include DefaultLayout;
+
+    &__Background {
+        @include DefaultBackground;
+    }
+
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+        &:not(:nth-child(1)) {
+            margin-top: 5rem;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 5rem;
+        }
+    }
+
+    &__Title {
+        color: $color-primary;
+        font-family: $styled-font-family;
+
+        &_Secondary {
+            color: $color-secondary;
+            font-family: $styled-font-family;
+            font-size: 2rem;
+        }
+
+        &_Tertiary {
+            font-size: 2rem;
+        }
+    }
+
+    &__Button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 2rem 0;
+    }
+
+    &__Error {
+        border-color: $color-red;
+        border-image: none;
+
+        &__Text {
+            color: $color-red;
+            font-size: calc($default-font-size / 1.2);
+        }
+    }
+
+    &__Content {
+        width: 100%;
+        height: 100%;
+
+        & > * {
+            width: 100%;
+        }
+    }
+
+    &__Form {
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+        flex-direction: column;
+
+        &__Pass {
+            clip: rect(0 0 0 0); 
+            clip-path: inset(50%);
+            height: 1px;
+            overflow: hidden;
+            position: absolute;
+            white-space: nowrap; 
+            width: 1px;
+        }
+
+        &__Inline {
+            display: flex;
+            align-items: center;
+            
+            div {
+                width: 100%;
+            }
+
+            & > * {
+                &:not(:last-child) {
+                    margin-right: .3rem;
+                }
+            }
+        }
+
+        & > * {
+            width: 100%;
+            padding: .5rem;
+            
+            &:not(:last-child) {
+                margin-bottom: .5rem;
+            }
+        }
+
+        &__Label {
+            width: fit-content;
+
+            @include respond(tiny-desktop) {
+                flex-direction: column;
+            }
+
+            & > * {
+                &:last-child {
+                    width: max-content;
+                    margin-left: .5rem;
+
+                    @include respond(tiny-desktop) {
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+
+        &__Row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
+            flex-wrap: wrap;
+
+            @include respond(tiny-desktop) {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            & > * {
+                flex: 1;
+                &:not(:last-child) {
+                    margin-right: 1rem;
+                }
+
+                @include respond(tiny-desktop) {
+                    width: 100%;
                 }
             }
         }

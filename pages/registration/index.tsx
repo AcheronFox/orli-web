@@ -1,26 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/*
-  import CustomDatePicker from "@/comp/CustomDatePicker";
-import Input from "@/comp/Input";
-import NationalitySelector from "@/comp/NationalitySelector";
-import PrimaryButton from "@/comp/PrimaryButton";
-import Section from "@/comp/Section"
-import { useTranslate } from "@/hooks/useTranslate";
+import CustomDatePicker from "@/comp/input/CustomDatePicker";
+import NationalitySelector from "@/comp/input/NationalitySelector";
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import styles from "@/styles/pages/Registration.module.scss"
 import { useContext, useEffect, useState } from "react";
 import crypto from "crypto";
 import Router from 'next/router'
-import axiosInstance from "@/utils/axiosConfig";
 import { IRegistrationDataSave, IRegistrationForm } from "@/models/registration-form.model";
-import LinkButton from "@/comp/LinkButton";
 import { NextPage } from "next";
-import LoadingOverlay from "@/comp/LoadingOverlay";
+import LoadingOverlay from "@/comp/utils/LoadingOverlay";
 import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
-import { RiQuestionLine } from "react-icons/ri"
-import Tippy from "@tippyjs/react";
-import CustomHead from "@/comp/CustomHead";
-import createDatePatternFromDate from "@/root/functions/createDatePattern";
+import { RiQuestionLine, RiUserAddLine } from "react-icons/ri"
+import createDatePatternFromDate from "@/functions/utils/createDatePattern";
+import useTranslate from "@/hooks/translate/useTranslate";
+import axiosInstance from "@/functions/utils/axiosConfig";
+import CustomHead from "@/comp/utils/CustomHead";
+import Input from "@/comp/input/Input";
+import TextCard from "@/comp/TextCard";
+import Button from "@/comp/button/Button";
+import BarLoader from "react-spinners/BarLoader";
+import variables from "@/styles/abstracts/exports.module.scss"
+import { Tooltip } from 'react-tippy';
 
 const isEmailValid = (email: string) => {
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
@@ -51,7 +51,7 @@ const getAge = (birthday: string) => {
 type Props = {};
 
 const Registration: NextPage<Props> = (props: Props) => {
-  const { t, locale } = useTranslate();
+  const { lang, currLang } = useTranslate();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [dob, setDoB] = useState<string>("");
@@ -69,7 +69,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   const [fromDate, setFromDate] = useState<Date>();
   const [toDate, setToDate] = useState<Date>();
   const [serverDate, setServerDate] = useState<Date>();
-  
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [isButtonActive, setIsButtonActive] = useState<boolean>(false);
@@ -112,14 +112,14 @@ const Registration: NextPage<Props> = (props: Props) => {
 
   const getDefaults = async () => {
     await axiosInstance.get('api/defaults/registration')
-    .then((res) => {
-      setServerDate(new Date(res.data.serverDate))
-      setFromDate(new Date(res.data.fromDate))
-      setToDate(new Date(res.data.toDate))
-    })
-    .catch((err) => {
-      return
-    })
+      .then((res) => {
+        setServerDate(new Date(res.data.serverDate))
+        setFromDate(new Date(res.data.fromDate))
+        setToDate(new Date(res.data.toDate))
+      })
+      .catch((err) => {
+        return
+      })
   }
 
   // ===============================================
@@ -172,7 +172,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     errorStates.password && validatePass()
     errorStates.confPassword && validateConfPass()
     errorStates.contact && validateContact()
-  }, [locale])
+  }, [currLang])
 
   useEffect(() => {
     let isDisabled = false;
@@ -187,52 +187,52 @@ const Registration: NextPage<Props> = (props: Props) => {
   // ===============================================
   const updateState = (check: any, key: string, value: string) => {
     if (check) {
-      setErrorStates((errorStates: any) => { return { ...errorStates, [key]: value } });
+      setErrorStates({ ...errorStates, [key]: value } );
       return false;
     } else {
-      setErrorStates((errorStates: any) => { return { ...errorStates, [key]: '' } });
+      setErrorStates({ ...errorStates, [key]: '' } );
       return true
     }
   }
 
   const validateFirstName = () => {
-    return updateState(firstName.trim() == "", "firstName", t("regFirstNameError"))
+    return updateState(firstName.trim() == "", "firstName", lang.regFirstNameError)
   }
   const validateLastName = () => {
-    return updateState(lastName.trim() == "", "lastName", t("regLastNameError"))
+    return updateState(lastName.trim() == "", "lastName", lang.regLastNameError)
   }
   const validateEmail = () => {
-    return updateState(!isEmailValid(email), "email", t("regEmailError"))
+    return updateState(!isEmailValid(email), "email", lang.regEmailError)
   }
   const validateConfEmail = () => {
-    return updateState(email.trim().toLowerCase() != confEmail.trim().toLowerCase(), "confEmail", t("regEmailConfError"))
+    return updateState(email.trim().toLowerCase() != confEmail.trim().toLowerCase(), "confEmail", lang.regEmailConfError)
   }
   const validateSonaName = () => {
-    return updateState(fursonaName.trim() == "", "fursonaName", t("regSonaNameError"))
+    return updateState(fursonaName.trim() == "", "fursonaName", lang.regSonaNameError)
   }
   const validateSpecies = () => {
-    return updateState(fursonaSpecies.trim() == "", "fursonaSpecies", t("regSonaSpeciesError"))
+    return updateState(fursonaSpecies.trim() == "", "fursonaSpecies", lang.regSonaSpeciesError)
   }
   const validateDoB = () => {
-    return updateState(!dobState, "dob", t("regDateError"))
+    return updateState(!dobState, "dob", lang.regDateError)
   }
   const validateNationality = () => {
-    return updateState(nationality.trim() == "", "nationality", t("regNationalityError"))
+    return updateState(nationality.trim() == "", "nationality", lang.regNationalityError)
   }
   const validatePass = () => {
-    return updateState(!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password), "password", t("regPassError"))
+    return updateState(!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password), "password", lang.regPassError)
   }
   const validateConfPass = () => {
-    return updateState(password.trim() != confPassword.trim(), "confPassword", t("regPassConfError"))
+    return updateState(password.trim() != confPassword.trim(), "confPassword", lang.regPassConfError)
   }
   const validateContact = () => {
-    return updateState(contact.trim() == "", "contact", t("regContactErr"))
+    return updateState(contact.trim() == "", "contact", lang.regContactErr)
   }
-  
+
   const validateAge = (state: boolean, strict = false) => {
-    if (dob == t("dateFormat") || dob == '') {
+    if (dob == lang.dateFormat || dob == '') {
       if (strict) {
-        setErrorStates((errorStates: any) => { return { ...errorStates, dob: t("regDateError") } });
+        setErrorStates((errorStates: any) => { return { ...errorStates, dob: lang.regDateError } });
         return false;
       } else {
         return false;
@@ -246,10 +246,10 @@ const Registration: NextPage<Props> = (props: Props) => {
     const tempDate = new Date(tempUtcFormatDOB);
 
     if (Math.floor(tempDate.valueOf() / 1000) >= Math.floor(Date.now() / 1000)) {
-      setErrorStates((errorStates: any) => { return { ...errorStates, dob: t("regInvalidAgeError") } });
+      setErrorStates((errorStates: any) => { return { ...errorStates, dob: lang.regInvalidAgeError } });
       return false;
     }
-    
+
     const tempAge = getAge(tempUtcFormatDOB);
     setAge(tempAge);
     setDoBState(state);
@@ -257,10 +257,10 @@ const Registration: NextPage<Props> = (props: Props) => {
 
 
     if (tempAge < 16) {
-      setErrorStates((errorStates: any) => { return { ...errorStates, dob: t("regUnderAgeError") } });
+      setErrorStates((errorStates: any) => { return { ...errorStates, dob: lang.regUnderAgeError } });
       return false;
     } else if (tempAge >= 110) {
-      setErrorStates((errorStates: any) => { return { ...errorStates, dob: t("regInvalidAgeError") } });
+      setErrorStates((errorStates: any) => { return { ...errorStates, dob: lang.regInvalidAgeError } });
       return false;
     } else {
       setErrorStates((errorStates: any) => { return { ...errorStates, dob: '' } });
@@ -281,7 +281,7 @@ const Registration: NextPage<Props> = (props: Props) => {
 
   const showOverload = () => {
     clearInterval(timer);
-    message = AddFloatingMessage({"autocloses": false, "closable": false, "type": "Info", "message": t("warnOverload")})
+    message = AddFloatingMessage({ "autocloses": false, "closable": false, "type": "Info", "message": lang.warnOverload })
   };
   const closeOverload = () => {
     clearInterval(timer);
@@ -311,7 +311,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     }
     setIsDisabled(true);
 
-    
+
     const formData: IRegistrationForm = {
       firstName: firstName,
       lastName: lastName,
@@ -332,64 +332,59 @@ const Registration: NextPage<Props> = (props: Props) => {
     message = undefined;
 
     axiosInstance
-    .post("api/user/reg", formData)
-    .then(() => {
-      if (getCookie("registrationData")) {
-        deleteCookie("registrationData");
-      }
-      Router.push({
-        pathname: '/registration/success',
-        query: {
-          name:  fursonaName,
-          email: email,
+      .post("api/user/reg", formData)
+      .then(() => {
+        if (getCookie("registrationData")) {
+          deleteCookie("registrationData");
         }
-      },
-      '/registration/success');
-    })
-    .catch((err) => {
-      if (err.response.status) {
-        switch(err.response.status) {
-          case (409):
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errRegErrConflict")})
-            break;
-          case (400):
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errBadRequest")})
-            break;
-          default:
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errDefault")})
-            break;
-        }  
-      } else {
-        AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errDefault")})
-      }
-    })
-    .finally(() => {
-      if (timer) clearInterval(timer);
-      time = 0;
-      closeOverload();
-      setIsLoading(false);
-      setIsDisabled(false);
-    });
+        Router.push({
+          pathname: '/registration/success',
+          query: {
+            name: fursonaName,
+            email: email,
+          }
+        },
+          '/registration/success');
+      })
+      .catch((err) => {
+        if (err.response.status) {
+          switch (err.response.status) {
+            case (409):
+              AddFloatingMessage({ "autocloses": true, "type": "Error", "message": lang.errRegConflict })
+              break;
+            case (400):
+              AddFloatingMessage({ "autocloses": true, "type": "Error", "message": lang.errBadRequest })
+              break;
+            default:
+              AddFloatingMessage({ "autocloses": true, "type": "Error", "message": lang.errDefault })
+              break;
+          }
+        } else {
+          AddFloatingMessage({ "autocloses": true, "type": "Error", "message": lang.errDefault })
+        }
+      })
+      .finally(() => {
+        if (timer) clearInterval(timer);
+        time = 0;
+        closeOverload();
+        setIsLoading(false);
+        setIsDisabled(false);
+      });
   }
 
 
-  // ====================================================
-  // Saves the data of the user when deloading the page,
-  // and loads it back into the fields code by Alma
-  // ====================================================
-
   const saveCookie = () => {
     const saveData: IRegistrationDataSave = {
-      "FirstName": firstName,
-      "LastName": lastName,
-      "FursonaName": fursonaName,
-      "FursonaSpecies": fursonaSpecies,
-      "Email": email,
-      "DoB": dob,
-      "Nationality": nationality,
-      "Contact": contact,
-      "Allergy": allergy,
-      "OtherPass": otherPass,
+      FirstName: firstName,
+      LastName: lastName,
+      FursonaName: fursonaName,
+      FursonaSpecies: fursonaSpecies,
+      Email: email,
+      DoB: dob,
+      Nationality: nationality,
+      Contact: contact,
+      Allergy: allergy,
+      OtherPass: otherPass,
     }
     setCookie("registrationData", JSON.stringify(saveData));
   }
@@ -403,295 +398,314 @@ const Registration: NextPage<Props> = (props: Props) => {
         })
       }
     }
-  },[])
-  
-  // i hate myself xd - Alma
+  }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     saveCookie();
-  },[firstName, lastName, fursonaName, fursonaSpecies, 
-    email, dob, age, nationality, 
-    contact, allergy, otherPass])
-
-  // ======================================================
-  // Code by Alma ends here, thx for letting me write this!
-  // ======================================================
+  }, [
+    firstName, lastName, fursonaName, fursonaSpecies,
+    email, dob, age, nationality,
+    contact, allergy, otherPass
+  ])
 
   return (
     <>
-      <CustomHead title={t("navRegistration")} />
-      <LoadingOverlay isLoading={isLoading} message={`${t("regWait")}`}/>
+      <CustomHead title={lang.navReg} />
+      <LoadingOverlay
+        isLoading={isLoading}
+        text={`${lang.regWait}`}
+      >
+        <BarLoader
+          color={variables.secondaryColor}
+        />
+      </LoadingOverlay>
+      <div className={styles.Registration__Background} />
       <div className={styles.Registration}>
-        <div className={styles.Registration__Title}>
-            <h1>
-              {t("navRegistration")}
-            </h1>
-        </div>
-        <div className={styles.Registration__Content}>
-          <Section>
-            <div className={styles.Registration__Form}>
-                <div className={styles.Registration__Form__Row}>
-                  <span>
-                    <Input
-                      id={"in-1"}
-                      label={`${t("regFirstname")}: `}
-                      placeholder={t("regFirstname")}
-                      list="autoCompleteOff"
-                      autoComplete="nope"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      onBlur={() => validateFirstName()}
-                      inputClass={`${errorStates.firstName? styles.Registration__Error : ''}`}
-                      maxlength={100}
-                    ></Input>
-                    <p className={styles.Registration__Error__Text}>{errorStates.firstName}</p>
-                  </span>
-
-                  <span>
-                    <Input
-                      id={"in-2"}
-                      label={`${t("regLastname")}: `}
-                      placeholder={t("regLastname")}
-                      list="autoCompleteOff"
-                      autoComplete="nope"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      onBlur={() => validateLastName()}
-                      inputClass={errorStates.lastName && styles.Registration__Error}
-                      maxlength={100}
-                    ></Input>
-                    <p className={styles.Registration__Error__Text}>{errorStates.lastName}</p>
-                  </span>
-                </div>
-                <span>
-                  <CustomDatePicker
-                    isDateValid={setDoBState}
-                    label={`${t("regDob")}: `}
-                    onChange={(e: React.SetStateAction<string>) => setDoB(e)}
-                    value={dob}
-                    onBlur={validateDoB}
-                    inputClass={errorStates.dob && styles.Registration__Error}
-                  ></CustomDatePicker>
-                  <p className={styles.Registration__Error__Text}>{errorStates.dob}</p>
-                </span>
-                
-                <span>
-                  <NationalitySelector
-                    label={`${t("regNationality")}: `}
-                    onChange={setNationality}
-                    value={nationality}
-                    onBlur={() => validateNationality()}
-                  ></NationalitySelector>
-                  <p className={styles.Registration__Error__Text}>{errorStates.nationality}</p>
-                </span>
-                
-                <span>
-                  <Input
-                    id={"email"}
-                    name={"email"}
-                    label={`${t("regEmail")}: `}
-                    placeholder={t("regEmail")}
-                    type={"email"}
-                    list="autoCompleteOff"
-                    autoComplete="nope"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onBlur={() => validateEmail()}
-                    inputClass={errorStates.email && styles.Registration__Error}
-                    maxlength={100}
-                  ></Input>
-                  <p className={styles.Registration__Error__Text}>{errorStates.email}</p>
-                </span>
-                
-                <span>
-                  <Input
-                    id={"in-3"}
-                    label={`${t("regEmailConfirm")}: `}
-                    placeholder={t("regEmailConfirm")}
-                    type={"email"}
-                    list="autoCompleteOff"
-                    autoComplete="nope"
-                    value={confEmail}
-                    onChange={(e) => setConfEmail(e.target.value)}
-                    onBlur={() => validateConfEmail()}
-                    inputClass={errorStates.confEmail && styles.Registration__Error}
-                    maxlength={100}
-                  ></Input>
-                  <p className={styles.Registration__Error__Text}> {errorStates.confEmail}</p>
-                </span>
-                
-    
-                <div className={styles.Registration__Form__Row}>
-                  <span>
-                    <Input
-                      id={"in-4"}
-                      label={`${t("regFursonaName")}: `}
-                      placeholder={t("regFursonaName")}
-                      list="autoCompleteOff"
-                      autoComplete="nope"
-                      value={fursonaName}
-                      onChange={(e) => setFursonaName(e.target.value)}
-                      onBlur={() => validateSonaName()}
-                      inputClass={errorStates.fursonaName && styles.Registration__Error}
-                      maxlength={10}
-                    ></Input>
-                    <p className={styles.Registration__Error__Text}>{errorStates.fursonaName}</p>
-                  </span>
-                  
-                  <span>
-                    <Input
-                      id={"in-5"}
-                      label={`${t("regSpecies")}: `}
-                      placeholder={t("regSpecies")}
-                      list="autoCompleteOff"
-                      autoComplete="nope"
-                      value={fursonaSpecies}
-                      onChange={(e) => setFursonaSpecies(e.target.value)}
-                      onBlur={() => validateSpecies()}
-                      inputClass={errorStates.fursonaSpecies && styles.Registration__Error}
-                      maxlength={10}
-                    ></Input>
-                    <p className={styles.Registration__Error__Text}>{errorStates.fursonaSpecies}</p>
-                  </span>
-                </div>
-
-                <div className={styles.Registration__Form__Row}>
-                  <span>
-                    <Input
-                      id={"password"}
-                      name={"password"}
-                      label={`${t("regPassword")}: `}
-                      placeholder={t("regPassword")}
-                      type={"password"}
-                      list="autoCompleteOff"
-                      autoComplete="new-password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      onBlur={() => validatePass()}
-                      inputClass={errorStates.password && styles.Registration__Error}
-                      maxlength={100}
-                    ></Input>
-                    <p className={styles.Registration__Error__Text}>{errorStates.password}</p>
-                  </span>
-                  
-                  <span>
-                    <Input
-                      id={"in-6"}
-                      label={`${t("regPasswordConfirm")}: `}
-                      placeholder={t("regPasswordConfirm")}
-                      type={"password"}
-                      list="autoCompleteOff"
-                      autoComplete="new-password"
-                      value={confPassword}
-                      onChange={(e) => setConfPassword(e.target.value)}
-                      onBlur={() => validateConfPass()}
-                      inputClass={errorStates.confPassword && styles.Registration__Error}
-                      maxlength={100}
-                    ></Input>
-                    <p className={styles.Registration__Error__Text}>{errorStates.confPassword}</p>
-                  </span>
-                </div>
-                <span>
-                  <span className={styles.Registration__Form__Inline}>
-                    <Tippy content={t("regContactExp")}>
-                      <span>
-                        <RiQuestionLine size={20} />
-                      </span>
-                    </Tippy>
-                    <Input
-                      id={"in-7"}
-                      label={`${t("regContact")}: `}
-                      placeholder={t("regContact")}
-                      type={"text"}
-                      list="autoCompleteOff"
-                      autoComplete="nope"
-                      value={contact}
-                      onChange={(e) => setContact(e.target.value)}
-                      onBlur={() => validateContact()}
-                      inputClass={errorStates.contact && styles.Registration__Error}
-                      maxlength={100}
-                    ></Input>
-                  </span>
-                  <p className={styles.Registration__Error__Text}> {errorStates.contact}</p>
-                </span>
-                <span>
-                  <span className={styles.Registration__Form__Inline}>
-                    <Input
-                      id={"in-8"}
-                      label={`${t("regAllergy")}: `}
-                      placeholder={t("regAllergy")}
-                      type={"text"}
-                      list="autoCompleteOff"
-                      autoComplete="nope"
-                      value={allergy}
-                      onChange={(e) => setAllergy(e.target.value)}
-                      maxlength={1000}
-                    ></Input>
-                  </span>
-                </span>
+        <TextCard
+          variant="filled"
+          shadowEnabled
+          title={lang.navReg}
+          customTitleClass={styles.Registration__Title}
+          customBodyClass={styles.Registration__Content}
+        >
+          <div className={styles.Registration__Form}>
+            <div className={styles.Registration__Form__Row}>
+              <span>
                 <Input
-                  type="checkbox"
-                  checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, rules: e} })}
-                  id="chk-2"
-                  label={<span className={styles.Registration__Form__Label} >{t("regRule1")}<LinkButton isInternal={true} text={t("regRuleBtn")} link="/legal/rules"></LinkButton>{t("regRule2")}</span>}
+                  id={"in-1"}
+                  label={`${lang.regFirstname}: `}
+                  list="autoCompleteOff"
+                  autoComplete="nope"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e)}
+                  onBlur={() => validateFirstName()}
+                  error={!!errorStates.firstName}
+                  maxLength={100}
                 ></Input>
-                <Input
-                  type="checkbox"
-                  checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, data: e} })}
-                  id="chk-3"
-                  label={<span className={styles.Registration__Form__Label} >{t("regData1")}<LinkButton isInternal={true} text={t("regDataBtn")} link="/legal/data"></LinkButton></span>}
-                ></Input>
+                <p className={styles.Registration__Error__Text}>{errorStates.firstName}</p>
+              </span>
 
+              <span>
+                <Input
+                  id={"in-2"}
+                  label={`${lang.regLastname}: `}
+                  list="autoCompleteOff"
+                  autoComplete="nope"
+                  value={lastName}
+                  onChange={(e) => setLastName(e)}
+                  onBlur={() => validateLastName()}
+                  error={!!errorStates.lastName}
+                  maxLength={100}
+                ></Input>
+                <p className={styles.Registration__Error__Text}>{errorStates.lastName}</p>
+              </span>
+            </div>
+            
+            <span>
+              <CustomDatePicker
+                isDateValid={setDoBState}
+                label={`${lang.regDob}: `}
+                onChange={(e: React.SetStateAction<string>) => setDoB(e)}
+                value={dob}
+                onBlur={validateDoB}
+                error={!!errorStates.dob}
+              ></CustomDatePicker>
+              <p className={styles.Registration__Error__Text}>{errorStates.dob}</p>
+            </span>
+
+            <span>
+              <NationalitySelector
+                label={`${lang.regNationality}: `}
+                onChange={setNationality}
+                value={nationality}
+                onBlur={() => validateNationality()}
+              ></NationalitySelector>
+              <p className={styles.Registration__Error__Text}>{errorStates.nationality}</p>
+            </span>
+
+            <span>
+              <Input
+                id={"email"}
+                name={"email"}
+                label={`${lang.regEmail}: `}
+                type={"email"}
+                list="autoCompleteOff"
+                autoComplete="nope"
+                value={email}
+                onChange={(e) => setEmail(e)}
+                onBlur={() => validateEmail()}
+                error={!!errorStates.email}
+                maxLength={100}
+              ></Input>
+              <p className={styles.Registration__Error__Text}>{errorStates.email}</p>
+            </span>
+
+            <span>
+              <Input
+                id={"in-3"}
+                label={`${lang.regEmailConfirm}: `}
+                type={"email"}
+                list="autoCompleteOff"
+                autoComplete="nope"
+                value={confEmail}
+                onChange={(e) => setConfEmail(e)}
+                onBlur={() => validateConfEmail()}
+                error={!!errorStates.confEmail}
+                maxLength={100}
+              ></Input>
+              <p className={styles.Registration__Error__Text}> {errorStates.confEmail}</p>
+            </span>
+
+
+            <div className={styles.Registration__Form__Row}>
+              <span>
+                <Input
+                  id={"in-4"}
+                  label={`${lang.regFursonaName}: `}
+                  list="autoCompleteOff"
+                  autoComplete="nope"
+                  value={fursonaName}
+                  onChange={(e) => setFursonaName(e)}
+                  onBlur={() => validateSonaName()}
+                  error={!!errorStates.fursonaName}
+                  maxLength={10}
+                ></Input>
+                <p className={styles.Registration__Error__Text}>{errorStates.fursonaName}</p>
+              </span>
+
+              <span>
+                <Input
+                  id={"in-5"}
+                  label={`${lang.regSpecies}: `}
+                  list="autoCompleteOff"
+                  autoComplete="nope"
+                  value={fursonaSpecies}
+                  onChange={(e) => setFursonaSpecies(e)}
+                  onBlur={() => validateSpecies()}
+                  error={!!errorStates.fursonaSpecies}
+                  maxLength={10}
+                ></Input>
+                <p className={styles.Registration__Error__Text}>{errorStates.fursonaSpecies}</p>
+              </span>
+            </div>
+
+            <div className={styles.Registration__Form__Row}>
+              <span>
                 <Input
                   id={"password"}
                   name={"password"}
+                  label={`${lang.regPassword}: `}
                   type={"password"}
                   list="autoCompleteOff"
-                  autoComplete="nope"
-                  value={otherPass}
-                  onChange={(e) => setOtherPass(e.target.value)}
-                  maxlength={100}
-                  className={styles.Registration__Form__Pass}
+                  autoComplete="new-password"
+                  value={password}
+                  onChange={(e) => setPassword(e)}
+                  onBlur={() => validatePass()}
+                  error={!!errorStates.password}
+                  maxLength={100}
                 ></Input>
+                <p className={styles.Registration__Error__Text}>{errorStates.password}</p>
+              </span>
+
+              <span>
+                <Input
+                  id={"in-6"}
+                  label={`${lang.regPasswordConfirm}: `}
+                  type={"password"}
+                  list="autoCompleteOff"
+                  autoComplete="new-password"
+                  value={confPassword}
+                  onChange={(e) => setConfPassword(e)}
+                  onBlur={() => validateConfPass()}
+                  error={!!errorStates.confPassword}
+                  maxLength={100}
+                ></Input>
+                <p className={styles.Registration__Error__Text}>{errorStates.confPassword}</p>
+              </span>
             </div>
-            {
-              (serverDate != undefined && fromDate != undefined && toDate != undefined) &&
-              <div className={styles.Registration__Button}>
-                <>
-                  {
-                    (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
-                    <p style={{color: 'red'}}>
-                      {`${t("warnDateLimit1")} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${t("warnDateLimit2")}`}
-                    </p>
+            <span>
+              <span className={styles.Registration__Form__Inline}>
+                <Input
+                  id={"in-7"}
+                  label={`${lang.regContact}: `}
+                  type={"text"}
+                  list="autoCompleteOff"
+                  autoComplete="nope"
+                  value={contact}
+                  onChange={(e) => setContact(e)}
+                  onBlur={() => validateContact()}
+                  error={!!errorStates.contact}
+                  maxLength={100}
+                  startAdornment={
+                    <Tooltip
+                      html={
+                        <span style={{ fontSize: "1.4rem" }}>
+                          {lang.regContactExp}
+                        </span>
+                      }
+                      arrow
+                      arrowSize="big"
+                      size="big"
+                      inertia
+                      style={{
+                        fontSize: '1.6rem'
+                      }}
+                    >
+                      <span>
+                        <RiQuestionLine size={20} />
+                      </span>
+                    </Tooltip>
                   }
-                  <PrimaryButton
+                ></Input>
+              </span>
+              <p className={styles.Registration__Error__Text}> {errorStates.contact}</p>
+            </span>
+            <span>
+              <span className={styles.Registration__Form__Inline}>
+                <Input
+                  id={"in-8"}
+                  label={`${lang.regAllergy}: `}
+                  type={"text"}
+                  list="autoCompleteOff"
+                  autoComplete="nope"
+                  value={allergy}
+                  onChange={(e) => setAllergy(e)}
+                  maxLength={1000}
+                ></Input>
+              </span>
+            </span>
+            {
+              /*
+              <Input
+                checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, rules: e} })}
+                id="chk-2"
+              >
+                <span className={styles.Registration__Form__Label}>
+                  {lang.regRule1}
+                  <Button
+                    variant="text"
+                    link="/legal/rules"
+                  >
+                    {lang.regRuleBtn}
+                  </Button>
+                  {lang.regRule2}
+                </span>
+              </Input>
+
+              <Input
+                checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, data: e} })}
+                id="chk-3"
+              >
+                <span className={styles.Registration__Form__Label}>
+                  {lang.regData1}
+                  <Button
+                    variant="text"
+                    link="/legal/data"
+                  >
+                    {lang.regDataBtn}
+                  </Button>
+                </span>
+              </Input>
+              */
+            }
+
+            <Input
+              id={"password"}
+              name={"password"}
+              type={"password"}
+              list="autoCompleteOff"
+              autoComplete="nope"
+              value={otherPass}
+              onChange={(e) => setOtherPass(e)}
+              maxLength={100}
+              customClass={styles.Registration__Form__Pass}
+            ></Input>
+          </div>
+          {
+            (serverDate != undefined && fromDate != undefined && toDate != undefined) &&
+            <div className={styles.Registration__Button}>
+              <>
+                {
+                  (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
+                  <p style={{ color: 'red' }}>
+                    {`${lang.warnDateLimit1} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${lang.warnDateLimit2}`}
+                  </p>
+                }
+                <Button
+                  variant="contained"
                   disabled={isButtonActive || isDisabled ||
                     !((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))}
-                  text={t("regButton")}
-                  onClick={handleButton} 
-                  />
-                </>
-              </div>
-            }
-          </Section>
-        </div>
+                  onClick={handleButton}
+                >
+                  {lang.regButton}
+                </Button>
+              </>
+            </div>
+          }
+        </TextCard>
       </div>
     </>
   )
 }
 
 export default Registration;
-*/
-
-import TempWIP from "@/comp/TempWIP";
-import { NextPage } from "next";
-
-type Props = {}
-
-const Registration: NextPage<Props> = (props: Props) => {
-
-  return (
-    <TempWIP/>
-  );
-}
-export default Registration
