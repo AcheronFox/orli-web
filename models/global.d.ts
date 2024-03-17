@@ -181,9 +181,11 @@ declare interface Language {
     regRuleBtn: string;
     regData1: string;
     regDataBtn: string;
-    regContact: string;
+    regTelegram: string;
+    regPhone: string;
     regContactExp: string;
     regAllergy: string;
+    regStorage: string;
 
     // REGISTRATION MESSAGES
     regWait: string;

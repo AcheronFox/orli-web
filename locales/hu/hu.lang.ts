@@ -181,9 +181,12 @@ const hu: Language = {
     regRuleBtn: "Szabályzatban",
     regData1: "Elolvastam és elfogadom az ",
     regDataBtn: "Adatkezelési Szabályzatot.",
-    regContact: "Telegram vagy Telefonszám",
-    regContactExp: "Ezt azért kérjük el, hogy szükség esetén azonnal kapcsolatba léphessünk Veled. Ez itt megadott adatokat nem adjuk át harmadik félnek.",
+    regTelegram: "Telegram",
+    regPhone: "Telefonszám",
+    regContactExp: "Ezt azért kérjük el, hogy szükség esetén azonnal kapcsolatba léphessünk Veled. Ez itt megadott adatokat nem adjuk át harmadik félnek. Nem kell kitölteni mind a kettő mezőt!",
     regAllergy: "Érzékenység, allergia (opcionális)",
+    regStorage: "El szeretném tárolni a regisztrációs adataimat jövőbeli eseményekre (opcionális)",
+
 
     // REGISTRATION MESSAGES
     regWait: "Regisztrálás",
