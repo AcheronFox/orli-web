@@ -94,24 +94,13 @@ button { all: unset; }
 //The styling of this component literaly only works here...
 //
 
-.react-calendar {
+.react-calendar.react-calendar {
     background-color: rgba($black, .9);
     border: .1rem solid $white;
     font-family: Arial, Helvetica, sans-serif;
     font-size: $default-font-size;
     z-index: 1;
-    border-width: .2rem .2rem .2rem .2rem;
-    border-style: solid;
-    border-color: $white;
-    border-image: linear-gradient(90deg, $color-primary, $color-secondary) 20 stretch;
-
-    @include respond(big-desktop) {
-        font-size: calc($default-font-size * 1.3);
-    }
-
-    @include respond(4k-desktop) {
-        font-size: calc($default-font-size * 1.6);
-    }
+    border: .2rem solid $color-primary;
 
     button:disabled {
         color: $grey-5;
@@ -149,14 +138,6 @@ button { all: unset; }
     min-width: 4rem;
     background: none;
     transition: all .2s;
-
-    @include respond(big-desktop) {
-        font-size: calc($default-font-size * 1.3);
-    }
-
-    @include respond(4k-desktop) {
-        font-size: calc($default-font-size * 1.6);
-    }
 }
 
 .react-calendar__navigation button:enabled:hover {
@@ -206,14 +187,6 @@ button { all: unset; }
     padding: 0.75em 0.5em;
     background: none;
     transition: all .2s;
-
-    @include respond(big-desktop) {
-        font-size: calc($default-font-size * 1.3);
-    }
-
-    @include respond(4k-desktop) {
-        font-size: calc($default-font-size * 1.6);
-    }
 }
 
 .react-calendar__tile:enabled:hover {
@@ -222,7 +195,7 @@ button { all: unset; }
 }
 
 .react-calendar__tile--now {
-    box-shadow: inset 0 0 .5rem .5rem $color-secondary;
+    box-shadow: inset 0 0 .2rem .2rem $color-secondary;
     transition: all .2s;
 }
 
@@ -232,13 +205,13 @@ button { all: unset; }
 }
 
 .react-calendar__tile--active {
-    box-shadow: inset 0 0 .5rem .5rem $color-primary;
+    box-shadow: inset 0 0 .2rem .2rem $color-primary;
     color: $white;
     transition: all .2s;
 }
 
 .react-calendar__tile--highlight {
-    box-shadow: inset 0 0 .5rem .5rem $color-primary;
+    box-shadow: inset 0 0 .2rem .2rem $color-primary;
     color: $white;
     transition: all .2s;
     color: $white !important;

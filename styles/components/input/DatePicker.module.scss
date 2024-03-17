@@ -3,7 +3,7 @@
     align-items: center;
     position: relative;
 
-    label {
+    &__Label {
         font-size: calc($default-font-size * 1.2);
     }
 

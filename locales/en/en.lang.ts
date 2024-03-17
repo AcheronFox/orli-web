@@ -181,9 +181,11 @@ const en: Language = {
     regRuleBtn: "Policy.",
     regData1: "I read and accept the ",
     regDataBtn: "Data Handling policy.",
-    regContact: "Telegram or Phone",
-    regContactExp: "We are only asking for this, so that we can get in contact with you immediately if it's necessary. The information you provide here will not be shared with third parties.",
+    regTelegram: "Telegram",
+    regPhone: "Phone",
+    regContactExp: "We are only asking for this, so that we can get in contact with you immediately if it's necessary. The information you provide here will not be shared with third parties. You do not need to fill out both fields!",
     regAllergy: "Sensitivities, allergies (optional)",
+    regStorage: "I would like to store my registration data for future events (optional)",
 
     // REGISTRATION MESSAGES
     regWait: "Registrating",

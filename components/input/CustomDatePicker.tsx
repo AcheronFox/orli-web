@@ -173,7 +173,7 @@ const CustomDatePicker = React.forwardRef(
     return (
       
         <div className={`${styles.DatePicker} ${className}`}>
-          <label style={{marginRight: "1rem", marginTop: "2rem"}} htmlFor={id || 'datepicker'}>
+          <label className={styles.DatePicker__Label} style={{marginRight: "1rem", marginTop: "2rem"}} htmlFor={id || 'datepicker'}>
             {label}
           </label>
           <Input

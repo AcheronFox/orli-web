@@ -10,7 +10,7 @@ import { IRegistrationDataSave, IRegistrationForm } from "@/models/registration-
 import { NextPage } from "next";
 import LoadingOverlay from "@/comp/utils/LoadingOverlay";
 import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
-import { RiQuestionLine, RiUserAddLine } from "react-icons/ri"
+import { RiQuestionLine } from "react-icons/ri"
 import createDatePatternFromDate from "@/functions/utils/createDatePattern";
 import useTranslate from "@/hooks/translate/useTranslate";
 import axiosInstance from "@/functions/utils/axiosConfig";
@@ -21,6 +21,7 @@ import Button from "@/comp/button/Button";
 import BarLoader from "react-spinners/BarLoader";
 import variables from "@/styles/abstracts/exports.module.scss"
 import { Tooltip } from 'react-tippy';
+import Checkbox from "@/comp/input/Checkbox";
 
 const isEmailValid = (email: string) => {
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
@@ -62,9 +63,11 @@ const Registration: NextPage<Props> = (props: Props) => {
   const [fursonaSpecies, setFursonaSpecies] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confPassword, setConfPassword] = useState<string>("");
-  const [contact, setContact] = useState<string>("");
+  const [telegram, setTelegram] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
   const [allergy, setAllergy] = useState<string>("");
   const [otherPass, setOtherPass] = useState<string>("");
+  const [storage, setStorage] = useState<boolean>(false);
 
   const [fromDate, setFromDate] = useState<Date>();
   const [toDate, setToDate] = useState<Date>();
@@ -89,7 +92,8 @@ const Registration: NextPage<Props> = (props: Props) => {
     fursonaSpecies: '',
     password: '',
     confPassword: '',
-    contact: '',
+    telegram: '',
+    phone: '',
   });
 
   const [agreeStates, setAgreeStates] = useState<any>({
@@ -157,8 +161,11 @@ const Registration: NextPage<Props> = (props: Props) => {
     if (errorStates.confPassword != "") validateConfPass()
   }, [confPassword]);
   useEffect(() => {
-    if (errorStates.contact != "") validateContact()
-  }, [contact]);
+    if (errorStates.telegram != "") validateTelegram()
+  }, [telegram]);
+  useEffect(() => {
+    if (errorStates.phone != "") validatePhone()
+  }, [phone]);
 
   useEffect(() => {
     errorStates.firstName && validateFirstName()
@@ -171,7 +178,8 @@ const Registration: NextPage<Props> = (props: Props) => {
     errorStates.nationality && validateNationality()
     errorStates.password && validatePass()
     errorStates.confPassword && validateConfPass()
-    errorStates.contact && validateContact()
+    errorStates.telegram && validateTelegram()
+    errorStates.phone && validatePhone()
   }, [currLang])
 
   useEffect(() => {
@@ -225,8 +233,11 @@ const Registration: NextPage<Props> = (props: Props) => {
   const validateConfPass = () => {
     return updateState(password.trim() != confPassword.trim(), "confPassword", lang.regPassConfError)
   }
-  const validateContact = () => {
-    return updateState(contact.trim() == "", "contact", lang.regContactErr)
+  const validateTelegram = () => {
+    return updateState(telegram.trim() == "", "telegram", lang.regContactErr)
+  }
+  const validatePhone = () => {
+    return updateState(phone.trim() == "", "phone", lang.regContactErr)
   }
 
   const validateAge = (state: boolean, strict = false) => {
@@ -303,7 +314,8 @@ const Registration: NextPage<Props> = (props: Props) => {
       validateNationality(),
       validatePass(),
       validateConfPass(),
-      validateContact(),
+      validateTelegram(),
+      validatePhone(),
     )
 
     if (finalCheck.includes(false)) {
@@ -321,10 +333,13 @@ const Registration: NextPage<Props> = (props: Props) => {
       dateOfBirth: new Date(utcFormatDOB),
       age: age,
       nationality: nationality,
-      contact: contact,
+      telegram: 'https://t.me/'+telegram,
+      /* TODO */
+      phone: ``+phone,
       allergy: allergy,
       password: crypto.createHash("sha256").update(password).digest("hex"),
       otherPass: otherPass,
+      storage: storage,
     };
 
     startTimer();
@@ -382,9 +397,11 @@ const Registration: NextPage<Props> = (props: Props) => {
       Email: email,
       DoB: dob,
       Nationality: nationality,
-      Contact: contact,
+      Telegram: telegram,
+      Phone: phone,
       Allergy: allergy,
       OtherPass: otherPass,
+      Storage: storage,
     }
     setCookie("registrationData", JSON.stringify(saveData));
   }
@@ -405,7 +422,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   }, [
     firstName, lastName, fursonaName, fursonaSpecies,
     email, dob, age, nationality,
-    contact, allergy, otherPass
+    telegram, phone, allergy, otherPass
   ])
 
   return (
@@ -584,41 +601,94 @@ const Registration: NextPage<Props> = (props: Props) => {
               </span>
             </div>
             <span>
-              <span className={styles.Registration__Form__Inline}>
+              <span className={styles.Registration__Form__Row}>
                 <Input
                   id={"in-7"}
-                  label={`${lang.regContact}: `}
+                  label={lang.regTelegram}
                   type={"text"}
                   list="autoCompleteOff"
                   autoComplete="nope"
-                  value={contact}
-                  onChange={(e) => setContact(e)}
-                  onBlur={() => validateContact()}
-                  error={!!errorStates.contact}
+                  value={telegram}
+                  onChange={(e) => setTelegram(e)}
+                  onBlur={() => validateTelegram()}
+                  error={!!errorStates.telegram}
                   maxLength={100}
                   startAdornment={
-                    <Tooltip
-                      html={
-                        <span style={{ fontSize: "1.4rem" }}>
-                          {lang.regContactExp}
+                    <>
+                      <Tooltip
+                        html={
+                          <span style={{ fontSize: "1.4rem" }}>
+                            {lang.regContactExp}
+                          </span>
+                        }
+                        arrow
+                        arrowSize="big"
+                        size="big"
+                        inertia
+                        style={{
+                          fontSize: '1.6rem'
+                        }}
+                      >
+                        <span>
+                          <RiQuestionLine size={20} />
                         </span>
-                      }
-                      arrow
-                      arrowSize="big"
-                      size="big"
-                      inertia
-                      style={{
-                        fontSize: '1.6rem'
-                      }}
-                    >
-                      <span>
-                        <RiQuestionLine size={20} />
+                      </Tooltip>
+                      <span
+                        style={{marginLeft: '1rem', whiteSpace: "nowrap"}}
+                      >
+                        https://t.me/
                       </span>
-                    </Tooltip>
+                    </>
+                  }
+                ></Input>
+                <Input
+                  id={"in-9"}
+                  label={lang.regPhone}
+                  type={"text"}
+                  list="autoCompleteOff"
+                  autoComplete="nope"
+                  value={phone}
+                  onChange={(e) => {
+                    const regexp = /^\d+$/;
+                    if (regexp.test(e)) {
+                      setPhone(e)
+                    }
+                    else return
+                  }}
+                  onBlur={() => validatePhone()}
+                  error={!!errorStates.phone}
+                  maxLength={9}
+                  startAdornment={
+                    <>
+                      <Tooltip
+                        html={
+                          <span style={{ fontSize: "1.4rem" }}>
+                            {lang.regContactExp}
+                          </span>
+                        }
+                        arrow
+                        arrowSize="big"
+                        size="big"
+                        inertia
+                        style={{
+                          fontSize: '1.6rem'
+                        }}
+                      >
+                        <span>
+                          <RiQuestionLine size={20} />
+                        </span>
+                      </Tooltip>
+                      <span
+                        style={{marginLeft: '1rem', whiteSpace: "nowrap"}}
+                      >
+                        {/* TODO */}
+                        +36
+                      </span>
+                    </>
                   }
                 ></Input>
               </span>
-              <p className={styles.Registration__Error__Text}> {errorStates.contact}</p>
+              <p className={styles.Registration__Error__Text}> {errorStates.telegram || errorStates.phone}</p>
             </span>
             <span>
               <span className={styles.Registration__Form__Inline}>
@@ -634,12 +704,10 @@ const Registration: NextPage<Props> = (props: Props) => {
                 ></Input>
               </span>
             </span>
-            {
-              /*
-              <Input
-                checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, rules: e} })}
-                id="chk-2"
-              >
+            <Checkbox
+              checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, rules: e} })}
+              id="chk-2"
+              label={
                 <span className={styles.Registration__Form__Label}>
                   {lang.regRule1}
                   <Button
@@ -650,12 +718,12 @@ const Registration: NextPage<Props> = (props: Props) => {
                   </Button>
                   {lang.regRule2}
                 </span>
-              </Input>
-
-              <Input
-                checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, data: e} })}
-                id="chk-3"
-              >
+              }
+            />
+            <Checkbox
+              checked={(e) => setAgreeStates((agreeStates: any) => { return { ...agreeStates, data: e} })}
+              id="chk-3"
+              label={
                 <span className={styles.Registration__Form__Label}>
                   {lang.regData1}
                   <Button
@@ -665,9 +733,17 @@ const Registration: NextPage<Props> = (props: Props) => {
                     {lang.regDataBtn}
                   </Button>
                 </span>
-              </Input>
-              */
-            }
+              }
+            />
+            <Checkbox
+              checked={(e) => setStorage(e)}
+              id="chk-4"
+              label={
+                <span className={styles.Registration__Form__Label}>
+                  {lang.regStorage}
+                </span>
+              }
+            />
 
             <Input
               id={"password"}
