@@ -29,11 +29,8 @@ export default async function handler(
     }
 
     const isValidForm = (x: ILoginForm) => {
-        if (x.email != '' &&
-            x.password != '') {
-            return true
-        }
-        else return false
+        return x.email != '' &&
+            x.password != '';
     }
 
     if (isLoginForm(req.body) && isValidForm(req.body)) {

@@ -30,10 +30,10 @@ const runLeave = async (accountKey: string) => {
                     return new Promise<boolean>(async (resolve) => {
                         const query = 
                         `
-                        DELETE FROM accomodation WHERE AccountKey = '${accountKey}'
+                        DELETE FROM accomodation WHERE AccountKey = ?;
                         `
 
-                        connection.query(query, (err: any) => {
+                        connection.query(query, [accountKey], (err: any) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 rollback(connection);
@@ -52,10 +52,10 @@ const runLeave = async (accountKey: string) => {
                     return new Promise<boolean>(async (resolve) => {
                         const query = 
                         `
-                        SELECT * FROM room WHERE adminKey = '${accountKey}'
+                        SELECT * FROM room WHERE adminKey = ?;
                         `
 
-                        connection.query(query, (err: any, room: any[]) => {
+                        connection.query(query, [accountKey], (err: any, room: any[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 rollback(connection);
@@ -66,10 +66,10 @@ const runLeave = async (accountKey: string) => {
                             else if (room.length) {  
                                 const query = 
                                 `
-                                SELECT * FROM accomodation WHERE roomId = ${room[0].id} ORDER BY creationDate ASC
+                                SELECT * FROM accomodation WHERE roomId = ? ORDER BY creationDate ASC
                                 `
 
-                                connection.query(query, async (err: any, accomodations: IAccomodationRaw[]) => {
+                                connection.query(query, [room[0].id],async (err: any, accomodations: IAccomodationRaw[]) => {
                                     if (err) {
                                         console.log("ERROR: ", err);
                                         rollback(connection);
@@ -157,7 +157,7 @@ const roomHoggingWatcher = async () => {
         return new Promise<AccomodationDatabase[] | undefined>(async (resolve) => {
             const query = 
             `
-            SELECT * FROM accomodation
+            SELECT * FROM accomodation;
             `
 
             database.query(query, async (err: any, result: AccomodationDatabase[]) => {
@@ -173,7 +173,7 @@ const roomHoggingWatcher = async () => {
         return new Promise<IRoomRaw[] | undefined>(async (resolve) => {
             const query = 
             `
-            SELECT * FROM room
+            SELECT * FROM room;
             `
 
             database.query(query, async (err: any, result: IRoomRaw[]) => {
