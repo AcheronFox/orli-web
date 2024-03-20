@@ -10,8 +10,8 @@ import { regDates } from '../defaults/registration';
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
-    const dateWithOffest = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-    return dateWithOffest
+    const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+    return dateWithOffset
         .toISOString()
         .slice(0, 19)
         .replace('T', ' ')

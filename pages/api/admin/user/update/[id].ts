@@ -17,8 +17,8 @@ import { IRoomRaw } from '@/models/room.model';
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
-    const dateWithOffest = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-    return dateWithOffest
+    const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+    return dateWithOffset
         .toISOString()
         .slice(0, 19)
         .replace('T', ' ')
@@ -49,10 +49,10 @@ export default async function handler(
                     return new Promise<any | undefined>(async (resolve) => {
                         const query = 
                         `
-                        SELECT * FROM account WHERE account.id = ${userId}
+                        SELECT * FROM account WHERE account.id = ?;
                         `
 
-                        database.query(query, async (err: any, result: any[]) => {
+                        database.query(query,[userId], async (err: any, result: any[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "admin_update_usr_2"}); 
@@ -231,7 +231,8 @@ export default async function handler(
                                             AccomodationKey: aKey,
                                             creationDate: toSqlDatetime(new Date())
                                         }
-    
+
+                                        // TODO: Rework this later if needed, but for now there's probably not a better solution.
                                         connection.query(mysql.format(`INSERT INTO accomodation (${Object.keys(newData).join(",")}) VALUES (?)`, [Object.values(newData)]), (err: any, res: { insertId: any; }) => {
                                             if (err) {
                                                 console.log("ERROR: ", err);

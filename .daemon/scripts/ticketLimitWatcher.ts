@@ -12,7 +12,7 @@ const ticketLimitWatcher = async () => {
             const query = 
             `
             SELECT * FROM ticket
-            WHERE isPaid = 'false'
+            WHERE isPaid = 'false';
             `
 
             database.query(query, async (err: any, result: TicketDatabase[]) => {
@@ -54,10 +54,10 @@ const ticketLimitWatcher = async () => {
 
             const query = 
             `
-            DELETE FROM ticket WHERE TicketKey = '${ticketKey}'
+            DELETE FROM ticket WHERE TicketKey = ?;
             `
 
-            database.query(query, async (err: any) => {
+            database.query(query, [ticketKey], async (err: any) => {
                 if (err) {
                     log(`Error: ${err}`);
                     resolve(false);
