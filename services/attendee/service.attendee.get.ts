@@ -1,5 +1,5 @@
 import database from "@/functions/utils/mysql";
-import { executeDatabaseQuery } from "@/functions/utils/databaseHelpers";
+import { executeSelectQuery } from "@/functions/utils/databaseHelpers";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
 import { INationality } from "@/models/newDbModels/nationality.model";
 
@@ -18,28 +18,28 @@ export async function getAttendees(from: number = 0,
 {
     const queryString = `SELECT * FROM ${TABLE} LIMIT ?, ?;`;
 
-    return await executeDatabaseQuery<IAttendee[]>(queryString, [from, limit]);
+    return await executeSelectQuery<IAttendee[]>(queryString, [from, limit]);
 }
 
 export async function getAttendeeById(id: number) : Promise<IAttendee | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE id = ?;`;
 
-    return await executeDatabaseQuery<IAttendee>(queryString, id);
+    return await executeSelectQuery<IAttendee>(queryString, id);
 }
 
 export async function getAttendeeByAccountKey(accountKey: string) : Promise<IAttendee | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE accountKey = ?;`;
 
-    return await executeDatabaseQuery<IAttendee>(queryString, accountKey);
+    return await executeSelectQuery<IAttendee>(queryString, accountKey);
 }
 
 export async function getAttendeeByEmail(email: string) : Promise<IAttendee | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE email = ?;`;
 
-    return await executeDatabaseQuery<IAttendee>(queryString, email);
+    return await executeSelectQuery<IAttendee>(queryString, email);
 }
 
 export async function getAttendeesByType(attendeeType: AttendeeType, from: number = 0,
@@ -56,7 +56,7 @@ export async function getAttendeesByType(attendeeType: AttendeeType, from: numbe
 
     const queryString = `SELECT * FROM ${TABLE} WHERE ${field} LIMIT ?, ?;`;
 
-    return await executeDatabaseQuery<IAttendee[]>(queryString, [from, limit]);
+    return await executeSelectQuery<IAttendee[]>(queryString, [from, limit]);
 }
 
 export async function getAttendeeByNationality(nationality: INationality, from: number = 0,
@@ -64,5 +64,5 @@ export async function getAttendeeByNationality(nationality: INationality, from: 
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE nationalityId = ?;`;
 
-    return await executeDatabaseQuery<IAttendee[]>(queryString, nationality.id);
+    return await executeSelectQuery<IAttendee[]>(queryString, nationality.id);
 }
