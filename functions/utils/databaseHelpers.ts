@@ -1,6 +1,6 @@
 import database from "@/functions/utils/mysql";
 
-export async function executeDatabaseQuery<T>(queryString: string, values: any) : Promise<T | undefined>
+export async function executeSelectQuery<T>(queryString: string, values: any) : Promise<T | undefined>
 {
     return new Promise((resolve, reject) => {
         database.query(queryString, values, async (error, result) =>
@@ -32,7 +32,7 @@ export async function executeDatabaseQuery<T>(queryString: string, values: any) 
     });
 }
 
-export async function executeInsertQuery(queryString: string, values: any) : Promise<boolean>
+export async function executeInsertQuery(queryString: string, values: any) : Promise<number | undefined>
 {
     return new Promise((resolve, reject) => {
         database.query(queryString, values, async (error, result, fields) =>
@@ -40,9 +40,24 @@ export async function executeInsertQuery(queryString: string, values: any) : Pro
             if (error)
             {
                 console.log(error);
-                reject(false);
+                reject(undefined);
             }
-            resolve(true);
+            resolve(result.insertId);
         });
+    });
+}
+
+export async function executeUpdateQuery(queryString: string, values: any) : Promise<number | undefined>
+{
+    return new Promise((resolve, reject) => {
+       database.query(queryString, values, async (error, result, fields) =>
+       {
+           if (error)
+           {
+               console.log(error);
+               reject(undefined);
+           }
+           resolve(result.affectedRows);
+       });
     });
 }
