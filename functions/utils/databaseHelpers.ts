@@ -8,7 +8,7 @@ export async function executeSelectQuery<T>(queryString: string, values: any) : 
             if (error)
             {
                 console.log(error);
-                reject();
+                throw error;
             }
             if (result)
             {
@@ -32,7 +32,7 @@ export async function executeSelectQuery<T>(queryString: string, values: any) : 
     });
 }
 
-export async function executeInsertQuery(queryString: string, values: any) : Promise<number | undefined>
+export async function executeInsertQuery(queryString: string, values: any) : Promise<number>
 {
     return new Promise((resolve, reject) => {
         database.query(queryString, values, async (error, result, fields) =>
@@ -40,7 +40,7 @@ export async function executeInsertQuery(queryString: string, values: any) : Pro
             if (error)
             {
                 console.log(error);
-                reject(undefined);
+                throw error;
             }
             resolve(result.insertId);
         });

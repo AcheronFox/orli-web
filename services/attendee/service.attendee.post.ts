@@ -5,7 +5,7 @@ import { INationality } from "@/models/newDbModels/nationality.model";
 
 const TABLE = "attendee";
 
-export async function postAttendee(attendee: IAttendee) : Promise<boolean>
+export async function postAttendee(attendee: IAttendee) : Promise<number>
 {
     const insertString = `INSERT INTO ${TABLE} SET ?`;
 

@@ -19,14 +19,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     //     fursonaId: 1,
     // }
 
-    const query = "UPDATE attendee SET firstName = 'blep' WHERE id = ?;"
 
-    const result = await executeUpdateQuery(query, [3]);
+    //const query = `UPDATE ${TABLE} SET firstName = ? WHERE id = ?;`;
+
+    //const result = await executeUpdateQuery(query, ["Foxy", 3]);
 
 
     // const result = await postAttendee(testAttendee);
-    if (result)
-        res.status(200).send(result);
-    res.status(500).send(result);
+    // if (result)
+    //     res.status(200).send(result);
+    // res.status(500).send(result);
 
 }
