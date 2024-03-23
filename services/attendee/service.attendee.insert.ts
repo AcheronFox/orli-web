@@ -3,11 +3,11 @@ import { executeInsertQuery } from "@/functions/utils/databaseHelpers";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
 import { INationality } from "@/models/newDbModels/nationality.model";
 
-const TABLE = "attendee";
+const TABLE: string = "attendee";
 
-export async function modifyAttendee(attendee: IAttendee) : Promise<boolean>
+export async function postAttendee(attendee: IAttendee) : Promise<number>
 {
-    const insertString = `INSERT INTO ${TABLE} SET ?`;
+    const insertString = `INSERT INTO ${TABLE} SET ?;`;
 
     return await executeInsertQuery(insertString, attendee);
 }
