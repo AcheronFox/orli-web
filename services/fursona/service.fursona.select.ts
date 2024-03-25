@@ -1,0 +1,50 @@
+import { IFursona } from "@/models/newDbModels/fursona.model";
+import { executeSelectQuery } from "@/functions/utils/databaseHelpers";
+
+const TABLE: string = "fursona";
+const MAX_NUM_OF_ATTENDEES: number = 500;
+
+export async function getAllFursonas(from: number = 0,
+                                             limit: number = MAX_NUM_OF_ATTENDEES) : Promise<IFursona | undefined>
+{
+    const query = `SELECT * FROM ${TABLE} LIMIT ?, ?;`;
+
+    return executeSelectQuery<IFursona>(query, [from, limit]);
+}
+
+export async function getFursona(id: number): Promise<IFursona | undefined>
+{
+    const query = `SELECT * FROM ${TABLE} WHERE id = ?;`;
+
+    return executeSelectQuery<IFursona>(query, id);
+}
+
+export async function getFursonasBasedOnFursuit(hasFursuit: boolean,
+                                                        from: number = 0,
+                                                        limit: number = MAX_NUM_OF_ATTENDEES) : Promise<IFursona | undefined>
+{
+    const query = `SELECT * FROM ${TABLE} WHERE hasFursuit = ? LIMIT ?, ?;`;
+
+    return executeSelectQuery<IFursona>(query, [hasFursuit, from, limit]);
+}
+
+export async function getFursonaBasedOnSpecies(species: string,
+                                               from: number = 0,
+                                               limit: number = MAX_NUM_OF_ATTENDEES) : Promise<IFursona | undefined>
+{
+    const query = `SELECT * FROM ${TABLE} WHERE species LIKE LOWER(?) LIMIT ?, ?;`;
+
+    // TODO: This is retarded, please fix in the future
+    species = '%'+species+'%';
+    return executeSelectQuery<IFursona>(query, [species, from, limit]);
+}
+
+export async function getFursonaBasedOnName(name: string,
+                                            from: number = 0,
+                                            limit: number = MAX_NUM_OF_ATTENDEES) : Promise<IFursona | undefined>
+{
+    const query = `SELECT * FROM ${TABLE} WHERE name LIKE LOWER(?) LIMIT ?, ?;`;
+    name = '%'+name+'%';
+
+    return executeSelectQuery<IFursona>(query, [name, from, limit]);
+}

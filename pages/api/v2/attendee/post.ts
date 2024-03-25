@@ -4,27 +4,13 @@ import { postAttendee } from "@/services/attendee/service.attendee.insert";
 import { executeUpdateQuery } from "@/functions/utils/databaseHelpers";
 import { modifyAttendee } from "@/services/attendee/service.attendee.update";
 import {MysqlError} from "mysql";
+import {getFursona, getFursonaBasedOnName, getFursonaBasedOnSpecies} from "@/services/fursona/service.fursona.select";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>)
 {
-    const testAttendee: IAttendee = {
-        id: 3,
-        accountKey: "nono22",
-        firstName: "Gipsz",
-        lastName: "Jakab",
-        email: "hahano.",
-        password: "YesHello",
-        dateOfBirth: "1999-01-01",
-        allergy: "Andrew Tate",
-        verified: true,
-        admin: false,
-        staff: false,
-        fursonaId: 3,
-    }
-
     try
     {
-        const result = await modifyAttendee(testAttendee);
+        const result = await getFursona(2)
 
         res.status(200).send(result);
     } catch (e: any)
