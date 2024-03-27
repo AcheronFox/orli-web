@@ -1,5 +1,4 @@
-export interface ITicket {
-    id?: number;
+export interface ITicketUpdatable {
     type: string;
     earlyArrival: boolean;
     lateDeparture: boolean;
@@ -12,5 +11,4 @@ export interface ITicket {
     foodData: string;
     arrivalDate: string;
     departureDate: string;
-    createdAt?: string;
 }
