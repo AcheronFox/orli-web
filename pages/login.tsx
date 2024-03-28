@@ -1,25 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/*
-  import { FloatingMessageContext } from "@/hooks/FloatingMessageContext"
+import { FloatingMessageContext } from "@/hooks/FloatingMessageContext"
 import Input from "@/comp/Input"
-import Section from "@/comp/Section"
 import crypto from "crypto";
-import { useTranslate } from "@/hooks/useTranslate"
 import styles from "@/styles/pages/Login.module.scss"
 import { NextPage } from "next"
 import { useContext, useEffect, useState } from "react"
 import { ILoginForm } from "@/models/login-form.model";
-import PrimaryButton from "@/comp/PrimaryButton";
-import LoadingOverlay from "@/comp/LoadingOverlay";
-import LinkButton from "@/comp/LinkButton";
-import { useUser } from "@/hooks/useUser";
 import Router from "next/router";
-import CustomHead from "@/comp/CustomHead";
+import useTranslate from "@/hooks/translate/useTranslate";
+import CustomHead from "@/comp/utils/CustomHead";
+import LoadingOverlay from "@/comp/utils/LoadingOverlay";
+import BarLoader from "react-spinners/BarLoader";
+import variables from "@/styles/abstracts/exports.module.scss"
+import { useUser } from "@/hooks/user/useUser";
+import Button from "@/comp/button/Button";
+import TextCard from "@/comp/TextCard";
 
 type Props = {}
 
 const Login: NextPage<Props> = (props: Props) => {
-  const { t, locale } = useTranslate()
+  const { lang, currLang } = useTranslate()
   const { HandleClose, AddFloatingMessage } = useContext(FloatingMessageContext);
   const { user, didUserInit, login } = useUser()
   const [email, setEmail] = useState<string>('')
@@ -49,7 +49,7 @@ const Login: NextPage<Props> = (props: Props) => {
   useEffect(() => {
     errorStates.email && validateEmail()
     errorStates.password && validatePass()
-  }, [locale])
+  }, [currLang])
 
   useEffect(() => {
     if (!didUserInit) return
@@ -72,10 +72,10 @@ const Login: NextPage<Props> = (props: Props) => {
   }
 
   const validateEmail = () => {
-    return updateState(email.trim() == "", "email", t("loginEmailError"))
+    return updateState(email.trim() == "", "email", lang.loginEmailError)
   }
   const validatePass = () => {
-    return updateState(password.trim() == "", "password", t("loginPassError"))
+    return updateState(password.trim() == "", "password", lang.loginPassError)
   }
 
   // ===============================================
@@ -91,7 +91,7 @@ const Login: NextPage<Props> = (props: Props) => {
 
   const showOverload = () => {
     clearInterval(timer);
-    message = AddFloatingMessage({"autocloses": false, "closable": false, "type": "Info", "message": t("warnOverload")})
+    message = AddFloatingMessage({"autocloses": false, "closable": false, "type": "Info", "message": lang.warnOverload})
   };
   const closeOverload = () => {
     clearInterval(timer);
@@ -132,18 +132,26 @@ const Login: NextPage<Props> = (props: Props) => {
 
   return (
     <>
-      <CustomHead title={t("navSignIn")} />
-      <LoadingOverlay isLoading={isLoading} message={t("loginWait")}/>
+      <CustomHead title={lang.navLogin} />
+      <LoadingOverlay isLoading={isLoading}>
+        <BarLoader
+          color={variables.secondaryColor}
+        />
+      </LoadingOverlay>
       <div className={styles.Login}>
         <div className={styles.Login__Center}>
-          <Section title={t("navSignIn")}>
+          <TextCard
+            variant="filled"
+            shadowEnabled
+            title={lang.navLogin}
+          >
             <div className={styles.Login__Form}>
               <span>
                 <Input
                   id={"email"}
                   name={"email"}
-                  label={`${t("regEmail")}: `}
-                  placeholder={t("regEmail")}
+                  label={`${lang.regEmail}: `}
+                  placeholder={lang.regEmail}
                   type={"email"}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -156,8 +164,8 @@ const Login: NextPage<Props> = (props: Props) => {
                 <Input
                   id={"password"}
                   name={"password"}
-                  label={`${t("regPassword")}: `}
-                  placeholder={t("regPassword")}
+                  label={`${lang.regPassword}: `}
+                  placeholder={lang.regPassword}
                   type={"password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -171,17 +179,28 @@ const Login: NextPage<Props> = (props: Props) => {
                   type="checkbox"
                   checked={(e) => setRemember(e)}
                   id="chk-1"
-                  label={<>{t("loginRemember")}</>}
+                  label={<>{lang.loginRemember}</>}
                 ></Input>
                 <div className={styles.Login__Form__Button}>
-                  <LinkButton text={t("loginForgotPass")} link={"/reset"} isInternal={true} />
+                  <Button
+                    variant="text"
+                    link={"/reset"}
+                  >
+                    {lang.loginForgotPass}
+                  </Button>
                 </div>
               </div>
             </div>
             <div className={styles.Login__Button}>
-              <PrimaryButton disabled={isDisabled} text={t("loginButton")} onClick={handleButton}/>
+              <Button
+                variant="contained"
+                disabled={isDisabled}
+                onClick={handleButton}
+              >
+                {lang.loginButton}
+              </Button>
             </div>
-          </Section>
+          </TextCard>
         </div>
       </div>
     </>
@@ -189,18 +208,3 @@ const Login: NextPage<Props> = (props: Props) => {
 }
 
 export default Login;
-*/
-
-
-import TempWIP from "@/comp/TempWIP";
-import { NextPage } from "next";
-
-type Props = {}
-
-const Login: NextPage<Props> = (props: Props) => {
-
-  return (
-    <TempWIP/>
-  );
-}
-export default Login

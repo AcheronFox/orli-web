@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { NotificationContext} from "./NotificationContext";
 
 const useNotification = () => {
-    const translate = useContext(NotificationContext);
-    return translate
+    const notif = useContext(NotificationContext);
+    return notif
 }
 
 export default useNotification
