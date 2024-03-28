@@ -7,7 +7,7 @@ export interface ITicket {
     shirtSize: 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
     sponsorPrice: number;
     totalPrice: number;
-    paymentMethod: 'Bank' | 'PayPal' | 'Revolut' | '';
+    paymentMethod: 'Bank' | 'PayPal' | 'Revolut';
     isPaid: boolean;
     foodData: string;
     arrivalDate: string;

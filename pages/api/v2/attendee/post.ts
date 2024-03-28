@@ -3,16 +3,32 @@ import { IAttendee } from "@/models/newDbModels/attendee.model";
 import { postAttendee } from "@/services/attendee/service.attendee.insert";
 import { executeUpdateQuery } from "@/functions/utils/databaseHelpers";
 import { modifyAttendee } from "@/services/attendee/service.attendee.update";
+import { checkDailyTicketValidity } from "@/services/dailyTicket/service.dailyticket.select";
+import { getTodayInIsoFormat } from "@/functions/utils/databaseHelpers";
 import {MysqlError} from "mysql";
 import {getFursona, getFursonaBasedOnName, getFursonaBasedOnSpecies} from "@/services/fursona/service.fursona.select";
+import {insertDailyTicket} from "@/services/dailyTicket/service.dailyticket.insert";
+import {IDailyTicket} from "@/models/newDbModels/dailyticket.model";
+import {getNationalities} from "@/services/nationality/service.nationality";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>)
 {
     try
     {
-        const result = await getFursona(2)
+        const answer = await checkDailyTicketValidity(2);
 
-        res.status(200).send(result);
+
+        // const results = await getNationalities();
+        // if (results != undefined)
+        // {
+        //     for(let i = 0; i < results.length; i++)
+        //     {
+        //         console.log(results[i]);
+        //     }
+        // }
+
+
+        res.status(200).send(answer);
     } catch (e: any)
     {
         res.status(500).send(e.message);

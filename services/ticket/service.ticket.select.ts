@@ -17,7 +17,6 @@ const enum PaymentMethod {
     Bank= "Bank",
     PayPal = "PayPal",
     Revolut = "Revolut",
-    UNKNOWN = ""
 }
 
 const enum SponsorLevel {

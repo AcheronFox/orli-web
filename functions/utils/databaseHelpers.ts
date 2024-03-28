@@ -12,20 +12,16 @@ export async function executeSelectQuery<T>(queryString: string, values: any) : 
             }
             if (result)
             {
-                if (Array.isArray(result))
+                if (result.length == 1)
                 {
-                    if (result.length > 0)
-                    {
-                        resolve(result as T);
-                    }
-                    reject();
+                    resolve(result[0] as T);
                 }
-                else
+
+                if (result.length > 1)
                 {
-                    // TODO: Don't log this on Prod!
-                    console.log("Invalid type returned. Returned value: " + result);
-                    reject();
+                    resolve(result as T);
                 }
+                reject();
             }
             reject();
         });
@@ -60,4 +56,18 @@ export async function executeUpdateQuery(queryString: string, values: any) : Pro
            resolve(result.affectedRows);
        });
     });
+}
+
+/**
+ * Get today's date in an easy-to-read format that is also suitable for MySQL.<br />
+ * <i>Example output: 2024-03-27</i>
+ */
+export function getTodayInIsoFormat(): string
+{
+    return (new Date()).toISOString().split('T')[0];
+}
+
+export function getDateObjectInIsoFormat(date: any): string
+{
+    return ((date as unknown as Date).toISOString().split('T')[0])
 }
