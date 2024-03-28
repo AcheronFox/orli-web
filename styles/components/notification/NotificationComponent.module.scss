@@ -12,11 +12,11 @@
     overflow: hidden;
 
     &.slideIn {
-        animation: slideIn 175ms linear;
+        animation: slideIn 175ms linear forwards;
     }
 
     &.slideOut {
-        animation: slideOut 175ms linear;
+        animation: slideOut 175ms linear forwards;
     }
     &::before {
         content: "";
@@ -25,7 +25,7 @@
         left: 0;
         bottom: 0px;
         height: 4px;
-        background-color: $default-red;
+        background-color: $color-red;
         animation: counter var(--duration) linear;
     }
 

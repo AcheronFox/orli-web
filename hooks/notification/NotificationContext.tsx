@@ -7,7 +7,6 @@ interface INotificationContext {
     addNotification: (notification: INotification) => void
     removeNotification: (id: string) => void
     createNotificationId: () => string
-
 }
 
 export const NotificationContext = createContext<INotificationContext>({
