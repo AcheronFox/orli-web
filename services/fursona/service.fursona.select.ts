@@ -9,14 +9,14 @@ export async function getAllFursonas(from: number = 0,
 {
     const query = `SELECT * FROM ${TABLE} LIMIT ?, ?;`;
 
-    return executeSelectQuery<IFursona>(query, [from, limit]);
+    return await executeSelectQuery<IFursona>(query, [from, limit]);
 }
 
 export async function getFursona(id: number): Promise<IFursona | undefined>
 {
     const query = `SELECT * FROM ${TABLE} WHERE id = ?;`;
 
-    return executeSelectQuery<IFursona>(query, id);
+    return await executeSelectQuery<IFursona>(query, id);
 }
 
 export async function getFursonasBasedOnFursuit(hasFursuit: boolean,
@@ -25,7 +25,7 @@ export async function getFursonasBasedOnFursuit(hasFursuit: boolean,
 {
     const query = `SELECT * FROM ${TABLE} WHERE hasFursuit = ? LIMIT ?, ?;`;
 
-    return executeSelectQuery<IFursona>(query, [hasFursuit, from, limit]);
+    return await executeSelectQuery<IFursona>(query, [hasFursuit, from, limit]);
 }
 
 export async function getFursonaBasedOnSpecies(species: string,
@@ -36,7 +36,7 @@ export async function getFursonaBasedOnSpecies(species: string,
 
     // TODO: This is retarded, please fix in the future
     species = '%'+species+'%';
-    return executeSelectQuery<IFursona>(query, [species, from, limit]);
+    return await executeSelectQuery<IFursona>(query, [species, from, limit]);
 }
 
 export async function getFursonaBasedOnName(name: string,
@@ -46,5 +46,5 @@ export async function getFursonaBasedOnName(name: string,
     const query = `SELECT * FROM ${TABLE} WHERE name LIKE LOWER(?) LIMIT ?, ?;`;
     name = '%'+name+'%';
 
-    return executeSelectQuery<IFursona>(query, [name, from, limit]);
+    return await executeSelectQuery<IFursona>(query, [name, from, limit]);
 }

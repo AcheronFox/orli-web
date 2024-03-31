@@ -5,7 +5,7 @@ import console from "console";
 const TABLE: string = "dailyTicket";
 const MAX_NUM_OF_DAILY_TICKETS: number = 500; // No way it's that high but w/e
 
-export async function selectDailyTickets(from: number = 0,
+export async function getAllDailyTickets(from: number = 0,
                                          limit: number = MAX_NUM_OF_DAILY_TICKETS): Promise<IDailyTicket[] | undefined>
 {
     const query = `SELECT * FROM ${TABLE} LIMIT ?, ?;`;
@@ -13,7 +13,7 @@ export async function selectDailyTickets(from: number = 0,
     return await executeSelectQuery<IDailyTicket[]>(query, [from, limit]);
 }
 
-export async function selectValidDailyTickets(from: number = 0,
+export async function getValidDailyTickets(from: number = 0,
                                               limit: number = MAX_NUM_OF_DAILY_TICKETS): Promise<IDailyTicket[] | undefined>
 {
     // I wonder if this will ever be used to validate someone's ticket. Probably not.

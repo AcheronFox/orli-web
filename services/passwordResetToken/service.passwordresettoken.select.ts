@@ -8,14 +8,14 @@ export async function selectToken(token: string): Promise<IPasswordResetToken | 
 {
     const query = `SELECT * FROM ${TABLE} WHERE token = ?;`;
 
-    return executeSelectQuery<IPasswordResetToken>(query, [token]);
+    return await executeSelectQuery<IPasswordResetToken>(query, [token]);
 }
 
 export async function selectTokenById(id: number): Promise<IPasswordResetToken | undefined>
 {
     const query = `SELECT * FROM ${TABLE} WHERE id = ?;`;
 
-    return executeSelectQuery<IPasswordResetToken>(query, [id]);
+    return await executeSelectQuery<IPasswordResetToken>(query, [id]);
 }
 
 export async function checkIfTokenIsValid(id: number): Promise<boolean>;

@@ -7,5 +7,5 @@ export async function insertFursona(fursona: IFursona): Promise<number>
 {
     const query = "INSERT INTO ${TABLE} SET ?;"
 
-    return executeInsertQuery(query, [fursona]);
+    return await executeInsertQuery(query, [fursona]);
 }
