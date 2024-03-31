@@ -8,20 +8,23 @@ import { NotificationContext } from "./NotificationContext"
 
 interface Props {
     children: React.ReactNode
+    pos?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+    maxNotif?: number
 }
 
 
-
-
-const NotificationProvider = ({ children }: Props) => {
+const NotificationProvider = ({ children, pos, maxNotif }: Props) => {
     const [Notifications, setNotification] = useState<INotification[]>([])
+    const [position, setPosition] = useState<'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'>(pos || 'bottom-left')
 
     const addNotification = (notification: INotification) => {
-        if (Notifications.length >= 3) {
+        const newId = createNotificationId()
+        notification.id = newId
+        if (Notifications.length >= (maxNotif || 3)) {
             setNotification(o => o.slice(1))
-            //Notifications.splice(0,1);
         }
         setNotification((o) => [...o, notification])
+        return newId
     }
 
     const removeNotification = (id: string) => {
@@ -41,8 +44,9 @@ const NotificationProvider = ({ children }: Props) => {
 
 
     return (
-        <NotificationContext.Provider value={{ Notifications, addNotification, removeNotification, createNotificationId }}>
+        <NotificationContext.Provider value={{ Notifications, addNotification, removeNotification }}>
             <NotificationDisplayer
+                position={position}
                 Notifications={Notifications}></NotificationDisplayer>
             {children}
         </NotificationContext.Provider>
