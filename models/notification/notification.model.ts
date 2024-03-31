@@ -1,7 +1,7 @@
 interface INotification {
-    id: string
+    id?: string
     title: string
     description: string
-    type: "error" | "notification" | "success"
-    duration: number
+    type?: "error" | "info" | "success" | "warning"
+    duration?: number
 }

@@ -10,7 +10,7 @@ interface Props {
 const MainProvider = ({children}: Props) => {
     return (
         <TranslateProvider>
-            <NotificationProvider>
+            <NotificationProvider pos="bottom-left">
                 <UserProvider>
                     <CustomScrollBar>
                         {children}

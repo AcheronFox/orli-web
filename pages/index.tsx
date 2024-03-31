@@ -8,25 +8,12 @@ import Link from "next/link";
 import TextCard from "@/comp/TextCard";
 import Picture from "@/comp/utils/Picture";
 import useIsMobile from "@/hooks/utils/useIsMobile";
-import useNotification from "@/hooks/notification/useNotification";
-import { useEffect } from "react";
 
 type Props = {}
 
 const Home: NextPage<Props> = (props: Props) => {
   const { lang } = useTranslate();
-  const { addNotification, createNotificationId } = useNotification()
   const isMobile = useIsMobile()
-
-  useEffect(() => {
-    addNotification({
-      id: createNotificationId(),
-      title: "test",
-      description: "test",
-      type: "error",
-      duration: 20
-    })
-  }, [])
 
   return (
     <div>
