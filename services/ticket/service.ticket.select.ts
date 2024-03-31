@@ -30,7 +30,7 @@ export async function getAllTickets(from: number = 0,
 {
     const query = `SELECT * FROM ${TABLE} LIMIT ?, ?;`;
 
-    return executeSelectQuery<ITicket[]>(query, [from, limit]);
+    return await executeSelectQuery<ITicket[]>(query, [from, limit]);
 }
 
 export async function getTicketsBasedOnPaymentStatus(hasBeenPaid: boolean,
@@ -39,7 +39,7 @@ export async function getTicketsBasedOnPaymentStatus(hasBeenPaid: boolean,
 {
     const query = `SELECT * FROM ${TABLE} WHERE isPaid = ? LIMIT ?, ?;`;
 
-    return executeSelectQuery<ITicket[]>(query, [hasBeenPaid, from, limit]);
+    return await executeSelectQuery<ITicket[]>(query, [hasBeenPaid, from, limit]);
 }
 
 export async function getTicketsBasedOnPaymentMethod(paymentMethod: PaymentMethod,
@@ -48,7 +48,7 @@ export async function getTicketsBasedOnPaymentMethod(paymentMethod: PaymentMetho
 {
     const query = `SELECT * FROM ${TABLE} WHERE paymentMethod = ? LIMIT ?, ?;`;
 
-    return executeSelectQuery<ITicket[]>(query, [paymentMethod, from, limit]);
+    return await executeSelectQuery<ITicket[]>(query, [paymentMethod, from, limit]);
 }
 
 export async function getTicketsBasedOnSponsorLevel(sponsorLevel: SponsorLevel,
@@ -57,7 +57,7 @@ export async function getTicketsBasedOnSponsorLevel(sponsorLevel: SponsorLevel,
 {
     const query = `SELECT * FROM ${TABLE} WHERE sponsorLevel = ? LIMIT ?, ?;`;
 
-    return executeSelectQuery<ITicket[]>(query, [sponsorLevel, from, limit]);
+    return await executeSelectQuery<ITicket[]>(query, [sponsorLevel, from, limit]);
 }
 
 export async function getTicketsBasedOnShirtSize(shirtSize: ShirtSize,
@@ -66,5 +66,5 @@ export async function getTicketsBasedOnShirtSize(shirtSize: ShirtSize,
 {
     const query = `SELECT * FROM ${TABLE} WHERE shirtSize = ? LIMIT ?, ?;`;
 
-    return executeSelectQuery<ITicket[]>(query, [shirtSize, from, limit]);
+    return await executeSelectQuery<ITicket[]>(query, [shirtSize, from, limit]);
 }

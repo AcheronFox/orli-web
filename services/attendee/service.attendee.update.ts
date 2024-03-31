@@ -5,7 +5,7 @@ import * as console from "console";
 
 const TABLE: string = "attendee";
 
-export async function modifyAttendee(attendee: IAttendee) : Promise<number>
+export async function updateAttendee(attendee: IAttendee) : Promise<number>
 {
     let editable: IAttendeeUpdatable = {
         accountKey: attendee.accountKey,
