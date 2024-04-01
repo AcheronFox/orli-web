@@ -4,70 +4,14 @@ const ticket: ITicket = {
     intro: [
         "Számos opcióval igyekeztünk mindenki számára biztosítani a lehetőséget, hogy meglátogathassa a rendezvényt, legyen az akár pár óra, akár a teljes Försztivál!",
         "A különböző csomagok tartalmát alább olvashatjátok.<br/>",
-        "<b>Ne késlekedj, hiszen ha május 14 éjfél előtt választasz csomagot, annak árából 15% kedvezményt adunk!</b>"
+        "<b>Ne késlekedj, hiszen ha április 28. éjfél előtt választasz csomagot, annak árából körülbelül 15% kedvezményt adunk!</b>"
     ],
     content: [
         {
-            title: 'Napijegy',
+            title: 'Fesztiválbérlet',
             body: [
-                "Belépési lehetőség a rendezvény területére a választott napon 14:00 órától aznap 23:00 óráig.<br/>",
-                "A csomag tartalma:",
-                `
-                    <ul>
-                        <li>
-                            Korlátlan strandbelépő és jacuzzi használat, annak nyitvatartása alatt
-                        </li>
-                        <li>
-                            A létesítmény eszközeinek szabad használata
-                        </li>
-                        <li>
-                            Grilleszközök, fűszerek, szószok a sütéshez
-                        </li>
-                        <li>
-                            Hozzáférés a programok többségéhez
-                        </li>
-                        <li>
-                            Regisztrációs csomag
-                        </li>
-                    </ul>
-                `,
-                "<b>Fontos kiemelnünk, hogy ez az opció nem enged meg éjszakai tartózkodást!</b><br/><br/>"
-            ]
-        },
-        {
-            title: "Egy éjszakás jegy",
-            body: [
-                "Belépési lehetőség a rendezvény területére a választott napon 14:00 órától másnap 12:00 óráig.<br/>",
-                "A csomag tartalma:",
-                `
-                    <ul>
-                        <li>
-                            1 éjszaka szállás, reggelivel, kizárólag saját sátorban
-                        </li>
-                        <li>
-                            Korlátlan strandbelépő és jacuzzi használat, annak nyitvatartása alatt
-                        </li>
-                        <li>
-                            A létesítmény eszközeinek szabad használata
-                        </li>
-                        <li>
-                            Grilleszközök, fűszerek, szószok a sütéshez
-                        </li>
-                        <li>
-                            Hozzáférés a programok többségéhez
-                        </li>
-                        <li>
-                            Regisztrációs csomag
-                        </li>
-                    </ul>
-                `,
-                "<b>Fontos kiemelnünk, hogy a sátor, ágynemű és törülköző biztosítása mindenkinek saját felelőssége! Kérünk, hogy 2, egymást követő napot válassz!</b><br/><br/>"
-            ]
-        },
-        {
-            title: "Fesztiválbérlet",
-            body: [
-                "Belépési lehetőség a rendezvény területére június 15-én 14:00 órától június 18-án 12:00 óráig.<br/>",
+                "A legjobb választás!<br/>",
+                "Belépési lehetőség a rendezvény területére június 13-án 15:00 órától június 16-án 14:00 óráig.<br/>",
                 "A csomag tartalma:",
                 `
                     <ul>
@@ -75,6 +19,9 @@ const ticket: ITicket = {
                             3 éjszaka szállás, reggelivel
                         </li>
                         <li>
+                            Elhelyezés a házak 4-6 fős szobáiban
+                        </li>
+                        <li>
                             Korlátlan strandbelépő és jacuzzi használat, annak nyitvatartása alatt
                         </li>
                         <li>
@@ -90,20 +37,58 @@ const ticket: ITicket = {
                             Regisztrációs csomag
                         </li>
                     </ul>
-                    <br/>
-                    <br/>
                 `,
+                "<b><s>68 000 HUF</s> 58 000 HUF</b>",
+            ]
+        },
+        {
+            title: "Sátras Bérlet",
+            body: [
+                "Azoknak, akik nem riadnak vissza az igazi fesztiválhangulattól.<br/>",
+                "Belépési lehetőség a rendezvény területére június 13-án 15:00 órától június 16-án 14:00 óráig.<br/>",
+                "A csomag tartalma:",
+                `
+                    <ul>
+                        <li>
+                            3 éjszaka szállás, reggelivel
+                        </li>
+                        <li>
+                            Elhelyezés sátorban
+                        </li>
+                        <li>
+                            Korlátlan strandbelépő és jacuzzi használat, annak nyitvatartása alatt
+                        </li>
+                        <li>
+                            A létesítmény eszközeinek szabad használata
+                        </li>
+                        <li>
+                            Grilleszközök, fűszerek, szószok a sütéshez
+                        </li>
+                        <li>
+                            Hozzáférés a programok többségéhez
+                        </li>
+                        <li>
+                            Regisztrációs csomag
+                        </li>
+                    </ul>
+                `,
+                "<b><s>48 000 HUF</s> 40 000 HUF</b>",
+                "<b>Fontos kiemelnünk, hogy a sátor, ágynemű és törülköző biztosítása mindenkinek saját felelőssége!</b><br/><br/>"
             ]
         },
         {
             title: "0. nap",
             body: [
-                "Belépési lehetőség a rendezvény területére június 14-én 16:00 órától. <b>Önálló opcióként nem választható.</b><br/>",
+                "Azoknak, akik korábban érkeznének a szigetre.<br/>",
+                "Belépési lehetőség a rendezvény területére június 12-én 15:00 órától. <b>Önálló opcióként nem választható.</b><br/>",
                 "A csomag tartalma:",
                 `
                     <ul>
                         <li>
-                            1 éjszaka szállás, reggelivel (Június 14.)
+                            1 éjszaka szállás, reggelivel (június 12.)
+                        </li>
+                        <li>
+                            Elhelyezés a házak 4-6 fős szobáiban
                         </li>
                         <li>
                             Korlátlan strandbelépő és jacuzzi használat, annak nyitvatartása alatt
@@ -115,22 +100,30 @@ const ticket: ITicket = {
                             Grilleszközök, fűszerek, szószok a sütéshez
                         </li>
                         <li>
+                            Hozzáférés a programok többségéhez
+                        </li>
+                        <li>
                             Regisztrációs csomag
                         </li>
                     </ul>
                 `,
+                "<b><s>7 000 HUF</s> 6 000 HUF</b>",
                 "<b>Fontos kiemelnünk, hogy a 0. napon még nincsenek hivatalos programok.</b><br/><br/>"
             ]
         },
         {
-            title: "+1 nap",
+            title: "Ráadás",
             body: [
-                "Belépési lehetőség a rendezvény területére június 19-én 11:00 óráig. <b>Önálló opcióként nem választható.</b><br/>",
+                "Azoknak, akik pihennének még egy éjszakát.<br/>",
+                "Belépési lehetőség a rendezvény területére június 17-én 12:00 óráig. <b>Önálló opcióként nem választható.</b><br/>",
                 "A csomag tartalma:",
                 `
                     <ul>
                         <li>
-                            1 éjszaka szállás, reggelivel (Június 18.)
+                            1 éjszaka szállás, reggelivel (június 16.)
+                        </li>
+                        <li>
+                            Elhelyezés a Fácán ház 4 fős szobáiban
                         </li>
                         <li>
                             Korlátlan strandbelépő és jacuzzi használat, annak nyitvatartása alatt
@@ -146,6 +139,7 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
+                "<b><s>8 000 HUF</s> 7 000 HUF</b>",
                 "<b>Fontos kiemelnünk, hogy ez az opció csak korlátozott számban érhető el.</b><br/><br/>"
             ]
         },
@@ -156,18 +150,17 @@ const ticket: ITicket = {
                `
                     <ul>
                         <li>
-                            Egy poszter az eseményről
+                            Az esemény posztere
                         </li>
                         <li>
-                        Egy italkupon, mely felhasználható a NicoBarban
+                            Matricacsomag
                         </li>
                         <li>
-                            ...és egy kis meglepetés
+                            Kitűző
                         </li>
                     </ul>
-                    <br/>
-                    <br/>
-               `
+               `,
+               "<b>5 000 - 12 000 HUF</b><br/><br/>",
             ]
         },
         {
@@ -180,22 +173,54 @@ const ticket: ITicket = {
                             Póló
                         </li>
                         <li>
-                        A Nicobar repohara
+                            Repohár a Nicobar felajánlásából
                         </li>
                         <li>
-                            ...és egy kis meglepetés
+                            Különleges nyakpánt
+                        </li>
+                        <li>
+                            Matricacsomag
+                        </li>
+                        <li>
+                            Kitűző
                         </li>
                     </ul>
-                    <br/>
-                    <br/>
+                `,
+                "<b>12 001 HUF <</b><br/><br/>",
+            ]
+        },
+        {
+            title: "Napijegy",
+            body: [
+                "Azoknak, akik nem tudnak végig velünk lenni.<br/>",
+                "Belépési lehetőség a rendezvény területére a választott napon 15:00 órától aznap 23:00 óráig.<br/>",
+                "A csomag tartalma:",
                 `
+                    <ul>
+                        <li>
+                            Korlátlan strandbelépő és jacuzzi használat, annak nyitvatartása alatt
+                        </li>
+                        <li>
+                            A létesítmény eszközeinek szabad használata
+                        </li>
+                        <li>
+                            Grilleszközök, fűszerek, szószok a sütéshez
+                        </li>
+                        <li>
+                            Regisztrációs csomag
+                        </li>
+                    </ul>
+                `,
+                "<b>10 500 HUF</b>",
+                "<b>Fontos kiemelnünk, hogy ez az opció nem enged meg éjszakai tartózkodást!</b>",
+                "<b>Csak helyszínen vásárolható meg!</b><br/><br/>"
             ]
         }
     ],
     outro: [
         `
         <span>
-        Az egyes paneleken való részvétel a belépőjegy megvásárlásához kötött, további költséget nem rejt. Vannak azonban fakultatív programok, melyeket külső szolgáltató biztosít, így azok díjai további kiadást jelenthetnek a résztvevők részére. Erről bővebb tájékoztatás a
+        Az egyes paneleken való részvétel a belépőjegy megvásárlásához kötött, további költséget nem rejt. Vannak azonban fakultatív programok, melyeket külső szolgáltató biztosít, így azok díjai további kiadást jelenthetnek a Résztvevők részére. Erről bővebb tájékoztatás a
             <Button
                 variant="text"
                 link="/programs"
@@ -206,8 +231,8 @@ const ticket: ITicket = {
         </span>
         <br/>
         `,
-        "Belépés a strandfürdő területére csak karszalaggal lehetséges. Ennek letéti díja fejenként 1000 HUF, mely a karszalag leadásakor visszajár.",
-        "Kérünk mindenkit, hogy a gördülékeny bejelentkezés érdekében készüljön a megfelelő bankjegyekkel.",
+        "Belépés a strandfürdő területére csak karszalaggal lehetséges. Ennek letéti díja fejenként 2 000 HUF, <b>mely a karszalag leadásakor visszajár!</b>",
+        "Kérünk mindenkit, hogy a gördülékeny bejelentkezés érdekében készüljön megfelelő bankjegyekkel.",
     ]
 }
 

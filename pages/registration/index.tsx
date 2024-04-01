@@ -3,13 +3,12 @@ import CustomDatePicker from "@/comp/input/CustomDatePicker";
 import NationalitySelector from "@/comp/input/NationalitySelector";
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import styles from "@/styles/pages/Registration.module.scss"
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import crypto from "crypto";
 import Router from 'next/router'
 import { IRegistrationDataSave, IRegistrationForm } from "@/models/registration-form.model";
 import { NextPage } from "next";
 import LoadingOverlay from "@/comp/utils/LoadingOverlay";
-import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
 import { RiQuestionLine } from "react-icons/ri"
 import createDatePatternFromDate from "@/functions/utils/createDatePattern";
 import useTranslate from "@/hooks/translate/useTranslate";
@@ -22,6 +21,7 @@ import BarLoader from "react-spinners/BarLoader";
 import variables from "@/styles/abstracts/exports.module.scss"
 import { Tooltip } from 'react-tippy';
 import Checkbox from "@/comp/input/Checkbox";
+import useNotification from "@/hooks/notification/useNotification";
 
 const isEmailValid = (email: string) => {
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
@@ -53,6 +53,8 @@ type Props = {};
 
 const Registration: NextPage<Props> = (props: Props) => {
   const { lang, currLang } = useTranslate();
+  const { addNotification, closeNotification } = useNotification()
+
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [dob, setDoB] = useState<string>("");
@@ -103,9 +105,7 @@ const Registration: NextPage<Props> = (props: Props) => {
 
   let timer: NodeJS.Timeout | undefined = undefined;
   let time = 0;
-  let message: number | undefined = undefined;
-
-  const { HandleClose, AddFloatingMessage } = useContext(FloatingMessageContext);
+  let message: string | undefined = undefined;
 
   // ===============================================
   // DEFAULTS
@@ -292,11 +292,11 @@ const Registration: NextPage<Props> = (props: Props) => {
 
   const showOverload = () => {
     clearInterval(timer);
-    message = AddFloatingMessage({ "autocloses": false, "closable": false, "type": "Info", "message": lang.warnOverload })
+    message = addNotification({type: "warning", message: lang.warnOverload, closable: false, autoClose: false})
   };
   const closeOverload = () => {
     clearInterval(timer);
-    HandleClose(message!)
+    if (message) closeNotification(message)
   };
 
   const handleButton = async () => {
@@ -365,17 +365,22 @@ const Registration: NextPage<Props> = (props: Props) => {
         if (err.response.status) {
           switch (err.response.status) {
             case (409):
-              AddFloatingMessage({ "autocloses": true, "type": "Error", "message": lang.errRegConflict })
-              break;
-            case (400):
-              AddFloatingMessage({ "autocloses": true, "type": "Error", "message": lang.errBadRequest })
+              addNotification({
+                type: "error",
+                message: lang.errRegConflict
+              })
               break;
             default:
-              AddFloatingMessage({ "autocloses": true, "type": "Error", "message": lang.errDefault })
-              break;
+              addNotification({
+                type: "error",
+                message: lang.errDefault
+              })
           }
         } else {
-          AddFloatingMessage({ "autocloses": true, "type": "Error", "message": lang.errDefault })
+          addNotification({
+            type: "error",
+            message: lang.errDefault
+          })
         }
       })
       .finally(() => {

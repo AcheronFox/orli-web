@@ -129,7 +129,7 @@ export const rules: ILegalInner = {
         "<br/>",
 
 
-        "<h4>FÉNYKÉP- ÉS VIDEÓFELVÉTEL</h4>",
+        "<h4>FÉNYKÉP ÉS VIDEÓFELVÉTEL</h4>",
         `
         <p>
             <ol>
@@ -148,7 +148,7 @@ export const rules: ILegalInner = {
         `
         <p>
             <ol>
-                <li>Jelen Szabályzat a regisztráció kezdetétől a 2023. évi Örli Försztivál rendezvény végéig hatályos és csak a felek együttes beleegyezésével módosítható.</li>
+                <li>Jelen Szabályzat a regisztráció kezdetétől a 2024. évi Örli Försztivál rendezvény végét követő 90. napig hatályos és csak a felek együttes beleegyezésével módosítható.</li>
                 <li>A Szabályzat és az Örli Försztivál hivatalos csatornáin közölt tartalmak a Rendezvény szervezőinek szellemi tulajdona, más célú felhasználása nem megengedett.</li>
                 <li>A Szabályzat bármely pontja elleni vétség esetén annak elkövetője az alábbi szankciókkal sújtható:</li>
                 <ul>
@@ -191,7 +191,7 @@ export const data: ILegalInner = {
         <p>
             <ol>
                 <li>Az adatkezelő minden érintett kérésére bármikor tájékoztatást ad arról, hogy az érintettről milyen személyes adatokat tárolnak. Ezen túlmenően az adatkezelő az érintett kérésére vagy jelzésére helyesbíti vagy törli a személyes adatokat, amennyiben nem áll fenn törvényileg előírt tárolási kötelezettség.</li>
-                <li>Az adattárolási idő vége a rendezvény zárónapját követő 60. nap vége. Amennyiben tárolási idő lejár, a személyes adatok a törvényi előírásoknak megfelelően rutinszerűen zárolásra vagy törlésre kerülnek.</li>
+                <li>Az adattárolási idő vége a rendezvény zárónapját követő 90. nap vége. Amennyiben tárolási idő lejár, a személyes adatok a törvényi előírásoknak megfelelően rutinszerűen zárolásra vagy törlésre kerülnek.</li>
             </ol>
         </p>
         `,
