@@ -9,9 +9,8 @@ type Props = {}
 const Videos: NextPage<Props> = (props: Props) => {
     const { lang } = useTranslate();
     const links: string[] = [
-        'https://www.youtube-nocookie.com/embed/ZV7x83_KOIM/',
-        'https://www.youtube-nocookie.com/embed/ZV7x83_KOIM/',
-        'https://www.youtube-nocookie.com/embed/ZV7x83_KOIM/',
+        'https://www.youtube-nocookie.com/embed/1-agPIKUGM0?si=mg4Jlemxuia5HfWy',
+        'https://www.youtube-nocookie.com/embed/hWK5_5i7Uj4?si=vgbffgL8NmBNNDTJ',
     ]
 
     return (

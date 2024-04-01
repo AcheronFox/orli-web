@@ -4,12 +4,14 @@ import {
 
 interface INotificationContext {
     Notifications: INotification[] | null
-    addNotification: (notification: INotification) => void
+    addNotification: (notification: INotification) => string
     removeNotification: (id: string) => void
+    closeNotification: (id: string) => void
 }
 
 export const NotificationContext = createContext<INotificationContext>({
     Notifications: null,
-    addNotification: (notification: INotification) => { },
+    addNotification: (notification: INotification) => '',
     removeNotification: (id: string) => { },
+    closeNotification: (id: string) => { }
 })
