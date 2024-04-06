@@ -1,8 +1,8 @@
 export interface IRoom {
-    id: number;
+    id?: number;
     building: 'Fácán' | 'Vidra' | 'Kócsag';
     number: string;
     size: number;
-    customName: string;
-    pin: number;
+    customName?: string;
+    pin?: number;
 }

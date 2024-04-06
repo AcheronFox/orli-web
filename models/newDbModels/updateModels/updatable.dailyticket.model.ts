@@ -1,5 +1,4 @@
-export interface IDailyTicket {
-    id?: number;
+export interface IDailyTicketUpdatable {
     currentValidity: string;
     pastValidities: string;
 }
