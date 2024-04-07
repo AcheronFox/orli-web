@@ -64,6 +64,7 @@ const hu: Language = {
     footerFacebook: "Facebook Esemény",
     footerTelegramChat: "Telegram Csevegő",
     footerTelegramAnnounce: "Telegram Hírfolyam",
+    footerTwitter: "Twitter / X",
 
     // INFOCARD
     infoCardButton: "Tekintsd meg Google Térképen",
@@ -82,7 +83,7 @@ const hu: Language = {
     galleryImages: "Képek",
 
     // FAQ
-    faqIntro: "A rendezvénnyel kapcsolatban legtöbbször felmerült kérdésekre alább gyűjtöttük össze a válaszokat. Elképzelhető azonban, hogy minden igyekezetünk ellenére további kíváncsiskodás indokolt, ezért kérünk vedd fel a kapcsolatot a szervezőkkel e-mailben vagy Telegramon.",
+    faqIntro: "A rendezvénnyel kapcsolatban legtöbbször felmerült kérdésekre alább gyűjtöttük össze a válaszokat. Elképzelhető azonban, hogy minden igyekezetünk ellenére nem található magyarázat egy felmerült problémára. Ez esetben kérünk, hogy vedd fel a kapcsolatot a szervezőkkel e-mailben vagy Telegramon.",
     faqSearch: "Keresés",
 
     // HOME

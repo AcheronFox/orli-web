@@ -91,9 +91,25 @@ const Prices: NextPage<Props> = (props: Props) => {
                                             
                                             if (ticketObj) {
                                                 if (configData.isEarlyBird && ticketObj.earlyBirdPrice) {
-                                                    return parse(`<b><s>${ticketObj.price}</s> ${ticketObj.earlyBirdPrice} HUF</b><br/><br/>`)
+                                                    return (
+                                                        <>
+                                                            <b>
+                                                                <s>{ticketObj.price}</s> {ticketObj.earlyBirdPrice} HUF
+                                                            </b>
+                                                            <br/>
+                                                            <br/>
+                                                        </>
+                                                    )
                                                 }
-                                                else return parse(`<b>${ticketObj.price} HUF${(ticketObj.name==="SSPONS")? ' <' : ''}</b><br/><br/>`)
+                                                else return (
+                                                    <>
+                                                        <b>
+                                                            {ticketObj.price} HUF{(ticketObj.name==="SSPONS")? ' <' : ''}
+                                                        </b>
+                                                        <br/>
+                                                        <br/>
+                                                    </>
+                                                )
                                             }
                                             else return null
                                         })()

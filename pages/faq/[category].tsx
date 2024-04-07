@@ -19,7 +19,6 @@ const FAQCategory: NextPage<Props> = (props: Props) => {
     const { lang, currLang } = useTranslate();
     const data: IFAQ = useLocaleSwitch(currLang, 'faq.ts')
     const parse = useHTMLString()
-    console.log(props)
     
     if (!props.category) {
         return null

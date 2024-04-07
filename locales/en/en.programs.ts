@@ -2,30 +2,30 @@ import { IProgram } from "@/models/locale/program.model";
 
 const programs: IProgram = {
     intro: [
-        "Just as in previous events, this year we will also offer a wide range of activities while trying to provide a meaningful and fulfilling experience for everyone.",
-        "Below we have compiled the following list of ongoing or one-off activities available at the meeting venue.",
+        "Just like during previous events, we are offering a wide variety of programs and try to do our best to provide everyone with eventful relaxation.",
+        "Here is the list of our continious and one time programs that you can find around the venue.",
         `<span>
-            Missing a program? Or maybe you have a new idea that you would want to implement? Contact the organizers at the following e-mail address:
+            Do you miss an event? Do you have a new idea that you would like to bring to life? Contact the Organisers via email at  
             <Button 
                 variant="text"
                 link="mailto:orlifurstival@gmail.com"
             >
                 orlifurstival@gmail.com
             </Button>
-            !
+            or Telegram.
         </span>`,
     ],
     body: [
         "<h4>Main Stage</h4>",
         `<span>
-            This place is the soul of the försztivál! Every day from early afternoon until dawn, this is where all the main events will take place, and where our performers will perform. It is the venue for a wide variety of events, details of which you will find in the Conbook. You will see, hear, and feel all of it!
+            This is the soul of the försztivál! From early afternoon till dawn, the most important events happen here, and where you can see meny performances.The main stage hosts a wide variety of programs which you can read more about in the Conbook. You'll see, hear, and feel it!
         </span>`,
         "<br/>",
 
         "<h4>NicoBar</h4>",
         `<span>
-            The sun is setting, the music starts to rumble, lights came on in the party district with the night warming up the best cocktail bar in Fejér county, the NicoBar opens its doors serving Tiki cocktails and other specialities!<br/>
-            What is your favourite cocktail that you would like to see on the menu?
+            As the sun sets and the mood around the island intensifies, the best cocktail bar in Fejér county, the NicoBar opens its doors where cocktails and countless special drinks await you!<br/>
+            What's you favourite that you would like to see on the menu?
         </span>`,
     ],
     content: [
@@ -33,7 +33,7 @@ const programs: IProgram = {
             title: "Suitlounge",
             body: [
                 `<span>
-                    Would you take a break while fursuiting? The suitlounge is always open, with a well-ventilated area and a wide range of refreshments and energy drinks that will keep you going. Access is restricted to fursuiters and their attendants only. No photos or videos are allowed in this area.
+                    Would you rather take a break while fursuiting? The suitlounge is always open for you with a well-ventilated area and a wide range of refreshments and some snacks so you have more energy to keep going. Access is restricted to fursuiters and their attendants only. No photos or videos are allowed in this area.
                 </span>`,
                 "<br/>",
             ]
@@ -42,17 +42,17 @@ const programs: IProgram = {
             title: "Artist Alley",
             body: [
                 `<span>
-                    Your favourite artists and all those you don't know yet are eager for you to visit their booth and to grab tangible memories from them! Maybe you will get a deal here on the fursuit of your dreams or get a wonderful piece of art. Keep your wallet close, just in case!<br/><br/>
-                    This year, the Artist Alley takes a more solid, simple but creative form. We're not only welcoming dealers, but we're also welcoming creators and suppliers to join in with either a piece of paper and a pencil or any fun idea that will brighten up anyone's day. A creative corner on Friday and Saturday afternoons at the Vidra House.
+                    Your favourite artists and all those you not yet know re eager for you to check their creations and to grab tangible memories! You may get a deal on the fursuit of your dreams or get a wonderful piece of art here. Keep your wallet close, just in case!<br/><br/>
+                    This year, the Artist Alley takes a more solid, simpler but creative form. We do not only expect dealers, but we also expect creators and suppliers to join with either a piece of paper and a pencil or any fun idea that will brighten up anyone's day.
                 </span>`,
                 "<br/>",
             ]
         },
         {
-            title: "Raffle",
+            title: "Charity auction",
             body: [
                 `<span>
-                    It's all down to luck here. Visit the raffle table in the Artist Alley, look for a prize of your liking and don't delay on buying your tickets!
+                    This year, for the first time, we are organising a charity auction for a charitable organisation to support their sacrificial work. The total amount raised during the auction is transferred to them. We hope that you will also find something dear to your from the valuable offers, commemorative items.
                 </span>`,
                 "<br/>",
             ]
@@ -61,8 +61,8 @@ const programs: IProgram = {
             title: "Beach",
             body: [
                 `<span>
-                    If it's summer, then it's the waterfront! Jump right in the cooling waves of Lake Velence, enjoy the water and the sunshine! Access to the beach is unlimited during its opening hours!<br/><br/>
-                    The beach area is only open during its opening hours and only with a valid wristband. You can ask for a wristband at the registration desk for a deposit fee of 1000 HUF.
+                    If it's summer, then it's the waterfront! Jump right into the cooling waves of Lake Velence, enjoy the water and the sunshine! Access to the beach is unlimited during its open hours, <b>but you are required to wear the wristband!</b><br/><br/>
+                    The beach area is only open during its open hours and only with a valid wristband. You can ask for a wristband at the registration desk for a deposit fee of 2000 HUF.
                 </span>`,
                 "<br/>",
             ]
@@ -71,7 +71,7 @@ const programs: IProgram = {
             title: "Jacuzzi",
             body: [
                 `<span>
-                    Would you like to relax in the foams of lukewarm water? Now you can do it on försztivál, while the whole of Vibe City is partying right in front of you!
+                    Would you like to relax in the foams of the water? You can comfortably observe the bustles of the island, the bluster of the spirit.
                 </span>`,
                 "<br/>",
             ]
@@ -80,17 +80,17 @@ const programs: IProgram = {
             title: "Grill",
             body: [
                 `<span>
-                    The program that all försztivál attendees will definitely visit at least once. Every day from noon until dawn, the fire will be lit, and all the delicious food will be roasted on it. This program is of course weather dependent...<br/><br/>
-                    We will provide the firewood, utensils, and even some spices and sauces as long as we have them in stock, you just need to bring what you want to cook or grill!
+                    The program that all försztivál attendees will definitely visit at least once. Every day from afternoon until dawn, the fire is lit, and all the delicious food and taste bites are cooked and roasted. This program is of course weather dependent...<br/><br/>
+                    We provide the firewood, tools, and even some spices and sauces as long as they are in stock. You just need to bring what you want to prepare!
                 </span>`,
                 "<br/>",
             ]
         },
         {
-            title: "Board Game Den",
+            title: "Board games corner",
             body: [
                 `<span>
-                    Bring your favourite game with you, form teams and dungeon groups to play together, there are plenty of good places to play whether it be on one of the terraces, under a shade of a tree or in a nearby gazebo.
+                    Bring your favourite game with you, and group up to play together on one of our terraces or under a shaded gazbo.
                 </span>`,
                 "<br/>",
             ]
@@ -99,18 +99,18 @@ const programs: IProgram = {
             title: "Fursuit Parade",
             body: [
                 `<span>
-                    Put on your Fursuit! This afternoon, all the furries will gather. Photos, videos and eventually a group photo will be taken, we will dazzle the neighbourhood.
+                    Suit up! The highlight when all fursuiters gather together; photos, videos, and group photos are taken, and we amaze the district.
                 </span>`,
                 "<br/>",
             ]
         },
         {
-            title: "Biking around Lake Velence",
+            title: "Bike ride around Lake Velence",
             body: [
                 `<span>
-                    A comfortable bicycle ride in the length of 30 kilometres with some refreshment stops around the whole lake, taking around 5-6 hours. If you do not have your own bike with you, then you will have the opportunity to rent one on the site. You need to notify Gali of this request no later than 10 days before the start of the event!<br/><br/>
-                    You must take care of your bike and deal with any repairs if needed on the way! I'm sure that many of us will have tools or puncture repair kits on hand and we will help you and wait for you if needed, but please come in prepared just in case!<br/><br/><br/>
-                    Map of the planned route and information about all the sights:
+                    A comfortable bicycle ride with the length of 30 kilometres with some refreshing stops around the whole lake, which takes around 5-6 hours. If you don't have your own bike with you, you have the opportunity to rent one on the site. In this case you must submit your request to the organisers 10 days before the start of the event via email or on Telegram.<br/><br/>
+                    You must take care of the preparation of your bike and deal with any repairs if needed on the way! We're sure that many of us will have tools or puncture repair kits at hand and we'll be able to help you or wait for you if needed, but despite this come in prepared just in case!<br/><br/><br/>
+                    You may find the itinerary and information about the sights here:
                     <Button 
                         variant="text"
                         target="_blank"
@@ -126,7 +126,7 @@ const programs: IProgram = {
             title: "Sports Championship",
             body: [
                 `<span>
-                    Compete with others, enter the battle to win the table foosball or the ping-pong tournament where you will have to take on the toughest challenger at the end!<br/><br/>
+                    Compete with others, enter the battle to win the table football or table tennis tournament where you have to face the toughest challenges!<br/><br/>
                     You can sign up for the games during registration.
                 </span>`,
                 "<br/>",
@@ -136,7 +136,7 @@ const programs: IProgram = {
             title: "Fursuit Games",
             body: [
                 `<span>
-                    Fun and creative games in small groups for fursuites only. How well can you play? Find out on Friday afternoon!
+                    Fun and creative games in small groups for fursuites only. Application at registration.
                 </span>`,
                 "<br/>",
             ]
@@ -145,18 +145,18 @@ const programs: IProgram = {
             title: "Photography",
             body: [
                 `<span>
-                    Your paws are too big to handle the selfie stick? During the festival look for the ShutterFurs crew and book your private or small group photoshoots with them!<br/><br/>
+                    Are your paws too big to handle a selfie stick? During the festival look for the ShutterFurs crew and book your private or small group photoshoots with them!<br/><br/>
                     The recommended timeframe is right before sunset (during golden hour)!
                 </span>`,
                 "<br/>",
             ]
         },
         {
-            title: "Requests Show and Picnic",
+            title: "Requests show and picnic",
             body: [
                 `<span>
-                    You know the meme: \"What would be the first song that you would want to listen to on this sound system?\"<br/><br/>
-                    Every afternoon during the outdoor picnic, while there is no DJ playing, you can ask Gali to play your favourite tunes on the main stage. Please only send links from Spotify! We will also make a collective playlist from all the music played and share it with all of you after the festival is over. Please try to stay within the boundaries of good taste and don't let a single track take up too much time, so that we can listen to as many of your favourites as possible!
+                    You know the meme: "What's the first song you want to listen to on this sound system?"<br/><br/>
+                    Every afternoon during the outdoor picnic, while there is no DJ playing, you can ask Gali to play your favourite tunes on the main stage. Please only send Spotify links! We are also making a collective playlist from all the music played and share it with you after the festival. Please try to stay within the boundaries of good taste and don't let a single track take up too much time, so we can listen to as many of your favourites as possible!
                 </span>`,
                 "<br/>",
             ]
@@ -165,25 +165,7 @@ const programs: IProgram = {
             title: "Console Corner",
             body: [
                 `<span>
-                    An old friend, a game that inspired this year's theme. If you need a break or if you are missing a screen, visit the Console Corner in the Vidra House.
-                </span>`,
-                "<br/>",
-            ]
-        },
-        {
-            title: "Duck Hunt",
-            body: [
-                `<span>
-                    There are 140 tiny yellow rubber ducks hiding in the event area. If you can find them, then you can exchange them for valuable prizes that are different each day.
-                </span>`,
-                "<br/>",
-            ]
-        },
-        {
-            title: "Just Dance",
-            body: [
-                `<span>
-                    Dance? Yes! Alone or in a group, follow the moves, fly or spin on your face every day from 9:00 to 11:00 PM at the Vidra House!
+                    An old friend, a couple of games that promises solitary relaxation. If you would like to retreat a bit or miss the screen, look for the Console corner in the Vidra house.
                 </span>`,
                 "<br/>",
             ]
@@ -192,25 +174,26 @@ const programs: IProgram = {
             title: "Food Exchange",
             body: [
                 `<span>
-                    Would you share a well-made treat with others? Show off your favourite beer or wine? Are you growing hot peppers or brewing liqueur? Here we have room for any original or unusual dish. Share it with others!
+                    Would you share some tasty bites with others? Showcase your favourite beer or wine? Do you grow hot peppers or brew liqueur? Here we have room for original or unusual dishes. Share it with others!
                 </span>`,
                 "<br/>",
             ]
         },
         {
-            title: "Color Theory",
+            title: "Bodybuilding unfiltered (Metus)",
             body: [
                 `<span>
-                    Have you ever wondered why furry characters look so good in the media? Why do some species have a specific pattern and why do we look at their colours and exterior first? Find out in this lecture!
+                    I'm gonna talk about facts, myths, misconceptions, performace enhancers and also about sports in general and diet. Furthermore, I'm also sharing my own journey, my tale, my experiences, the things I've learned from others and about all the things that made it possible for me to be here and tell you all of this.
                 </span>`,
                 "<br/>",
             ]
         },
         {
-            title: "Organising: Questions & Answers",
+            title: "The \"ÖRLI\". (Maszat)",
             body: [
                 `<span>
-                    \"I'll just post about the meeting, you guys come and it'll be fun!\" Yeah... If you ever wanted to know how much work is put into organising a con and why we've done all of it this year, then attend this presentation.
+                    Where did the event start, what were the milestones, and where are we heading in the future?<br/> 
+                    A lightweight time travel which is not only a history class but we are also talking about our recipe and what more is needed in order to progress. 
                 </span>`
             ]
         }
