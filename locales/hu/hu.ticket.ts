@@ -38,8 +38,8 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b><s>68 000 HUF</s> 58 000 HUF</b>",
-            ]
+            ],
+            priceKey: "WACC"
         },
         {
             title: "Sátras Bérlet",
@@ -72,9 +72,9 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b><s>48 000 HUF</s> 40 000 HUF</b>",
-                "<b>Fontos kiemelnünk, hogy a sátor, ágynemű és törülköző biztosítása mindenkinek saját felelőssége!</b><br/><br/>"
-            ]
+                "Fontos kiemelnünk, hogy a sátor, ágynemű és törülköző biztosítása mindenkinek saját felelőssége!<br/>"
+            ],
+            priceKey: "TENT"
         },
         {
             title: "0. nap",
@@ -107,9 +107,9 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b><s>7 000 HUF</s> 6 000 HUF</b>",
-                "<b>Fontos kiemelnünk, hogy a 0. napon még nincsenek hivatalos programok.</b><br/><br/>"
-            ]
+                "Fontos kiemelnünk, hogy a 0. napon még nincsenek hivatalos programok.<br/>"
+            ],
+            priceKey: "EARLY"
         },
         {
             title: "Ráadás",
@@ -139,9 +139,9 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b><s>8 000 HUF</s> 7 000 HUF</b>",
-                "<b>Fontos kiemelnünk, hogy ez az opció csak korlátozott számban érhető el.</b><br/><br/>"
-            ]
+                "Fontos kiemelnünk, hogy ez az opció csak korlátozott számban érhető el.<br/>"
+            ],
+            priceKey: "LATE"
         },
         {
             title: "Szponzor",
@@ -160,8 +160,8 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                `,
-               "<b>5 000 - 12 000 HUF</b><br/><br/>",
-            ]
+            ],
+            priceKey: "SPONS"
         },
         {
             title: "Szuper szponzor",
@@ -186,8 +186,8 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b>12 001 HUF <</b><br/><br/>",
-            ]
+            ],
+            priceKey: "SSPONS"
         },
         {
             title: "Napijegy",
@@ -211,10 +211,10 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b>10 500 HUF</b>",
-                "<b>Fontos kiemelnünk, hogy ez az opció nem enged meg éjszakai tartózkodást!</b>",
+                "Fontos kiemelnünk, hogy ez az opció nem enged meg éjszakai tartózkodást!",
                 "<b>Csak helyszínen vásárolható meg!</b><br/><br/>"
-            ]
+            ],
+            priceKey: "DAILY"
         }
     ],
     outro: [
