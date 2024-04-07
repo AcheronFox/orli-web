@@ -3,6 +3,7 @@ export interface ITicket {
     content: {
         title: string;
         body: string[];
+        priceKey?: string;
     }[];
     outro: string[];
 }

@@ -8,14 +8,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     const serverDate = new Date();
-    const isOpen = serverDate >= configuration.ticket.dates.start && serverDate < configuration.ticket.dates.end;
+    const isOpen = serverDate >= configuration.registration.start && serverDate < configuration.registration.end;
     const isEarlyBird = serverDate < configuration.ticket.dates.earlyBirdEnd;
 
     const response = {
         isOpen: isOpen,
         isEarlyBird: isEarlyBird,
         dates: configuration.ticket.dates,
-        extraPrices: configuration.ticket.extraPrices,
         types: configuration.ticket.types,
         serverDate: serverDate
     }

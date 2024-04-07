@@ -38,8 +38,8 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b><s>68 000 HUF</s> 58 000 HUF</b>",
-            ]
+            ],
+            priceKey: "WACC",
         },
         {
             title: "Camping pass",
@@ -72,9 +72,9 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b><s>48 000 HUF</s> 40 000 HUF</b>",
-                "<b>Please keep in mind that taking care of tents, bedclothes, and towels is your own responsibility!</b><br/><br/>"
-            ]
+                "Please keep in mind that taking care of tents, bedclothes, and towels is your own responsibility!<br/>"
+            ],
+            priceKey: "TENT"
         },
         {
             title: "Early arrival",
@@ -107,9 +107,9 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b><s>7 000 HUF</s> 6 000 HUF</b>",
-                "<b>Please keep in mind that there are no official programs on this day.</b><br/><br/>"
-            ]
+                "Please keep in mind that there are no official programs on this day.<br/>"
+            ],
+            priceKey: "EARLY"
         },
         {
             title: "Late departure",
@@ -142,9 +142,9 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b><s>8 000 HUF</s> 7 000 HUF</b>",
-                "<b>Please keep in mind that this option is only available in a limited quantity.</b><br/><br/>"
-            ]
+                "Please keep in mind that this option is only available in a limited quantity.<br/>"
+            ],
+            priceKey: "LATE"
         },
         {
             title: "Sponzor",
@@ -163,8 +163,8 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                `,
-               "<b>5 000 - 12 000 HUF</b><br/><br/>",
-            ]
+            ],
+            priceKey: "SPONS"
         },
         {
             title: "Super sponsor",
@@ -189,8 +189,8 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b>12 001 HUF <</b><br/><br/>",
-            ]
+            ],
+            priceKey: "SSPONS"
         },
         {
             title: "Daily ticket",
@@ -217,10 +217,10 @@ const ticket: ITicket = {
                         </li>
                     </ul>
                 `,
-                "<b>10 500 HUF</b>",
-                "<b>Please keep in mind that this option does not allow overnight stays!</b>",
-                "<b>Can only be purchased in person on site!</b><br/><br/>"
-            ]
+                "Please keep in mind that this option does not allow overnight stays!",
+                "<b>Can only be purchased in person on site!</b><br/>"
+            ],
+            priceKey: "DAILY"
         }
     ],
     outro: [

@@ -1,30 +1,28 @@
 export interface IAppConfig {
     profile: {
         uploadToDate: Date;
+        serverDate?: Date;
     },
     registration: {
         start: Date;
         end: Date;
+        serverDate?: Date;
     },
     ticket: {
+        serverDate?: Date;
+        isEarlyBird?: boolean;
+        isOpen?: boolean;
         dates: {
-            start: Date;
-            end: Date;
+            earlyBirdStart: Date;
             earlyBirdEnd: Date;
         },
-        types: ITicketType[],
-        extraPrices: {
-            earlyArrival: number;
-            earlyArrivalEarlyBird: number;
-            lateDeparture: number;
-            lateDepartureEarlyBird: number;
-        }
+        types: ITicketType[];
     }
 }
 
 export interface ITicketType {
     name: string;
-    price: number;
-    earlyBirdPrice: number;
-    limit: number;
+    price: number | string;
+    earlyBirdPrice?: number | string;
+    limit?: number;
 }
