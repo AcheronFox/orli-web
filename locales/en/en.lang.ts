@@ -64,6 +64,7 @@ const en: Language = {
     footerFacebook: "Facebook Event",
     footerTelegramChat: "Telegram Chat",
     footerTelegramAnnounce: "Telegram Announcements",
+    footerTwitter: "Twitter / X",
 
     // INFOCARD
     infoCardButton: "View on Google Maps",
@@ -82,7 +83,7 @@ const en: Language = {
     galleryImages: "Images",
 
     // FAQ
-    faqIntro: "Below you can find some answers to the most frequently asked questions about the event. However, despite our best efforts, it is possible that not all of your concerns are answered here, if you have additional questions please get in contact with the organisers via e-mail or Telegram.",
+    faqIntro: "Below you can find answers to some of the most frequently asked questions. However, despite our best efforts, it might occur that not all possible questions are answered in this section. In this case, we kindly ask you to contact the organisers via email or Telegram.",
     faqSearch: "Search",
 
     // HOME

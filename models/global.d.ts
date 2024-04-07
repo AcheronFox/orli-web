@@ -64,6 +64,7 @@ declare interface Language {
     footerFacebook: string;
     footerTelegramChat: string;
     footerTelegramAnnounce: string;
+    footerTwitter: string;
 
     // INFOCARD
     infoCardButton: string;
