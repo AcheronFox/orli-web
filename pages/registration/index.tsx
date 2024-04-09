@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import CustomDatePicker from "@/comp/input/CustomDatePicker";
+/*import CustomDatePicker from "@/comp/input/CustomDatePicker";
 import NationalitySelector from "@/comp/input/NationalitySelector";
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import styles from "@/styles/pages/Registration.module.scss"
@@ -334,7 +334,6 @@ const Registration: NextPage<Props> = (props: Props) => {
       age: age,
       nationality: nationality,
       telegram: 'https://t.me/'+telegram,
-      /* TODO */
       phone: ``+phone,
       allergy: allergy,
       password: crypto.createHash("sha256").update(password).digest("hex"),
@@ -686,7 +685,6 @@ const Registration: NextPage<Props> = (props: Props) => {
                       <span
                         style={{marginLeft: '1rem', whiteSpace: "nowrap"}}
                       >
-                        {/* TODO */}
                         +36
                       </span>
                     </>
@@ -790,3 +788,17 @@ const Registration: NextPage<Props> = (props: Props) => {
 }
 
 export default Registration;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Registration: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Registration
