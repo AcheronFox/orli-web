@@ -6,7 +6,7 @@ import CustomHead from "@/comp/utils/CustomHead";
 import useTranslate from "@/hooks/translate/useTranslate";
 import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";
 import TextCard from "@/comp/TextCard";
-import { RiAccountBoxFill, RiUserAddFill, RiMoneyEuroBoxFill, RiHotelBedFill, RiMapPin2Fill, RiQuestionLine, RiSearch2Line } from "react-icons/ri";
+import { RiUserAddFill, RiMoneyEuroBoxFill, RiHotelBedFill, RiMapPin2Fill, RiQuestionLine, RiSearch2Line, RiQuestionFill } from "react-icons/ri";
 import { IFAQ } from "@/models/locale/faq.model";
 import Input from "@/comp/input/Input";
 import IconButton from "@/comp/button/IconButton";
@@ -19,7 +19,7 @@ import variables from "@/styles/abstracts/exports.module.scss"
 
 type Props = {}
 const icons: React.ReactElement<IconType>[] = [
-  <RiAccountBoxFill key={0} />,
+  <RiQuestionFill key={0} />,
   <RiUserAddFill key={1} />,
   <RiMoneyEuroBoxFill key={2} />,
   <RiHotelBedFill key={3} />,

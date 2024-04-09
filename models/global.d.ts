@@ -98,6 +98,8 @@ declare interface Language {
     homeAbout1: string;
     homeAbout2: string;
     homeText5: string;
+    homeNotif: string;
+    homeNotifText: string;
 
     // LOCATION
     locMapOpen: string;
