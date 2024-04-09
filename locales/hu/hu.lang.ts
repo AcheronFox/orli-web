@@ -88,7 +88,7 @@ const hu: Language = {
 
     // HOME
     homeBtnReg: "Regisztrálj!",
-    homeBtnGallery: "Galléria",
+    homeBtnGallery: "Galéria",
     homeBtnLocation: "Helyszín",
     homeNext: "Hova most?",
     homeLocation: "Agárd, Magyarország",

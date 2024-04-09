@@ -120,7 +120,7 @@ const ticket: ITicket = {
                 `
                     <ul>
                         <li>
-                            Aaccommodation for one night with breakfast included (June 16)
+                            Accommodation for one night with breakfast included (June 16)
                         </li>
                         <li>
                             Accommodation in one of the 4 people rooms of the Fácán house

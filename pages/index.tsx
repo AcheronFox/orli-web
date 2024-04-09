@@ -88,7 +88,7 @@ const Home: NextPage<Props> = (props: Props) => {
               {lang.homeText5}
               <div className={styles.Home__Btn}>
                 <ButtonGroup>
-                  <Button variant="outlined" link="/gallery">
+                  <Button variant="outlined" link="/gallery/images">
                     {lang.homeBtnGallery}
                   </Button>
                   <Button variant="contained" link="/registration">
