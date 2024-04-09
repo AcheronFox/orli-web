@@ -1,20 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { IAttendee } from "@/models/newDbModels/attendee.model";
-import { postAttendee } from "@/services/attendee/service.attendee.insert";
-import { executeUpdateQuery } from "@/functions/utils/databaseHelpers";
-import { modifyAttendee } from "@/services/attendee/service.attendee.update";
 import { checkDailyTicketValidity } from "@/services/dailyTicket/service.dailyticket.select";
-import { getTodayInIsoFormat } from "@/functions/utils/databaseHelpers";
-import {MysqlError} from "mysql";
-import {getFursona, getFursonaBasedOnName, getFursonaBasedOnSpecies} from "@/services/fursona/service.fursona.select";
-import {insertDailyTicket} from "@/services/dailyTicket/service.dailyticket.insert";
-import {IDailyTicket} from "@/models/newDbModels/dailyticket.model";
-import {getNationalities} from "@/services/nationality/service.nationality";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>)
 {
     try
     {
+        throw new Error('debug')
         const answer = await checkDailyTicketValidity(2);
 
 
