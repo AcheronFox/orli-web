@@ -21,31 +21,30 @@
     &__Title {
         color: $color-primary;
         font-family: $styled-font-family;
-        &_Secondary {
-            color: $color-secondary;
-            font-family: $styled-font-family;
-            font-size: 2rem;
-        }
-
-        &_Tertiary {
-            font-size: 2rem;
-        }
+        font-size: 2rem;
+        padding: 1rem;
     }
 
     &__Body {
-        display: flex;
-        justify-content: flex-start;
-        text-align: left !important;
+        position: relative;
+        height: 100%;
 
-        a {
-            text-align: justify;
-            text-indent: 0;
-            
-            width: max-content;
-            display: inline-flex;
-            align-items: center;
-            padding: 0;
-            margin-right: -.5rem;
+        & > * {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+
+            & > * {
+                flex: 1;
+
+                &:not(:first-child) {
+                    padding-top: 1rem;
+                }
+                &:not(:last-child) {
+                    padding-bottom: 1rem;
+                }
+            }
         }
 
         ul {
@@ -53,11 +52,17 @@
         }
     }
 
+    &__Button {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
     &__Content {
         color: $white;
         margin: 2rem 0;
         padding: 0 4rem;
-        background: none;
         width: 100%;
         display: flex;
         justify-content: center;

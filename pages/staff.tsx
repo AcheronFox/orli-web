@@ -1,4 +1,5 @@
 import TextCard from "@/comp/TextCard"
+import Button from "@/comp/button/Button"
 import CustomHead from "@/comp/utils/CustomHead"
 import useTranslate from "@/hooks/translate/useTranslate"
 import { useHTMLString } from "@/hooks/utils/useHTMLString"
@@ -6,7 +7,7 @@ import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch"
 import { IStaff } from "@/models/locale/staff.model"
 import styles from "@/styles/pages/Staff.module.scss"
 import { NextPage } from "next"
-import { RiUser2Line } from "react-icons/ri"
+import { RiTelegramLine, RiUser2Line } from "react-icons/ri"
 
 type Props = {}
 
@@ -23,14 +24,7 @@ const Staff: NextPage<Props> = (props: Props) => {
         <TextCard
           variant="filled"
           shadowEnabled
-          customBodyClass={styles.Staff__Body}
           icon={<RiUser2Line />}
-          image={{
-            imgPath: 'stickers/st_dusk.png',
-            alt: "Dusk Sticker",
-            sizes: "(max-width: 1400px) 50vw, 20vw"
-          }}
-          imagePlacement="right"
           floatIcon
         >
           {lang.staffIntro}
@@ -55,9 +49,22 @@ const Staff: NextPage<Props> = (props: Props) => {
               >
                 {
                   staff?.description.map((p) => {
-                    const str = p+'<br/>'
+                    const str = p
                     return parse(str) 
                   })
+                }
+                {
+                  (staff.link != undefined) &&
+                  <div className={styles.Staff__Button}>
+                    <Button
+                      link={staff.link}
+                      target="_blank"
+                      variant="outlined"
+                      startIcon={<RiTelegramLine size={20}/>}
+                    >
+                      Telegram
+                    </Button>
+                  </div>
                 }
               </TextCard>
             );

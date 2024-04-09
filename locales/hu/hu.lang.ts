@@ -98,6 +98,8 @@ const hu: Language = {
     homeAbout1: "2024. Június 12-16. Rövid nyári éjszakák, vibráló levegő, sejtelmes fények, zene, ritmus, láz, tánc, tempó, erő, víz, tűz.",
     homeAbout2: "Az \"Örli Försztivál\" Magyarország nyári, többnapos, nemzetközi, furry szubkulturális találkozója, mely minden év júniusában kerül megrendezésre. 2024-ben hatodik alkalommal kel életre az esemény, melynek helyszíne Fejér vármegyében, a Velencei-tó partján lévő település, Gárdony. Az akár 200 főt is befogadó helyszín idén 5 napon keresztül fogadja a furry résztvevőket és biztosít aktív kikapcsolódást mindenki számára.",
     homeText5: "Ismerős már a név? Ha még új számodra, adj neki időt és ismerd meg a találkozót, szabályait. Nézz körül az oldalon!",
+    homeNotif: "Figyelmeztetés",
+    homeNotifText: "A regisztráció pillanatnyilag nem elérhető. Dolgozunk rajta!<br/>Köszönjük a türelmet!",
 
     // LOCATION
     locMapOpen: "Kattints ide a Google Térkép megnyitásához.",

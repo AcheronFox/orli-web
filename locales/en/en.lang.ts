@@ -98,6 +98,8 @@ const en: Language = {
     homeAbout1: "2024. June 12-16. Short summer nights, vibrating air, mysterious lights, music, rythm, heat, dance, tempo, power, water, fire.",
     homeAbout2: "The \"Örli Försztivál\" is Hungary's summer, multi-day, international, furry subcultural gathering, which takes place every year in June. In 2024, this event is coming to life for the sixth time and is taking place in Gárdony, a settlement near the shores of Lake Velence in Fejér County. This year, the venue, which can accommodate up to 200 people, welcomes furry participants for 5 days and provide active relaxation for all.",
     homeText5: "Does the name ring a bell? If you are not yet familiar with it, come and get to know the event and its rules. Look around the website!",
+    homeNotif: "Notice",
+    homeNotifText: "Registration is unavailable at the moment. We're working on it!<br/>Thank you for your patience!",
 
     // LOCATION
     locMapOpen: "Click here to open Google Maps.",
