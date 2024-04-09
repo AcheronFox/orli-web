@@ -1,5 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import 'react-calendar/dist/Calendar.css';
+import 'react-tippy/dist/tippy.css'
 import "@/styles/globals.scss";
+
 import type { AppProps } from "next/app";
 import Navbar from "@/comp/navbar/Navbar";
 import { useEffect, useState } from "react";

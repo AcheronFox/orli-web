@@ -1,7 +1,22 @@
 .NotificationDisplayer {
     position: fixed;
-    z-index: 9999;
-    right: 0;
-    bottom: 0;
+    z-index: 99999;
     background-color: rgba(0,0,0,0);
+
+    &.BottomRight {
+        right: 0;
+        bottom: 0;
+    }
+    &.BottomLeft {
+        left: 0;
+        bottom: 0;
+    }
+    &.TopRight {
+        right: 0;
+        top: 0;
+    }
+    &.TopLeft {
+        left: 0;
+        top: 0;
+    }
 }

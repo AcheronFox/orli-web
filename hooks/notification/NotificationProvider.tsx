@@ -1,5 +1,6 @@
 import {
     createContext,
+    useRef,
     useState,
 } from "react"
 
@@ -8,27 +9,36 @@ import { NotificationContext } from "./NotificationContext"
 
 interface Props {
     children: React.ReactNode
+    pos?: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
+    maxNotif?: number
 }
 
 
-
-
-const NotificationProvider = ({ children }: Props) => {
+const NotificationProvider = ({ children, pos, maxNotif }: Props) => {
     const [Notifications, setNotification] = useState<INotification[]>([])
+    const [position, setPosition] = useState<'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'>(pos || 'bottom-left')
+    const ref = useRef<any>()
 
     const addNotification = (notification: INotification) => {
-        if (Notifications.length >= 3) {
+        const newId = createNotificationId()
+        notification.id = newId
+        if (notification.autoClose == undefined) notification.autoClose = true
+        if (notification.closable == undefined) notification.closable = true
+
+        if (Notifications.length >= (maxNotif || 3)) {
             setNotification(o => o.slice(1))
-            //Notifications.splice(0,1);
         }
         setNotification((o) => [...o, notification])
+        return newId
     }
 
     const removeNotification = (id: string) => {
         setNotification(o => o.filter(x => x.id !== id))
-
     }
 
+    const closeNotification = (id: string) => {
+        ref.current?.close(id)
+    }
 
     const createNotificationId = (): string => {
         let id = "";
@@ -41,9 +51,12 @@ const NotificationProvider = ({ children }: Props) => {
 
 
     return (
-        <NotificationContext.Provider value={{ Notifications, addNotification, removeNotification, createNotificationId }}>
+        <NotificationContext.Provider value={{ Notifications, addNotification, closeNotification, removeNotification }}>
             <NotificationDisplayer
-                Notifications={Notifications}></NotificationDisplayer>
+                ref={ref}
+                position={position}
+                Notifications={Notifications}
+            />
             {children}
         </NotificationContext.Provider>
     )

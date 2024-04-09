@@ -46,9 +46,9 @@
 
     div {
         flex: 1;
-        background: $primary-color;
+        background: $color-primary;
         animation: go .8s infinite alternate ease;
-        box-shadow: 0 0 2rem .1rem $primary-color;
+        box-shadow: 0 0 2rem .1rem $color-primary;
 
         &:nth-child(1) {
             animation-delay: -.72s;
@@ -87,8 +87,8 @@
         font-size: $styled-font-size;
         margin-bottom: 2rem;
         padding: 0.3rem;
-        color: $primary-color;
-        text-shadow: 0rem 0rem 1rem rgba($primary-color, 0.8);
+        color: $color-primary;
+        text-shadow: 0rem 0rem 1rem rgba($color-primary, 0.8);
         font-family: $styled-font-family;
         text-transform: uppercase;
     }

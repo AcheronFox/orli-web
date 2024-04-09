@@ -16,6 +16,12 @@ const hu: Language = {
     warnDateLimit1: "Csak",
     warnDateLimit2: "elérhető",
 
+    // NOTIF
+    notifError: "Hiba",
+    notifSuccess: "Siker",
+    notifWarning: "Figyelmeztetés",
+    notifInfo: "Infó",
+
     // NAV
     navLogin: "Bejelentkezés",
     navReg: "Regisztráció",
@@ -33,7 +39,7 @@ const hu: Language = {
     navStaff: "Csapatunk",
     navProfile: "Profil",
     navEvent: "Försztivál",
-    navImportant: "Info",
+    navImportant: "Fontos",
     navTickets: "Jegyek",
     navRooms: "Szobák",
     navAdmin: "Admin",
@@ -43,7 +49,7 @@ const hu: Language = {
 
     // FOOTER
     footerHelp: "Segítség",
-    footerLegal: "Jogi",
+    footerLegal: "Házirend",
     footerPartners: "Partnerek",
     footerOrli: "Örli Försztivál",
     footerFind: "Elérhetőségünk",
@@ -52,12 +58,13 @@ const hu: Language = {
     footerData: "Adatkezelés",
     footerRules: "Szabályzat",
     footerTos: "Használati Feltételek",
-    footerOrliText: "Vibe City",
+    footerOrliText: "Tiki Fever",
     footerOrliText2: "2024.06.12. - 2024.06.16.",
     footerOrliText3: "Pákász Tanya Kemping, Agárd, Magyarország",
     footerFacebook: "Facebook Esemény",
     footerTelegramChat: "Telegram Csevegő",
     footerTelegramAnnounce: "Telegram Hírfolyam",
+    footerTwitter: "Twitter / X",
 
     // INFOCARD
     infoCardButton: "Tekintsd meg Google Térképen",
@@ -76,21 +83,23 @@ const hu: Language = {
     galleryImages: "Képek",
 
     // FAQ
-    faqIntro: "A rendezvénnyel kapcsolatban legtöbbször felmerült kérdésekre alább gyűjtöttük össze a válaszokat. Elképzelhető azonban, hogy minden igyekezetünk ellenére további kíváncsiskodás indokolt, ezért kérünk vedd fel a kapcsolatot a szervezőkkel e-mailben vagy Telegramon.",
+    faqIntro: "A rendezvénnyel kapcsolatban legtöbbször felmerült kérdésekre alább gyűjtöttük össze a válaszokat. Elképzelhető azonban, hogy minden igyekezetünk ellenére nem található magyarázat egy felmerült problémára. Ez esetben kérünk, hogy vedd fel a kapcsolatot a szervezőkkel e-mailben vagy Telegramon.",
     faqSearch: "Keresés",
 
     // HOME
-    homeBtnReg: "Regisztrálás",
+    homeBtnReg: "Regisztrálj!",
     homeBtnGallery: "Galléria",
     homeBtnLocation: "Helyszín",
     homeNext: "Hova most?",
     homeLocation: "Agárd, Magyarország",
     homeTheme: "Téma",
-    homeThemeDesc1: "Az idei találkozó témája \"Vibe City\", melyet egy népszerű akció-kalandjáték ihletett világos színeivel, vidám hangulatú tájaival, felidézve a 80-as évek Miami hangulatát.",
-    homeThemeDesc2: "Üdvözlünk Vibe Cityben, ebben a lüktető városban, ahol a 80-as, 90-es évek hangulata, nyüzsgése, fényei és jelképei köszönnek vissza. Történik mindez egy nyári zenei fesztivál keretein belül, mely 5 napig elűzi a csendet a Velencei-tó partjáról és nappallá változtatja az éjszakákat. Vedd ki a részed Te is a nosztalgiából, a pörgésből, a kalandból!",
-    homeAbout1: "2023. Június 14-18. Forró nyári levegő. Vibráló esti fények. Hűsító italok. Zene, tánc, ritmus, víz, tűz.",
-    homeAbout2: "Az \"Örli Försztivál\" Magyarország nyári, többnapos, furry szubkulturális találkozója, mely minden év júniusában kerül megrendezésre. 2023-ban ötödik alkalommal kel életre az esemény, melynek helyszíne Fejér vármegyében, a Velencei-tó partján lévő település, Gárdony. Az akár 150 főt is befogadó helyszín idén 5 napon keresztül fogadja a furry résztvevőket és biztosít aktív kikapcsolódást mindenki számára.",
+    homeThemeDesc1: "Az idei találkozó témája \"Tiki Fever\". A rendezvény kabalája, a kalandor mosómedve, Dusk egy szerencsétlenség során egy szigetre tévedt, ahol a hely szellemei szállták meg az elméjét és fogságban tartják. Rátok vár a feladat, hogy a helyszínre érve kiszabadítsátok és együtt magatok mögött hagyjátok ezt az elvarázsolt dzsungelt...",
+    homeThemeDesc2: "Egy rejtelmes szigetre tévedtél... Messziről nézve ez a hely lakatlannak tűnik, de ahogy beljebb mész fények jelennek meg, illatok csapják meg az orrod és fura lények tánca sejlik a fák között. Hirtelen elfog egy érzés: nekem is ott kell lennem, én sem maradhatok ki ebből! ...az elméd csapdába került, Te is a sziget fogja lettél és pillanatról pillanatra nehezebben engeded el a varázst!",
+    homeAbout1: "2024. Június 12-16. Rövid nyári éjszakák, vibráló levegő, sejtelmes fények, zene, ritmus, láz, tánc, tempó, erő, víz, tűz.",
+    homeAbout2: "Az \"Örli Försztivál\" Magyarország nyári, többnapos, nemzetközi, furry szubkulturális találkozója, mely minden év júniusában kerül megrendezésre. 2024-ben hatodik alkalommal kel életre az esemény, melynek helyszíne Fejér vármegyében, a Velencei-tó partján lévő település, Gárdony. Az akár 200 főt is befogadó helyszín idén 5 napon keresztül fogadja a furry résztvevőket és biztosít aktív kikapcsolódást mindenki számára.",
     homeText5: "Ismerős már a név? Ha még új számodra, adj neki időt és ismerd meg a találkozót, szabályait. Nézz körül az oldalon!",
+    homeNotif: "Figyelmeztetés",
+    homeNotifText: "A regisztráció pillanatnyilag nem elérhető. Dolgozunk rajta!<br/>Köszönjük a türelmet!",
 
     // LOCATION
     locMapOpen: "Kattints ide a Google Térkép megnyitásához.",
@@ -108,11 +117,8 @@ const hu: Language = {
     locPolicy: "szabályzat",
     locFAQ: "GYIK",
     locAccom1: "A találkozó helyszíne számos különféle éjszakázási opciót kínál, legyél akár éjszakai mulatozó vagy csendes szendergő. A hely jellege miatt nosztalgikus tábori körülményekre érdemes felkészülni, mindamellett számtalan funkció gondoskodik a vendégek kényelméről. A többágyas szobák méretük miatt inkább csak pihenésre alkalmasak, azonban a közösségi terek kiválóan használhatóak társas időtöltésre. Valamennyi szobához egy-egy kulcs tartozik, mely elvesztése esetén egy tekintélyes ötjegyű kártérítési összeg fizetendő, ezért kérünk nagyon vigyázzatok rá!",
-    locAccom2: "A szobák az érkezés napján 14 órától vehetőek át. Kivétel ez alól a 0. nap, ahol ez 16 óra; illetve a sátorhelyek, melyek érkezés után bármikor foglalhatóak.",
-    locAccom3: "Fontos információ, hogy szobát csak a több napra érkező vendégek részére tudunk biztosítani. Egyéjszakás látogatás esetén",
-    locAccom31: "csak sátorhely",
-    locAccom32: "foglalható.",
-    locAccom4: "A szobafoglalás csak regisztráció és választott csomag befizetése után válik elérhetővé, így a leggyorsabbak foglalhatnak először.",
+    locAccom2: "A szobák, sátorhelyek az érkezés napján 15 órától vehetőek igénybe.",
+    locAccom3: "A szobafoglalás csak regisztráció és választott csomag befizetése után válik elérhetővé, így a leggyorsabbak foglalhatnak először.",
     locAccomT1: "Fácán Ház",
     locAccomT1L1: "könnyű szerkezetű faház",
     locAccomT1L2: "2/4 ágyas szobák, emeletes ágyakkal",
@@ -165,13 +171,13 @@ const hu: Language = {
     // REGISTRATION
     regFirstname: "Keresztnév",
     regLastname: "Vezetéknév",
-    regFursonaName: "Fursona neve",
+    regFursonaName: "A karaktered neve",
     regEmail: "E-mail cím",
     regEmailConfirm: "E-mail cím (újra)",
     regPassword: "Jelszó",
     regPasswordConfirm: "Jelszó megerősítése",
     regDob: "Születési Dátum",
-    regSpecies: "Fursona faj",
+    regSpecies: "A karaktered faja",
     regNationality:"Nemzetiség",
     regButton: "Regisztrálás",
     regSearchablePlaceholder: "Írj ide a kereséshez",
@@ -181,9 +187,12 @@ const hu: Language = {
     regRuleBtn: "Szabályzatban",
     regData1: "Elolvastam és elfogadom az ",
     regDataBtn: "Adatkezelési Szabályzatot.",
-    regContact: "Telegram vagy Telefonszám",
-    regContactExp: "Ezt azért kérjük el, hogy szükség esetén azonnal kapcsolatba léphessünk Veled. Ez itt megadott adatokat nem adjuk át harmadik félnek.",
+    regTelegram: "Telegram elérhetőséged",
+    regPhone: "Telefonszám",
+    regContactExp: "Erre azért van szükségünk, hogy rendkívüli esetben azonnal kapcsolatba léphessünk Veled. Ezen adatok felhasználásáról az <b>adatkezelés</b> részben olvashatsz bővebben. Nem kell kitölteni mind a kettő mezőt!",
     regAllergy: "Érzékenység, allergia (opcionális)",
+    regStorage: "El szeretném tárolni a regisztrációs adataimat jövőbeli eseményekre (opcionális)",
+
 
     // REGISTRATION MESSAGES
     regWait: "Regisztrálás",
@@ -197,17 +206,17 @@ const hu: Language = {
     regUnderAgeError: "16 év felett kell lenned hogy regisztrálni tudj",
     regInvalidAgeError: "Kérled adj meg egy érvényes születési dátumot",
     regNationalityError: "Kérlek add meg a nemzetiségedet",
-    regPassError: "Jelszónak legalább 6 karakter hosszúnak kell lennie, tartalmaznia kell legalább egy nagy és egy kis betűt, egy számot",
+    regPassError: "A jelszó legalább 6 karakter hosszú legyen, tartalmazzon kis- és nagybetűt, valamint számot.",
     regPassConfError: "Jelszók nem egyeznek",
     regContactErr: "Kérlek add meg a Telegramod vagy a telefon számod",
 
     // REGISTRATION SUCCESS
     regSuccessTitle: "Sikeres Regisztráció!",
-    regSuccessWelcome: "Szia,",
-    regSuccessDesc1: "Regisztrációd megérkezett hozzánk! Amint feldolgoztuk értesíteni fogunk a(z)",
+    regSuccessWelcome: "Kedves,",
+    regSuccessDesc1: "Köszönjük, hogy regisztráltál az Örli Försztiválra! Már neki is kezdtünk a megadott adatok feldolgozásának. Amint ezzel végzünk értesítünk a(z)",
     regSuccessDesc2: "e-mail címen.",
-    regSuccessOutro: "Addig nézz körül a försztivál ",
-    regSuccessButton: "oldalán!",
+    regSuccessOutro: "Addig nézz körül az ",
+    regSuccessButton: "oldalon!",
     
     // PARTICIPANTS
     partNationality: "Nemzetiség",

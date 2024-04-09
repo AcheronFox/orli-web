@@ -5,15 +5,15 @@ import { UserContext } from './UserContext';
 import Router, { useRouter } from 'next/router';
 import { ILoginForm } from '@/models/login-form.model';
 import useTranslate from '@/hooks/translate/useTranslate';
-import { FloatingMessageContext } from '../FloatingMessageContext';
 import { IUpdateForm } from '@/models/update.model';
 import { IResetForm } from '@/models/reset-form.model';
 import { IResetAuthForm } from '@/models/reset-auth-form.model';
+import useNotification from '../notification/useNotification';
 
 export const useUser = () => {
     const { user, setUser, didUserInit, setDidUserInit } = useContext(UserContext);
     const { lang } = useTranslate()
-    const { AddFloatingMessage } = useContext(FloatingMessageContext);
+    const { addNotification } = useNotification()
     const router = useRouter();
     
     const addUser = (val: IUser) => {
@@ -46,50 +46,32 @@ export const useUser = () => {
         .catch((err) => {
             if (err.response) {
                 switch (err.response.status) {
-                    case 404:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errLoginNotFound,
-                        });
-                        break;
                     case 401:
                         if (err.response.data && err.response.data.message.toLowerCase() == "unverified") {
-                            AddFloatingMessage({
-                                autocloses: true,
-                                type: "Error",
-                                message: lang.errLoginUnverified,
-                            });
+                            addNotification({
+                                type: "error",
+                                message: lang.errLoginUnverified
+                            })
                             break;
                         } else {
-                            AddFloatingMessage({
-                                autocloses: true,
-                                type: "Error",
-                                message: lang.errLoginPass,
-                            });
+                            addNotification({
+                                type: "error",
+                                message: lang.errLoginPass
+                            })
                             break;
                         }
-                    case 400:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errBadRequest,
-                        });
-                        break;
                     default:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errDefault,
-                        });
+                        addNotification({
+                            type: "error",
+                            message: lang.errDefault
+                        })
                         break;
                 }
             } else {
-                AddFloatingMessage({
-                    autocloses: true,
-                    type: "Error",
-                    message: lang.errDefault,
-                });
+                addNotification({
+                    type: "error",
+                    message: lang.errDefault
+                })
             }
         })
         .finally(() => {
@@ -109,39 +91,18 @@ export const useUser = () => {
         .then(() => {
             getUser()
             if (showMsg) {
-                AddFloatingMessage({
-                    autocloses: true,
-                    type: "Success",
-                    message: lang.profSuccess,
-                });
+                addNotification({
+                    type: "success",
+                    message: lang.profSuccess
+                })
                 return
             }
         })
         .catch((err) => {
-            if (err.response) {
-                switch (err.response.status) {
-                    case 400:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errBadRequest,
-                        });
-                        break;
-                    default:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errDefault,
-                        });
-                        break;
-                }
-            } else {
-                AddFloatingMessage({
-                    autocloses: true,
-                    type: "Error",
-                    message: lang.errDefault,
-                });
-            }
+            addNotification({
+                type: "error",
+                message: lang.errDefault
+            })
         })
         .finally(() => {
             cb()
@@ -153,44 +114,16 @@ export const useUser = () => {
         .post("api/user/reset/create", resetData)
         .then(() => {
             Router.push({pathname: '/'})
-            AddFloatingMessage({
-                autocloses: true,
-                type: "Success",
-                message: lang.resetEmailSent,
-            });
+            addNotification({
+                type: "success",
+                message: lang.resetEmailSent
+            })
         })
         .catch((err) => {
-            if (err.response) {
-                switch (err.response.status) {
-                    case 404:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errResetNotFound,
-                        });
-                        break;
-                    case 400:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errBadRequest,
-                        });
-                        break;
-                    default:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errDefault,
-                        });
-                        break;
-                }
-            } else {
-                AddFloatingMessage({
-                    autocloses: true,
-                    type: "Error",
-                    message: lang.errDefault,
-                });
-            }
+            addNotification({
+                type: "error",
+                message: lang.errDefault
+            })
         })
         .finally(() => {
             cb()
@@ -202,44 +135,33 @@ export const useUser = () => {
         .post("api/user/reset", resetData)
         .then(() => {
             Router.push({pathname: '/login'})
-            AddFloatingMessage({
-                autocloses: true,
-                type: "Success",
-                message: lang.resetSuccess,
-            });
+            addNotification({
+                type: "success",
+                message: lang.resetSuccess
+            })
         })
         .catch((err) => {
             if (err.response) {
                 switch (err.response.status) {
                     case 401:
                         Router.push({pathname: '/'})
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errResetToken,
-                        });
-                        break;
-                    case 400:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errBadRequest,
-                        });
+                        addNotification({
+                            type: "error",
+                            message: lang.errResetToken
+                        })
                         break;
                     default:
-                        AddFloatingMessage({
-                            autocloses: true,
-                            type: "Error",
-                            message: lang.errDefault,
-                        });
+                        addNotification({
+                            type: "error",
+                            message: lang.errDefault
+                        })
                         break;
                 }
             } else {
-                AddFloatingMessage({
-                    autocloses: true,
-                    type: "Error",
-                    message: lang.errDefault,
-                });
+                addNotification({
+                    type: "error",
+                    message: lang.errDefault
+                })
             }
         })
         .finally(() => {

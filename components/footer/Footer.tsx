@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import React from 'react'
 import styles from "styles/components/footer/Footer.module.scss"
 import FooterImageCarousel from './FooterImageCarousel'
-import { RiQuestionLine, RiMailLine, RiFileList3Line, RiDatabase2Line, RiFacebookCircleLine, RiTelegramLine, RiTelegramFill, RiExternalLinkLine } from "react-icons/ri";
+import { RiQuestionLine, RiMailLine, RiFileList3Line, RiDatabase2Line, RiTelegramLine, RiTelegramFill, RiExternalLinkLine, RiTwitterXFill, RiFacebookFill } from "react-icons/ri";
 import useTranslate from '@/hooks/translate/useTranslate';
 import IconButton from '../button/IconButton';
 import ButtonGroup from '../button/ButtonGroup';
@@ -59,11 +59,11 @@ const Footer: NextPage<Props> = (props: Props) => {
                         <IconButton
                             size='large'
                             target='_blank'
-                            link='https://www.facebook.com/events/2502630689892634/'
+                            link='https://www.facebook.com/events/893079725907753'
                             tooltip={lang.footerFacebook}
                             tooltipColor='black'
                         >
-                            <RiFacebookCircleLine />
+                            <RiFacebookFill />
                         </IconButton>
                         <IconButton
                             size='large'
@@ -86,6 +86,15 @@ const Footer: NextPage<Props> = (props: Props) => {
                             tooltipColor='black'
                         >
                             <RiTelegramLine />
+                        </IconButton>
+                        <IconButton
+                            size='large'
+                            target='_blank'
+                            link='https://x.com/orliforsztival?s=11'
+                            tooltip={lang.footerTwitter}
+                            tooltipColor='black'
+                        >
+                            <RiTwitterXFill />
                         </IconButton>
                     </div>
                 </div>

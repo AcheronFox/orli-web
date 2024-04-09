@@ -77,7 +77,7 @@
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        @include respond(phone) {
+        &__Open {
             top: -4.5rem;
             opacity: 1;
             visibility: visible;
@@ -94,7 +94,7 @@
             user-select: none;
             transition: all .2s ease-out;
 
-            @include respond(phone) {
+            &__Open {
                 top: 0;
                 opacity: 1;
                 visibility: visible;

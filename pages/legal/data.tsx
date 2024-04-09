@@ -20,7 +20,7 @@ const Rules: NextPage<Props> = (props: Props) => {
       <CustomHead title={lang.legalData} />
       <div className={styles.Legal}>
         <TextCard
-          title={lang.legalRules}
+          title={lang.legalData}
           variant="filled"
           shadowEnabled
           icon={<RiFileList3Line />}

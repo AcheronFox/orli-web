@@ -15,6 +15,12 @@ declare interface Language {
     warnOverload: string;
     warnDateLimit1: string;
     warnDateLimit2: string;
+
+    // NOTIF
+    notifError: string;
+    notifSuccess: string;
+    notifWarning: string;
+    notifInfo: string;
     
     // NAVBAR
     navReg: string;
@@ -58,6 +64,7 @@ declare interface Language {
     footerFacebook: string;
     footerTelegramChat: string;
     footerTelegramAnnounce: string;
+    footerTwitter: string;
 
     // INFOCARD
     infoCardButton: string;
@@ -91,6 +98,8 @@ declare interface Language {
     homeAbout1: string;
     homeAbout2: string;
     homeText5: string;
+    homeNotif: string;
+    homeNotifText: string;
 
     // LOCATION
     locMapOpen: string;
@@ -110,9 +119,6 @@ declare interface Language {
     locAccom1: string;
     locAccom2: string;
     locAccom3: string
-    locAccom31: string
-    locAccom32: string
-    locAccom4: string;
     locAccomT1: string;
     locAccomT1L1: string;
     locAccomT1L2: string;
@@ -181,9 +187,11 @@ declare interface Language {
     regRuleBtn: string;
     regData1: string;
     regDataBtn: string;
-    regContact: string;
+    regTelegram: string;
+    regPhone: string;
     regContactExp: string;
     regAllergy: string;
+    regStorage: string;
 
     // REGISTRATION MESSAGES
     regWait: string;

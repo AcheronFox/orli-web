@@ -96,11 +96,11 @@ export default async function handler(
                     return new Promise(async (resolve) => {
                         const query = 
                         `
-                        UPDATE user SET picture = '${filePath}'
+                        UPDATE user SET picture = ?
                         WHERE AccountKey = ?;
                         `
         
-                        database.query(query, [tokenPayload.accountKey], async (err: any, result: any) => {
+                        database.query(query, [filePath, tokenPayload.accountKey], async (err: any, result: any) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "upload_2"}); 

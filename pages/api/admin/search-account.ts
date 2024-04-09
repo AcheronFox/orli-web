@@ -46,7 +46,7 @@ const generateBooleanQuery = (query: string, data: any, table: string) => {
     return query
 }
 
-
+// TODO: Possibly rework if time allows
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse

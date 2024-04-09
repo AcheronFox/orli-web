@@ -21,13 +21,10 @@ const TranslateProvider: NextPage<Props> = ({ children }: Props) => {
   let didInit = false
   
   const changeLangLocal = (str: LanguagesType) => {
+    setSelectedLang(Languages[str])
     setCurrLang(str)
     localStorage.setItem("locale", str)
   }
-
-  useEffect(() => {
-    setSelectedLang(Languages[currLang])
-  }, [currLang])
 
   useEffect(() => {
     if (didInit) return

@@ -89,7 +89,7 @@ const Location: NextPage<Props> = (props: Props) => {
             <br/>
             <br/>
             <span>
-              {lang.locAccom3} {<b><i>{lang.locAccom31}</i></b>} {lang.locAccom32} {lang.locAccom4}
+              <b>{lang.locAccom3}</b>
             </span>
           </TextCard>
           <div className={styles.Location__Row__Items}>
