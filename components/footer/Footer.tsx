@@ -31,7 +31,7 @@ const Footer: NextPage<Props> = (props: Props) => {
                 </div>
             </div>
             {
-                true &&
+                false &&
                 <div className={styles.Footer__Item}>
                     <div>
                         <div className={styles.Footer__Item__Title}>

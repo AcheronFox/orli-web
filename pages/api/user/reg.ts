@@ -67,8 +67,7 @@ export default async function handler(
             x.dateOfBirth != null &&
             x.age != 0 &&
             x.password != '' &&
-            x.nationality != '' &&
-            x.contact != '';
+            x.nationality != ''
     }
 
     if (req.body.otherPass != "") {
