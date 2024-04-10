@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FloatingMessageContext } from "@/hooks/FloatingMessageContext"
+/*
+    import { FloatingMessageContext } from "@/hooks/FloatingMessageContext"
 import Input from "@/comp/Input"
 import Section from "@/comp/Section"
 import { useTranslate } from "@/hooks/useTranslate"
@@ -245,3 +246,17 @@ const Reset: NextPage<Props> = (props: Props) => {
 }
 
 export default Reset;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Reset: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Reset

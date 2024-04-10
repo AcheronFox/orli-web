@@ -4,19 +4,19 @@
     position: relative;
     background: rgba($black, .8);
     backdrop-filter: blur(.5rem);
-    color: $secondary-color;
+    color: $color-secondary;
     display: inline-block;
-    border: .25rem solid $primary-color;
+    border: .25rem solid $color-primary;
     padding: .5rem 1rem;
     border-radius: .5rem;
 
     text-shadow:
     0 0 .75rem rgba($white, .25),
-    0 0 .5rem $secondary-color;
+    0 0 .5rem $color-secondary;
 
     box-shadow:
-    0 0 1rem $primary-color,
-    inset 0 0 1rem $primary-color;
+    0 0 1rem $color-primary,
+    inset 0 0 1rem $color-primary;
 
     transition: all .3s;
 
@@ -25,7 +25,7 @@
             pointer-events: none;
             content: "";
             position: absolute;
-            background: linear-gradient(90deg, $primary-color 0, $primary-color 25%, rgba($secondary-color, .9) 50%, $primary-color 75%, $primary-color 100%);
+            background: linear-gradient(90deg, $color-primary 0, $color-primary 25%, rgba($color-secondary, .9) 50%, $color-primary 75%, $color-primary 100%);
     
             top: 105%;
             left: 0;
@@ -47,14 +47,14 @@
             &:focus-visible &__Text {
                 text-shadow:
                 0 0 1.5rem rgba($white, .3),
-                0 0 1rem $secondary-color;
+                0 0 1rem $color-secondary;
             }
         }
 
         &:hover &__Text {
             text-shadow:
             0 0 1.5rem rgba($white, .3),
-            0 0 1rem $secondary-color;
+            0 0 1rem $color-secondary;
         }
         &:hover:after {
             visibility: visible;
@@ -77,8 +77,8 @@
         border-radius: .5rem;
 
         box-shadow:
-        0 0 .5rem .5rem $primary-color,
-        inset 0 0 1rem $primary-color;
+        0 0 .5rem .5rem $color-primary,
+        inset 0 0 1rem $color-primary;
         z-index: -1;
         opacity: 0;
 
@@ -91,17 +91,17 @@
 
     &__Disabled {
         pointer-events: none;
-        border: .25rem solid darken($primary-color, 20%);
+        border: .25rem solid darken($color-primary, 20%);
         box-shadow:
-        0 0 1rem darken($primary-color, 30%),
-        inset 0 0 1rem darken($primary-color, 30%);
+        0 0 1rem darken($color-primary, 30%),
+        inset 0 0 1rem darken($color-primary, 30%);
 
         @include respond(min-phone) {
             &:before {
                 pointer-events: none;
                 content: "";
                 position: absolute;
-                background: linear-gradient(90deg, darken($primary-color, 30%) 0, darken($primary-color, 30%) 25%, rgba($secondary-color, .75) 30%, darken($primary-color, 30%) 75%, darken($primary-color, 50%) 100%);
+                background: linear-gradient(90deg, darken($color-primary, 30%) 0, darken($color-primary, 30%) 25%, rgba($color-secondary, .75) 30%, darken($color-primary, 30%) 75%, darken($color-primary, 50%) 100%);
         
                 top: 105%;
                 left: 0;

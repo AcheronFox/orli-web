@@ -4,9 +4,9 @@ import { ILoginForm } from '@/models/login-form.model';
 import { IAccount } from '@/models/account.model';
 import { IUser, UserData } from '@/models/user.model';
 import * as bcrypt from 'bcrypt';
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
-import { generateCookies } from '@/utils/token-handler';
+import { generateCookies } from '@/functions/auth/token-handler';
 
 export default async function handler(
     req: NextApiRequest,
@@ -29,11 +29,8 @@ export default async function handler(
     }
 
     const isValidForm = (x: ILoginForm) => {
-        if (x.email != '' &&
-            x.password != '') {
-            return true
-        }
-        else return false
+        return x.email != '' &&
+            x.password != '';
     }
 
     if (isLoginForm(req.body) && isValidForm(req.body)) {

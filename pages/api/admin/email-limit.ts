@@ -1,13 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey } from '@/utils/getData';
-import verifyToken from '@/utils/veryifToken';
+import verifyToken from '@/functions/auth/veryifToken';
 import { isAdminAccount } from './auth';
-import database from '@/utils/mysql';
-import { IAdminChart } from '@/models/admin.model';
-import { getMailLimit } from '@/utils/mail-controller';
+import { getMailLimit } from '@/functions/mail/mail-controller';
 
 export default async function handler(
     req: NextApiRequest,

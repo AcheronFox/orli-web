@@ -3,6 +3,7 @@ import { NextPage } from "next";
 import React from "react";
 import styles from "@/styles/components/PaginationTable.module.scss";
 import getNationality from "../functions/getNationality";
+import createDatePatternFromDate from "@/root/functions/createDatePattern";
 import { useTranslate } from "@/hooks/useTranslate";
 import DropDown from "./DropDown";
 import SecondaryButton from "./SecondaryButton";
@@ -44,14 +45,7 @@ const PaginationTable: NextPage<Props> = (props: Props) => {
         const regExp  = new RegExp('^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])(.[0-9]+)?(Z)?$');
         return regExp.test(date);
     }
-    const createDatePatternFromDate = (date: Date) => {
-        if (!date) return
-        const year = date.getFullYear();
-        const month = ('0' + (date.getMonth() + 1)).slice(-2);
-        const day = ('0' + (date.getDate())).slice(-2);
-    
-        return `${year}.${month}.${day}.`
-    }
+
     return (
         <div className={`${styles.Table__Wrapper}`}>
             <div className={`${styles.Table__Wrapper__Internal}`}>

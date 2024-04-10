@@ -1,8 +1,8 @@
 import { isProd, log } from ".daemon/daemon";
 import { TicketDatabase } from "@/models/database.model";
 import database from "./daemonMysql";
-import { sendMail } from "@/utils/mail-controller";
-import { findTemplate } from "@/utils/mail-controller";
+import { sendMail } from "@/functions/mail/mail-controller";
+import { findTemplate } from "@/functions/mail/mail-controller";
 import { getAccountByKey, getUserByAccountKey } from "@/utils/getData";
 import handlebars from "handlebars";
 
@@ -12,7 +12,7 @@ const ticketLimitWatcher = async () => {
             const query = 
             `
             SELECT * FROM ticket
-            WHERE isPaid = 'false'
+            WHERE isPaid = 'false';
             `
 
             database.query(query, async (err: any, result: TicketDatabase[]) => {
@@ -54,10 +54,10 @@ const ticketLimitWatcher = async () => {
 
             const query = 
             `
-            DELETE FROM ticket WHERE TicketKey = '${ticketKey}'
+            DELETE FROM ticket WHERE TicketKey = ?;
             `
 
-            database.query(query, async (err: any) => {
+            database.query(query, [ticketKey], async (err: any) => {
                 if (err) {
                     log(`Error: ${err}`);
                     resolve(false);

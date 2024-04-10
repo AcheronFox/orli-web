@@ -1,82 +1,49 @@
-import styles from "@/styles/pages/Rules.module.scss"
-import { useTranslate } from "@/hooks/useTranslate";
-import Section from "@/comp/Section";
+import styles from "@/styles/pages/legal/Rules.module.scss"
 import { NextPage } from "next";
-import CustomHead from "@/comp/CustomHead";
-import CustomBackground from "@/comp/CustomBackground";
+import CustomHead from "@/comp/utils/CustomHead";
+import useTranslate from "@/hooks/translate/useTranslate";
+import TextCard from "@/comp/TextCard";
+import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";
+import { ILegal } from "@/models/locale/legal.model";
+import { useHTMLString } from "@/hooks/utils/useHTMLString";
+import { RiFileList3Line } from "react-icons/ri";
 
 type Props = {}
-type CustomRuleContentInternal = {
-  title: string;
-  content: string[] | [{content: string[]}]
-}
 
 const Rules: NextPage<Props> = (props: Props) => {
-  const { t } = useTranslate();
+  const { lang, currLang } = useTranslate();
+  const data: ILegal = useLocaleSwitch(currLang, "legal.ts")
+  const clean = useHTMLString()
 
   return (
     <>
-      <CustomHead title={t("legalRules")} />
-      <CustomBackground />
-      <div className={styles.Rules}>
-        <div className={styles.Rules__Title}>
-          <h1>
-            {t("legalRules")}
-          </h1>
-        </div>
-        <div className={styles.Rules__Content}>
-          <Section>
-            <span>
-              {t("polHea1")}<br/>
-              {t("polHea2")}<br/>
-              {t("polHea3")}<br/><br/>
-              {t("polHea4")}<br/><br/>
-              <small>{t("polHea5")}</small>
-            </span>
-          </Section>
-          <Section>
-            <div className={styles.Rules__Main}>
-              {
-                Object.keys(t("polBody")).map((rawKey, i) => {
-                  const key = parseInt(rawKey)
-                  const dataObj = t("polBody")[key] as unknown as CustomRuleContentInternal
-
-                  return (
-                    <span className={styles.Rules__Main__Data} key={i}>
-                      <h3>{`${dataObj.title}:`}</h3>
-                      <ol className={styles.Rules__Main__List}>
-                        {
-                          dataObj.content.map((val, j) => {
-                            if ((typeof val === 'object' && val !== null)) {
-                              return (
-                                  <span key={j}>
-                                    {
-                                      <ol type="a" className={styles.Rules__Main__List}>
-                                        {
-                                          val.content.map((internalVal, l) => {
-                                            return (
-                                              <li key={l}>
-                                                {internalVal}
-                                              </li>
-                                            );
-                                          })
-                                        }
-                                      </ol>
-                                    }
-                                  </span>
-                              );
-                            }
-                            else return (<li key={j}>{val}</li>)
-                          })
-                        }
-                      </ol>
-                    </span>
-                  );
-                })
-              }
-            </div>
-          </Section>
-        </div>
+      <CustomHead title={lang.legalRules} />
+      <div className={styles.Legal}>
+        <TextCard
+          title={lang.legalRules}
+          variant="filled"
+          shadowEnabled
+          icon={<RiFileList3Line />}
+        >
+          {
+            data?.rules.intro.map((o) => {
+              const str = o+'<br/>'
+              return clean(str)
+            })
+          }
+        </TextCard>
+        <TextCard
+          variant="filled"
+          shadowEnabled
+          customBodyClass={styles.Legal__Body}
+        >
+          {
+            data?.rules.body.map((o) => {
+              const str = o+'<br/>'
+              return clean(str)
+            })
+          }
+        </TextCard>
       </div>
     </>
   )

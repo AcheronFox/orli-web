@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-import styles from "@/styles/pages/Profile.module.scss"
+/*
+  import styles from "@/styles/pages/Profile.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
 import { useUser } from "@/hooks/useUser";
@@ -382,10 +383,10 @@ const Profile: NextPage<Props> = (props: Props) => {
                     {user.fursonaSpecies}
                   </h3>
                 </div>
-                { (user.isFursuiter == true || user.sponsorLevel && user.sponsorLevel > 0) &&
+                { (user.isFursuiter || user.sponsorLevel && user.sponsorLevel > 0) &&
                   <div className={styles.Profile__Header__Badges}>
                     {
-                      (user.isFursuiter == true) &&
+                      user.isFursuiter &&
                       <Tippy className={styles.Tooltip} content={t("partSuiter")}>
                           <span>
                               <FursuiterIcon style={{"fill": "#F741D5"}} />
@@ -569,3 +570,17 @@ const Profile: NextPage<Props> = (props: Props) => {
 }
 
 export default Profile;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Profile: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Profile

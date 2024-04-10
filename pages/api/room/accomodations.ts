@@ -1,9 +1,9 @@
 import { IAccomodation } from '../../../models/accomodation.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import verifyToken from '@/utils/veryifToken';
+import database from '@/root/functions/utils/mysql'
+import isMethodAllowed from '@/root/functions/auth/isMethodAllowed';
+import verifyToken from '@/root/functions/auth/veryifToken';
 
 
 export default async function handler(
@@ -25,7 +25,7 @@ export default async function handler(
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT id, roomId FROM accomodation
+                SELECT id, roomId FROM accomodation;
                 `
 
                 database.query(query, async (err: any, result: IAccomodation[]) => {

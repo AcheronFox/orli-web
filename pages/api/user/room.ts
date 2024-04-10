@@ -1,9 +1,9 @@
-import { IRoom, IRoomRaw, IRoomStructure } from '@/models/room.model';
+import { IRoom, IRoomRaw } from '@/models/room.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import verifyToken from '@/utils/veryifToken';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import verifyToken from '@/functions/auth/veryifToken';
 
 /*
 FIX THIS SHIT
@@ -30,11 +30,11 @@ export default async function handler(
                 `
                 SELECT room.id, room.building, room.roomNumber, room.size, room.customName, room.roomPin FROM room
                 LEFT OUTER JOIN accomodation ON accomodation.roomId = room.id
-                WHERE accomodation.AccountKey = '${tokenPayload.accountKey}'
-                LIMIT 1
+                WHERE accomodation.AccountKey = ?
+                LIMIT 1;
                 `
 
-                database.query(query, async (err: any, result: IRoomRaw[]) => {
+                database.query(query, [tokenPayload.accountKey],async (err: any, result: IRoomRaw[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "u_room_1"}); 
@@ -56,10 +56,10 @@ export default async function handler(
                 COUNT(accomodation.roomId)
                 AS count
                 FROM accomodation
-                WHERE accomodation.roomId = ${id}
+                WHERE accomodation.roomId = ?;
                 `
 
-                database.query(query, async (err: any, result: {count: number}[]) => {
+                database.query(query, [id], async (err: any, result: {count: number}[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "u_room_3"}); 
@@ -79,7 +79,7 @@ export default async function handler(
 
         if (response && count != undefined) {
             const transformData = (data: IRoomRaw) => {
-                const hasPin = data.roomPin ? true : false
+                const hasPin = !!data.roomPin
                 return {...data, hasRoomPin: hasPin, roomPin: undefined, adminKey: undefined, occupantCount: count}
             }
             const finalData: IRoom = transformData(response)

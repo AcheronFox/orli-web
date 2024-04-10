@@ -1,0 +1,32 @@
+.Legal {
+    @include DefaultLayout;
+
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+        &:not(:nth-child(1)) {
+            margin-top: 5rem;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 5rem;
+        }
+    }
+
+    &__Body {
+        ul, ol {
+            margin-left: 1rem;
+        }
+
+        ul {
+            padding-left: 2rem;
+        }
+
+        ol {
+            & > * {
+                margin: 0 1rem;
+            }
+        }
+    }
+}

@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import UseWindowDimensions from "@/hooks/useWindowDimensions";
+/*
+  import UseWindowDimensions from "@/hooks/utils/useWindowDimensions";
 import { IParticipant } from "@/models/participant.model";
 import styles from "@/styles/pages/Participants.module.scss"
-import axiosInstance from "@/utils/axiosConfig";
+import axiosInstance from "@/functions/utils/axiosConfig";
 import { NextPage } from "next";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { VariableSizeList as List } from "react-window";
@@ -22,7 +23,7 @@ import { Bar } from 'react-chartjs-2';
 import { useTranslate } from "@/hooks/useTranslate";
 import { INationalityCount } from "@/models/nationality-count.model";
 import LoadingOverlay from "@/comp/LoadingOverlay";
-import getNationality from "functions/getNationality";
+import getNationality from "@/functions/utils/getNationality";
 import CustomHead from "@/comp/CustomHead";
 
 ChartJS.register(
@@ -52,7 +53,7 @@ const calculateIndex = (index: number, listLength: number, size: any) => {
   }
 
   if (size.width <= parseInt(styles.phone)) {
-    fromIndex = index * 1;
+    fromIndex = index;
     toIndex = Math.min(fromIndex + 1, listLength);
   }
   return {fromIndex, toIndex}
@@ -67,8 +68,8 @@ const Row = ({index, setSize, windowWidth, participants, size}: any) => {
   for (let i = fromIndex; i < toIndex; i++) {
     items.push(
       <ParticipantCard key={i} name={participants[i].fursonaName} species={participants[i].fursonaSpecies} nationality={participants[i].nationality}
-      isFursuiter={participants[i].isFursuiter? true : false} isSponsor={parseInt(participants[i].sponsorLevel) > 0} picture={participants[i].picture}
-      isSuperSponsor={parseInt(participants[i].sponsorLevel) == 2}></ParticipantCard>
+                       isFursuiter={!!participants[i].isFursuiter} isSponsor={parseInt(participants[i].sponsorLevel) > 0} picture={participants[i].picture}
+                       isSuperSponsor={parseInt(participants[i].sponsorLevel) == 2}></ParticipantCard>
     )
   }
 
@@ -224,7 +225,7 @@ const Participants: NextPage<Props> = (props: Props) => {
     .then((res) => {
       setParticipants(res.data)
       setParticipantCount(res.data.length)
-      setSuiterCount(res.data.filter((o) => o.isFursuiter == true).length)
+      setSuiterCount(res.data.filter((o) => o.isFursuiter).length)
     })
     .catch((err) => {return})
     .finally(() => setIsLoading(false))
@@ -358,3 +359,18 @@ const Participants: NextPage<Props> = (props: Props) => {
 }
 
 export default Participants;
+*/
+
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Participants: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Participants

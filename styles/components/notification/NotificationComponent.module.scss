@@ -1,0 +1,99 @@
+.Notification {
+    width: 20vw;
+    height: fit-content;
+    background-color: $grey-1;
+    box-shadow: 0 0 .5rem .2rem rgba(0, 0, 0, 0.25);
+    border-radius: .3rem;
+    margin: 1rem;
+    padding: .5rem;
+    padding-bottom: 1rem;
+
+    position: relative;
+    overflow: hidden;
+
+    @include respond(phone) {
+        width: 80vw;
+    }
+    @include respond(small-phone) {
+        width: 100vw;
+    }
+
+    
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0px;
+        height: 4px;
+        background-color: $color-red;
+        animation: counter var(--duration) linear;
+    }
+    &.Error::before {
+        background-color: $color-error;
+    }
+    &.Info::before {
+        background-color: $color-info;
+    }
+    &.Success::before {
+        background-color: $color-success;
+    }
+    &.Warning::before {
+        background-color: $color-warning;
+    }
+
+    &__Divider {
+        margin: 0;
+        color: lighten($background-color, 10%);
+    }
+
+    &__Description {
+        color: $white;
+    }
+
+    &__Left {
+        &.slideIn {
+            animation: slideInLeft .3s cubic-bezier(.43,.1,.09,1.35) forwards;
+        }
+    
+        &.slideOut {
+            animation: slideOutLeft 175ms linear forwards;
+        }
+    }
+    &__Right {
+        &.slideIn {
+            animation: slideIn .3s cubic-bezier(.43,.1,.09,1.35) forwards;
+        }
+    
+        &.slideOut {
+            animation: slideOut 175ms linear forwards;
+        }
+    }
+
+    &__Title {
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-transform: capitalize;
+
+        &__Close {
+            span {
+                margin: 0;
+            }
+        }
+
+        &.Error {
+            color: $color-error;
+        }
+        &.Info {
+            color: $color-info;
+        }
+        &.Success {
+            color: $color-success;
+        }
+        &.Warning {
+            color: $color-warning;
+        }
+    }
+}

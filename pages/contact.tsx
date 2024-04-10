@@ -1,27 +1,39 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import Section from "@/comp/Section"
-import { useTranslate } from "@/hooks/useTranslate"
 import styles from "@/styles/pages/Contact.module.scss"
 import { NextPage } from "next"
-import LinkButton from "@/comp/LinkButton";
-import CustomHead from "@/comp/CustomHead";
+import CustomHead from "@/comp/utils/CustomHead";
+import useTranslate from "@/hooks/translate/useTranslate";
+import TextCard from "@/comp/TextCard";
+import Button from "@/comp/button/Button";
+import { RiMailLine } from "react-icons/ri";
 
 type Props = {}
 
 const Contact: NextPage<Props> = (props: Props) => {
-  const { t, locale } = useTranslate()
+  const { lang } = useTranslate()
 
   return (
     <>
-      <CustomHead title={t("footerContact")} />
+      <CustomHead title={lang.footerContact} />
+      <div className={styles.Contact__Background} />
       <div className={styles.Contact}>
         <div className={styles.Contact__Center}>
-          <Section title={t("footerContact")}>
-            {t("contact")}
+          <TextCard
+            title={lang.footerContact}
+            variant="filled"
+            shadowEnabled
+            icon={<RiMailLine />}
+          >
+            {lang.contact}
             <div className={styles.Contact__Button}>
-              <LinkButton text={"orlifurstival@gmail.com"} link={"mailto:orlifurstival@gmail.com"} isInternal={false}></LinkButton>
+              <Button
+                variant="text"
+                link={"mailto:orlifurstival@gmail.com"}
+              >
+                orlifurstival@gmail.com
+              </Button>
             </div>
-          </Section>
+          </TextCard>
         </div>
       </div>
     </>

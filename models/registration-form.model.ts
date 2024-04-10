@@ -8,9 +8,11 @@ export interface IRegistrationForm {
     age: number;
     nationality: string;
     password: string;
-    contact: string;
+    telegram: string;
+    phone: string;
     allergy: string;
     otherPass: string;
+    storage: boolean;
 }
 
 export interface IRegistrationDataSave  {
@@ -21,7 +23,9 @@ export interface IRegistrationDataSave  {
     Email: string;
     DoB: string;
     Nationality: string;
-    Contact: string;
+    Telegram: string;
+    Phone: string;
     Allergy: string;
     OtherPass: string;
+    Storage: boolean;
 }

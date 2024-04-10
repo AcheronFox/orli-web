@@ -1,19 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey } from '@/utils/getData';
-import verifyToken from '@/utils/veryifToken';
+import verifyToken from '@/functions/auth/veryifToken';
 import { isAdminAccount } from './auth';
-import database from '@/utils/mysql';
-import { AccomodationDatabase, DatabaseSuperClass, RoomDatabase, SafeAccountDatabase, TicketDatabase, UserDatabase } from '@/models/database.model';
+import database from '@/functions/utils/mysql';
+import { AccomodationDatabase, SafeAccountDatabase, TicketDatabase, UserDatabase } from '@/models/database.model';
 import generatePayload from '@/utils/generatePayload';
 
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
-    const dateWithOffest = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-    return dateWithOffest
+    const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+    return dateWithOffset
         .toISOString()
         .slice(0, 19)
         .replace('T', ' ')
@@ -46,7 +46,7 @@ const generateBooleanQuery = (query: string, data: any, table: string) => {
     return query
 }
 
-
+// TODO: Possibly rework if time allows
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -138,11 +138,7 @@ export default async function handler(
 
                 let booleanData = req.body.searchQuery.boolean
                 booleanData = booleanData.filter((element: any) => {
-                    if (Object.keys(element).length !== 0) {
-                      return true;
-                    }
-                  
-                    return false;
+                    return Object.keys(element).length !== 0;
                   });
 
                 const accounts = await getAccounts(accountPayload, ticketPayload, userPayload, accomodation, booleanData);

@@ -1,9 +1,9 @@
 import { IRoom, IRoomRaw, IRoomStructure } from '@/models/room.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
-import verifyToken from '@/utils/veryifToken';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import verifyToken from '@/functions/auth/veryifToken';
 
 
 export default async function handler(
@@ -28,7 +28,7 @@ export default async function handler(
                 FROM room AS r
                 LEFT JOIN accomodation AS a ON r.id = a.roomId
                 GROUP BY r.id
-                HAVING roomTotal < r.size
+                HAVING roomTotal < r.size;
                 `
 
                 database.query(query, async (err: any, result: IRoomRaw[]) => {
@@ -40,7 +40,7 @@ export default async function handler(
                     resolve(result);
                 });
             }).catch(() => {
-                return (undefined)
+                return undefined
             });
         }
 

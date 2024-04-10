@@ -1,65 +1,74 @@
-import CustomHead from "@/comp/CustomHead"
-import ParticipantCard from "@/comp/ParticipantCard"
-import Section from "@/comp/Section"
-import { useTranslate } from "@/hooks/useTranslate"
-import { IStaff } from "@/models/staff.model"
+import TextCard from "@/comp/TextCard"
+import Button from "@/comp/button/Button"
+import CustomHead from "@/comp/utils/CustomHead"
+import useTranslate from "@/hooks/translate/useTranslate"
+import { useHTMLString } from "@/hooks/utils/useHTMLString"
+import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch"
+import { IStaff } from "@/models/locale/staff.model"
 import styles from "@/styles/pages/Staff.module.scss"
 import { NextPage } from "next"
-import { useEffect, useState } from "react"
+import { RiTelegramLine, RiUser2Line } from "react-icons/ri"
 
 type Props = {}
 
 const Staff: NextPage<Props> = (props: Props) => {
-  const { t, locale } = useTranslate()
-
-  const [staffs, setStaffs] = useState<IStaff[]>(
-    locale == "en"
-        ? require("../locales/en.staff.json")
-        : require("../locales/hu.staff.json")
-  );
-
-  useEffect(() => {
-    setStaffs(
-      locale == "en"
-        ? require("../locales/en.staff.json")
-        : require("../locales/hu.staff.json")
-    )
-  }, [locale])
+  const { lang, currLang } = useTranslate()
+  const data: IStaff[] = useLocaleSwitch(currLang, "staff.ts")
+  const parse = useHTMLString()
 
   return (
     <>
-      <CustomHead title={t("navStaff")} />
+      <CustomHead title={lang.navStaff} />
+      <div className={styles.Staff__Background} />
       <div className={styles.Staff}>
-        <div className={styles.Staff__Title}>
-          <h1>
-            {t("navStaff")}
-          </h1>
-        </div>
-        <Section>
-          {t("staffIntro")}
-        </Section>
-        <div className={styles.Staff__Content}>
-          {
-            staffs.map((staff, i) => {
-              return (
-                <ParticipantCard
-                key={i}
-                name={staff.name}
-                description={Array.isArray(staff.description)? <ul>{staff.description.map((val, i) => <li key={i}>{val}</li>)}</ul> : staff.description}
-                picture={staff.picture}
-                isStaffMode={true}
-                />
-              );
-            })
-          }
-        </div>
+        <TextCard
+          variant="filled"
+          shadowEnabled
+          icon={<RiUser2Line />}
+          floatIcon
+        >
+          {lang.staffIntro}
+        </TextCard>
+      </div>
+      <div className={styles.Staff__Content}>
         {
-          (false) &&
-          <div className={styles.Staff__Footer}>
-            <Section title={t("staffVolunteers")}>
-            
-            </Section>
-          </div>
+          data?.map((staff, i) => {
+            return (
+              <TextCard
+                key={i}
+                variant="contained"
+                shadowEnabled
+                customTitleClass={styles.Staff__Title}
+                customBodyClass={styles.Staff__Body}
+                title={staff.name}
+                image={{
+                  imgPath: staff.picture,
+                  alt: `Staff Img ${i}`,
+                  sizes: "(max-width: 1400px) 100vw, 40vw",
+                }}
+              >
+                {
+                  staff?.description.map((p) => {
+                    const str = p
+                    return parse(str) 
+                  })
+                }
+                {
+                  (staff.link != undefined) &&
+                  <div className={styles.Staff__Button}>
+                    <Button
+                      link={staff.link}
+                      target="_blank"
+                      variant="outlined"
+                      startIcon={<RiTelegramLine size={20}/>}
+                    >
+                      Telegram
+                    </Button>
+                  </div>
+                }
+              </TextCard>
+            );
+          })
         }
       </div>
     </>

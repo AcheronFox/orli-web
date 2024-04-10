@@ -1,0 +1,101 @@
+.Checkbox {
+    margin: .3rem 0;
+    display: flex;
+    align-items: flex-start;
+
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    input[type="checkbox"] {
+        display: none;
+        visibility: hidden;
+    }
+
+    input[type="checkbox"]:checked+&__Check svg {
+        stroke: $color-primary;
+    }
+
+    input[type="checkbox"]:checked+&__Check svg path {
+        stroke-dashoffset: 60;
+        transition: all .3s linear;
+    }
+
+    input[type="checkbox"]:checked+&__Check svg polyline {
+        stroke-dashoffset: 42;
+        transition: all .2s linear;
+        transition-delay: 0.15s;
+    }
+
+    input[type="checkbox"]:checked:hover+&__Check svg polyline {
+        stroke: lighten($color-primary, 20%);
+    }
+
+    input[type="checkbox"]:not(:checked)+&__Check svg path {
+        stroke-dashoffset: 0;
+        transition: all 0.3s linear;
+    }
+
+    input[type="checkbox"]:not(:checked)+&__Check svg polyline {
+        stroke-dashoffset: 66;
+        transition: all 0.2s linear;
+        transition-delay: 0s;
+    }
+
+    &__Check {
+        cursor: pointer;
+        position: relative;
+        width: 2rem;
+        height: 2rem;
+        -webkit-tap-highlight-color: transparent;
+        transform: translate3d(0, 0, 0);
+
+        & svg {
+            position: relative;
+            z-index: 1;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke: $color-primary;
+            stroke-width: 1.5;
+            transform: translate3d(0, 0, 0);
+            transition: all .2s ease;
+        }
+
+        & svg path {
+            stroke-dasharray: 60;
+            stroke-dashoffset: 0;
+        }
+
+        & svg polyline {
+            stroke-dasharray: 22;
+            stroke-dashoffset: 66;
+        }
+
+        &:hover svg {
+            stroke: lighten($color-primary, 20%);
+        }
+    }
+
+    &__Label {
+        display: flex;
+        flex-direction: row;
+        cursor: pointer;
+        text-align: left;
+        color: $white;
+        margin-left: 1rem;
+
+        &>* {
+            &:last-child {
+                margin-left: .5rem;
+                margin-right: .5rem;
+            }
+        }
+    }
+
+    @include respond(phone) {
+        width: 100%;
+        flex-direction: row;
+    }
+
+}

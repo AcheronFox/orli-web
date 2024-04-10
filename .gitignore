@@ -39,3 +39,7 @@ yarn-error.log*
 next-env.d.ts
 
 shared.json
+
+## IDE specific ignores
+# JetBrains WebStorm
+.idea

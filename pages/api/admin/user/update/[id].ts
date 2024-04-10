@@ -1,24 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey, getUserByAccountKey } from '@/utils/getData';
-import verifyToken from '@/utils/veryifToken';
-import database from '@/utils/mysql';
+import verifyToken from '@/functions/auth/veryifToken';
+import database from '@/functions/utils/mysql';
 import { isAdminAccount } from '../../auth';
 import { AccomodationDatabase, SafeAccountDatabase, SafeUserDatabase, TicketDatabase } from '@/models/database.model';
 import * as mysql from "mysql";
 import { IAccomodationRaw } from '@/models/accomodation.model';
 import handlebars from 'handlebars';
-import { findTemplate, sendMail } from '@/utils/mail-controller';
+import { findTemplate, sendMail } from '@/functions/mail/mail-controller';
 import { v4 as uuidv4 } from 'uuid';
 import { IRoomRaw } from '@/models/room.model';
 
 
 const toSqlDatetime = (inputDate: Date) => {
     const date = new Date(inputDate)
-    const dateWithOffest = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-    return dateWithOffest
+    const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
+    return dateWithOffset
         .toISOString()
         .slice(0, 19)
         .replace('T', ' ')
@@ -49,10 +49,10 @@ export default async function handler(
                     return new Promise<any | undefined>(async (resolve) => {
                         const query = 
                         `
-                        SELECT * FROM account WHERE account.id = ${userId}
+                        SELECT * FROM account WHERE account.id = ?;
                         `
 
-                        database.query(query, async (err: any, result: any[]) => {
+                        database.query(query,[userId], async (err: any, result: any[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "admin_update_usr_2"}); 
@@ -105,10 +105,10 @@ export default async function handler(
                                     return new Promise<boolean>(async (resolve) => {
                                         const query = 
                                         `
-                                        SELECT * FROM room WHERE adminKey = '${account.AccountKey}'
+                                        SELECT * FROM room WHERE adminKey = ?;
                                         `
                                         
-                                        connection.query(query, (err: any, room: any[]) => {
+                                        connection.query(query, [account.AccountKey], (err: any, room: any[]) => {
                                             if (err) {
                                                 console.log("ERROR: ", err);
                                                 rollback(connection);
@@ -119,10 +119,10 @@ export default async function handler(
                                             else if (room.length) {  
                                                 const query = 
                                                 `
-                                                SELECT * FROM accomodation WHERE roomId = ${room[0].id} ORDER BY creationDate ASC
+                                                SELECT * FROM accomodation WHERE roomId = ? ORDER BY creationDate ASC;
                                                 `
     
-                                                connection.query(query, async (err: any, accomodations: IAccomodationRaw[]) => {
+                                                connection.query(query, [room[0].id], async (err: any, accomodations: IAccomodationRaw[]) => {
                                                     if (err) {
                                                         console.log("ERROR: ", err);
                                                         rollback(connection);
@@ -165,7 +165,7 @@ export default async function handler(
                                             }
                                         })
     
-                                        connection.query(mysql.format(`UPDATE room SET ? WHERE id = ${id}`, [data]), (err: any) => {
+                                        connection.query(mysql.format(`UPDATE room SET ? WHERE id = ?`, [data, id]), (err: any) => {
                                             if (err) {
                                                 console.log("ERROR: ", err);
                                                 rollback(connection);
@@ -207,7 +207,7 @@ export default async function handler(
                                 }
                                 const deleteData = async (table: string) => {
                                     return new Promise<boolean>(async (resolve) => {
-                                        connection.query(`DELETE FROM ${table} WHERE AccountKey = '${account.AccountKey}'`, async (err) => {
+                                        connection.query(`DELETE FROM ${table} WHERE AccountKey = ?`, [account.accountKey], async (err) => {
                                             if (err) {
                                                 console.log("ERROR: ", err);
                                                 sendResponse(500, { message: "Deletion Failed.", e_code: "admin_update_usr_10" });
@@ -231,7 +231,8 @@ export default async function handler(
                                             AccomodationKey: aKey,
                                             creationDate: toSqlDatetime(new Date())
                                         }
-    
+
+                                        // TODO: Rework this later if needed, but for now there's probably not a better solution.
                                         connection.query(mysql.format(`INSERT INTO accomodation (${Object.keys(newData).join(",")}) VALUES (?)`, [Object.values(newData)]), (err: any, res: { insertId: any; }) => {
                                             if (err) {
                                                 console.log("ERROR: ", err);
@@ -243,10 +244,10 @@ export default async function handler(
                                             else {
                                                 const query = 
                                                 `
-                                                SELECT * FROM room WHERE id = '${data.roomId}'
+                                                SELECT * FROM room WHERE id = ?;
                                                 `
 
-                                                connection.query(query, async (err: any, roomRes: IRoomRaw[]) => {
+                                                connection.query(query, [data.roomId],async (err: any, roomRes: IRoomRaw[]) => {
                                                     if (err) {
                                                         console.log("ERROR: ", err);
                                                         rollback(connection);
@@ -305,17 +306,17 @@ export default async function handler(
                                     if (table == 'accomodation' && !_.isEmpty(data) && !account.AccomodationKey) {
                                         emails.roomAssign = true
                                         const status = await createNewAccomodation(data)
-                                        if (status == false) mainResolve(false);
+                                        if (!status) mainResolve(false);
                                         return status
                                     }
                                     if (data === null) {
                                         const status = await deleteData(table)
-                                        if (status == false) mainResolve(false);
+                                        if (!status) mainResolve(false);
                                         return status
                                     }
                                     else if (!_.isEmpty(data)) {
                                         const status = await updateData(data, table);
-                                        if (status == false) mainResolve(false);
+                                        if (!status) mainResolve(false);
                                         return status
                                     }
                                     else return true
@@ -337,11 +338,11 @@ export default async function handler(
                                         return new Promise<undefined | IRoomRaw>(async (resolve) =>{
                                             const query = 
                                             `
-                                            SELECT * FROM room WHERE id = ${id}
-                                            LIMIT 1
+                                            SELECT * FROM room WHERE id = ?
+                                            LIMIT 1;
                                             `
 
-                                            connection.query(query, async (err: any, room: IRoomRaw[]) => {
+                                            connection.query(query, [id], async (err: any, room: IRoomRaw[]) => {
                                                 if (err) {
                                                     console.log("ERROR: ", err);
                                                     rollback(connection);
@@ -356,7 +357,7 @@ export default async function handler(
                                     
                                     let emailStatus = true;
                                     await Promise.all(Object.keys(emails).map(async (key) => {
-                                        if (emails[key as keyof typeof emails] == true) {
+                                        if (emails[key as keyof typeof emails]) {
                                             let props: any;
                                             let template: any;
                                             let replacements: any;
@@ -412,7 +413,7 @@ export default async function handler(
                                                 default:
                                                     break;
                                             }
-                                            if (emailStatus == true) {
+                                            if (emailStatus) {
                                                 await sendMail({...props!, address: account.email!}, (err: string, result: string) => {
                                                     if (err) {
                                                         sendResponse(500, {message: "Failed to send email.", e_code: "admin_update_usr_13"}); 
@@ -423,7 +424,7 @@ export default async function handler(
                                         }
                                     }));
 
-                                    if (emailStatus == true) {
+                                    if (emailStatus) {
                                         connection.commit(function (err) {
                                             if (err) {
                                                 console.log(err)

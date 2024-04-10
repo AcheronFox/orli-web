@@ -14,7 +14,7 @@ const headers = async() => {
           directives: {
             styleSrc: ["'self'", "'unsafe-inline'"],
             objectSrc: ["'self'"],
-            imgSrc: ["'self'", "https://cdnjs.cloudflare.com", "data:", "https://tile.openstreetmap.org"],
+            imgSrc: ["'self'", "https://cdnjs.cloudflare.com", "https://cdn.jsdelivr.net", "data:", "https://tile.openstreetmap.org"],
             baseURI: ["'self'"],
             formAction: ["'self'"],
             frameAncestors: true,
@@ -54,14 +54,18 @@ const nextConfig = {
   webpack: webpack,
   sassOptions: {
     includePaths: ['./styles'],
-    prependData: `@import "~@/styles/_variables.scss"; @import "~@/styles/_mixins.scss";`,
+    prependData: `
+      @import "~@/styles/abstracts/_variables.scss";
+      @import "~@/styles/abstracts/_mixins.scss";
+      @import "~@/styles/abstracts/_animations.scss";
+    `,
   },
   env: {
     DOMAIN_ROOT: process.env.DOMAIN_ROOT,
     API_SECRET: process.env.API_SECRET,
     TEMP_LOGIN_STATE: process.env.TEMP_LOGIN_STATE
   },
-  experimental: { transpilePackages: ['ol', 'rlayers'] },
+  transpilePackages: ['ol', 'rlayers']
 }
 
 module.exports = nextConfig;

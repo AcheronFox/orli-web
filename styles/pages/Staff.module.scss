@@ -1,84 +1,90 @@
 .Staff {
-    min-height: 100vh;
-    position: relative;
-    color: $white;
-    padding: 7rem 10rem;
-    width: 65%;
-    margin: auto;
+    @include DefaultLayout;
 
-    @include respond(small-desktop) {
-        padding: 4rem 10rem;
-        width: 70%;
-    }
-    
-    @include respond(tiny-desktop) {
-        padding: 3rem 3rem;
-        width: 90%;
-    }
-    
-    @include respond(phone) {
-        padding: 5rem 2rem;
-        width: 100%;
-    }
-    
-    @include respond(small-phone) {
-        padding: 5rem 1rem;
+    &__Background {
+        @include DefaultBackground;
     }
 
-    @include respond(big-desktop) {
-        padding: 10rem 10rem;
+    display: flex;
+    flex-direction: column;
+
+    & > * {
+        &:not(:nth-child(1)) {
+            margin-top: 5rem;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 5rem;
+        }
     }
 
     &__Title {
-        @include PrimaryTitle;
-        margin-bottom: 3rem;
-        background: rgba($grey-2, .9);
-        border-radius: 2.5rem;
-        box-shadow: 0 1rem 1rem rgba($black, .5);
+        color: $color-primary;
+        font-family: $styled-font-family;
+        font-size: 2rem;
+        padding: 1rem;
+    }
 
-        @include respond(min-phone) {
-            backdrop-filter: blur(.2rem);
+    &__Body {
+        position: relative;
+        height: 100%;
+
+        & > * {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+
+            & > * {
+                flex: 1;
+
+                &:not(:first-child) {
+                    padding-top: 1rem;
+                }
+                &:not(:last-child) {
+                    padding-bottom: 1rem;
+                }
+            }
+        }
+
+        ul {
+            margin-left: 2rem;
         }
     }
 
-    &__Content {
-        margin: 2rem 0;
+    &__Button {
+        height: 100%;
         display: flex;
-        justify-content: space-around;
-        align-items: stretch;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    &__Content {
+        color: $white;
+        margin: 2rem 0;
+        padding: 0 4rem;
         width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
         flex-wrap: wrap;
-
+        
         & > * {
-            flex: 1 1 0;
+            max-width: 20%;
+            width: 20%;
             margin: 1rem;
-            max-width: 30%;
-
-            @include respond(tiny-desktop) {
-                max-width: 50%;
-            }
-            @include respond(small-desktop) {
-                max-width: 40%;
-            }
- 
-            @include respond(big-desktop) {
-                max-width: 20%;
-            }
-            @include respond(4k-desktop) {
-                max-width: 15%;
-            }
         }
- 
-        @include respond(phone) {
+
+        @include respond(small-desktop) {
+            padding: 0 .5rem;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+
             & > * {
-                margin: 0;
-                max-width: 100%;
-                width: 100%;
-                
-                &:not(:last-child) {
-                    margin-bottom: 1rem;
-                }
+                max-width: 75%;
+                width: 75%;
             }
         }
     }

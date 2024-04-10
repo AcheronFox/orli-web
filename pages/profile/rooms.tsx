@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import styles from "@/styles/pages/Rooms.module.scss"
+/*
+  import styles from "@/styles/pages/Rooms.module.scss"
 import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
 import { useUser } from "@/hooks/useUser";
@@ -7,7 +8,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Router from "next/router";
 import LoadingOverlay from "@/comp/LoadingOverlay";
 import { IRoom, IRoomStructure } from "@/models/room.model";
-import axiosInstance from "@/utils/axiosConfig";
+import axiosInstance from "@/functions/utils/axiosConfig";
 import RoomCard from "@/comp/RoomCard";
 import { IAccomodation } from "@/models/accomodation.model";
 import { IOccupant } from "@/models/occupant.model";
@@ -19,11 +20,11 @@ import FursuiterIcon from "@/comp/svg/FursuiterIcon";
 import SponsorIcon from "@/comp/svg/SponsorIcon";
 import LinkButton from "@/comp/LinkButton";
 import { RiTelegramLine, RiQuestionLine } from "react-icons/ri";
-import { useClickOutside } from "@/hooks/useClickOutside";
+import { useClickOutside } from "@/hooks/utils/useClickOutside";
 import Input from "@/comp/Input";
 import { IJoinForm } from "@/models/join-form.model";
 import { ILeaveForm } from "@/models/leave-form.model";
-import createDatePatternFromDate from "@/root/functions/createDatePattern";
+import createDatePatternFromDate from "@/functions/utils/createDatePattern";
 import CustomBackground from "@/comp/CustomBackground";
 const { io } = require("socket.io-client");
 let socket: any;
@@ -431,10 +432,10 @@ const Rooms: NextPage<Props> = (props: Props) => {
                     }
                   </span>
                 </div>
-                { (overlayData.isFursuiter == true || overlayData.sponsorLevel && parseInt(overlayData.sponsorLevel) > 0) &&
+                { (overlayData.isFursuiter || overlayData.sponsorLevel && parseInt(overlayData.sponsorLevel) > 0) &&
                   <div className={styles.Modal__Header__Badges}>
                     {
-                      (overlayData.isFursuiter == true) &&
+                      overlayData.isFursuiter &&
                       <Tippy className={styles.Tooltip} content={t("partSuiter")}>
                           <span>
                               <FursuiterIcon style={{"fill": "#F741D5"}} />
@@ -522,7 +523,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
                       />
                     </span>
                     {
-                      (shouldLock == true) &&
+                      shouldLock &&
                       <span>
                         <Input
                           id={"inp-2"}
@@ -672,3 +673,17 @@ const Rooms: NextPage<Props> = (props: Props) => {
 }
 
 export default Rooms;
+*/
+
+import TempWIP from "@/comp/TempWIP";
+import { NextPage } from "next";
+
+type Props = {}
+
+const Rooms: NextPage<Props> = (props: Props) => {
+
+  return (
+    <TempWIP/>
+  );
+}
+export default Rooms

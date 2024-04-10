@@ -1,191 +1,148 @@
-import CustomHead from "@/comp/CustomHead";
-import LinkButton from "@/comp/LinkButton";
-import LoadingOverlay from "@/comp/LoadingOverlay";
-import PriceCard from "@/comp/PriceCard"
-import Section from "@/comp/Section";
-import { useTranslate } from "@/hooks/useTranslate";
-import { IPrices } from "@/models/prices.model";
+import TextCard from "@/comp/TextCard";
+import CustomHead from "@/comp/utils/CustomHead";
+import LoadingOverlay from "@/comp/utils/LoadingOverlay";
+import axiosInstance from "@/functions/utils/axiosConfig";
+import useTranslate from "@/hooks/translate/useTranslate";
+import { useHTMLString } from "@/hooks/utils/useHTMLString";
+import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";
+import { IAppConfig } from "@/models/app.config.model";
+import { ITicket } from "@/models/locale/ticket.model";
 import styles from "@/styles/pages/Prices.module.scss"
-import axiosInstance from "@/utils/axiosConfig";
 import { NextPage } from "next";
 import { useEffect, useState } from "react";
+import { RiPriceTag3Line } from "react-icons/ri";
+import BarLoader from "react-spinners/BarLoader";
+import variables from "@/styles/abstracts/exports.module.scss"
 
 type Props = {}
 
 const Prices: NextPage<Props> = (props: Props) => {
-    const { t } = useTranslate();
+    const { lang, currLang } = useTranslate();
+    const data: ITicket = useLocaleSwitch(currLang, 'ticket.ts')
+    const [configData, setConfigData] = useState<IAppConfig["ticket"]>()
+    const parse = useHTMLString()
+
+    useEffect(() => {
+        axiosInstance.get<IAppConfig["ticket"]>('/api/v2/defaults/ticket')
+        .then((res) => {
+            setConfigData(res.data)
+        })
+    }, [])
 
     return (
         <>
-            <CustomHead title={t("navPrices")} />
-            <div className={styles.Prices}>
-                <div className={styles.Prices__Title}>
-                    <h1>
-                        {t("navPrices")}
-                    </h1>
-                </div>
-                <div className={styles.Prices__Content}>
-                    <Section>
-                        <span>
-                            {t("priceIntro")}<br />
-                            {t("priceIntro2")}
-                        </span>
-                    </Section>
-                    <Section title={t("pricePack")}>
-                        <div className={styles.Prices__Packages}>
-                            <div className={styles.Prices__Packages__List}>
-                                <PriceCard
-                                    title={t("ticket0Title")}
-                                    description={
-                                    <span>
-                                        {t("ticket0Desc")}<br /><br />
-                                        {t("ticket0Inc")}<br />
-                                        <ul>
-                                            <li>{t("ticket0Inc1")}</li>
-                                            <li>{t("ticket0Inc2")}</li>
-                                            <li>{t("ticket0Inc3")}</li>
-                                            <li>{t("ticket0Inc4")}</li>
-                                            <li>{t("ticket0Inc5")}</li>
-                                        </ul>
-                                        <br />
-                                        <b>{t("ticket0Out")}</b>
-                                    </span>
+            <CustomHead title={lang.navPrices} />
+            <LoadingOverlay
+                isLoading={configData == undefined}
+            >
+                <BarLoader
+                    width={"100%"}
+                    color={variables.secondaryColor}
+                />
+            </LoadingOverlay>
+            {
+                (configData != undefined) &&
+                <>
+                    <div className={styles.Prices__Background} />
+                    <div className={styles.Prices}>
+                        <TextCard
+                            title={lang.navPrices}
+                            variant="filled"
+                            shadowEnabled
+                            icon={<RiPriceTag3Line />}
+                            customBodyClass={styles.Prices__Body}
+                            customTitleClass={styles.Prices__Title}
+                        >
+                            {
+                                data?.intro.map((o, i) => {
+                                    if (i+1 >= data.intro.length && !configData.isEarlyBird) return;
+                                    const str = o+'<br/>'
+                                    return parse(str)
+                                })
+                            }
+                        </TextCard>
+                        <TextCard
+                            variant="contained"
+                            shadowEnabled
+                            customBodyClass={styles.Prices__Body}
+                            customTitleClass={styles.Prices__Title}
+                        >
+                            <div className={styles.Prices__Content}>
+                            {
+                                data?.content.map((o, i) => {
+                                return (
+                                    <TextCard
+                                        key={i}
+                                        variant="simple"
+                                        title={o.title}
+                                        customBodyClass={styles.Prices__Body}
+                                        customTitleClass={styles.Prices__Content__Title}
+                                    >
+                                    {
+                                        o.body.map((p) => {
+                                            const str = p+'<br/>'
+                                            return parse(str) 
+                                        })
                                     }
-                                    price={8000}
-                                />
-
-                                <PriceCard
-                                    title={t("ticket1Title")}
-                                    description={
-                                    <span>
-                                        {t("ticket1Desc")}<br /><br />
-                                        {t("ticket1Inc")}<br />
-                                        <ul>
-                                            <li>{t("ticket1Inc1")}</li>
-                                            <li>{t("ticket1Inc2")}</li>
-                                            <li>{t("ticket1Inc3")}</li>
-                                            <li>{t("ticket1Inc4")}</li>
-                                            <li>{t("ticket1Inc5")}</li>
-                                            <li>{t("ticket1Inc6")}</li>
-                                        </ul>
-                                        <br />
-                                        <b>{t("ticket1Out")}</b>
-                                    </span>
+                                    {
+                                        (() => {
+                                            if (!o.priceKey) return null
+                                            const ticketObj = configData.types.find((p) => p.name === o.priceKey)
+                                            
+                                            if (ticketObj) {
+                                                if (configData.isEarlyBird && ticketObj.earlyBirdPrice) {
+                                                    return (
+                                                        <>
+                                                            <b>
+                                                                <s>{ticketObj.price}</s> {ticketObj.earlyBirdPrice} HUF
+                                                            </b>
+                                                            <br/>
+                                                            <br/>
+                                                        </>
+                                                    )
+                                                }
+                                                else return (
+                                                    <>
+                                                        <b>
+                                                            {ticketObj.price} HUF{(ticketObj.name==="SSPONS")? ' <' : ''}
+                                                        </b>
+                                                        <br/>
+                                                        <br/>
+                                                    </>
+                                                )
+                                            }
+                                            else return null
+                                        })()
                                     }
-                                    price={17000}
-                                />
-
-                                <PriceCard
-                                    title={t("ticket2Title")}
-                                    description={
-                                    <span>
-                                        {t("ticket2Desc")}<br /><br />
-                                        {t("ticket2Inc")}<br />
-                                        <ul>
-                                            <li>{t("ticket2Inc1")}</li>
-                                            <li>{t("ticket2Inc2")}</li>
-                                            <li>{t("ticket2Inc3")}</li>
-                                            <li>{t("ticket2Inc4")}</li>
-                                            <li>{t("ticket2Inc5")}</li>
-                                            <li>{t("ticket2Inc6")}</li>
-                                        </ul>
-                                    </span>
-                                    }
-                                    price={55000}
-                                />
+                                    </TextCard>
+                                )
+                                })
+                            }
                             </div>
-                            
-                            <div className={`${styles.Prices__Packages__List} ${styles.Prices__Packages__List_2col}`}>
-                                <PriceCard
-                                    title={t("ticketExtra0")}
-                                    description={
-                                    <span>
-                                        {t("ticketE0Desc")}<br /><br />
-                                        {t("ticketE0Inc")}<br />
-                                        <ul>
-                                            <li>{t("ticketE0Inc1")}</li>
-                                            <li>{t("ticketE0Inc2")}</li>
-                                            <li>{t("ticketE0Inc3")}</li>
-                                            <li>{t("ticketE0Inc4")}</li>
-                                            <li>{t("ticketE0Inc5")}</li>
-                                        </ul>
-                                        <br />
-                                        <b>{t("ticketE0Out")}</b>
-                                    </span>
-                                    }
-                                    price={6500}
-                                />
-
-                                <PriceCard
-                                    title={t("ticketExtra1")}
-                                    description={
-                                    <span>
-                                        {t("ticketE1Desc")}<br /><br />
-                                        {t("ticketE1Inc")}<br />
-                                        <ul>
-                                            <li>{t("ticketE1Inc1")}</li>
-                                            <li>{t("ticketE1Inc2")}</li>
-                                            <li>{t("ticketE1Inc3")}</li>
-                                            <li>{t("ticketE1Inc4")}</li>
-                                            <li>{t("ticketE1Inc5")}</li>
-                                        </ul>
-                                        <br />
-                                        <b>{t("ticketE1Out")}</b>
-                                    </span>
-                                    }
-                                    price={6500}
-                                />
-                            </div>
-                        </div>
-                    </Section>
-                    <Section title={t("priceSupport")} text={
-                            <span>
-                                {t("ticketSponsorText1")}<br />
-                                {t("ticketSponsorText2")}
-                            </span>}>
-                        <div className={styles.Prices__Packages}>
-                            <div className={`${styles.Prices__Packages__List} ${styles.Prices__Packages__List_2col}`}>
-                                <PriceCard
-                                    title={t("ticketSupport1")}
-                                    description={
-                                    <span>
-                                        {t("ticketSupport1Inc")}<br />
-                                        <ul>
-                                            <li>{t("ticketSupport1Inc1")}</li>
-                                            <li>{t("ticketSupport1Inc2")}</li>
-                                            <li>{t("ticketSupport1Inc3")}</li>
-                                        </ul>
-                                    </span>
-                                    }
-                                    price={'5000 - 10000'}
-                                />
-                               <PriceCard
-                                    title={t("ticketSupport2")}
-                                    description={
-                                    <span>
-                                        {t("ticketSupport2Inc")}<br />
-                                        <ul>
-                                            <li>{t("ticketSupport2Inc1")}</li>
-                                            <li>{t("ticketSupport2Inc2")}</li>
-                                            <li>{t("ticketSupport2Inc3")}</li>
-                                        </ul>
-                                    </span>
-                                    }
-                                    price={'10001 <'}
-                                />
-                            </div>
-                        </div>
-                    </Section>
-                    <Section title={t("priceEarly")} text={t("priceEarlyText")} />
-                    <Section>
-                        <span>
-                            {t("priceOutro1")} {<LinkButton isInternal={true} text={t("priceOutro2")} link={"/programs"} />} {t("priceOutro3")}<br /><br />
-                            {t("priceOutro4")}<br />
-                            {t("priceOutro5")}
-                        </span>
-                    </Section>
-                </div>
-            </div>
+                        </TextCard>
+                        <TextCard
+                            variant="filled"
+                            shadowEnabled
+                            customBodyClass={styles.Prices__Body}
+                            customTitleClass={styles.Prices__Title}
+                            floatImage
+                            image={{
+                                sizes: "(max-width: 1400px) 50vw, 20vw",
+                                alt: 'Cocktail sticker',
+                                imgPath: 'stickers/st_cocktail.png'
+                            }}
+                            imagePlacement="right"
+                        >
+                            {
+                                data?.outro.map((o) => {
+                                    const str = o+'<br/>'
+                                    return parse(str)
+                                })
+                            }
+                        </TextCard>
+                    </div>
+                </>
+            }
         </>
     )
 }

@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/utils/mysql'
-import isMethodAllowed from '@/utils/isMethodAllowed';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 import { ITicketCount } from '@/models/ticket-count.model';
 
@@ -11,20 +11,35 @@ const ticketLimitQuery = async () => {
         const query = 
         `
         SELECT
+            COUNT(CASE WHEN ticket.extra1 = '1' THEN 1 END) AS extra1Count,
+            COUNT(CASE WHEN ticket.ticketType = '1' THEN 1 END) AS ticket1Count,
+            COUNT(CASE WHEN ticket.ticketType = '2' THEN 1 END) AS ticket2Count
+        FROM 
+            ticket
+        RIGHT JOIN 
+            account ON ticket.TicketKey = account.TicketKey
+        WHERE 
+            account.isStaff = '0';
+        `
+
+        /*
+        Because I'm not sure if I re-wrote the above query correctly, I will leave the original one here:
+
+        SELECT
             SUM(
-                CASE 
+                CASE
                 WHEN ticket.extra1 = '1' THEN 1
                 ELSE 0
                 END
             ) AS extra1Count,
             SUM(
-                CASE 
+                CASE
                 WHEN ticket.ticketType = '1' THEN 1
                 ELSE 0
                 END
             ) AS ticket1Count,
             SUM(
-                CASE 
+                CASE
                 WHEN ticket.ticketType = '2' THEN 1
                 ELSE 0
                 END
@@ -32,7 +47,8 @@ const ticketLimitQuery = async () => {
         FROM ticket
         RIGHT JOIN account ON ticket.TicketKey = account.TicketKey
         WHERE account.isStaff = "0"
-        `
+
+         */
 
         database.query(query, async (err: any, result: ITicketCount[]) => {
             if (err) {

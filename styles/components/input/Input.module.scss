@@ -1,0 +1,122 @@
+.Input {
+    font-family: inherit;
+    width: 100%;
+    position: relative;
+    background-color: $grey-0;
+
+    input {
+        height: 100%;
+        outline: 0;
+        border: 0;
+        color: $white;
+        font-size: 1.8rem;
+        padding: .7rem 1rem;
+        width: 100%;
+        background: transparent;
+        flex-grow: 1;
+        flex-basis: 1;
+        border-bottom: .2rem solid $grey-4;
+        transition: border-color .2s;
+
+        &:required, &:invalid { box-shadow:none; }
+    
+        &:focus {
+            border-color: $color-primary;
+        }
+    }
+
+    input {
+        //Reset retarded IOS forced styles
+        appearance: none !important;
+        border-radius: 0;
+    }
+
+    input:placeholder-shown ~ & {
+        &__Label {
+            font-size: 1.8rem;
+            cursor: text;
+            top: .5rem;
+        }
+    }
+
+    input::placeholder {
+        color: transparent;
+    }
+
+    &__Label {
+        position: absolute;
+        top: -1.4rem;
+        margin-left: 1.1rem;
+        padding: 0 1rem;
+        display: block;
+        transition: 0.2s;
+        font-size: 1.5rem;
+        color: $grey-4;
+        background-color: $grey-0;
+        border-radius: .3rem;
+        backface-visibility: hidden;
+    }
+
+    input:focus ~ &, input:focus-visible ~ & {
+        &__Label {
+            position: absolute;
+            top: -1.4rem;
+            display: block;
+            transition: 0.2s;
+            font-size: 1.5rem;
+            color: $color-primary;
+            font-weight: 700;
+            padding: 0 1rem;
+        }
+    }
+
+    &__Wrapper {
+        position: relative;
+        padding: 1.5rem 0 0;
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: stretch;
+    }
+
+    &__Disabled {
+        pointer-events: none;
+        opacity: .9;
+    }
+
+    &__Start, &__End {
+        color: rgba($white, .8);
+        border-bottom: .2rem solid $grey-4;
+        padding: .3rem;
+        min-height: 4rem;
+        background: rgba($grey-2, .4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: border-color .2s;
+        border-color: $grey-4;
+        flex-basis: 0;
+        flex-shrink: 1;
+
+        &__Active {
+            border-color: $color-primary !important;
+        }
+    }
+
+    &__Start {
+        border-top-left-radius: .3rem;
+        border-bottom-left-radius: .3rem;
+        border-left: .2rem solid $grey-4;
+        order: -1;
+    }
+
+    &__End {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+        border-right: .2rem solid $grey-4;
+    }
+
+    &__Error {
+        border-color: $color-red !important;
+    }
+}
