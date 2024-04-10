@@ -61,6 +61,19 @@ const staff: IStaff[] = [
         picture: "staff/tib.jpg"
     },
     {
+        name: "Monti",
+        description: [
+            "Monti, the hooded rat! I work as a fursuit maker and artist in national and international circles.<br/>",
+            `
+            <ul>
+                <li>Graphics solutions, be it stickers or any kind of art.</li>
+            </ul>
+            `,
+        ],
+        link: "https://t.me/Akashi0626",
+        picture: "staff/monti.jpg"
+    },
+    {
         name: "Naya",
         description: [
             "A graphics designer, an art and plant lover kobold. I'm happy to help!<br/>",
@@ -74,19 +87,6 @@ const staff: IStaff[] = [
         ],
         link: "https://t.me/nayasako",
         picture: "staff/naya.jpg"
-    },
-    {
-        name: "Monti",
-        description: [
-            "Monti, the hooded rat! I work as a fursuit maker and artist in national and international circles.<br/>",
-            `
-            <ul>
-                <li>Graphics solutions, be it stickers or any kind of art.</li>
-            </ul>
-            `,
-        ],
-        link: "https://t.me/Akashi0626",
-        picture: "staff/monti.jpg"
     },
     {
         name: "Tunguszka",

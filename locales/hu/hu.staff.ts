@@ -61,6 +61,19 @@ const staff: IStaff[] = [
         picture: "staff/tib.jpg"
     },
     {
+        name: "Monti",
+        description: [
+            "Monti, a csuklyás patkány! Fursuit készítőként és artistként tevékenykedem a hazai és egyaránt külföldikörökben.<br/>",
+            `
+            <ul>
+                <li>Grafikai megoldások, legyen az sticker vagy bármi art.</li>
+            </ul>
+            `,
+        ],
+        link: "https://t.me/Akashi0626",
+        picture: "staff/monti.jpg"
+    },
+    {
         name: "Naya",
         description: [
             "Egy grafikus, művészet és növénykedvelő kobold. Örülök ha segíthetek valamiben!<br/>",
@@ -74,19 +87,6 @@ const staff: IStaff[] = [
         ],
         link: "https://t.me/nayasako",
         picture: "staff/naya.jpg"
-    },
-    {
-        name: "Monti",
-        description: [
-            "Monti, a csuklyás patkány! Fursuit készítőként és artistként tevékenykedem a hazai és egyaránt külföldikörökben.<br/>",
-            `
-            <ul>
-                <li>Grafikai megoldások, legyen az sticker vagy bármi art.</li>
-            </ul>
-            `,
-        ],
-        link: "https://t.me/Akashi0626",
-        picture: "staff/monti.jpg"
     },
     {
         name: "Tunguszka",
