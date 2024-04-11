@@ -183,7 +183,7 @@ const programs: IProgram = {
             title: "Testépítésről őszintén (Metus)",
             body: [
                 `<span>
-                    Szó lesz tényekről, mítoszokról, képzetekről, szerekről és szó lesz a sportokról úgy egészében és az étkezésről. Minemellett számos tényről amit az évek alatt megtapasztaltam, hallottam, mások tanácsoltak, mások átéltek és mindenről ami ahhoz volt szükséges, hogy most itt lehessek és ezt elmondhassam nektek.
+                    Szó lesz tényekről, mítoszokról, képzetekről, szerekről és szó lesz a sportokról úgy egészében és az étkezésről. Mindemellett számos tényről amit az évek alatt megtapasztaltam, hallottam, mások tanácsoltak, mások átéltek és mindenről ami ahhoz volt szükséges, hogy most itt lehessek és ezt elmondhassam nektek.
                 </span>`,
                 "<br/>",
             ]
