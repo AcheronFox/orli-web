@@ -90,7 +90,7 @@ const hu: Language = {
     homeBtnReg: "Regisztrálj!",
     homeBtnGallery: "Galéria",
     homeBtnLocation: "Helyszín",
-    homeNext: "Hova most?",
+    homeNext: "Merre tovább?",
     homeLocation: "Agárd, Magyarország",
     homeTheme: "Téma",
     homeThemeDesc1: "Az idei találkozó témája \"Tiki Fever\". A rendezvény kabalája, a kalandor mosómedve, Dusk egy szerencsétlenség során egy szigetre tévedt, ahol a hely szellemei szállták meg az elméjét és fogságban tartják. Rátok vár a feladat, hogy a helyszínre érve kiszabadítsátok és együtt magatok mögött hagyjátok ezt az elvarázsolt dzsungelt...",
@@ -98,7 +98,7 @@ const hu: Language = {
     homeAbout1: "2024. Június 12-16. Rövid nyári éjszakák, vibráló levegő, sejtelmes fények, zene, ritmus, láz, tánc, tempó, erő, víz, tűz.",
     homeAbout2: "Az \"Örli Försztivál\" Magyarország nyári, többnapos, nemzetközi, furry szubkulturális találkozója, mely minden év júniusában kerül megrendezésre. 2024-ben hatodik alkalommal kel életre az esemény, melynek helyszíne Fejér vármegyében, a Velencei-tó partján lévő település, Gárdony. Az akár 200 főt is befogadó helyszín idén 5 napon keresztül fogadja a furry résztvevőket és biztosít aktív kikapcsolódást mindenki számára.",
     homeText5: "Ismerős már a név? Ha még új számodra, adj neki időt és ismerd meg a találkozót, szabályait. Nézz körül az oldalon!",
-    homeNotif: "Figyelmeztetés",
+    homeNotif: "Regisztráció hamarosan",
     homeNotifText: "A regisztráció pillanatnyilag nem elérhető. Dolgozunk rajta!<br/>Köszönjük a türelmet!",
 
     // LOCATION

@@ -134,7 +134,7 @@ const faq: IFAQ = {
     },
 
     accom: {
-        translation: 'Szálláslehetőség',
+        translation: 'Szállás',
         data: [
             {
                 title: "Hogyan tudok szobát foglalni?",
