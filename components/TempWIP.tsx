@@ -23,8 +23,8 @@ const TempWIP: NextPage<Props> = (props: Props) => {
         }
         else {
             return {
-                title: "F.L.M.",
-                subTitle: "Folyamatban Lévő Munka",
+                title: "Hamarosan...",
+                subTitle: "Hamarosan...",
                 desc: "Ez az oldal fejlesztés alatt áll. Várj türelemmel ameddig a fejlesztőink azon dolgoznak, hogy a lehető leghamarabb elkészűljön!",
                 button: "Kezdőlap",
             }
