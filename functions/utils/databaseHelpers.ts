@@ -21,7 +21,8 @@ export async function executeSelectQuery<T>(queryString: string, values: any) : 
                 {
                     resolve(result as T);
                 }
-                reject();
+
+                resolve(undefined);
             }
             reject();
         });
