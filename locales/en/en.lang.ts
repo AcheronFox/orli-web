@@ -187,7 +187,7 @@ const en: Language = {
     regRuleBtn: "Policy.",
     regData1: "I have read, understood and accept the ",
     regDataBtn: "Data Handling policy.",
-    regTelegram: "Your Telegram username",
+    regTelegram: "Telegram",
     regPhone: "Phone number",
     regContactExp: "We ask for this information so we can contact you immediately if necessary. You may read more about how we handle such data under <b>data handling</b>. You do not need to fill out both fields!",
     regAllergy: "Sensitivities, allergies (optional)",

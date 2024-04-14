@@ -18,19 +18,18 @@ const configuration: IAppConfig = {
                 name: "WACC",
                 price: "68 000",
                 earlyBirdPrice: "58 000",
-                limit: 55
+                limit: 88
             },
             {
                 name: "TENT",
                 price: "48 000",
                 earlyBirdPrice: "40 000",
-                limit: 44
+                limit: 80
             },
             {
                 name: "NACC",
                 price: "33 000",
                 earlyBirdPrice: "30 000",
-                limit: 33
             },
             {
                 name: "EARLY",
@@ -47,7 +46,6 @@ const configuration: IAppConfig = {
             {
                 name: "DAILY",
                 price: "22 000",
-                limit: 22
             },
             {
                 name: "SPONS",
