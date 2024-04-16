@@ -18,7 +18,7 @@ const configuration: IAppConfig = {
                 name: "WACC",
                 price: "68 000",
                 earlyBirdPrice: "58 000",
-                limit: 88
+                limit: 94
             },
             {
                 name: "TENT",
