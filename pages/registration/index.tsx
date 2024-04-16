@@ -323,8 +323,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       validateNationality(),
       validatePass(),
       validateConfPass(),
-      validateTelegram(),
-      validatePhone(),
+      telegram? validateTelegram() : validatePhone(),
     )
 
     if (finalCheck.includes(false)) {
@@ -340,7 +339,6 @@ const Registration: NextPage<Props> = (props: Props) => {
       fursonaSpecies: fursonaSpecies,
       email: email,
       dateOfBirth: new Date(utcFormatDOB),
-      age: age,
       nationalityId: nationality as number,
       telegram: 'https://t.me/'+telegram,
       phone: selectedPhoneExt+phone,
@@ -355,7 +353,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     message = undefined;
 
     axiosInstance
-      .post("api/user/reg", formData)
+      .post("api/v2/user/register", formData)
       .then(() => {
         if (getCookie("registrationData")) {
           deleteCookie("registrationData");
@@ -414,7 +412,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       Phone: phone,
       Allergy: allergy,
       OtherPass: otherPass,
-      Storage: storage,
+      Storage: !!storage,
     }
     setCookie("registrationData", JSON.stringify(saveData));
   }
@@ -442,7 +440,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     <>
       <CustomHead title={lang.navReg} />
       <LoadingOverlay
-        isLoading={isLoading}
+        isLoading={true}
         text={`${lang.regWait}`}
       >
         <BarLoader
