@@ -72,3 +72,15 @@ export function getDateObjectInIsoFormat(date: any): string
 {
     return ((date as unknown as Date).toISOString().split('T')[0])
 }
+
+export function getRequestPropertyAsNumber(property: string | string[] | undefined): number | undefined {
+    if (Array.isArray(property) || property === undefined) {
+        return undefined;
+    }
+
+    const numberValue = Number(property);
+    if (isNaN(numberValue)) {
+        return undefined;
+    }
+    return numberValue;
+}
