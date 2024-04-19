@@ -21,9 +21,14 @@ export default async function handler(
         return new Promise(async (resolve) => {
             const query = 
             `
-            SELECT account.nationality, COUNT(account.nationality) as count
-            FROM account WHERE account.isVerified = 1
-            GROUP BY account.nationality;
+            SELECT 
+                attendee.nationalityId,
+                COUNT(attendee.nationalityId) AS count
+            FROM
+                attendee
+            WHERE
+                attendee.verified = TRUE
+            GROUP BY attendee.nationalityId;
             `
 
             database.query(query, async (err: any, result: INationalityCount[]) => {
