@@ -22,13 +22,22 @@ export default async function handler(
         return new Promise(async (resolve) => {
             const query = 
             `
-            SELECT
-            account.nationality,
-            user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter,
-            ticket.sponsorLevel
-            FROM account 
-            INNER JOIN user ON account.AccountKey = user.AccountKey AND account.isVerified = 1
-            LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey AND ticket.isPaid = 1
+            SELECT 
+                attendee.nationalityId,
+                fursona.name,
+                fursona.species,
+                fursona.pathToPictureFile,
+                fursona.hasFursuit,
+                ticket.sponsorLevel
+            FROM
+                attendee
+                    INNER JOIN
+                fursona ON attendee.fursonaId = fursona.id
+                    AND attendee.verified = TRUE
+                    INNER JOIN
+                ticket ON attendee.ticketId = ticket.id
+                    AND ticket.isPaid = TRUE;
+
             `
 
             database.query(query, async (err: any, result: IParticipant[]) => {
