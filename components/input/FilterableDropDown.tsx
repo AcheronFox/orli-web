@@ -25,6 +25,7 @@ type Props = {
   data: any[];
   dataDisplayVal: string | string[];
   dataValue: string;
+  minWidth?: number
 };
 
 const FilterableDropDown: NextPage<Props> = ({
@@ -43,6 +44,7 @@ const FilterableDropDown: NextPage<Props> = ({
   onChange,
   setSelected,
   setValue,
+  minWidth
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [switchFlyOut, setSwitchFlyOut] = useState<boolean>(false);
@@ -172,7 +174,7 @@ const FilterableDropDown: NextPage<Props> = ({
   }
 
   return (
-    <div ref={InputRef} className={styles.Selector}>
+    <div ref={InputRef} style={{minWidth: minWidth}} className={styles.Selector}>
       <div className={styles.Selector__Selection} ref={dropdownAnchor}>
         <span className={styles.Selector__Label}>{label}</span>
         <Button
