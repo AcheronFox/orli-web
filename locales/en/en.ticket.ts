@@ -147,7 +147,7 @@ const ticket: ITicket = {
             priceKey: "LATE"
         },
         {
-            title: "Sponzor",
+            title: "Sponsor",
             body: [
                "The contents of the sponsor package:",
                `
