@@ -5,8 +5,7 @@ export interface IRegistrationForm {
     fursonaSpecies: string;
     email: string;
     dateOfBirth: Date;
-    age: number;
-    nationality: string;
+    nationalityId: number;
     password: string;
     telegram: string;
     phone: string;

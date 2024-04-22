@@ -22,6 +22,8 @@ import variables from "@/styles/abstracts/exports.module.scss"
 import { Tooltip } from 'react-tippy';
 import Checkbox from "@/comp/input/Checkbox";
 import useNotification from "@/hooks/notification/useNotification";
+import { INationality } from "@/models/newDbModels/nationality.model";
+import PhoneCodeSelector from "@/comp/input/PhoneCodeSelector";
 
 const isEmailValid = (email: string) => {
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
@@ -55,10 +57,12 @@ const Registration: NextPage<Props> = (props: Props) => {
   const { lang, currLang } = useTranslate();
   const { addNotification, closeNotification } = useNotification()
 
+  const [nationalities, setNationalities] = useState<INationality[]>([])
+
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [dob, setDoB] = useState<string>("");
-  const [nationality, setNationality] = useState<string>("");
+  const [nationality, setNationality] = useState<number>(0);
   const [email, setEmail] = useState<string>("");
   const [confEmail, setConfEmail] = useState<string>("");
   const [fursonaName, setFursonaName] = useState<string>("");
@@ -70,6 +74,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   const [allergy, setAllergy] = useState<string>("");
   const [otherPass, setOtherPass] = useState<string>("");
   const [storage, setStorage] = useState<boolean>(false);
+  const [selectedPhoneExt, setSelectedPhoneExt] = useState<string>('')
 
   const [fromDate, setFromDate] = useState<Date>();
   const [toDate, setToDate] = useState<Date>();
@@ -115,7 +120,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   }, [])
 
   const getDefaults = async () => {
-    await axiosInstance.get('api/defaults/registration')
+    await axiosInstance.get('api/v2/defaults/registration')
       .then((res) => {
         setServerDate(new Date(res.data.serverDate))
         setFromDate(new Date(res.data.fromDate))
@@ -124,6 +129,10 @@ const Registration: NextPage<Props> = (props: Props) => {
       .catch((err) => {
         return
       })
+    
+    await axiosInstance.get('/api/v2/nationality/get/').then((res) => {
+      setNationalities(res.data)
+    })
   }
 
   // ===============================================
@@ -165,7 +174,7 @@ const Registration: NextPage<Props> = (props: Props) => {
   }, [telegram]);
   useEffect(() => {
     if (errorStates.phone != "") validatePhone()
-  }, [phone]);
+  }, [phone, selectedPhoneExt]);
 
   useEffect(() => {
     errorStates.firstName && validateFirstName()
@@ -225,7 +234,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     return updateState(!dobState, "dob", lang.regDateError)
   }
   const validateNationality = () => {
-    return updateState(nationality.trim() == "", "nationality", lang.regNationalityError)
+    return updateState(!nationality, "nationality", lang.regNationalityError)
   }
   const validatePass = () => {
     return updateState(!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password), "password", lang.regPassError)
@@ -237,7 +246,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     return updateState(telegram.trim() == "", "telegram", lang.regContactErr)
   }
   const validatePhone = () => {
-    return updateState(phone.trim() == "", "phone", lang.regContactErr)
+    return updateState((phone.trim() == "" || selectedPhoneExt.trim() == ""), "phone", lang.regContactErr)
   }
 
   const validateAge = (state: boolean, strict = false) => {
@@ -314,8 +323,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       validateNationality(),
       validatePass(),
       validateConfPass(),
-      validateTelegram(),
-      validatePhone(),
+      telegram? validateTelegram() : validatePhone(),
     )
 
     if (finalCheck.includes(false)) {
@@ -331,8 +339,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       fursonaSpecies: fursonaSpecies,
       email: email,
       dateOfBirth: new Date(utcFormatDOB),
-      age: age,
-      nationality: nationality,
+      nationalityId: nationality as number,
       telegram: 'https://t.me/'+telegram,
       phone: ``+phone,
       allergy: allergy,
@@ -346,7 +353,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     message = undefined;
 
     axiosInstance
-      .post("api/user/reg", formData)
+      .post("api/v2/user/register", formData)
       .then(() => {
         if (getCookie("registrationData")) {
           deleteCookie("registrationData");
@@ -400,12 +407,12 @@ const Registration: NextPage<Props> = (props: Props) => {
       FursonaSpecies: fursonaSpecies,
       Email: email,
       DoB: dob,
-      Nationality: nationality,
+      Nationality: nationality?.toString() || '',
       Telegram: telegram,
       Phone: phone,
       Allergy: allergy,
       OtherPass: otherPass,
-      Storage: storage,
+      Storage: !!storage,
     }
     setCookie("registrationData", JSON.stringify(saveData));
   }
@@ -433,7 +440,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     <>
       <CustomHead title={lang.navReg} />
       <LoadingOverlay
-        isLoading={isLoading}
+        isLoading={true}
         text={`${lang.regWait}`}
       >
         <BarLoader
@@ -497,8 +504,9 @@ const Registration: NextPage<Props> = (props: Props) => {
             <span>
               <NationalitySelector
                 label={`${lang.regNationality}: `}
-                onChange={setNationality}
+                onChange={(e) => setNationality(e)}
                 value={nationality}
+                nationalityList={nationalities}
                 onBlur={() => validateNationality()}
               ></NationalitySelector>
               <p className={styles.Registration__Error__Text}>{errorStates.nationality}</p>

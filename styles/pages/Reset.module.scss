@@ -1,38 +1,12 @@
 .Reset {
-    position: relative;
-    color: $white;
-    min-height: 100vh;
-    height: 100%;
-    padding: 7rem 10rem;
-    width: 45%;
     display: flex;
     flex-direction: column;
-    margin: auto;
 
-    @include respond(small-desktop) {
-        padding: 4rem 10rem;
-        width: 70%;
-    }
-    
-    @include respond(tiny-desktop) {
-        padding: 3rem 3rem;
-        width: 90%;
-    }
-    
-    @include respond(phone) {
-        padding: 5rem 2rem;
-        width: 100%;
-    }
-    
-    @include respond(small-phone) {
-        padding: 5rem 1rem;
-    }
+    @include DefaultLayout;
 
-    @include respond(big-desktop) {
-        padding: 10rem 10rem;
+    &__Background {
+        @include DefaultBackground;
     }
-
-    @include center;
 
     &__Button {
         display: flex;
@@ -42,11 +16,8 @@
     }
 
     &__Error {
-        border-color: $default-red;
-        border-image: none;
-
         &__Text {
-            color: $default-red;
+            color: $color-red;
             font-size: calc($default-font-size / 1.2);
         }
     }
@@ -56,9 +27,6 @@
         justify-content: space-between;
         align-items: stretch;
         flex-direction: column;
-
-        border-radius: 1.5rem;
-        background-color: rgba($grey-1, .9);
 
         & > * {
             width: 100%;
