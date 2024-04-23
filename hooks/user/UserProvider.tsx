@@ -5,13 +5,14 @@ import { getCookie } from 'cookies-next';
 import { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { UserContext } from './UserContext';
+import { IAttendeeFullData } from '@/models/newDbModels/attendeeFullData.model';
 
 type Props = {
     children?: React.ReactNode;
 };
 
 const UserProvider: NextPage<Props> = ({ children }: Props) => {
-    const [user, setLocalUser] = useState<IUser | null>(null)
+    const [user, setLocalUser] = useState<IAttendeeFullData | null>(null)
     const [didUserInit, setDidUserInit] = useState<boolean>(false)
     let didInit = false
 
@@ -21,7 +22,7 @@ const UserProvider: NextPage<Props> = ({ children }: Props) => {
         getInitial();
     }, [])
 
-    const addUser = (val: IUser) => {
+    const addUser = (val: IAttendeeFullData) => {
         setLocalUser(val);
         setDidUserInit(true)
     };
@@ -32,7 +33,7 @@ const UserProvider: NextPage<Props> = ({ children }: Props) => {
     };
 
     const getUser = () => {
-        axiosInstance.get<IUser>("api/user/me")
+        axiosInstance.get<IAttendeeFullData>("api/user/me")
         .then((res) => {
             addUser(res.data)
         })
@@ -54,7 +55,7 @@ const UserProvider: NextPage<Props> = ({ children }: Props) => {
         <UserContext.Provider value={{
             user,
             didUserInit,
-            setUser: (v: IUser | null) => {
+            setUser: (v: IAttendeeFullData | null) => {
                 setLocalUser(v)
             },
             setDidUserInit: (v: boolean) => {

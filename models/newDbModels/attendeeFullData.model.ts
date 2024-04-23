@@ -8,9 +8,9 @@ import { ITicket } from "@/models/newDbModels/ticket.model";
 
 export interface IAttendeeFullData {
     attendee: Omit<IAttendee, 'password'>,
+    fursona: IFursona,
+    nationality: INationality,
     accomodation?: IAccomodation,
-    fursona?: IFursona,
-    nationality?: INationality,
     room?: IRoom,
     ticket?: ITicket,
     dailyTicket?: IDailyTicket

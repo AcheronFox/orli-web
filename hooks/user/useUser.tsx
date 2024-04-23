@@ -1,4 +1,3 @@
-import { IUser } from '@/models/user.model';
 import axiosInstance from '@/functions/utils/axiosConfig';
 import { useContext } from 'react';
 import { UserContext } from './UserContext';
@@ -9,6 +8,7 @@ import { IUpdateForm } from '@/models/update.model';
 import { IResetForm } from '@/models/reset-form.model';
 import { IResetAuthForm } from '@/models/reset-auth-form.model';
 import useNotification from '../notification/useNotification';
+import { IAttendeeFullData } from '@/models/newDbModels/attendeeFullData.model';
 
 export const useUser = () => {
     const { user, setUser, didUserInit, setDidUserInit } = useContext(UserContext);
@@ -16,7 +16,7 @@ export const useUser = () => {
     const { addNotification } = useNotification()
     const router = useRouter();
     
-    const addUser = (val: IUser) => {
+    const addUser = (val: IAttendeeFullData) => {
         setUser(val);
         setDidUserInit(true);
     };
@@ -27,7 +27,7 @@ export const useUser = () => {
     };
 
     const getUser = () => {
-        axiosInstance.get<IUser>("api/user/me")
+        axiosInstance.get<IAttendeeFullData>("api/user/me")
         .then((res) => {
             addUser(res.data)
         })

@@ -1,7 +1,6 @@
 const hu: Language = {
     // ERRORS
-    errLoginPass: "Kérlek ellenőrízd hogy jól írtad be a jelszót.",
-    errLoginNotFound: "Nincs fiók a megadott e-mail cím alatt.",
+    errLoginPass: "Kérlek ellenőrízd hogy jól írtad be az adatokat.",
     errLoginUnverified: "A regisztrációd ellenőrzése még folyamatban van. Az értesítésig türelmed kérjük!",
     errResetNotFound: "Ez az e-mail cím nincs regisztrálva",
     errResetToken: "Érvénytelen token",

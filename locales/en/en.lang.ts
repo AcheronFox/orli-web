@@ -1,7 +1,6 @@
 const en: Language = {
     // ERRORS
-    errLoginPass: "Please check if the given password is correct.",
-    errLoginNotFound: "There is no account under that e-mail address.",
+    errLoginPass: "Please check if the given credentials are correct.",
     errLoginUnverified: "Your registration is currently being verified. Please wait until further notice!",
     errResetNotFound: "There is no account under that e-mail address.",
     errResetToken: "Invalid token",

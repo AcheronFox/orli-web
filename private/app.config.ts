@@ -35,13 +35,13 @@ const configuration: IAppConfig = {
                 name: "EARLY",
                 price: "7 000",
                 earlyBirdPrice: "6 000",
-                limit: 22
+                limit: 94
             },
             {
                 name: "LATE",
                 price: "8 000",
                 earlyBirdPrice: "7 000",
-                limit: 22
+                limit: 40
             },
             {
                 name: "DAILY",

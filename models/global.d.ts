@@ -1,7 +1,6 @@
 declare interface Language {
     // ERRORS
     errLoginPass: string;
-    errLoginNotFound: string;
     errLoginUnverified: string;
     errResetNotFound: string;
     errResetToken: string;

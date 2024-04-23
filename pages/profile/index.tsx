@@ -1,32 +1,35 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
-/*
-  import styles from "@/styles/pages/Profile.module.scss"
-import { useTranslate } from "@/hooks/useTranslate";
+import styles from "@/styles/pages/Profile.module.scss"
 import { NextPage } from "next";
-import { useUser } from "@/hooks/useUser";
-import SecondaryButton from "@/comp/SecondaryButton";
-import Tippy from "@tippyjs/react";
 import FursuiterIcon from "@/comp/svg/FursuiterIcon";
 import SponsorIcon from "@/comp/svg/SponsorIcon";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ReactCrop, { centerCrop, Crop, makeAspectCrop } from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
 import Router from "next/router";
-import axiosInstance from "@/utils/axiosConfig";
 import { AxiosProgressEvent } from "axios";
 import ProgressBar from "@ramonak/react-progress-bar";
-import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
-import Input from "@/comp/Input";
-import PrimaryButton from "@/comp/PrimaryButton";
 import { IUpdateForm } from "@/models/update.model";
-import getNationality from "functions/getNationality";
-import LoadingOverlay from "@/comp/LoadingOverlay";
 import crypto from "crypto";
-import CustomHead from "@/comp/CustomHead";
 import { IRoom } from "@/models/room.model";
-import CustomBackground from "@/comp/CustomBackground";
-import createDatePatternFromDate from "@/root/functions/createDatePattern";
+import useTranslate from "@/hooks/translate/useTranslate";
+import { useUser } from "@/hooks/user/useUser";
+import useNotification from "@/hooks/notification/useNotification";
+import axiosInstance from "@/functions/utils/axiosConfig";
+import CustomHead from "@/comp/utils/CustomHead";
+import LoadingOverlay from "@/comp/utils/LoadingOverlay";
+import { BarLoader } from "react-spinners";
+import variables from "@/styles/abstracts/exports.module.scss"
+import createDatePatternFromDate from "@/functions/utils/createDatePattern";
+import Button from "@/comp/button/Button";
+import ButtonGroup from "@/comp/button/ButtonGroup";
+import { Tooltip } from "react-tippy";
+import Input from "@/comp/input/Input";
+import Checkbox from "@/comp/input/Checkbox";
+import Picture from "@/comp/utils/Picture";
+import PhoneCodeSelector from "@/comp/input/PhoneCodeSelector";
+import { RiQuestionLine } from "react-icons/ri";
 
 type Props = {}
 const imageMimeType = /image\/(png|jpg|jpeg|webp)/i;
@@ -45,9 +48,9 @@ const isLongerThanSix = (str: string) => {
 };
 
 const Profile: NextPage<Props> = (props: Props) => {
-  const { t, locale } = useTranslate();
+  const { lang, currLang } = useTranslate();
   const { user, didUserInit, getUser, updateUser } = useUser();
-  const { AddFloatingMessage } = useContext(FloatingMessageContext);
+  const { addNotification } = useNotification()
   
   const [uploadProgress, setUploadProgress] = useState<number>()
   const [image, setImage] = useState<any>()
@@ -60,29 +63,31 @@ const Profile: NextPage<Props> = (props: Props) => {
     width: 50,
     height: 50,
   })
+  const fileInputRef = useRef<any>()
   const [isChanged, setIsChanged] = useState<boolean>(false)
   const [userRoom, setUserRoom] = useState<IRoom>()
   const [password, setPassword] = useState<string>("");
-  const [contact, setContact] = useState<string>("");
   const [fursonaName, setFursonaName] = useState<string>("");
   const [species, setSpecies] = useState<string>("");
   const [isFursuiter, setIsFursuiter] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [uploadLimit, setUploadLimit] = useState<Date>()
+  const [telegram, setTelegram] = useState<string>("");
   const [errorStates, setErrorStates] = useState<any>({
     password: '',
-    contact: '',
     fursonaName: '',
-    species: ''
+    species: '',
+    telegram: '',
+    phone: '',
   });
 
   useEffect(() => {
     if (user) {
-      setIsFursuiter(user.isFursuiter)
-      setContact(user.contact)
-      setFursonaName(user.fursonaName)
-      setSpecies(user.fursonaSpecies)
+      setIsFursuiter(user.fursona.hasFursuit)
+      setTelegram(user.attendee.telegram?.replace("https://t.me/", "") || "")
+      setFursonaName(user.fursona.name)
+      setSpecies(user.fursona.species)
       setIsLoading(false)
     }
   }, [user])
@@ -110,9 +115,9 @@ const Profile: NextPage<Props> = (props: Props) => {
     .finally(() => setIsLoading(false))
   }
   const getUploadLimit = async () => {
-    await axiosInstance.get("api/defaults/profile/upload")
+    await axiosInstance.get("api/v2/defaults/profile")
     .then((res) => {
-      setUploadLimit(new Date(res.data.toDate))
+      setUploadLimit(new Date(res.data.uploadToDate))
     })
     .catch(() => {
       setUserRoom(undefined)
@@ -127,20 +132,20 @@ const Profile: NextPage<Props> = (props: Props) => {
     if (errorStates.password != "") validatePass()
   }, [password]);
   useEffect(() => {
-    if (errorStates.contact != "") validateContact()
-  }, [contact]);
-  useEffect(() => {
     if (errorStates.fursonaName != "") validateFursonaName()
   }, [fursonaName]);
   useEffect(() => {
     if (errorStates.species != "") validateSpecies()
   }, [species]);
   useEffect(() => {
+    if (errorStates.telegram != "") validateTelegram()
+  }, [telegram]);
+  useEffect(() => {
     errorStates.password && validatePass()
-    errorStates.contact && validateContact()
+    errorStates.telegram && validateTelegram()
     errorStates.fursonaName && validateFursonaName()
     errorStates.species && validateSpecies()
-  }, [locale])
+  }, [currLang])
 
   // ===============================================
   // VALIDATORS
@@ -160,16 +165,16 @@ const Profile: NextPage<Props> = (props: Props) => {
       setErrorStates((errorStates: any) => { return { ...errorStates, ["password"]: '' } });
       return true
     }
-    return updateState(!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password), "password", t("regPassError"))
-  }
-  const validateContact = () => {
-    return updateState(contact.trim() == "", "contact", t("regContactErr"))
+    return updateState(!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password), "password", lang.regPassError)
   }
   const validateFursonaName = () => {
-    return updateState(fursonaName.trim() == "", "fursonaName", t("regSonaNameError"))
+    return updateState(fursonaName.trim() == "", "fursonaName", lang.regSonaNameError)
   }
   const validateSpecies = () => {
-    return updateState(species.trim() == "", "species", t("regSonaSpeciesError"))
+    return updateState(species.trim() == "", "species", lang.regSonaSpeciesError)
+  }
+  const validateTelegram = () => {
+    return updateState(telegram.trim() == "", "telegram", lang.regContactErr)
   }
 
   // ===============================================
@@ -179,7 +184,10 @@ const Profile: NextPage<Props> = (props: Props) => {
     if (!e.target.files) return
     const file = e.target.files[0]
     if (!file.type.match(imageMimeType)) {
-      AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("profUnsupportedType")})
+      addNotification({
+        message: lang.profUnsupportedType,
+        type: "error"
+      })
       return;
     }
     setFile(file);
@@ -261,17 +269,15 @@ const Profile: NextPage<Props> = (props: Props) => {
     })
     .catch((err) => {
       if (err.response && err.response.status == 413) {
-        AddFloatingMessage({
-          autocloses: true,
-          type: "Error",
-          message: t("errTooLarge"),
-        });
+        addNotification({
+          message: lang.errFileTooLarge,
+          type: "error"
+        })
       } else {
-        AddFloatingMessage({
-          autocloses: true,
-          type: "Error",
-          message: t("errDefault"),
-        });
+        addNotification({
+          message: lang.errDefault,
+          type: "error"
+        })
       }
     })
     .finally(() => {
@@ -287,11 +293,11 @@ const Profile: NextPage<Props> = (props: Props) => {
   // ===============================================
   const handleButton = async () => {
     const isPassChanged = password.trim() != ""
-    const isContactChanged = user?.contact != contact.trim()
-    const isSuiterChanged = user?.isFursuiter != isFursuiter
-    const isFusronaNameChanged = user?.fursonaName != fursonaName.trim()
-    const isSpeciesChanged = user?.fursonaSpecies != species.trim()
-    if (!isFusronaNameChanged && !isSpeciesChanged && !isSuiterChanged && !isContactChanged && !isPassChanged || isDisabled || !user) {
+    const isTelegramChanged = user?.attendee.telegram != telegram.trim()
+    const isSuiterChanged = user?.fursona.hasFursuit != isFursuiter
+    const isFusronaNameChanged = user?.fursona.name != fursonaName.trim()
+    const isSpeciesChanged = user?.fursona.species != species.trim()
+    if (!isFusronaNameChanged && !isSpeciesChanged && !isSuiterChanged && !isTelegramChanged && !isPassChanged || isDisabled || !user) {
       setIsChanged(false)
       return
     }
@@ -299,7 +305,7 @@ const Profile: NextPage<Props> = (props: Props) => {
     const finalCheck: boolean[] = []
     finalCheck.push(
       isPassChanged? validatePass() : true,
-      isContactChanged? validateContact() : true,
+      isTelegramChanged? validateTelegram() : true,
     )
 
     if (finalCheck.includes(false)) {
@@ -309,7 +315,7 @@ const Profile: NextPage<Props> = (props: Props) => {
     setIsLoading(true)
 
     const form: IUpdateForm = {
-      contact: isContactChanged? contact : undefined,
+      telegram: isTelegramChanged? 'https://t.me/'+telegram : undefined,
       fursonaName: isFusronaNameChanged? fursonaName : undefined,
       fursonaSpecies: isSpeciesChanged? species : undefined,
       isFursuiter: isSuiterChanged? isFursuiter : undefined,
@@ -326,16 +332,19 @@ const Profile: NextPage<Props> = (props: Props) => {
 
   return (
     <>
-    <CustomHead title={t("navProfile")} />
-    <LoadingOverlay isLoading={isLoading}/>
-    <CustomBackground />
+    <CustomHead title={lang.navProfile} />
+    <LoadingOverlay isLoading={isLoading}>
+      <BarLoader
+          color={variables.secondaryColor}
+        />
+    </LoadingOverlay>
     {
       (fileDataURL && uploadLimit) &&
       <div className={styles.ImagePreview}>
         <div className={styles.ImagePreview__Top}>
           <span>
-            {t("profImageUpload")}<br />
-            <b>{`${t("profImageLimit1")} ${createDatePatternFromDate(uploadLimit)} ${t("profImageLimit2")}`}</b>
+            {lang.profImageUpload}<br />
+            <b>{`${lang.profImageLimit1} ${createDatePatternFromDate(uploadLimit)} ${lang.profImageLimit2}`}</b>
           </span>
         </div>
         <div className={styles.ImagePreview__Center}>
@@ -350,216 +359,323 @@ const Profile: NextPage<Props> = (props: Props) => {
             }
           </span>
           <div>
-            <SecondaryButton text={t("profCancel")} type="left" classType={"danger"} onClick={cancelImage}/>
-            <SecondaryButton disabled={(crop && image)? Math.floor((crop.width/100) * image.naturalWidth) <= 0 && Math.floor((crop.height/100) * image.naturalHeight) <= 0 : true} text={t("profConfirm")} classType={"success"} type="right" onClick={uploadImage}/>
+            <ButtonGroup>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={cancelImage}
+              >
+                {lang.profCancel}
+              </Button>
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={uploadImage}
+                disabled={(crop && image)? Math.floor((crop.width/100) * image.naturalWidth) <= 0 && Math.floor((crop.height/100) * image.naturalHeight) <= 0 : true}
+              >
+                {lang.profConfirm}
+              </Button>
+            </ButtonGroup>
           </div>
         </div>
       </div>
     }
+    <div className={styles.Profile__Background} />
     <div className={styles.Profile}>
       {
         user &&
         <div className={styles.Profile__Content}>
           <section className={styles.Profile__Header}>
             <div className={styles.Profile__Header__Picture}>
-              <picture>
-                  <source srcSet={`${user.picture? (`/uploads/${user.picture.split('.')[0]}_x1.${user.picture.split('.')[1]} 1x, /uploads/${user.picture.split('.')[0]}_x2.${user.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                  <img srcSet={`${user.picture? (`/uploads/${user.picture.split('.')[0]}_x1.${user.picture.split('.')[1]} 1x, /uploads/${user.picture.split('.')[0]}_x2.${user.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="User Picture" src="/Default_profile_x2.jpg" loading="lazy" />  
-                  {
-                    uploadProgress &&
-                    <div className={styles.Profile__Header__Picture__Overlay}>
-                      <ProgressBar completed={uploadProgress} bgColor={styles.primaryColor} baseBgColor={styles.grey2} customLabel={uploadProgress == 100? t("profProcessing") : undefined}/>
-                    </div>
-                  }
-              </picture>
+              {
+                (user.fursona.pathToPictureFile)?
+                <Picture
+                  defaultSrc={`/uploads/${user.fursona.pathToPictureFile}`}
+                  sizes="(max-width: 1400px) 100vw, 40vw"
+                  alt="User Image"
+                />
+                :
+                <Picture
+                  defaultSrc="Default_profile.jpg"
+                  sizes="(max-width: 1400px) 100vw, 40vw"
+                  alt="User Image"
+                />
+              }
+              {
+                uploadProgress &&
+                <div className={styles.Profile__Header__Picture__Overlay}>
+                  <ProgressBar completed={uploadProgress} bgColor={styles.primaryColor} baseBgColor={styles.grey2} customLabel={uploadProgress == 100? lang.profProcessing : undefined}/>
+                </div>
+              }
             </div>
             <div className={styles.Profile__Header__Content}>
               <div className={styles.Profile__Header__Top}>
                 <div className={styles.Profile__Header__Title}>
                   <h2>
-                    {user.fursonaName}
+                    {user.fursona.name}
                   </h2>
                   <h3>
-                    {user.fursonaSpecies}
+                    {user.fursona.species}
                   </h3>
                 </div>
-                { (user.isFursuiter || user.sponsorLevel && user.sponsorLevel > 0) &&
+                { (user.fursona.hasFursuit || user.ticket?.sponsorLevel && user.ticket.sponsorLevel != "None") &&
                   <div className={styles.Profile__Header__Badges}>
                     {
-                      user.isFursuiter &&
-                      <Tippy className={styles.Tooltip} content={t("partSuiter")}>
-                          <span>
-                              <FursuiterIcon style={{"fill": "#F741D5"}} />
+                      user.fursona.hasFursuit &&
+                      <Tooltip
+                        html={
+                          <span style={{ fontSize: "1.4rem" }}>
+                            {lang.partSuiter}
                           </span>
-                      </Tippy>
+                        }
+                        arrow
+                        arrowSize="big"
+                        size="big"
+                        inertia
+                        style={{
+                          fontSize: '1.6rem'
+                        }}
+                      >
+                        <span>
+                          <FursuiterIcon style={{fill: variables.primaryColor}} />
+                        </span>
+                      </Tooltip>
                     }
                     {
-                      (user.isPaid == true && user.sponsorLevel && user.sponsorLevel > 0) &&
-                      <Tippy className={styles.Tooltip} content={(user.sponsorLevel==2)? t("ticketSuperSponsor") : t("partSponsor")}>
-                          <span>
-                              <SponsorIcon style={{"fill": "#F741D5"}} />
+                      (user.ticket?.isPaid == true && user.ticket?.sponsorLevel && user.ticket.sponsorLevel != "None") &&
+                      <Tooltip
+                        html={
+                          <span style={{ fontSize: "1.4rem" }}>
+                            {(user.ticket.sponsorLevel=="Super")? lang.ticketSuperSponsor : lang.partSponsor}
                           </span>
-                      </Tippy>
+                        }
+                        arrow
+                        arrowSize="big"
+                        size="big"
+                        inertia
+                        style={{
+                          fontSize: '1.6rem'
+                        }}
+                      >
+                        <span>
+                          <SponsorIcon style={{fill: variables.primaryColor}} />
+                        </span>
+                      </Tooltip>
                     }
                   </div>
                 }
               </div>
               <div className={styles.Profile__Header__Bottom}>
                 <span className={styles.Profile__Header__Bottom__Input}>
-                  <SecondaryButton type="label" text={t("profPicture")} id={"file"}>
-                    <input type="file" id="file" accept="image/jpg, image/jpeg, image/png, image/webp" onChange={(e) => imageChangeHandler(e)}/>
-                  </SecondaryButton>
+                  <Button
+                    variant="outlined"
+                    id={"file"}
+                    type="label"
+                    onClick={() => fileInputRef.current.click()}
+                  >
+                    {lang.profPicture}
+                    <input ref={fileInputRef} type="file" id="file" accept="image/jpg, image/jpeg, image/png, image/webp" onChange={(e) => imageChangeHandler(e)}/>
+                  </Button>
                 </span>
-                <Tippy disabled={!(user.TicketKey != null && user.isPaid)} content={t("profTicketDisabled")}>  
+                <Tooltip
+                  html={
+                    <span style={{ fontSize: "1.4rem" }}>
+                      {lang.profTicketDisabled}
+                    </span>
+                  }
+                  disabled={!(user.ticket != null && user.ticket.isPaid)}
+                  arrow
+                  arrowSize="big"
+                  size="big"
+                  inertia
+                  style={{
+                    fontSize: '1.6rem'
+                  }}
+                >
                   <span className={styles.Profile__Header__Bottom__Input}>
-                    <SecondaryButton disabled={(user.TicketKey != null && user.isPaid)} type="left" text={t("navTickets")} link={"profile/tickets"} />
+                    <Button
+                      variant="contained"
+                      disabled={(user.ticket != null && user.ticket.isPaid)}
+                      type="left"
+                      link={"profile/tickets"}
+                    >
+                      {lang.navTickets}
+                    </Button>
                   </span>
-                </Tippy>
-                <Tippy disabled={((user.TicketKey != null && user.isPaid && user.ticketType === '2'))} content={
-                  user.ticketType !== null? (user.ticketType == '2'? (user.isPaid? '' : t("profTicketNotVerified")) : t("profNotSelectable")) : (user.isPaid? '' : t("profTicketNotVerified"))
-                }>
+                </Tooltip>
+
+                <Tooltip
+                  html={
+                    <span style={{ fontSize: "1.4rem" }}>
+                      {lang.profTicketNotVerified}
+                    </span>
+                  }
+                  disabled={((user.ticket != null && user.ticket.isPaid && user.ticket.type === 'WACC'))}
+                  arrow
+                  arrowSize="big"
+                  size="big"
+                  inertia
+                  style={{
+                    fontSize: '1.6rem'
+                  }}
+                >
                   <span className={styles.Profile__Header__Bottom__Input}>
-                    <SecondaryButton disabled={!((user.TicketKey != null && user.isPaid && user.ticketType === '2'))} type="right" text={t("navRooms")} link={"profile/rooms"} />
+                    <Button
+                      variant="contained"
+                      disabled={!((user.ticket != null && user.ticket.isPaid && user.ticket.type === 'WACC'))}
+                      link={"profile/rooms"}
+                    >
+                      {lang.navRooms}
+                    </Button>  
                   </span>
-                </Tippy>
+                </Tooltip>
               </div>
             </div>
           </section>
           <section className={styles.Profile__Body}>
             <div className={styles.Profile__Body__Left}>
               <h3>
-                {t("profData")}
+                {lang.profData}
               </h3>
               <div className={styles.Profile__Body__Form}>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
-                    label={`${t("regFursonaName")}: `}
-                    placeholder={t("regFursonaName")}
+                    label={lang.regFursonaName}
                     list="autoCompleteOff"
                     autoComplete="disabled"
                     value={fursonaName}
-                    onChange={(e) => {setFursonaName(e.target.value); setIsChanged(true);}}
+                    onChange={(e) => {setFursonaName(e); setIsChanged(true);}}
                     onBlur={() => validateFursonaName()}
-                    inputClass={errorStates.fursonaName && styles.Profile__Body__Error}
-                    maxlength={10}
-                  ></Input>
+                    error={errorStates.fursonaName}
+                    maxLength={10}
+                  />
                   <p className={styles.Profile__Body__Error__Text}>{errorStates.fursonaName}</p>
                 </span>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
-                    label={`${t("regSpecies")}: `}
-                    placeholder={t("regSpecies")}
+                    label={lang.regSpecies}
                     list="autoCompleteOff"
                     autoComplete="disabled"
                     value={species}
-                    onChange={(e) => {setSpecies(e.target.value); setIsChanged(true);}}
+                    onChange={(e) => {setSpecies(e); setIsChanged(true);}}
                     onBlur={() => validateSpecies()}
-                    inputClass={errorStates.species && styles.Profile__Body__Error}
-                    maxlength={10}
-                  ></Input>
+                    error={errorStates.species}
+                    maxLength={10}
+                  />
                   <p className={styles.Profile__Body__Error__Text}>{errorStates.species}</p>
                 </span>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
-                    label={`${t("profPassword")}: `}
-                    placeholder={t("profPassword")}
+                    label={lang.profPassword}
                     type={"password"}
                     list="autoCompleteOff"
                     autoComplete="new-password"
                     value={password}
-                    onChange={(e) => {setPassword(e.target.value); setIsChanged(true);}}
+                    onChange={(e) => {setPassword(e); setIsChanged(true);}}
                     onBlur={() => validatePass()}
-                    inputClass={errorStates.password && styles.Profile__Body__Error}
-                    maxlength={100}
+                    maxLength={100}
+                    error={errorStates.password}
                   ></Input>
                   <p className={styles.Profile__Body__Error__Text}>{errorStates.password}</p>
                 </span>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
-                    label={`${t("regContact")}: `}
-                    placeholder={t("regContact")}
+                    id={"in-7"}
+                    label={lang.regTelegram}
                     type={"text"}
                     list="autoCompleteOff"
                     autoComplete="nope"
-                    value={contact}
-                    onChange={(e) => {setContact(e.target.value); setIsChanged(true);}}
-                    onBlur={() => validateContact()}
-                    inputClass={errorStates.contact && styles.Profile__Body__Error}
-                    maxlength={100}
-                  ></Input>
-                  <p className={styles.Profile__Body__Error__Text}> {errorStates.contact}</p>
+                    value={telegram}
+                    onChange={(e) => setTelegram(e)}
+                    onBlur={() => validateTelegram()}
+                    error={!!errorStates.telegram}
+                    maxLength={100}
+                    startAdornment={
+                      <>
+                        <span
+                          style={{marginLeft: '1rem', whiteSpace: "nowrap"}}
+                        >
+                          https://t.me/
+                        </span>
+                      </>
+                    }
+                  />
                 </span>
                 <span className={styles.Profile__Body__Form__Checkbox}>
-                  <Input
-                    type="checkbox"
-                    checkBoxValue={isFursuiter}
+                  <Checkbox
                     checked={(e) => {setIsFursuiter(e); setIsChanged(true);}}
+                    checkBoxValue={isFursuiter}
                     id="chk-3"
-                    label={t("profSuiter")}
-                  ></Input>
+                    label={lang.profSuiter}
+                  />
                 </span>
                 <div className={styles.Profile__Body__Button}>
-                  <PrimaryButton
+                  <Button
+                    variant="contained"
                     disabled={!isChanged}
-                    text={t("profSave")}
                     onClick={handleButton}
-                  />
+                  >
+                    {lang.profSave}
+                  </Button>
                 </div>
               </div>
             </div>
             <div className={styles.Profile__Body__Right}>
               <h3>
-                {t("profOverview")}
+                {lang.profOverview}
               </h3>
               <div className={styles.Profile__Body__Right__Row}>
-                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regFirstname")}: `}</span>
-                <span>{user.firstName}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${lang.regFirstname}: `}</span>
+                <span>{user.attendee.firstName}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regLastname")}: `}</span>
-                <span>{user.lastName}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${lang.regLastname}: `}</span>
+                <span>{user.attendee.lastName}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regEmail")}: `}</span>
-                <span>{user.email}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${lang.regEmail}: `}</span>
+                <span>{user.attendee.email}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span className={styles.Profile__Body__Right__Row_left}>{`${t("regNationality")}: `}</span>
-                <span>{getNationality(user.nationality, locale)?.name}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${lang.regNationality}: `}</span>
+                <span>{currLang=="en"? user.nationality.countryNameEnglish : user.nationality.countryNameHungarian}</span>
               </div>
               <div className={styles.Profile__Body__Right__Row}>
-                <span className={styles.Profile__Body__Right__Row_left}>{`${t("profPayment")}: `}</span>
+                <span className={styles.Profile__Body__Right__Row_left}>{`${lang.profPayment}: `}</span>
                 {
-                  (user.TicketKey == null) &&
-                  <span style={{color: "red"}}>{t("profNotSelected")}</span>
+                  (user.ticket == undefined) &&
+                  <span style={{color: "red"}}>{lang.profNotSelected}</span>
                 }
                 {
-                  (user.TicketKey != null && user.isPaid == false) &&
-                  <span style={{color: "red"}}>{t("profNotPaid")}</span>
+                  (user.ticket != undefined && user.ticket.isPaid == false) &&
+                  <span style={{color: "red"}}>{lang.profNotPaid}</span>
                 }
                 {
-                  (user.TicketKey != null && user.isPaid == true) &&
-                  <span style={{color: "green"}}>{t("profPaid")}</span>
-                }
-              </div>
-              <div className={styles.Profile__Body__Right__Row}>
-                <span className={styles.Profile__Body__Right__Row_left}>{`${t("profRoom")}: `}</span>
-                {
-                  (!user.AccomodationKey && (user.ticketType !== null && user.ticketType !== '2')) &&
-                  <span style={{textAlign: "right"}}>{t("profNotSelectable")}</span>
-                }
-                {
-                  (!user.AccomodationKey && (user.ticketType === '2' || user.ticketType === null)) &&
-                  <span style={{color: "red"}}>{t("profNotSelected")}</span>
-                }
-                {
-                  (user.AccomodationKey && userRoom) &&
-                  <span style={{textAlign: "right"}}>
-                    <span>{`${userRoom.customName? (`${userRoom.customName} (${userRoom.roomNumber})`) : (`${userRoom.roomNumber}`)}`}</span><br />
-                    <span>{`${userRoom.occupantCount} / ${userRoom.size}`}</span>
-                  </span>
+                  (user.ticket != undefined && user.ticket.isPaid == true) &&
+                  <span style={{color: "green"}}>{lang.profPaid}</span>
                 }
               </div>
+              {
+                (user.ticket !== undefined) &&
+                <div className={styles.Profile__Body__Right__Row}>
+                  <span className={styles.Profile__Body__Right__Row_left}>{`${lang.profRoom}: `}</span>
+                  {
+                    (!user.accomodation && (user.ticket !== undefined && user.ticket?.type !== 'WACC')) &&
+                    <span style={{textAlign: "right"}}>{lang.profNotSelectable}</span>
+                  }
+                  {
+                    (!user.accomodation && (user.ticket && user.ticket.type === 'WACC')) &&
+                    <span style={{color: "red"}}>{lang.profNotSelected}</span>
+                  }
+                  {
+                    (user.accomodation && userRoom) &&
+                    <span style={{textAlign: "right"}}>
+                      <span>{`${userRoom.customName? (`${userRoom.customName} (${userRoom.roomNumber})`) : (`${userRoom.roomNumber}`)}`}</span><br />
+                      <span>{`${userRoom.occupantCount} / ${userRoom.size}`}</span>
+                    </span>
+                  }
+                </div>
+              }
             </div>
           </section>
         </div>
@@ -570,17 +686,3 @@ const Profile: NextPage<Props> = (props: Props) => {
 }
 
 export default Profile;
-*/
-
-import TempWIP from "@/comp/TempWIP";
-import { NextPage } from "next";
-
-type Props = {}
-
-const Profile: NextPage<Props> = (props: Props) => {
-
-  return (
-    <TempWIP/>
-  );
-}
-export default Profile

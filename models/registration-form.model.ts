@@ -11,7 +11,6 @@ export interface IRegistrationForm {
     phone: string;
     allergy: string;
     otherPass: string;
-    storage: boolean;
 }
 
 export interface IRegistrationDataSave  {
@@ -26,5 +25,4 @@ export interface IRegistrationDataSave  {
     Phone: string;
     Allergy: string;
     OtherPass: string;
-    Storage: boolean;
 }

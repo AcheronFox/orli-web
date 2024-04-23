@@ -73,7 +73,6 @@ const Registration: NextPage<Props> = (props: Props) => {
   const [phone, setPhone] = useState<string>("");
   const [allergy, setAllergy] = useState<string>("");
   const [otherPass, setOtherPass] = useState<string>("");
-  const [storage, setStorage] = useState<boolean>(false);
   const [selectedPhoneExt, setSelectedPhoneExt] = useState<string>('')
 
   const [fromDate, setFromDate] = useState<Date>();
@@ -130,7 +129,7 @@ const Registration: NextPage<Props> = (props: Props) => {
         return
       })
     
-    await axiosInstance.get('/api/v2/nationality/get/').then((res) => {
+    await axiosInstance.get('/api/v2/nationality/').then((res) => {
       setNationalities(res.data)
     })
   }
@@ -340,12 +339,11 @@ const Registration: NextPage<Props> = (props: Props) => {
       email: email,
       dateOfBirth: new Date(utcFormatDOB),
       nationalityId: nationality as number,
-      telegram: 'https://t.me/'+telegram,
-      phone: selectedPhoneExt+phone,
+      telegram: telegram? 'https://t.me/'+telegram : '',
+      phone: phone? selectedPhoneExt+phone : '',
       allergy: allergy,
       password: crypto.createHash("sha256").update(password).digest("hex"),
       otherPass: otherPass,
-      storage: storage,
     };
 
     startTimer();
@@ -412,7 +410,6 @@ const Registration: NextPage<Props> = (props: Props) => {
       Phone: phone,
       Allergy: allergy,
       OtherPass: otherPass,
-      Storage: !!storage,
     }
     setCookie("registrationData", JSON.stringify(saveData));
   }
@@ -440,7 +437,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     <>
       <CustomHead title={lang.navReg} />
       <LoadingOverlay
-        isLoading={true}
+        isLoading={isLoading}
         text={`${lang.regWait}`}
       >
         <BarLoader
@@ -750,15 +747,6 @@ const Registration: NextPage<Props> = (props: Props) => {
                   >
                     {lang.regDataBtn}
                   </Button>
-                </span>
-              }
-            />
-            <Checkbox
-              checked={(e) => setStorage(e)}
-              id="chk-4"
-              label={
-                <span className={styles.Registration__Form__Label}>
-                  {lang.regStorage}
                 </span>
               }
             />

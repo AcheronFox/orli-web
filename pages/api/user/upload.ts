@@ -7,6 +7,8 @@ import sharp from 'sharp';
 import fs from 'fs'
 import uniqueString from 'unique-string';
 import database from '@/functions/utils/mysql';
+import { getAttendeeByAccountKey } from '@/services/attendee/service.attendee.select';
+import { getFursona } from '@/services/fursona/service.fursona.select';
 
 export const config = {
     api: {
@@ -39,11 +41,16 @@ export default async function handler(
         })
 
         if (data) {
-            const user = await getUserByAccountKey(tokenPayload.accountKey)
+            const attendee = await getAttendeeByAccountKey(tokenPayload.accountKey)
+            if (!attendee) {
+                sendResponse(404, {message: "User not Found", e_code: "upload_4"}); 
+                return
+            }
+            const fursona = await getFursona(attendee?.fursonaId)
 
-            if (user) {
-                let name = user.fursonaName
-                const picture = user.picture
+            if (fursona) {
+                let name = fursona.name
+                const picture = fursona.pathToPictureFile
 
                 const cropData = JSON.parse(data.fields.crop)
                 const { file } = data.files
@@ -55,19 +62,16 @@ export default async function handler(
                 const croppedBuffer = await sharp(fileBuffer).extract({ width: Math.floor(cropData.width), height: Math.floor(cropData.height), left: Math.floor(cropData.x), top: Math.floor(cropData.y) }).toBuffer()
 
                 let maxSizeBuffer: Buffer;
-                let minSizeBuffer: Buffer;
                 let thumbBuffer: Buffer;
                 let extension = 'jpg'
 
                 if (file.mimetype == 'image/png') {
                     maxSizeBuffer = await sharp(croppedBuffer).resize({width: 600, height: 600}).toBuffer()
-                    minSizeBuffer = await sharp(maxSizeBuffer).resize({width: 300, height: 300}).toBuffer()
                     thumbBuffer = await sharp(maxSizeBuffer).resize({width: 100, height: 100}).toBuffer()    
                     extension = 'png'
                 }
                 else {
                     maxSizeBuffer = await sharp(croppedBuffer).flatten({ background: '#ffffff' }).resize({width: 600, height: 600}).toFormat('jpg').jpeg({quality: 70,chromaSubsampling: '4:4:4',force: true,}).toBuffer()
-                    minSizeBuffer = await sharp(maxSizeBuffer).flatten({ background: '#ffffff' }).resize({width: 300, height: 300}).toFormat('jpg').jpeg({quality: 70,chromaSubsampling: '4:4:4',force: true,}).toBuffer()
                     thumbBuffer = await sharp(maxSizeBuffer).flatten({ background: '#ffffff' }).resize({width: 100, height: 100}).toFormat('jpg').jpeg({quality: 70,chromaSubsampling: '4:4:4',force: true,}).toBuffer()    
                 }
 
@@ -87,8 +91,7 @@ export default async function handler(
                     fs.mkdirSync(folderPath);
                 }
                 
-                fs.writeFileSync(`public/uploads/${filePath}_x2.${extension}`, maxSizeBuffer)
-                fs.writeFileSync(`public/uploads/${filePath}_x1.${extension}`, minSizeBuffer)
+                fs.writeFileSync(`public/uploads/${filePath}.${extension}`, maxSizeBuffer)
                 fs.writeFileSync(`public/uploads/${filePath}_thumb.${extension}`, thumbBuffer)
 
                 filePath = `${filePath}.${extension}`
@@ -96,7 +99,7 @@ export default async function handler(
                     return new Promise(async (resolve) => {
                         const query = 
                         `
-                        UPDATE user SET picture = ?
+                        UPDATE fursona SET picture = ?
                         WHERE AccountKey = ?;
                         `
         

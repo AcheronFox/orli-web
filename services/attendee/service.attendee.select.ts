@@ -77,6 +77,16 @@ export async function getAttendeeByNationality(nationality: INationality, from: 
 export async function getAttendeeFullData(attendeeId: number): Promise<IAttendeeFullData | undefined>
 {
     const attendee = await getAttendeeById(attendeeId) as Omit<IAttendee, 'password'>;
+    return getAttendeeData(attendee);
+}
+
+export async function getAttendeeFullDataByAccountKey(AccountKey: string): Promise<IAttendeeFullData | undefined>
+{
+    const attendee = await getAttendeeByAccountKey(AccountKey) as Omit<IAttendee, 'password'>;
+    return getAttendeeData(attendee);
+}
+
+const getAttendeeData = async (attendee: Omit<IAttendee, "password">) => {
     const fursona = await getFursona(attendee.fursonaId);
     const nationality = attendee.nationalityId ? await getNationality(attendee.nationalityId) : undefined;
     const accomodation = attendee.accomodationId ? await getAccomodationById(attendee.accomodationId) : undefined;
@@ -86,13 +96,12 @@ export async function getAttendeeFullData(attendeeId: number): Promise<IAttendee
 
     let fullData: IAttendeeFullData = {
         attendee: attendee,
-        fursona: fursona,
-        nationality: nationality,
+        fursona: fursona!,
+        nationality: nationality!,
         accomodation: accomodation,
         room: room,
         ticket: ticket,
         dailyTicket: dailyTicket
     };
-
-    return fullData;
+    return fullData
 }

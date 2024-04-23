@@ -62,15 +62,16 @@ export async function createAttendeeFromForm(form: IRegistrationForm): Promise<I
                         lastName: form.lastName,
                         email: form.email,
                         password: passwordHash,
+                        nationalityId: form.nationalityId,
                         dateOfBirth: toSqlDatetime(form.dateOfBirth),
                         phone: form.phone,
                         telegram: form.telegram,
                         allergy: form.allergy,
                         fursonaId: fursonaId,
-                        storage: form.storage,
                         verified: false,
                         admin: false,
                         staff: false,
+                        storage: false,
                     };
                     const attendeeQuery = `INSERT INTO ${TABLE} SET ?;`;
 
