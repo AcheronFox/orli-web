@@ -21,6 +21,10 @@ export default async function handler(
     const tokenPayload = await verifyToken(req, res);
 
     const sendResponse = (code: number, data: Object | String = '') => {
+        if (code == 204) {
+            res.status(code).send('')
+            return;
+        }
         res.status(code).json(data);
     }
 
@@ -101,5 +105,5 @@ export default async function handler(
 
         sendResponse(200, finalData);
     }
-    else sendResponse(404, {message: "Not Found", e_code: "u_room_5"});
+    else sendResponse(204);
 }

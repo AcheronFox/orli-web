@@ -390,7 +390,7 @@ const Profile: NextPage<Props> = (props: Props) => {
               {
                 (user.fursona.pathToPictureFile)?
                 <Picture
-                  defaultSrc={`/uploads/${user.fursona.pathToPictureFile}`}
+                  defaultSrc={`uploads/${user.fursona.pathToPictureFile}`}
                   sizes="(max-width: 1400px) 100vw, 40vw"
                   alt="User Image"
                 />

@@ -53,7 +53,9 @@ export default async function handler(
                 const picture = fursona.pathToPictureFile
 
                 const cropData = JSON.parse(data.fields.crop)
-                const { file } = data.files
+                let { file } = data.files
+                file = file[0]
+
                 if (!file.mimetype.match(imageMimeType)) {
                     return sendResponse(400, {message: "File type not supported", e_code: "upload_1"}); 
                 }
