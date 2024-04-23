@@ -96,8 +96,17 @@ export default async function handler(
                     return new Promise(async (resolve) => {
                         const query = 
                         `
-                        UPDATE user SET picture = ?
-                        WHERE AccountKey = ?;
+                        UPDATE fursona 
+                        SET 
+                            pathToPictureFile = ?
+                        WHERE
+                            id IN (SELECT 
+                                    fursonaId
+                                FROM
+                                    attendee
+                                WHERE
+                                    accountKey = ?);
+
                         `
         
                         database.query(query, [filePath, tokenPayload.accountKey], async (err: any, result: any) => {

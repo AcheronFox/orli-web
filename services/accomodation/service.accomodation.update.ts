@@ -59,7 +59,6 @@ export async function enterRoom(accomodation: IAccomodation, roomId: number): Pr
     const query = `UPDATE ${TABLE} SET roomId = ? WHERE id = ?;`;
 
     return await executeUpdateQuery(query, [roomId, accomodation.id]);
-
 }
 
 async function resolveAdminReassign(occupants: IAccomodation[])
