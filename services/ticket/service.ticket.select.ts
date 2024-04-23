@@ -25,6 +25,13 @@ const enum SponsorLevel {
     Super = "Super"
 }
 
+export async function getTicketById(id: number): Promise<ITicket | undefined>
+{
+    const query = `SELECT * FROM ${TABLE} WHERE id = ?;`;
+
+    return await executeSelectQuery<ITicket>(query, [id]);
+}
+
 export async function getAllTickets(from: number = 0,
                                     limit: number = MAX_NUM_OF_TICKETS) : Promise<ITicket[] | undefined>
 {

@@ -14,11 +14,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const requestId = getRequestPropertyAsNumber(req.query.id);
 
             if (requestId === undefined)
-                return res.status(400).json({message: "Invalid request", e_code: "nat_01"});
+                return res.status(400).json({ message: "Invalid request", e_code: "nat_01" });
 
             const nationality = await getNationality(requestId);
             if (nationality === undefined)
-                return res.status(404).json({message: "Item not found", e_code: "nat_02"});
+                return res.status(404).json({ message: "Item not found", e_code: "nat_02" });
 
             return res.status(200).json(nationality);
         } else {
@@ -28,11 +28,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const nationalities = await getNationalities(from, limit);
 
             if (nationalities === undefined)
-                return res.status(404).json({message: "Item not found", e_code: "nat_03"});
+                return res.status(404).json({ message: "Item not found", e_code: "nat_03" });
 
             return res.status(200).json(nationalities);
         }
     } catch (e) {
-        return res.status(500).send({message: "Internal server error.", e_code: "nat_04"});
+        return res.status(500).send({ message: "Internal server error.", e_code: "nat_04" });
     }
 }

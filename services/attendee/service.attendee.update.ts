@@ -117,3 +117,21 @@ export async function changeAttendeePasswordResetTokenId(arg1: IAttendee | numbe
 
     return result >= 1;
 }
+
+export async function changeAttendeeAccomodationId(attendee: IAttendee, accomodationId: number) : Promise<boolean>;
+export async function changeAttendeeAccomodationId(attendeeId: number, accomodationId: number) : Promise<boolean>;
+export async function changeAttendeeAccomodationId(arg1: IAttendee | number, accomodationId: number) : Promise<boolean>
+{
+    const query: string = `UPDATE ${TABLE} SET accomodationId = ? WHERE id = ?;`;
+    const id: number | undefined = typeof arg1 == 'number' ? arg1 : arg1.id;
+
+    if (id == undefined)
+    {
+        console.error("ID cannot be undefined!");
+        return false;   
+    }
+
+    const result: number = await executeUpdateQuery(query, [accomodationId, id]);
+
+    return result >= 1;
+}
