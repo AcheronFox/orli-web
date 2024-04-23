@@ -11,14 +11,18 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    const isAllowed = await isMethodAllowed(req, res, 'GET')
-    if (!isAllowed) return
+    if (!await isMethodAllowed(req, res, 'GET')) {
+        return;
+    }
 
     const tokenPayload = await verifyToken(req, res);
 
     const sendResponse = (code: number, data: Object | String = '') => {
-        res.status(code).json(data)
+        res.status(code).json(data);
     }
+
+    if (!tokenPayload)
+        return;
 
     if (tokenPayload) {
         let response: IOccupantRaw[] = [];
