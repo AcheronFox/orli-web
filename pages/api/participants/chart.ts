@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/functions/utils/mysql'
 import { INationalityCount } from '@/models/nationality-count.model';
@@ -9,11 +8,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    const isAllowed = await isMethodAllowed(req, res, 'GET')
-    if (!isAllowed) return
+    if (!await isMethodAllowed(req, res, 'GET')) {
+        return;
+    }
     
     const sendResponse = (code: number, data: Object | String = '') => {
-        res.status(code).json(data)
+        res.status(code).json(data);
     }
 
     let response: INationalityCount[] = [];
@@ -29,7 +29,7 @@ export default async function handler(
             WHERE
                 attendee.verified = TRUE
             GROUP BY attendee.nationalityId;
-            `
+            `;
 
             database.query(query, async (err: any, result: INationalityCount[]) => {
                 if (err) {
@@ -37,7 +37,7 @@ export default async function handler(
                     sendResponse(500, {message: "Unknown Error", e_code: "chart_1"}); 
                     resolve(false);
                 }
-                response = result
+                response = result;
                 resolve(true);
             });
         }).catch(() => {

@@ -24,3 +24,10 @@ export async function getRoomBasedOnType(roomType: RoomType): Promise<IRoom[] | 
 
     return await executeSelectQuery<IRoom[]>(query, [roomType]);
 }
+
+export async function getRoomById(roomId: number): Promise<IRoom | undefined>
+{
+    const query = `SELECT * FROM ${TABLE} WHERE id = ?;`;
+
+    return await executeSelectQuery<IRoom>(query, [roomId]);
+}
