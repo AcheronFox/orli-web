@@ -1,10 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FloatingMessageContext } from "@/hooks/FloatingMessageContext"
-import Input from "@/comp/Input"
 import crypto from "crypto";
 import styles from "@/styles/pages/Login.module.scss"
 import { NextPage } from "next"
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { ILoginForm } from "@/models/login-form.model";
 import Router from "next/router";
 import useTranslate from "@/hooks/translate/useTranslate";
@@ -15,12 +13,15 @@ import variables from "@/styles/abstracts/exports.module.scss"
 import { useUser } from "@/hooks/user/useUser";
 import Button from "@/comp/button/Button";
 import TextCard from "@/comp/TextCard";
+import useNotification from "@/hooks/notification/useNotification";
+import Input from "@/comp/input/Input";
+import Checkbox from "@/comp/input/Checkbox";
 
 type Props = {}
 
 const Login: NextPage<Props> = (props: Props) => {
   const { lang, currLang } = useTranslate()
-  const { HandleClose, AddFloatingMessage } = useContext(FloatingMessageContext);
+  const { addNotification, closeNotification } = useNotification()
   const { user, didUserInit, login } = useUser()
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
@@ -35,7 +36,7 @@ const Login: NextPage<Props> = (props: Props) => {
 
   let timer: NodeJS.Timeout | undefined = undefined;
   let time = 0;
-  let message: number | undefined = undefined;
+  let message: string | undefined = undefined;
 
   // ===============================================
   // USEEFFECT UPDATES
@@ -91,11 +92,11 @@ const Login: NextPage<Props> = (props: Props) => {
 
   const showOverload = () => {
     clearInterval(timer);
-    message = AddFloatingMessage({"autocloses": false, "closable": false, "type": "Info", "message": lang.warnOverload})
+    message = addNotification({autoClose: false, closable: false, type: "info", message: lang.warnOverload })
   };
   const closeOverload = () => {
     clearInterval(timer);
-    HandleClose(message!)
+    closeNotification(message!)
   };
 
   const handleButton = async () => {
@@ -138,10 +139,11 @@ const Login: NextPage<Props> = (props: Props) => {
           color={variables.secondaryColor}
         />
       </LoadingOverlay>
+      <div className={styles.Login__Background} />
       <div className={styles.Login}>
         <div className={styles.Login__Center}>
           <TextCard
-            variant="filled"
+            variant="contained"
             shadowEnabled
             title={lang.navLogin}
           >
@@ -150,37 +152,34 @@ const Login: NextPage<Props> = (props: Props) => {
                 <Input
                   id={"email"}
                   name={"email"}
-                  label={`${lang.regEmail}: `}
-                  placeholder={lang.regEmail}
+                  label={`${lang.regEmail}`}
                   type={"email"}
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e)}
                   onBlur={() => validateEmail()}
-                  inputClass={errorStates.email && styles.Login__Error}
-                ></Input>
+                  error={errorStates.email}
+                />
                 <p className={styles.Login__Error__Text}>{errorStates.email}</p>
               </span>
               <span>
                 <Input
                   id={"password"}
                   name={"password"}
-                  label={`${lang.regPassword}: `}
-                  placeholder={lang.regPassword}
+                  label={`${lang.regPassword}`}
                   type={"password"}
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e)}
                   onBlur={() => validatePass()}
-                  inputClass={errorStates.password && styles.Login__Error}
+                  error={errorStates.password}
                 ></Input>
                 <p className={styles.Login__Error__Text}>{errorStates.password}</p>
               </span>
               <div className={styles.Login__Form__Row}>
-                <Input
-                  type="checkbox"
+                <Checkbox
                   checked={(e) => setRemember(e)}
                   id="chk-1"
-                  label={<>{lang.loginRemember}</>}
-                ></Input>
+                  label={lang.loginRemember}
+                />
                 <div className={styles.Login__Form__Button}>
                   <Button
                     variant="text"

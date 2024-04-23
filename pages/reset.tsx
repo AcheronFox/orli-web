@@ -1,20 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/*
-    import { FloatingMessageContext } from "@/hooks/FloatingMessageContext"
-import Input from "@/comp/Input"
-import Section from "@/comp/Section"
-import { useTranslate } from "@/hooks/useTranslate"
+
 import styles from "@/styles/pages/Reset.module.scss"
 import { NextPage } from "next"
-import { useContext, useEffect, useState } from "react"
-import PrimaryButton from "@/comp/PrimaryButton";
-import LoadingOverlay from "@/comp/LoadingOverlay";
-import { useUser } from "@/hooks/useUser";
+import { useEffect, useState } from "react"
 import { IResetForm } from "@/models/reset-form.model";
 import { useRouter } from 'next/router';
 import { IResetAuthForm } from "@/models/reset-auth-form.model"
 import crypto from "crypto";
-import CustomHead from "@/comp/CustomHead"
+import useNotification from "@/hooks/notification/useNotification"
+import useTranslate from "@/hooks/translate/useTranslate";
+import { useUser } from "@/hooks/user/useUser";
+import CustomHead from "@/comp/utils/CustomHead";
+import LoadingOverlay from "@/comp/utils/LoadingOverlay";
+import BarLoader from "react-spinners/BarLoader";
+import variables from "@/styles/abstracts/exports.module.scss"
+import TextCard from "@/comp/TextCard";
+import Input from "@/comp/input/Input";
+import Button from "@/comp/button/Button";
 
 type Props = {}
 
@@ -32,8 +34,8 @@ const isLongerThanSix = (str: string) => {
 };
 
 const Reset: NextPage<Props> = (props: Props) => {
-    const { t, locale } = useTranslate()
-    const { HandleClose, AddFloatingMessage } = useContext(FloatingMessageContext);
+    const { lang, currLang } = useTranslate()
+    const { addNotification, closeNotification } = useNotification() 
     const { createPasswordReset, resetPassword } = useUser()
     const router = useRouter()
     const [email, setEmail] = useState<string>('')
@@ -53,7 +55,7 @@ const Reset: NextPage<Props> = (props: Props) => {
 
     let timer: NodeJS.Timeout | undefined = undefined;
     let time = 0;
-    let message: number | undefined = undefined;
+    let message: string | undefined = undefined;
 
     // ===============================================
     // USEEFFECT UPDATES
@@ -79,7 +81,7 @@ const Reset: NextPage<Props> = (props: Props) => {
         errorStates.email && validateEmail()
         errorStates.password && validatePassword()
         errorStates.confPassword && validateConfPassword()
-    }, [locale])
+    }, [currLang])
 
     // ===============================================
     // VALIDATORS
@@ -95,13 +97,13 @@ const Reset: NextPage<Props> = (props: Props) => {
     }
 
     const validateEmail = () => {
-        return updateState(email.trim() == "", "email", t("loginEmailError"))
+        return updateState(email.trim() == "", "email", lang.loginEmailError)
     }
     const validatePassword = () => {
-        return updateState(!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password), "password", t("regPassError"))
+        return updateState(!hasLowerCase(password) || !hasUpperCase(password) || !hasNumber(password) || !isLongerThanSix(password), "password", lang.regPassError)
     }
     const validateConfPassword = () => {
-        return updateState(password.trim() != confPassword.trim(), "confPassword", t("regPassConfError"))
+        return updateState(password.trim() != confPassword.trim(), "confPassword", lang.regPassConfError)
     }
     
     // ===============================================
@@ -117,11 +119,11 @@ const Reset: NextPage<Props> = (props: Props) => {
 
     const showOverload = () => {
         clearInterval(timer);
-        message = AddFloatingMessage({ "autocloses": false, "closable": false, "type": "Info", "message": t("warnOverload") })
+        message = addNotification({autoClose: false, closable: false, type: "info", message: lang.warnOverload})
     };
     const closeOverload = () => {
         clearInterval(timer);
-        HandleClose(message!)
+        if (message) closeNotification(message)
     };
 
     const handleButton = async () => {
@@ -177,28 +179,36 @@ const Reset: NextPage<Props> = (props: Props) => {
 
     return (
         <>
-            <CustomHead title={t("resetTitle")} />
-            <LoadingOverlay isLoading={isLoading} />
+            <CustomHead title={lang.resetTitle} />
+            <LoadingOverlay isLoading={isLoading}>
+                <BarLoader
+                    color={variables.secondaryColor}
+                />
+            </LoadingOverlay>
+            <div className={styles.Reset__Background} />
             <div className={styles.Reset}>
                 <div className={styles.Reset__Center}>
-                    <Section title={t("resetTitle")}>
+                    <TextCard
+                        variant="contained"
+                        shadowEnabled
+                        title={lang.resetTitle}
+                    >
                         {
                             (!token && didInit) &&
                             <div className={styles.Reset__Form}>
                                 <span>
-                                    {t("resetInstruct1")}<br />
-                                    {t("resetInstruct2")}
+                                    {lang.resetInstruct1}<br />
+                                    {lang.resetInstruct2}
                                 </span>
                                 <span>
                                     <Input
-                                        label={`${t("regEmail")}: `}
-                                        placeholder={t("regEmail")}
+                                        label={`${lang.regEmail}`}
                                         type={"email"}
                                         value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
+                                        onChange={(e) => setEmail(e)}
                                         onBlur={() => validateEmail()}
-                                        inputClass={errorStates.email && styles.Reset__Error}
-                                        maxlength={100}
+                                        maxLength={100}
+                                        error={errorStates.email}
                                     ></Input>
                                     <p className={styles.Reset__Error__Text}>{errorStates.email}</p>
                                 </span>
@@ -209,36 +219,39 @@ const Reset: NextPage<Props> = (props: Props) => {
                             <div className={styles.Reset__Form}>
                                 <span>
                                     <Input
-                                        label={`${t("resetPass")}: `}
-                                        placeholder={t("resetPass")}
+                                        label={`${lang.resetPass}`}
                                         type={"password"}
                                         value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        onChange={(e) => setPassword(e)}
                                         onBlur={() => validatePassword()}
-                                        inputClass={errorStates.password && styles.Reset__Error}
-                                        maxlength={100}
+                                        maxLength={100}
+                                        error={errorStates.password}
                                     ></Input>
                                     <p className={styles.Reset__Error__Text}>{errorStates.password}</p>
                                 </span>
                                 <span>
                                     <Input
-                                        label={`${t("resetPassConf")}: `}
-                                        placeholder={t("resetPassConf")}
+                                        label={`${lang.resetPassConf}`}
                                         type={"password"}
                                         value={confPassword}
-                                        onChange={(e) => setConfPassword(e.target.value)}
+                                        onChange={(e) => setConfPassword(e)}
                                         onBlur={() => validateConfPassword()}
-                                        inputClass={errorStates.confPassword && styles.Reset__Error}
-                                        maxlength={100}
+                                        maxLength={100}
+                                        error={errorStates.confPassword}
                                     ></Input>
                                     <p className={styles.Reset__Error__Text}>{errorStates.confPassword}</p>
                                 </span>
                             </div>
                         }
                         <div className={styles.Reset__Button}>
-                            <PrimaryButton disabled={isDisabled} text={token? t("resetButtonToken") : t("resetButton")} onClick={handleButton} />
+                            <Button
+                                disabled={isDisabled}
+                                onClick={handleButton}
+                            >
+                                {token? lang.resetButtonToken : lang.resetButton}
+                            </Button>
                         </div>
-                    </Section>
+                    </TextCard>
                 </div>
             </div>
         </>
@@ -246,17 +259,3 @@ const Reset: NextPage<Props> = (props: Props) => {
 }
 
 export default Reset;
-*/
-
-import TempWIP from "@/comp/TempWIP";
-import { NextPage } from "next";
-
-type Props = {}
-
-const Reset: NextPage<Props> = (props: Props) => {
-
-  return (
-    <TempWIP/>
-  );
-}
-export default Reset

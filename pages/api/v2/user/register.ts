@@ -90,7 +90,6 @@ function validateFormContent(form: any): IRegistrationForm | undefined {
             typeof x.allergy === 'string' &&
             typeof x.telegram === 'string' &&
             typeof x.phone === 'string' &&
-            typeof x.allergy === 'string' &&
             typeof x.storage === 'boolean'
     };
 
