@@ -20,6 +20,7 @@ import { getAccomodationById, getAccomodationsByRoomId } from '@/services/accomo
 import { insertAccomodation } from '@/services/accomodation/service.accomodation.insert';
 import { changeAttendeeAccomodationId } from '@/services/attendee/service.attendee.update';
 import { getRoomById } from '@/services/room/service.room.select';
+import { enterRoom, leaveRoom } from '@/services/accomodation/service.accomodation.update';
 
 export default async function handler(
     req: NextApiRequest,
@@ -60,52 +61,56 @@ export default async function handler(
 
     const ticket: ITicket | undefined = await getTicketById(attendee.ticketId);
 
+
+    if (attendee.accomodationId != undefined) {
+        const oldAccomodation = await getAccomodationById(attendee.accomodationId);
+        if (oldAccomodation != undefined) {
+            await leaveRoom(oldAccomodation);
+        }
+    }
+    
     const newAccomodationId = await CreateNewAccomodationForAttendee();
     await changeAttendeeAccomodationId(attendee, newAccomodationId);
     attendee.accomodationId = newAccomodationId;
 
     const accomodation = await getAccomodationById(attendee.accomodationId);
-
-
+    
+    if (accomodation == undefined) {
+        return sendResponse(500, { message: "Accomodation creation failed", e_code: "room_join_22" });
+    }
 
     const occupants = await getAccomodationsByRoomId(req.body.roomId);
 
     const room = await getRoomById(req.body.roomId);
-
-    if (room == undefined) {
-        return sendResponse(500, { message: "Invalid room ID!", e_code: "room_join_4" });   
-    }
-
-    // if (occupants == undefined) {
-    //     return sendResponse(500, { message: "Occupants came back empty even though they should not be!",
-    //     e_code: "room_join_5"});
-    // }
     
-    if (occupants.length != req.body.roomCount) {
-        return sendResponse(409, { message: "Data changed", e_code: "room_join_6" });
+    if (room == undefined) {
+        return sendResponse(500, { message: "Invalid room ID", e_code: "room_join_4" });   
+    }
+    
+    if (occupants != undefined) {
+        if (occupants.length != req.body.roomCount) {
+            return sendResponse(409, { message: "Data changed", e_code: "room_join_6" });
+        }
+    
+        if (occupants.find((o) => o.id == attendee.accomodationId)) {
+            return sendResponse(400, { message: "Already joined", e_code: "room_join_8"});
+        }
+    
+        if (occupants.length >= room.size) {
+            return sendResponse(409, { message: "Room full", e_code: "room_join_9"});
+        }
     }
 
     if (room.pin && room.pin != req.body.pin) {
         return sendResponse(401, { message: "Wrong pin", e_code: "room_join_7"});
     }
 
-    if (occupants.find((o) => o.id == attendee.accomodationId)) {
-        return sendResponse(400, { message: "Already joined", e_code: "room_join_8"});
+    const result = await enterRoom(accomodation, req.body.roomId);
+    if (result == undefined) {
+        return sendResponse(500, { message: "Failed entering the room", e_code: "room_join_23"});
     }
 
-    if (occupants.length >= room.size) {
-        return sendResponse(409, { message: "Room full", e_code: "room_join_9"});
-    }
-
-
-
-    
-    
-}
-
-async function ExecuteJoinQueries()
-{
-
+    sendResponse(201, {message: "Joined Room"});
 }
 
 async function CreateNewAccomodationForAttendee(): Promise<number>
