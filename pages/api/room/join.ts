@@ -25,8 +25,8 @@ import { enterRoom, leaveRoom } from '@/services/accomodation/service.accomodati
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
-) {
-    if (!await isMethodAllowed(req, res, 'GET')) {
+) { // TODO: ADD DB TRANSACTION
+    if (!await isMethodAllowed(req, res, 'POST')) {
         return;
     }
     
