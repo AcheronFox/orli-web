@@ -19,10 +19,11 @@ export default async function handler(
     const tokenPayload = await verifyToken(req, res);
 
     const sendResponse = (code: number, data: Object | String = '') => {
-        res.status(code).json(data)
+        res.status(code).json(data);
     }
 
-    if (tokenPayload){
+    if (tokenPayload!)
+        return;
 
-    }
+    
 }
