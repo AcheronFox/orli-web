@@ -1,6 +1,6 @@
 export interface IAccomodation {
     id?: number;
-    createdAt: string;
+    createdAt?: string;
     ownerContact?: string;
     isOwner: boolean;
     roomId?: number;

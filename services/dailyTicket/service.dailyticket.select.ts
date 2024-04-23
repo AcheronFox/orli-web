@@ -42,3 +42,10 @@ export async function checkDailyTicketValidity(arg1: IDailyTicket | number): Pro
 
     return ticketDateAsString == currentDateAsString;
 }
+
+export async function getDailyTicketById(dailyTicketId: number): Promise<IDailyTicket | undefined>
+{
+    const query = `SELECT * FROM ${TABLE} WHERE id = ?;`;
+
+    return await executeSelectQuery<IDailyTicket>(query, dailyTicketId);
+}

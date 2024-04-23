@@ -2,6 +2,13 @@ import database from "@/functions/utils/mysql";
 import { executeSelectQuery } from "@/functions/utils/databaseHelpers";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
 import { INationality } from "@/models/newDbModels/nationality.model";
+import { IAttendeeFullData } from "@/models/newDbModels/attendeeFullData.model";
+import { getAccomodationById } from "../accomodation/service.accomodation.select";
+import { getFursona } from "../fursona/service.fursona.select";
+import { getNationality } from "../nationality/service.nationality";
+import { getRoomById } from "../room/service.room.select";
+import { getTicketById } from "../ticket/service.ticket.select";
+import { getDailyTicketById } from "../dailyTicket/service.dailyticket.select";
 
 const TABLE: string = "attendee";
 const MAX_NUM_OF_ATTENDEES: number = 500;
@@ -65,4 +72,27 @@ export async function getAttendeeByNationality(nationality: INationality, from: 
     const queryString = `SELECT * FROM ${TABLE} WHERE nationalityId = ?;`;
 
     return await executeSelectQuery<IAttendee[]>(queryString, nationality.id);
+}
+
+export async function getAttendeeFullData(attendeeId: number): Promise<IAttendeeFullData | undefined>
+{
+    const attendee = await getAttendeeById(attendeeId) as Omit<IAttendee, 'password'>;
+    const fursona = await getFursona(attendee.fursonaId);
+    const nationality = attendee.nationalityId ? await getNationality(attendee.nationalityId) : undefined;
+    const accomodation = attendee.accomodationId ? await getAccomodationById(attendee.accomodationId) : undefined;
+    const room = accomodation?.roomId ? await getRoomById(accomodation.roomId) : undefined;
+    const ticket = attendee.ticketId ? await getTicketById(attendee.ticketId) : undefined;
+    const dailyTicket = attendee.dailyTicketId ? await getDailyTicketById(attendee.dailyTicketId) : undefined;
+
+    let fullData: IAttendeeFullData = {
+        attendee: attendee,
+        fursona: fursona,
+        nationality: nationality,
+        accomodation: accomodation,
+        room: room,
+        ticket: ticket,
+        dailyTicket: dailyTicket
+    };
+
+    return fullData;
 }

@@ -1,5 +1,4 @@
 import { IParticipant } from '@/models/participant.model';
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/functions/utils/mysql'
 import isMethodAllowed from '@/functions/auth/isMethodAllowed';
@@ -10,11 +9,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    const isAllowed = await isMethodAllowed(req, res, 'GET')
-    if (!isAllowed) return
+    if (!await isMethodAllowed(req, res, 'GET')) {
+        return;
+    }
 
     const sendResponse = (code: number, data: Object | String = '') => {
-        res.status(code).json(data)
+        res.status(code).json(data);
     }
 
     let response: IParticipant[] = [];
@@ -22,14 +22,22 @@ export default async function handler(
         return new Promise(async (resolve) => {
             const query = 
             `
-            SELECT
-            account.nationality,
-            user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter,
-            ticket.sponsorLevel
-            FROM account 
-            INNER JOIN user ON account.AccountKey = user.AccountKey AND account.isVerified = 1
-            LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey AND ticket.isPaid = 1
-            `
+            SELECT 
+                attendee.nationalityId,
+                fursona.name,
+                fursona.species,
+                fursona.pathToPictureFile,
+                fursona.hasFursuit,
+                ticket.sponsorLevel
+            FROM
+                attendee
+                    INNER JOIN
+                fursona ON attendee.fursonaId = fursona.id
+                    AND attendee.verified = TRUE
+                    INNER JOIN
+                ticket ON attendee.ticketId = ticket.id
+                    AND ticket.isPaid = TRUE;
+            `;
 
             database.query(query, async (err: any, result: IParticipant[]) => {
                 if (err) {
@@ -37,7 +45,7 @@ export default async function handler(
                     sendResponse(500, {message: "Unknown Error", e_code: "part_1"}); 
                     resolve(false);
                 }
-                response = result
+                response = result;
                 resolve(true);
             });
         }).catch(() => {
@@ -46,6 +54,6 @@ export default async function handler(
     }
 
     if (await query()) {
-        sendResponse(200, _.orderBy(response, ['fursonaName'],['asc']));
+        sendResponse(200, _.orderBy(response, ['name'],['asc']));
     }
 }
