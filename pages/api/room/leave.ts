@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/root/functions/utils/mysql'
-import isMethodAllowed from '@/root/functions/auth/isMethodAllowed';
-import verifyToken from '@/root/functions/auth/veryifToken';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import verifyToken from '@/functions/auth/veryifToken';
 import { IAccomodationRaw } from '@/models/accomodation.model';
 import * as mysql from "mysql";
 import _ from 'lodash';

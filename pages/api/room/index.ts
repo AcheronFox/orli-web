@@ -1,19 +1,20 @@
 import { IRoom, IRoomRaw, IRoomStructure } from '@/models/room.model';
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/root/functions/utils/mysql'
-import isMethodAllowed from '@/root/functions/auth/isMethodAllowed';
-import verifyToken from '@/root/functions/auth/veryifToken';
+import database from '@/functions/utils/mysql'
+import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import verifyToken from '@/functions/auth/veryifToken';
 
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-    const isAllowed = await isMethodAllowed(req, res, 'GET')
-    if (!isAllowed) return
+    if (!await isMethodAllowed(req, res, 'GET')) {
+        return;
+    }
 
     const tokenPayload = await verifyToken(req, res);
+    
 
     const sendResponse = (code: number, data: Object | String = '') => {
         res.status(code).json(data)
@@ -25,7 +26,7 @@ export default async function handler(
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                SELECT id, building, roomNumber, size, customName, roomPin FROM room
+                SELECT * FROM room;
                 `
 
                 database.query(query, async (err: any, result: IRoomRaw[]) => {
@@ -34,7 +35,7 @@ export default async function handler(
                         sendResponse(500, {message: "Unknown Error", e_code: "room_1"}); 
                         resolve(false);
                     }
-                    response = result
+                    response = result;
                     resolve(true);
                 });
             }).catch(() => {
@@ -44,18 +45,18 @@ export default async function handler(
 
         if (await query()) {
             let finalData: IRoom[] = response.map((item) => {
-                const hasPin = !!item.roomPin
-                return {...item, hasRoomPin: hasPin, roomPin: undefined, adminKey: undefined}
+                const hasPin = !!item.roomPin;
+                return {...item, hasRoomPin: hasPin, roomPin: undefined, adminKey: undefined};
             })
 
-            const unique = Array.from(new Set(finalData.map(item => item.building)))
+            const unique = Array.from(new Set(finalData.map(item => item.building)));
             
-            let result: IRoomStructure = {}
+            let result: IRoomStructure = {};
             for (let i=0; i < unique.length; i++) {
-                result[unique[i]] = finalData.filter((o) => o.building == unique[i])
+                result[unique[i]] = finalData.filter((o) => o.building == unique[i]);
             }
 
             sendResponse(200, result);
         }
-    } else return
+    } else return;
 }
