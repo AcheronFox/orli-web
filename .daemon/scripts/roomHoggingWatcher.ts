@@ -5,6 +5,8 @@ import * as mysql from "mysql";
 import { IAccomodationRaw } from "@/models/accomodation.model";
 import _ from "lodash";
 import { IRoomRaw } from "@/models/room.model";
+import { removeAttendeeAccomodationId } from "@/services/attendee/service.attendee.update";
+import { getAccomodationByAccountKey, getAccomodationById } from "@/services/accomodation/service.accomodation.select";
 
 const runLeave = async (accountKey: string) => {
     return await new Promise<boolean>(async (mainResolve) => {
@@ -28,12 +30,33 @@ const runLeave = async (accountKey: string) => {
 
                 const removeCurrentAccomodation = async () => {
                     return new Promise<boolean>(async (resolve) => {
+                        // Remove the id from attendee first, otherwise delete will fail.
+
+                        const accomodationIdToRemove = (await getAccomodationByAccountKey(accountKey))?.id;
+
+                        if (accomodationIdToRemove == undefined) {
+                            console.log("No accomodation to remove with that accountKey!")
+                            rollback(connection);
+                            resolve(false);
+                            return;
+                        }
+
+                        const result = await removeAttendeeAccomodationId(accountKey, connection);
+
+                        if (!result) {
+                            console.log("ERROR: Failed to remove accomodation id from attendee");
+                            rollback(connection);
+                            resolve(false);
+                            return;
+                        }
+
                         const query = 
                         `
-                        DELETE FROM accomodation WHERE AccountKey = ?;
+                        DELETE FROM accomodation
+                        WHERE id = ?;
                         `
 
-                        connection.query(query, [accountKey], (err: any) => {
+                        connection.query(query, [accomodationIdToRemove], (err: any) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 rollback(connection);
@@ -42,7 +65,7 @@ const runLeave = async (accountKey: string) => {
                                 return;
                             }
                             else {  
-                                resolve(true)
+                                resolve(true);
                             }   
                         });
                     })

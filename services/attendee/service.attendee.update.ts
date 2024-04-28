@@ -2,6 +2,7 @@ import { executeUpdateQuery } from "@/functions/utils/databaseHelpers";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
 import { IAttendeeUpdatable } from "@/models/newDbModels/updateModels/updatable.attendee.model";
 import * as console from "console";
+import { PoolConnection } from "mysql";
 
 const TABLE: string = "attendee";
 
@@ -132,6 +133,20 @@ export async function changeAttendeeAccomodationId(arg1: IAttendee | number, acc
     }
 
     const result: number = await executeUpdateQuery(query, [accomodationId, id]);
+
+    return result >= 1;
+}
+
+export async function removeAttendeeAccomodationId(accountKey: string, connectionToUse?: PoolConnection): Promise<boolean>
+{
+    const query: string = `UPDATE ${TABLE} SET accomodationId = NULL WHERE accountKey = ?;`;
+
+    if (accountKey == undefined) {
+        console.error("accountKey cannot be undefined!");
+        return false;
+    }
+
+    const result: number = await executeUpdateQuery(query, [accountKey], connectionToUse);
 
     return result >= 1;
 }
