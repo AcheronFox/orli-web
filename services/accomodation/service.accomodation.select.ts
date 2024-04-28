@@ -43,3 +43,10 @@ export async function getAccomodationsWithOwnerContact(hasContact: boolean, from
 
     return await executeSelectQuery<IAccomodation[]>(query, [from, limit]);
 }
+
+export async function getAccomodationByAccountKey(accountKey: string): Promise<IAccomodation | undefined>
+{
+    const query = `SELECT * FROM ${TABLE} WHERE id IN (SELECT accomodationId FROM attendee WHERE accountKey = ?);`;
+
+    return await executeSelectQuery<IAccomodation>(query, [accountKey]);
+}

@@ -1,6 +1,7 @@
 import database from "@/functions/utils/mysql";
+import { PoolConnection } from "mysql";
 
-export async function executeSelectQuery<T>(queryString: string, values: any, connectionToUse = undefined): Promise<T | undefined> {
+export async function executeSelectQuery<T>(queryString: string, values: any, connectionToUse?: PoolConnection): Promise<T | undefined> {
     return new Promise((resolve, reject) => {
         const connection = connectionToUse || database;
         connection.query(queryString, values, async (error, result) => {
@@ -24,7 +25,7 @@ export async function executeSelectQuery<T>(queryString: string, values: any, co
     });
 }
 
-export async function executeInsertQuery(queryString: string, values: any, connectionToUse = undefined): Promise<number> {
+export async function executeInsertQuery(queryString: string, values: any, connectionToUse?: PoolConnection): Promise<number> {
     return new Promise((resolve, reject) => {
         const connection = connectionToUse || database;
         connection.query(queryString, values, async (error, result, fields) => {
@@ -37,7 +38,7 @@ export async function executeInsertQuery(queryString: string, values: any, conne
     });
 }
 
-export async function executeUpdateQuery(queryString: string, values: any, connectionToUse = undefined): Promise<number> {
+export async function executeUpdateQuery(queryString: string, values: any, connectionToUse?: PoolConnection): Promise<number> {
     return new Promise((resolve, reject) => {
         const connection = connectionToUse || database;
         connection.query(queryString, values, async (error, result, fields) => {
