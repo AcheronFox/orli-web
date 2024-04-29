@@ -2,10 +2,11 @@ import {executeUpdateQuery} from "@/functions/utils/databaseHelpers";
 import {ITicket} from "@/models/newDbModels/ticket.model";
 import {ITicketUpdatable} from "@/models/newDbModels/updateModels/updatable.ticket.model";
 import console from "console";
+import { PoolConnection } from "mysql";
 
 const TABLE: string = "ticket";
 
-export async function updateTicket(ticket: ITicket): Promise<number | undefined>
+export async function updateTicket(ticket: ITicket, connectionToUse?: PoolConnection): Promise<number | undefined>
 {
     let editable: ITicketUpdatable = {
         type: ticket.type,
@@ -24,12 +25,12 @@ export async function updateTicket(ticket: ITicket): Promise<number | undefined>
 
     const query: string = `UPDATE ${TABLE} SET ? WHERE id = ?;`;
 
-    return await executeUpdateQuery(query, [editable, ticket.id]);
+    return await executeUpdateQuery(query, [editable, ticket.id], connectionToUse);
 }
 
-export async function setTicketPaymentStatus(ticket: ITicket, isPaid: boolean): Promise<number | undefined>;
-export async function setTicketPaymentStatus(ticketId: number, isPaid: boolean): Promise<number | undefined>;
-export async function setTicketPaymentStatus(arg1: ITicket | number, isPaid: boolean): Promise<number | undefined>
+export async function setTicketPaymentStatus(ticket: ITicket, isPaid: boolean, connectionToUse?: PoolConnection): Promise<number | undefined>;
+export async function setTicketPaymentStatus(ticketId: number, isPaid: boolean, connectionToUse?: PoolConnection): Promise<number | undefined>;
+export async function setTicketPaymentStatus(arg1: ITicket | number, isPaid: boolean, connectionToUse?: PoolConnection): Promise<number | undefined>
 {
     const query: string = `UPDATE ${TABLE} SET isPaid = ? WHERE id = ?;`;
 
@@ -42,5 +43,5 @@ export async function setTicketPaymentStatus(arg1: ITicket | number, isPaid: boo
         throw new Error(errorMessage);
     }
 
-    return await executeUpdateQuery(query, [isPaid, id]);
+    return await executeUpdateQuery(query, [isPaid, id], connectionToUse);
 }
