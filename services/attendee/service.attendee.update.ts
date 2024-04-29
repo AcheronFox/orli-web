@@ -6,7 +6,7 @@ import { PoolConnection } from "mysql";
 
 const TABLE: string = "attendee";
 
-export async function updateAttendee(attendee: IAttendee) : Promise<number>
+export async function updateAttendee(attendee: IAttendee, connectionToUse?: PoolConnection) : Promise<number>
 {
     let editable: IAttendeeUpdatable = {
         accountKey: attendee.accountKey,
@@ -22,12 +22,12 @@ export async function updateAttendee(attendee: IAttendee) : Promise<number>
 
     const query: string = `UPDATE ${TABLE} SET ? WHERE id = ?;`;
 
-    return await executeUpdateQuery(query, [editable, attendee.id]);
+    return await executeUpdateQuery(query, [editable, attendee.id], connectionToUse);
 }
 
-export async function changeAttendeeVerification(attendee: IAttendee, verified: boolean) : Promise<boolean>;
-export async function changeAttendeeVerification(attendeeId: number, verified: boolean) : Promise<boolean>;
-export async function changeAttendeeVerification(arg1: IAttendee | number, verified: boolean) : Promise<boolean>
+export async function changeAttendeeVerification(attendee: IAttendee, verified: boolean, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeeVerification(attendeeId: number, verified: boolean, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeeVerification(arg1: IAttendee | number, verified: boolean, connectionToUse?: PoolConnection) : Promise<boolean>
 {
     const query: string = `UPDATE ${TABLE} SET verified = ? WHERE id = ?;`;
 
@@ -39,16 +39,16 @@ export async function changeAttendeeVerification(arg1: IAttendee | number, verif
         return false;
     }
 
-    const result: number = await executeUpdateQuery(query, [verified, id]);
+    const result: number = await executeUpdateQuery(query, [verified, id], connectionToUse);
 
     return result >= 1;
 }
 
-export async function changeAttendeePassword(attendee: IAttendee, newHash: string, newAccountKey: string)
+export async function changeAttendeePassword(attendee: IAttendee, newHash: string, newAccountKey: string, connectionToUse?: PoolConnection)
     : Promise<boolean>;
-export async function changeAttendeePassword(attendeeId: number, newHash: string, newAccountKey: string)
+export async function changeAttendeePassword(attendeeId: number, newHash: string, newAccountKey: string, connectionToUse?: PoolConnection)
     : Promise<boolean>;
-export async function changeAttendeePassword(arg1: IAttendee | number, newHash: string, newAccountKey: string)
+export async function changeAttendeePassword(arg1: IAttendee | number, newHash: string, newAccountKey: string, connectionToUse?: PoolConnection)
     : Promise<boolean>
 {
     const query: string = `UPDATE ${TABLE} SET password = ?, accountKey = ? WHERE id = ?;`;
@@ -60,14 +60,14 @@ export async function changeAttendeePassword(arg1: IAttendee | number, newHash: 
         return false;
     }
 
-    const result: number = await executeUpdateQuery(query, [newHash, newAccountKey, id]);
+    const result: number = await executeUpdateQuery(query, [newHash, newAccountKey, id], connectionToUse);
 
     return result >= 1;
 }
 
-export async function changeAttendeeStaffStatus(attendee: IAttendee, staffStatus: boolean) : Promise<boolean>;
-export async function changeAttendeeStaffStatus(attendeeId: number, staffStatus: boolean) : Promise<boolean>;
-export async function changeAttendeeStaffStatus(arg1: IAttendee | number, staffStatus: boolean) : Promise<boolean>
+export async function changeAttendeeStaffStatus(attendee: IAttendee, staffStatus: boolean, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeeStaffStatus(attendeeId: number, staffStatus: boolean, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeeStaffStatus(arg1: IAttendee | number, staffStatus: boolean, connectionToUse?: PoolConnection) : Promise<boolean>
 {
     const query: string = `UPDATE ${TABLE} SET staff = ? WHERE id = ?;`;
     const id: number | undefined = typeof arg1 == 'number' ? arg1 : arg1.id;
@@ -78,14 +78,14 @@ export async function changeAttendeeStaffStatus(arg1: IAttendee | number, staffS
         return false;
     }
 
-    const result: number = await executeUpdateQuery(query, [staffStatus, id]);
+    const result: number = await executeUpdateQuery(query, [staffStatus, id], connectionToUse);
 
     return result >= 1;
 }
 
-export async function changeAttendeeAdminStatus(attendee: IAttendee, adminStatus: boolean) : Promise<boolean>;
-export async function changeAttendeeAdminStatus(attendeeId: number, adminStatus: boolean) : Promise<boolean>;
-export async function changeAttendeeAdminStatus(arg1: IAttendee | number, adminStatus: boolean) : Promise<boolean>
+export async function changeAttendeeAdminStatus(attendee: IAttendee, adminStatus: boolean, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeeAdminStatus(attendeeId: number, adminStatus: boolean, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeeAdminStatus(arg1: IAttendee | number, adminStatus: boolean, connectionToUse?: PoolConnection) : Promise<boolean>
 {
     const query: string = `UPDATE ${TABLE} SET admin = ? WHERE id = ?;`;
     const id: number | undefined = typeof arg1 == 'number' ? arg1 : arg1.id;
@@ -96,14 +96,14 @@ export async function changeAttendeeAdminStatus(arg1: IAttendee | number, adminS
         return false;
     }
 
-    const result: number = await executeUpdateQuery(query, [adminStatus, id]);
+    const result: number = await executeUpdateQuery(query, [adminStatus, id], connectionToUse);
 
     return result >= 1;
 }
 
-export async function changeAttendeePasswordResetTokenId(attendee: IAttendee, tokenId: number) : Promise<boolean>;
-export async function changeAttendeePasswordResetTokenId(attendeeId: number, tokenId: number) : Promise<boolean>;
-export async function changeAttendeePasswordResetTokenId(arg1: IAttendee | number, tokenId: number) : Promise<boolean>
+export async function changeAttendeePasswordResetTokenId(attendee: IAttendee, tokenId: number, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeePasswordResetTokenId(attendeeId: number, tokenId: number, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeePasswordResetTokenId(arg1: IAttendee | number, tokenId: number, connectionToUse?: PoolConnection) : Promise<boolean>
 {
     const query: string = `UPDATE ${TABLE} SET passwordResetTokenId = ? WHERE id = ?;`;
     const id: number | undefined = typeof arg1 == 'number' ? arg1 : arg1.id;
@@ -114,14 +114,14 @@ export async function changeAttendeePasswordResetTokenId(arg1: IAttendee | numbe
         return false;
     }
 
-    const result: number = await executeUpdateQuery(query, [tokenId, id]);
+    const result: number = await executeUpdateQuery(query, [tokenId, id], connectionToUse);
 
     return result >= 1;
 }
 
-export async function changeAttendeeAccomodationId(attendee: IAttendee, accomodationId: number) : Promise<boolean>;
-export async function changeAttendeeAccomodationId(attendeeId: number, accomodationId: number) : Promise<boolean>;
-export async function changeAttendeeAccomodationId(arg1: IAttendee | number, accomodationId: number) : Promise<boolean>
+export async function changeAttendeeAccomodationId(attendee: IAttendee, accomodationId: number, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeeAccomodationId(attendeeId: number, accomodationId: number, connectionToUse?: PoolConnection) : Promise<boolean>;
+export async function changeAttendeeAccomodationId(arg1: IAttendee | number, accomodationId: number, connectionToUse?: PoolConnection) : Promise<boolean>
 {
     const query: string = `UPDATE ${TABLE} SET accomodationId = ? WHERE id = ?;`;
     const id: number | undefined = typeof arg1 == 'number' ? arg1 : arg1.id;
@@ -132,7 +132,7 @@ export async function changeAttendeeAccomodationId(arg1: IAttendee | number, acc
         return false;   
     }
 
-    const result: number = await executeUpdateQuery(query, [accomodationId, id]);
+    const result: number = await executeUpdateQuery(query, [accomodationId, id], connectionToUse);
 
     return result >= 1;
 }
