@@ -6,11 +6,10 @@ import verifyToken from '@/functions/auth/veryifToken';
 import { IJoinForm } from '@/models/join-form.model';
 import { IAccomodationRaw } from '@/models/accomodation.model';
 import * as mysql from "mysql";
-import { v4 as uuidv4 } from 'uuid';
 import { AccomodationDatabase, RoomDatabase, TicketDatabase } from '@/models/database.model';
 import _ from 'lodash';
 import { getTicketByAccountKey } from '@/utils/getData';
-import { getTodayInIsoFormat } from '@/functions/utils/databaseHelpers';
+import { beginDbTransaction, getDbConnection, getTodayInIsoFormat } from '@/functions/utils/databaseHelpers';
 import { IAttendee } from '@/models/newDbModels/attendee.model';
 import { getAttendeeByAccountKey } from '@/services/attendee/service.attendee.select';
 import { ITicket } from '@/models/newDbModels/ticket.model';
@@ -25,11 +24,11 @@ import { enterRoom, leaveRoom } from '@/services/accomodation/service.accomodati
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
-) { // TODO: ADD DB TRANSACTION
+) {
     if (!await isMethodAllowed(req, res, 'POST')) {
         return;
     }
-    
+
     const tokenPayload = await verifyToken(req, res);
 
     const sendResponse = (code: number, data: Object | String = '') => {
@@ -54,70 +53,100 @@ export default async function handler(
     const attendee: IAttendee | undefined = await getAttendeeByAccountKey(tokenPayload.accountKey);
 
     if (attendee == undefined)
-        return sendResponse(404, { message: "Attendee not found", e_code: "room_join_2"});
+        return sendResponse(404, { message: "Attendee not found", e_code: "room_join_2" });
 
     if (attendee.ticketId == undefined)
-        return sendResponse(400, { message: "Attendee does not have a ticket", e_code: "room_join_3"});
+        return sendResponse(400, { message: "Attendee does not have a ticket", e_code: "room_join_3" });
 
     const ticket: ITicket | undefined = await getTicketById(attendee.ticketId);
 
+    let connection: mysql.PoolConnection | null = null;;
 
-    if (attendee.accomodationId != undefined) {
-        const oldAccomodation = await getAccomodationById(attendee.accomodationId);
-        if (oldAccomodation != undefined) {
-            await leaveRoom(oldAccomodation);
+    try {
+        connection = await getDbConnection();
+        await beginDbTransaction(connection);
+
+        if (attendee.accomodationId != undefined) {
+            const oldAccomodation = await getAccomodationById(attendee.accomodationId, connection);
+            if (oldAccomodation != undefined) {
+                const leaveRoomResult = await leaveRoom(oldAccomodation, connection);
+                if (leaveRoomResult == undefined) {
+                    throw new DatabaseError(500, "Failed to leave room", "room_join_56");
+                }
+            }
+        }
+
+        const newAccomodationId = await CreateNewAccomodationForAttendee(connection);
+        const changeAccomodationResult = await changeAttendeeAccomodationId(attendee, newAccomodationId, connection);
+        if (!changeAccomodationResult) {
+            throw new DatabaseError(500, "Failed to change accomodation ID for attendee", "room_join_57");
+        }
+
+        attendee.accomodationId = newAccomodationId;
+
+        const accomodation = await getAccomodationById(attendee.accomodationId, connection);
+
+        if (accomodation == undefined) {
+            throw new DatabaseError(500, "Accomodation creation failed", "room_join_58");
+        }
+
+        const occupants = await getAccomodationsByRoomId(req.body.roomId);
+
+        const room = await getRoomById(req.body.roomId);
+
+        if (room == undefined) {
+            throw new DatabaseError(500, "Invalid room ID", "room_join_59");
+        }
+
+        if (occupants != undefined) {
+            if (occupants.length != req.body.roomCount) {
+                throw new DatabaseError(409, "Data changed", "room_join_60");
+            }
+
+            if (occupants.find((o) => o.id == attendee.accomodationId)) {
+                throw new DatabaseError(400, "Already joined", "room_join_61");
+            }
+
+            if (occupants.length >= room.size) {
+                throw new DatabaseError(409, "Room full", "room_join_62");
+            }
+        }
+
+        if (room.pin && room.pin != req.body.pin) {
+            throw new DatabaseError(401, "Wrong pin", "room_join_63");
+        }
+
+        const result = await enterRoom(accomodation, req.body.roomId);
+        if (result == undefined) {
+            throw new DatabaseError(500, "Failed entering the room", "room_join_64");
+        }
+
+    } catch (err) {
+        if (connection) {
+            await new Promise<void>(resolve => connection!.rollback(() => {
+                connection!.release();
+                resolve();
+            }));
+        }
+
+        if (err instanceof DatabaseError) {
+            sendResponse(err.return_code, { message: err.message, e_code: err.e_code });
+        } else {
+            sendResponse(500, { message: `Unknown error occured: ${err}`, e_code: "room_join_99" });
+        }
+    } finally {
+        if (connection) {
+            connection.release();
         }
     }
-    
-    const newAccomodationId = await CreateNewAccomodationForAttendee();
-    await changeAttendeeAccomodationId(attendee, newAccomodationId);
-    attendee.accomodationId = newAccomodationId;
 
-    const accomodation = await getAccomodationById(attendee.accomodationId);
-    
-    if (accomodation == undefined) {
-        return sendResponse(500, { message: "Accomodation creation failed", e_code: "room_join_22" });
-    }
-
-    const occupants = await getAccomodationsByRoomId(req.body.roomId);
-
-    const room = await getRoomById(req.body.roomId);
-    
-    if (room == undefined) {
-        return sendResponse(500, { message: "Invalid room ID", e_code: "room_join_4" });   
-    }
-    
-    if (occupants != undefined) {
-        if (occupants.length != req.body.roomCount) {
-            return sendResponse(409, { message: "Data changed", e_code: "room_join_6" });
-        }
-    
-        if (occupants.find((o) => o.id == attendee.accomodationId)) {
-            return sendResponse(400, { message: "Already joined", e_code: "room_join_8"});
-        }
-    
-        if (occupants.length >= room.size) {
-            return sendResponse(409, { message: "Room full", e_code: "room_join_9"});
-        }
-    }
-
-    if (room.pin && room.pin != req.body.pin) {
-        return sendResponse(401, { message: "Wrong pin", e_code: "room_join_7"});
-    }
-
-    const result = await enterRoom(accomodation, req.body.roomId);
-    if (result == undefined) {
-        return sendResponse(500, { message: "Failed entering the room", e_code: "room_join_23"});
-    }
-
-    sendResponse(201, {message: "Joined Room"});
+    sendResponse(201, { message: "Joined Room" });
 }
 
-async function CreateNewAccomodationForAttendee(): Promise<number>
-{
+async function CreateNewAccomodationForAttendee(connectionToUse: mysql.PoolConnection): Promise<number> {
     const accomodaton: IAccomodation = {
         isOwner: false
     };
 
-    return await insertAccomodation(accomodaton);
+    return await insertAccomodation(accomodaton, connectionToUse);
 }

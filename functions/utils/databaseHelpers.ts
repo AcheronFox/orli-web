@@ -51,6 +51,31 @@ export async function executeUpdateQuery(queryString: string, values: any, conne
     });
 }
 
+export function getDbConnection(): Promise<PoolConnection> {
+    return new Promise((resolve, reject) => {
+        database.getConnection((err, connection) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(connection);
+            }
+        });
+    });
+}
+
+export function beginDbTransaction(connection: PoolConnection): Promise<void> {
+    return new Promise((resolve, reject) => {
+        connection.beginTransaction(err => {
+            if (err) {
+                connection.release();
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
+
 /**
  * Get today's date in an easy-to-read format that is also suitable for MySQL.<br />
  * <i>Example output: 2024-03-27</i>
