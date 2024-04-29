@@ -159,7 +159,7 @@ const Navbar = ({
             )
 
 
-            if (didUserInit && !user) {
+            if (didUserInit && !user?.attendee) {
                 layout.push(
                     {
                         title: lang.navLogin,
@@ -170,7 +170,7 @@ const Navbar = ({
                     },
                 )
             }
-            else if (didUserInit && user && user.isAdmin) {
+            else if (didUserInit && user?.attendee && user.attendee.admin) {
                 layout.push(
                     {
                         title: lang.navProfile,
@@ -212,7 +212,7 @@ const Navbar = ({
                     },
                 )
             }
-            else if (didUserInit && user && !user.isAdmin) {
+            else if (didUserInit && user?.attendee && !user.attendee.admin) {
                 layout.push(
                     {
                         title: lang.navProfile,

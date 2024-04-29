@@ -1,44 +1,45 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/*
 import styles from "@/styles/pages/Tickets.module.scss"
-import { useTranslate } from "@/hooks/useTranslate";
 import { NextPage } from "next";
-import { useUser } from "@/hooks/useUser";
-import SecondaryButton from "@/comp/SecondaryButton";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Router from "next/router";
-import PriceCard from "@/comp/PriceCard";
 import Calendar from 'react-calendar'
-import axiosInstance from "@/utils/axiosConfig";
 import Slider from "@/comp/Slider";
 import Input from "@/comp/Input";
-import { IFood } from "@/models/food.model";
-import FilterableDropDown from "@/comp/FilterableDropDown";
 import { IPrices } from "@/models/prices.model";
-import LoadingOverlay from "@/comp/LoadingOverlay";
-import PrimaryButton from "@/comp/PrimaryButton";
 import { ITicketForm } from "@/models/ticket-form.model";
-import Tippy from "@tippyjs/react";
-import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
 import DropDown from "@/comp/DropDown";
-import CustomHead from "@/comp/CustomHead";
-import createDatePatternFromDate from "@/root/functions/createDatePattern";
-import CustomBackground from "@/comp/CustomBackground";
 import { ITicketCount } from "@/models/ticket-count.model";
+import useTranslate from "@/hooks/translate/useTranslate";
+import useNotification from "@/hooks/notification/useNotification";
+import { useUser } from "@/hooks/user/useUser";
+import axiosInstance from "@/functions/utils/axiosConfig";
+import useLocaleSwitch from "@/hooks/utils/useLocaleSwitch";
+import CustomHead from "@/comp/utils/CustomHead";
+import LoadingOverlay from "@/comp/utils/LoadingOverlay";
+import { BarLoader } from "react-spinners";
+import variables from "@/styles/abstracts/exports.module.scss"
+import ButtonGroup from "@/comp/button/ButtonGroup";
+import Button from "@/comp/button/Button";
+import { IFood } from "@/models/locale/food.model";
+import createDatePatternFromDate from "@/functions/utils/createDatePattern";
+import FilterableDropDown from "@/comp/input/FilterableDropDown";
+import TextCard from "@/comp/TextCard";
+import { ITicket } from "@/models/locale/ticket.model";
+import { useHTMLString } from "@/hooks/utils/useHTMLString";
 
 type Props = {}
 
 interface CustomFoodFilterInterface {[index: number]: IFood[];}
-interface CustomFoodDataInterface   {[index: number]: IFood[];}
 interface CustomFoodSearchInterface {[index: number]: string; }
 interface CustomFoodSelectInterface {[index: number]: string; }
 interface CustomFoodValueInterface  {[index: number]: number; }
 type ShirtSizeInterface = 'S' | 'M' | 'L' | 'XL' | 'XXL' | '3XL' | null;
 
 const Tickets: NextPage<Props> = (props: Props) => {
-  const { t, locale } = useTranslate();
+  const { lang, currLang } = useTranslate();
   const { user, didUserInit, getUser } = useUser();
-  const { AddFloatingMessage } = useContext(FloatingMessageContext);
+  const { addNotification } = useNotification()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isDisabled, setIsDisabled] = useState<boolean>(true)
   const [showDialog, setShowDialog] = useState<boolean>(false)
@@ -65,11 +66,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
   const [fromDate, setFromDate] = useState<Date>();
   const [toDate, setToDate] = useState<Date>();
 
-  const [foods, setFoods] = useState<CustomFoodDataInterface>(
-    locale == "en"
-      ? require("../../locales/en.food.json")
-      : require("../../locales/hu.food.json")
-  );
+  const ticketData: ITicket = useLocaleSwitch(currLang, 'ticket.ts')
+  const foods: IFood[] = useLocaleSwitch(currLang, 'food.ts');
   const [foodSearch, setFoodSearch] = useState<CustomFoodSearchInterface>({});
   const [foodSelect, setFoodSelect] = useState<CustomFoodSelectInterface>({});
   const [filteredFoods, setFilteredFoods] = useState<CustomFoodFilterInterface>({});
@@ -93,12 +91,14 @@ const Tickets: NextPage<Props> = (props: Props) => {
   const minSponsor = 5000
   const maxSponsor = 50000
 
+  const parse = useHTMLString()
+
   useEffect(() => {
     if (!didUserInit) return
-    if (!user || (user && (user.TicketKey && user.isPaid))) {
+    if (!user || (user && (user.ticket && user.ticket.isPaid))) {
       Router.push('/profile')
     }
-    else if (user && !user.isPaid) {
+    else if (user && !user.ticket?.isPaid) {
       getDefaults()
     }
   }, [didUserInit])
@@ -108,32 +108,20 @@ const Tickets: NextPage<Props> = (props: Props) => {
   // ===============================================
   const getDefaults = async () => {
     await getLimits()
+    /*
     await getPrices()
     await getTicketLimits()
     await getTicketMax()
     await getDateLimit()
+    */
 
     setIsLoading(false)
   }
 
-  const getDateLimit = async () => {
-    await axiosInstance.get('api/defaults/ticket/date')
-    .then((res) => {
-      setFromDate(new Date(res.data.fromDate))
-      setToDate(new Date(res.data.toDate))
-    })
-    .catch((err) => {
-      return
-    })
-  }
-
   const getLimits = async () => {
-    await axiosInstance.get("api/defaults/ticket")
+    //TODO
+    await axiosInstance.get("api/v2/defaults/ticket")
     .then((res) => {
-      setDefaultMinDate(new Date(res.data.minDate))
-      setDefaultMaxDate(new Date(res.data.maxDate))
-      setMinDate(new Date(res.data.minDate))
-      setMaxDate(new Date(res.data.maxDate))
       setServerDate(new Date(res.data.serverDate))
       setEarlyBirdDate(new Date(res.data.earlyBirdExpDate))
       setIsEarlyBird(new Date(res.data.serverDate).valueOf() < new Date(res.data.earlyBirdExpDate).valueOf())
@@ -144,6 +132,17 @@ const Tickets: NextPage<Props> = (props: Props) => {
       setMaxDate1Night(maxDate)
     })
     .catch((err) => {return})
+  }
+  /*
+  const getDateLimit = async () => {
+    await axiosInstance.get('api/v2/defaults/ticket/date')
+    .then((res) => {
+      setFromDate(new Date(res.data.fromDate))
+      setToDate(new Date(res.data.toDate))
+    })
+    .catch((err) => {
+      return
+    })
   }
 
   const getPrices = async () => {
@@ -156,7 +155,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }
 
   const getTicketLimits = async () => {
-    await axiosInstance.get("api/ticket/limits")
+    await axiosInstance.gelang.api/ticket/limits")
     .then((res) => {
       setTicketLimits(res.data)
     })
@@ -164,12 +163,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
   }
 
   const getTicketMax = async () => {
-    await axiosInstance.get("api/defaults/ticket/max")
+    await axiosInstance.gelang.api/defaults/ticket/max")
     .then((res) => {
       setTicketLimitMax(res.data)
     })
     .catch((err) => {return})
   }
+  */
 
   const selectTicket = (ticket: number) => {
     setSelectedTicket(ticket)
@@ -256,14 +256,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
   // ===============================================
   // FOOD SELECT
   // ===============================================
-  useEffect(() => {
-    setFoods(
-      locale == "en"
-        ? require("../../locales/en.food.json")
-        : require("../../locales/hu.food.json")
-    );
-  }, [locale]);
-
   useEffect(() => {
     Object.keys(foods).map((food) => {
       const key = parseInt(food)
@@ -381,58 +373,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
       return
     }
 
-    let tempMinDate: number | undefined = undefined
-    let tempMaxDate: number | undefined = undefined
-
-    // Fix date offset for full ticket
-    const offsetMax = new Date(defaultMaxDate.valueOf());
-    tempMaxDate = offsetMax.getDate() + 1
-    offsetMax.setDate(tempMaxDate);
-
-    const earliest = new Date(defaultMinDate.valueOf());
-    const last = new Date(offsetMax.valueOf());
-    tempMinDate = earliest.getDate() - 1
-    tempMaxDate = last.getDate() + 1
-    earliest.setDate(tempMinDate);
-    last.setDate(tempMaxDate);
-
-    let startDay: string;
-    if (selectedTicket == 2) {
-      if (wantsDay0) {
-        startDay = earliest.toISOString();
-      } else {
-        startDay = defaultMinDate.toISOString();
-      }
-    } else if (selectedTicket == 1) {
-      if (wantsDay0) {
-        startDay = earliest.toISOString();
-      } else {
-        startDay = selectedDate[0].toISOString();
-      }
-    } else {
-      startDay = selectedDate[0].toISOString();
-    }
-
-    let endDay: string;
-    if (selectedTicket == 2) {
-      if (wantsDayExtra) {
-        endDay = last.toISOString();
-      } else {
-        endDay = offsetMax.toISOString();
-      }
-    } else if (selectedTicket == 1) {
-      if (wantsDayExtra) {
-        endDay = last.toISOString();
-      } else {
-        endDay = selectedDate[1].toISOString();
-      }
-    } else {
-      if (selectedDate[1]) {
-        endDay = selectedDate[1].toISOString();
-      } else {
-        endDay = selectedDate[0].toISOString();
-      }
-    }
 
     const payload: ITicketForm = {
       ticketType: selectedTicket!.toString() as '0' | '1' | '2',
@@ -442,8 +382,6 @@ const Tickets: NextPage<Props> = (props: Props) => {
       shirt: isSponsor? (sponsorAmount > 10000? shirtSize : null) : null,
       sponsorPrice: sponsorAmount,
       foodData: selectedTicket==0? null : selectedFoods,
-      startDay: startDay,
-      endDay: endDay,
     }
 
     setShowDialog(false)
@@ -452,23 +390,20 @@ const Tickets: NextPage<Props> = (props: Props) => {
 
     axiosInstance.post("api/ticket/create", payload)
     .then(() => {
-      AddFloatingMessage({
-        autocloses: true,
-        type: "Success",
-        duration: 10,
-        message: t("ticketSuccess"),
-      });
+      addNotification({
+        message: lang.ticketSuccess,
+        type: "success",
+      })
       Router.push(
         '/profile'
       )
       getUser()
     })
     .catch((err) => {
-      AddFloatingMessage({
-        autocloses: true,
-        type: "Error",
-        message: t("errDefault"),
-      });
+      addNotification({
+        message: lang.errDefault,
+        type: "error"
+      })
     })
     .finally(() => {
       setIsLoading(false)
@@ -502,17 +437,34 @@ const Tickets: NextPage<Props> = (props: Props) => {
 
   return (
     <>
-      <CustomHead title={t("navTickets")} />
-      <LoadingOverlay isLoading={isLoading} />
-      <CustomBackground />
+      <CustomHead title={lang.navTickets} />
+      <LoadingOverlay isLoading={isLoading}>
+        <BarLoader
+          color={variables.secondaryColor}
+        />
+      </LoadingOverlay>
       {
         showDialog &&
         <div className={styles.Tickets__Dialog}>
           <div className={styles.Tickets__Dialog__Center}>
-            <p>{t("ticketPurchaseQuestion")}</p>
+            <p>{lang.ticketPurchaseQuestion}</p>
             <div className={styles.Tickets__Dialog__Buttons}>
-              <SecondaryButton type="left" text={t("profCancel")} classType={"danger"} onClick={() => setShowDialog(false)} />
-              <SecondaryButton type="right" text={t("profConfirm")} classType={"success"} onClick={() => purchase()} />
+              <ButtonGroup>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => setShowDialog(false)}
+                >
+                  {lang.profCancel}
+                </Button>
+                <Button
+                  variant="outlined"
+                  color="success"
+                  onClick={() => purchase()}
+                >
+                  {lang.profConfirm}
+                </Button>
+              </ButtonGroup>
             </div>
           </div>
         </div>
@@ -523,190 +475,123 @@ const Tickets: NextPage<Props> = (props: Props) => {
           <> 
             <div className={styles.Tickets__Content}>
               <section className={styles.Tickets__Prices}>
-                <h2 className={styles.Tickets__Prices__Title}>{t("ticketTickets")}</h2>
+                <h2 className={styles.Tickets__Prices__Title}>{lang.ticketTickets}</h2>
                 {
                   isEarlyBird &&
                   <div className={styles.Tickets__Prices__EarlyBird}>
-                    <h3>{`${t("ticketEarlyBird")}: ${getDifference(serverDate, earlyBirdDate)} ${t("ticketEarlyBirdExp")}`}</h3>
+                    <h3>{`${lang.ticketEarlyBird}: ${getDifference(serverDate, earlyBirdDate)} ${lang.ticketEarlyBirdExp}`}</h3>
                     <h3>{createDatePatternFromDate(earlyBirdDate)}</h3>
                   </div>
                 }
                 <div className={styles.Tickets__Prices__List}>
-                  <PriceCard
-                  title={t("ticket0Title")}
-                  customClass={selectedTicket==0? styles.Tickets__Selected : ''}
-                  button={<SecondaryButton disabled={selectedTicket==0} text={t("ticketSelect")} onClick={() => selectTicket(0)} />}
-                  description={
-                    <span>
-                      {t("ticket0Desc")}<br /><br />
-                      {t("ticket0Inc")}<br />
-                      <ul>
-                        <li>{t("ticket0Inc1")}</li>
-                        <li>{t("ticket0Inc2")}</li>
-                        <li>{t("ticket0Inc3")}</li>
-                        <li>{t("ticket0Inc4")}</li>
-                        <li>{t("ticket0Inc5")}</li>
-                      </ul>
-                      <br />
-                      {t("ticket0Out")}
-                    </span>
+                {
+                      ticketData?.content.filter((o) => o.priceKey == "WACC" || o.priceKey == "TENT" ).map((o, i) => {
+                      return (
+                          <TextCard
+                              key={i}
+                              variant="simple"
+                              title={o.title}
+                              customBodyClass={styles.Prices__Body}
+                              customTitleClass={styles.Prices__Content__Title}
+                          >
+                          {
+                              o.body.map((p) => {
+                                  const str = p+'<br/>'
+                                  return parse(str) 
+                              })
+                          }
+                          {
+                              (() => {
+                                  if (!o.priceKey) return null
+                                  const ticketObj = configData.types.find((p) => p.name === o.priceKey)
+                                  
+                                  if (ticketObj) {
+                                      if (configData.isEarlyBird && ticketObj.earlyBirdPrice) {
+                                          return (
+                                              <>
+                                                  <b>
+                                                      <s>{ticketObj.price}</s> {ticketObj.earlyBirdPrice} HUF
+                                                  </b>
+                                                  <br/>
+                                              </>
+                                          )
+                                      }
+                                      else return (
+                                          <>
+                                              <b>
+                                                  {ticketObj.price} HUF
+                                              </b>
+                                              <br/>
+                                          </>
+                                      )
+                                  }
+                                  else return null
+                              })()
+                          }
+                          </TextCard>
+                      )
+                      })
                   }
-                  fullPrice={fullPrices != null && fullPrices[0].hu}
-                  price={prices[0].hu} />
-
-                  <PriceCard
-                  title={t("ticket1Title")}
-                  customClass={selectedTicket==1? styles.Tickets__Selected : ''}
-                  button={
-                    <Tippy disabled={(ticketLimits.ticket1Count < ticketLimitMax.ticket1Count) || user.isStaff} content={t("ticketNotAvailable")}>
-                      <span>
-                        <SecondaryButton disabled={selectedTicket==1 || (ticketLimits.ticket1Count >= ticketLimitMax.ticket1Count) && !user.isStaff} text={t("ticketSelect")} onClick={() => selectTicket(1)} />
-                      </span>
-                    </Tippy>
-                  }
-                  description={
-                    <span>
-                      {t("ticket1Desc")}<br /><br />
-                      {t("ticket1Inc")}<br />
-                      <ul>
-                        <li>{t("ticket1Inc1")}</li>
-                        <li>{t("ticket1Inc2")}</li>
-                        <li>{t("ticket1Inc3")}</li>
-                        <li>{t("ticket1Inc4")}</li>
-                        <li>{t("ticket1Inc5")}</li>
-                        <li>{t("ticket1Inc6")}</li>
-                      </ul>
-                      <br />
-                      {t("ticket1Out")}
-                    </span>
-                  }
-                  fullPrice={fullPrices != null && fullPrices[1].hu}
-                  price={prices[1].hu} />
-
-                  <PriceCard
-                  title={t("ticket2Title")}
-                  customClass={selectedTicket==2? styles.Tickets__Selected : ''}
-                  button={
-                    <Tippy disabled={(ticketLimits.ticket2Count < ticketLimitMax.ticket2Count) || user.isStaff} content={t("ticketNotAvailable")}>
-                      <span>
-                        <SecondaryButton disabled={selectedTicket==2 || (ticketLimits.ticket2Count >= ticketLimitMax.ticket2Count) && !user.isStaff} text={t("ticketSelect")} onClick={() => selectTicket(2)} />
-                      </span>
-                    </Tippy>
-                  }
-                  description={
-                    <span>
-                      {t("ticket2Desc")}<br /><br />
-                      {t("ticket2Inc")}<br />
-                      <ul>
-                        <li>{t("ticket2Inc1")}</li>
-                        <li>{t("ticket2Inc2")}</li>
-                        <li>{t("ticket2Inc3")}</li>
-                        <li>{t("ticket2Inc4")}</li>
-                        <li>{t("ticket2Inc5")}</li>
-                        <li>{t("ticket2Inc6")}</li>
-                      </ul>
-                    </span>
-                  }
-                  fullPrice={fullPrices != null && fullPrices[2].hu}
-                  price={prices[2].hu} />
                 </div>
               </section>
             </div>
             {
-            (selectedTicket==0 || selectedTicket==1) &&
-              <div className={styles.Tickets__Content}>
-                <section className={styles.Tickets__DaySelect}>
-                  <h2>{t("ticketDaySelect")}</h2>
-                  <div>
-                    <Calendar
-                    key={calendarKey}
-                    locale={locale}
-                    value={Array.isArray(selectedDate)? [selectedDate[0], selectedDate[1]] : selectedDate}
-                    defaultActiveStartDate={new Date(2023, 5, 14)}
-                    maxDate={(maxDate==defaultMaxDate && selectedTicket==1)? maxDate1Night : maxDate}
-                    minDate={minDate}
-                    showNavigation={false}
-                    selectRange={true}
-                    onChange={(e: Date | Date[]) => evaluateDateSelect(e)}
-                    view={"month"}
-                    allowPartialRange
-                    tileClassName={({ date }) => {
-                      let zeroDay = new Date(defaultMinDate)
-                      zeroDay.setDate(zeroDay.getDate() -1)
-                      let extraDay = new Date(maxDate1Night)
-                      extraDay.setDate(extraDay.getDate() +1)
-                      
-                      if ((wantsDay0 && zeroDay.valueOf() == date.valueOf()) ||
-                        (wantsDayExtra && extraDay.valueOf() == date.valueOf())) {
-                        return 'react-calendar__tile--highlight';
-                       }
-                       else return null
-                    }}
-                    />
-                  </div>
-                  <div className={styles.Tickets__DaySelect__Button}>
-                    <SecondaryButton text={t("ticketClear")} onClick={() => resetCalendar()}/>
-                  </div>
-                </section>
-              </div>
-            }
-            {
               (selectedTicket==2 || selectedTicket==1) &&
               <div className={styles.Tickets__Content}>
                 <section className={styles.Tickets__Prices}>
-                  <h2 className={styles.Tickets__Prices__Title}>{t("ticketExtra")}</h2>
+                  <h2 className={styles.Tickets__Prices__Title}>{lang.ticketExtra}</h2>
                   <div className={`${styles.Tickets__Prices__List} ${styles.Tickets__Prices__List_2col}`}>
                     <PriceCard
-                    title={t("ticketExtra0")}
+                    title={lang.ticketExtra0}
                     customClass={wantsDay0? styles.Tickets__Selected : ''}
                     button={
-                      <Tippy disabled={isDay0Allowed || selectedTicket!=1} content={t("ticketNotAllowed0")}>
+                      <Tippy disabled={isDay0Allowed || selectedTicket!=1} content={lang.ticketNotAllowed0}>
                         <span>
-                          <SecondaryButton disabled={!isDay0Allowed && selectedTicket == 1} text={wantsDay0? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDay0((o) => !o)} />
+                          <SecondaryButton disabled={!isDay0Allowed && selectedTicket == 1} text={wantsDay0? lang.ticketCancel : lang.ticketSelect} onClick={() => setWantsDay0((o) => !o)} />
                         </span>
                       </Tippy>
                     }
                     description={
                       <span>
-                        {t("ticketE0Desc")}<br /><br />
-                        {t("ticketE0Inc")}<br />
+                        {lang.ticketE0Desc}<br /><br />
+                        {lang.ticketE0Inc}<br />
                         <ul>
-                          <li>{t("ticketE0Inc1")}</li>
-                          <li>{t("ticketE0Inc2")}</li>
-                          <li>{t("ticketE0Inc3")}</li>
-                          <li>{t("ticketE0Inc4")}</li>
-                          <li>{t("ticketE0Inc5")}</li>
+                          <li>{lang.ticketE0Inc1}</li>
+                          <li>{lang.ticketE0Inc2}</li>
+                          <li>{lang.ticketE0Inc3}</li>
+                          <li>{lang.ticketE0Inc4}</li>
+                          <li>{lang.ticketE0Inc5}</li>
                         </ul>
                         <br />
-                        {t("ticketE0Out")}
+                        {lang.ticketE0Out}
                       </span>
                     }
                     fullPrice={fullPrices != null && fullPrices.extra0.hu}
                     price={prices.extra0.hu} />
 
                     <PriceCard
-                    title={t("ticketExtra1")}
+                    title={lang.ticketExtra1}
                     customClass={wantsDayExtra? styles.Tickets__Selected : ''}
                     button={
-                    <Tippy disabled={((ticketLimits.extra1Count < ticketLimitMax.extra1Count) || user.isStaff) && (isDay1Allowed || selectedTicket!=1)} content={(!isDay1Allowed && selectedTicket == 1)? t("ticketNotAllowed1") : t("ticketNotAvailable")}>
+                    <Tippy disabled={((ticketLimits.extra1Count < ticketLimitMax.extra1Count) || user.isStaff) && (isDay1Allowed || selectedTicket!=1)} content={(!isDay1Allowed && selectedTicket == 1)? lang.ticketNotAllowed1") : lang.ticketNotAvailable}>
                       <span>
-                        <SecondaryButton disabled={((ticketLimits.extra1Count >= ticketLimitMax.extra1Count) && !user.isStaff) || (!isDay1Allowed && selectedTicket == 1)} text={wantsDayExtra? t("ticketCancel") : t("ticketSelect")} onClick={() => setWantsDayExtra((o) => !o)} />
+                        <SecondaryButton disabled={((ticketLimits.extra1Count >= ticketLimitMax.extra1Count) && !user.isStaff) || (!isDay1Allowed && selectedTicket == 1)} text={wantsDayExtra? lang.ticketCancel") : lang.ticketSelect} onClick={() => setWantsDayExtra((o) => !o)} />
                       </span>
                     </Tippy>
                     }
                     description={
                       <span>
-                        {t("ticketE1Desc")}<br /><br />
-                        {t("ticketE1Inc")}<br />
+                        {lang.ticketE1Desc}<br /><br />
+                        {lang.ticketE1Inc}<br />
                         <ul>
-                          <li>{t("ticketE1Inc1")}</li>
-                          <li>{t("ticketE1Inc2")}</li>
-                          <li>{t("ticketE1Inc3")}</li>
-                          <li>{t("ticketE1Inc4")}</li>
-                          <li>{t("ticketE1Inc5")}</li>
+                          <li>{lang.ticketE1Inc1}</li>
+                          <li>{lang.ticketE1Inc2}</li>
+                          <li>{lang.ticketE1Inc3}</li>
+                          <li>{lang.ticketE1Inc4}</li>
+                          <li>{lang.ticketE1Inc5}</li>
                         </ul>
                         <br />
-                        {t("ticketE1Out")}
+                        {lang.ticketE1Out}
                       </span>
                     }
                     fullPrice={fullPrices != null && fullPrices.extra1.hu}
@@ -719,7 +604,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
               (selectedTicket==2 || (selectedTicket==1 && selectedDayIndex && selectedStartingDayIndex)) &&
               <div className={styles.Tickets__Content}>
                 <section className={styles.Tickets__Prices}>
-                  <h2 className={styles.Tickets__Prices__Title}>{t("ticketFoodSelect")}</h2>
+                  <h2 className={styles.Tickets__Prices__Title}>{lang.ticketFoodSelect}</h2>
                   <div className={styles.Tickets__Foods}>
                     {
                       foods &&
@@ -733,8 +618,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
                           <FilterableDropDown
                             key={i}
                             label={`${createDatePattern(i+1)}:`}
-                            buttonPlaceholder={t("natSelectSelect")}
-                            searchPlaceholder={t("natSelectPlaceholder")}
+                            buttonPlaceholder={lang.natSelectSelect}
+                            searchPlaceholder={lang.natSelectPlaceholder}
                             data={foods[key]}
                             filteredData={filteredFoods[key]}
                             dataDisplayVal={"value"}
@@ -755,22 +640,22 @@ const Tickets: NextPage<Props> = (props: Props) => {
             }
             <div className={styles.Tickets__Content}>
               <section className={styles.Tickets__Prices}>
-                <h2 className={styles.Tickets__Prices__Title}>{t("ticketSponsor")}</h2>
+                <h2 className={styles.Tickets__Prices__Title}>{lang.ticketSponsor}</h2>
                 <Input
                   type="checkbox"
                   checked={(e) => setIsSponsor(e)}
                   id="chk-1"
-                  label={<>{t("ticketSponsorQuestion")}</>}
+                  label={<>{lang.ticketSponsorQuestion}</>}
                 ></Input>
                 {isSponsor &&
                   <div className={styles.Tickets__Sponsor}>
                     <span>
-                      {t("ticketSponsorText1")}<br /><br />
-                      {t("ticketSponsorText2")}<br /><br />
+                      {lang.ticketSponsorText1}<br /><br />
+                      {lang.ticketSponsorText2}<br /><br />
                     </span>
                     <Input
                       type="number"
-                      label={`${t("ticketSponsorAmount")}:`}
+                      label={`${lang.ticketSponsorAmount}:`}
                       value={sponsorAmount}
                       onChange={(e) => setSponsorAmount(parseInt(e.target.value))}
                       onBlur={(e) => setSponsorAmount(parseInt(e.target.value))}
@@ -790,8 +675,8 @@ const Tickets: NextPage<Props> = (props: Props) => {
                     {(isSponsor && sponsorAmount > 10000) &&
                       <div className={styles.Tickets__Sponsor__Select}>
                         <DropDown
-                          label={`${t("ticketSponsorShirt")}:`}
-                          buttonPlaceholder={t("natSelectSelect")}
+                          label={`${lang.ticketSponsorShirt}:`}
+                          buttonPlaceholder={lang.natSelectSelect}
                           data={shirtSizes}
                           onChange={(e: ShirtSizeInterface) => setShirtSize(e)}
                           selected={shirtSize}
@@ -806,42 +691,42 @@ const Tickets: NextPage<Props> = (props: Props) => {
             </div>
             <div className={styles.Tickets__Content}>
               <section className={styles.Tickets__Prices}>
-                <h2 className={styles.Tickets__Prices__Title}>{t("ticketOverview")}</h2>
+                <h2 className={styles.Tickets__Prices__Title}>{lang.ticketOverview}</h2>
                 <div className={styles.Tickets__Overview}>
                   <table>
                     <tbody>
                       <tr>
-                        <td colSpan={2}><span className={styles.Tickets__Overview__Title}><h3>{t("ticketTicket")}</h3></span></td>
+                        <td colSpan={2}><span className={styles.Tickets__Overview__Title}><h3>{lang.ticketTicket}</h3></span></td>
                       </tr>
                       <tr>
-                        <td>{t("ticketOverviewTicket")}</td>
+                        <td>{lang.ticketOverviewTicket}</td>
                         <td>{selectedTicket!=undefined? `${(selectedTicket==1&&evalAmountOfDays()>1)? (`${t(`ticket${selectedTicket}Title`)} * ${evalAmountOfDays()}`) : (t(`ticket${selectedTicket}Title`))}` : <span style={{"color": "red"}}>{t(`ticketNoTicket`)}</span>}</td>
                       </tr>
                       {
                         (selectedTicket==0) &&
                         <tr>
-                          <td>{t("ticketDay")}</td>
+                          <td>{lang.ticketDay}</td>
                           <td>{selectedDate && createDatePatternFromDate(selectedDate[0])} {(selectedDate && selectedDate.length == 2)? '-' : ''} {selectedDate && createDatePatternFromDate(selectedDate[1])} {(!selectedDate.length) && <span style={{"color": "red"}}>{t(`ticketNoDay`)}</span>}</td>
                         </tr>
                       }
                       {
                         (selectedTicket==1) &&
                         <tr>
-                          <td>{t("ticketDays")}</td>
+                          <td>{lang.ticketDays}</td>
                           <td>{selectedDate.length == 2 && `${createDatePatternFromDate(selectedDate[0])} -`} {selectedDate.length == 2 && createDatePatternFromDate(selectedDate[1])} {!Array.isArray(selectedDate) || selectedDate.length < 2 && <span style={{"color": "red"}}>{t(`ticketNoDays`)}</span>}</td>
                         </tr>
                       }
                       {
                         (selectedTicket==2) &&
                         <tr>
-                          <td>{t("ticketExtra")}</td>
-                          <td>{wantsDay0 && t("ticketExtra0")}{wantsDay0 && wantsDayExtra && ','} {wantsDayExtra && t("ticketExtra1")} {!wantsDay0 && !wantsDayExtra && t("ticketNoExtra")}</td>
+                          <td>{lang.ticketExtra}</td>
+                          <td>{wantsDay0 && lang.ticketExtra0}{wantsDay0 && wantsDayExtra && ','} {wantsDayExtra && lang.ticketExtra1} {!wantsDay0 && !wantsDayExtra && lang.ticketNoExtra}</td>
                         </tr>
                       }
                       {
                         (selectedTicket==2 || (selectedTicket==1 && selectedDayIndex)) &&
                         <tr>
-                          <td colSpan={2}><span className={styles.Tickets__Overview__Title}><h3>{t("ticketFood")}</h3></span></td>
+                          <td colSpan={2}><span className={styles.Tickets__Overview__Title}><h3>{lang.ticketFood}</h3></span></td>
                         </tr>
                       }
                       {
@@ -858,7 +743,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                                   {createDatePattern(i+1)}
                                 </td>
                                 <td>
-                                  {foodSelect[key] || <span style={{"color": "red"}}>{t("ticketNoFood")}</span>}
+                                  {foodSelect[key] || <span style={{"color": "red"}}>{lang.ticketNoFood}</span>}
                                 </td>
                               </tr>
                             );
@@ -867,24 +752,24 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       {
                         isSponsor &&
                         <tr>
-                          <td colSpan={2}><span className={styles.Tickets__Overview__Title}><h3>{t("ticketSponsor")}</h3></span></td>
+                          <td colSpan={2}><span className={styles.Tickets__Overview__Title}><h3>{lang.ticketSponsor}</h3></span></td>
                         </tr>
                       }
                       {
                         isSponsor &&
                         <>
                         <tr>
-                          <td>{t("ticketSponsorAmount")}</td>
+                          <td>{lang.ticketSponsorAmount}</td>
                           <td>{`${sponsorAmount} HUF`}</td>
                         </tr>
                         <tr>
-                          <td>{t("ticketSponsorLevel")}</td>
-                          <td>{sponsorAmount>10000? t("ticketSuperSponsor") : t("ticketSponsor")}</td>
+                          <td>{lang.ticketSponsorLevel}</td>
+                          <td>{sponsorAmount>10000? lang.ticketSuperSponsor") : lang.ticketSponsor}</td>
                         </tr>
                         {(isSponsor && sponsorAmount>10000) &&
                           <tr>
-                            <td>{t("ticketSponsorShirt")}</td>
-                            <td>{shirtSize? shirtSize : <span style={{"color": "red"}}>{t("ticketNoShirt")}</span>}</td>
+                            <td>{lang.ticketSponsorShirt}</td>
+                            <td>{shirtSize? shirtSize : <span style={{"color": "red"}}>{lang.ticketNoShirt}</span>}</td>
                           </tr>
                         }
                         </>
@@ -892,41 +777,41 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       {
                         (selectedTicket != undefined) &&
                         <tr>
-                          <td colSpan={2}><span className={styles.Tickets__Overview__Title}><h3>{t("ticketPrice")}</h3></span></td>
+                          <td colSpan={2}><span className={styles.Tickets__Overview__Title}><h3>{lang.ticketPrice}</h3></span></td>
                         </tr>
                       }
                       {
                         (selectedTicket != undefined && prices != undefined) &&
                         <tr>
-                          <td>{t("ticketTicket")}</td>
+                          <td>{lang.ticketTicket}</td>
                           <td>{`${(selectedTicket==0 && prices[0].hu) || (selectedTicket==1 && prices[1].hu) || (selectedTicket==2 && prices[2].hu)} ${(selectedTicket==0 || selectedTicket==1)? (evalAmountOfDays() <= 1)? '' : `(* ${evalAmountOfDays()})` : ''} HUF`}</td>
                         </tr>
                       }
                       {
                         (selectedTicket != undefined && prices != undefined && wantsDay0) &&
                         <tr>
-                          <td>{t("ticketExtra0")}</td>
+                          <td>{lang.ticketExtra0}</td>
                           <td>{`+${prices.extra0.hu} HUF`}</td>
                         </tr>
                       }
                       {
                         (selectedTicket != undefined && prices != undefined && wantsDayExtra) &&
                         <tr>
-                          <td>{t("ticketExtra1")}</td>
+                          <td>{lang.ticketExtra1}</td>
                           <td>{`+${prices.extra1.hu} HUF`}</td>
                         </tr>
                       }
                       {
                         (selectedTicket != undefined && isSponsor) &&
                         <tr>
-                          <td>{t("ticketSponsor")}</td>
+                          <td>{lang.ticketSponsor}</td>
                           <td>{`+${sponsorAmount} HUF`}</td>
                         </tr>
                       }
                       {
                         (selectedTicket != undefined) &&
                         <tr className={styles.Tickets__Overview__Price}>
-                          <td>{`${t("ticketFinalPrice")}`}</td>
+                          <td>{`${lang.ticketFinalPrice}`}</td>
                           <td>{`${
                             (selectedTicket==0? (prices[0].hu * (evalAmountOfDays() || 1)) : 0) + (selectedTicket==1? (prices[1].hu * evalAmountOfDays()) : 0) + (selectedTicket==2? prices[2].hu : 0)
                             + 
@@ -948,13 +833,13 @@ const Tickets: NextPage<Props> = (props: Props) => {
                       {
                         (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
                         <p style={{color: 'red'}}>
-                          {`${t("warnDateLimit1")} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${t("warnDateLimit2")}`}
+                          {`${lang.warnDateLimit1} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${lang.warnDateLimit2}`}
                         </p>
                       }
-                      <Tippy disabled={user.TicketKey == null} content={t("ticketAlreadyHas")}>
+                      <Tippy disabled={user.TicketKey == null} content={lang.ticketAlreadyHas}>
                         <span>
                           <PrimaryButton
-                            text={t("ticketBuy")}
+                            text={lang.ticketBuy}
                             onClick={() => setShowDialog(true)}
                             disabled={isDisabled || (user.TicketKey != null) || 
                             !((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))} />
@@ -973,17 +858,3 @@ const Tickets: NextPage<Props> = (props: Props) => {
 }
 
 export default Tickets;
-*/
-
-import TempWIP from "@/comp/TempWIP";
-import { NextPage } from "next";
-
-type Props = {}
-
-const Tickets: NextPage<Props> = (props: Props) => {
-
-  return (
-    <TempWIP/>
-  );
-}
-export default Tickets
