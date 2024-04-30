@@ -4,31 +4,31 @@ import resetLimit from "./scripts/resetMailLimit"
 import ticketLimitWatcher from "./scripts/ticketLimitWatcher"
 import roomHoggingWatcher from "./scripts/roomHoggingWatcher"
 
-const isProd = process.argv[2] == "production"
+const isProd = process.argv[2] == "production";
 const log = (message: string) => {
-    console.log(`\x1b[96mdaemon\x1b[0m - ${message}`)
+    console.log(`\x1b[96mdaemon\x1b[0m - ${message}`);
 }
 
 const start = () => {
-    log("Online")
-    dotenv.config()
-    if (!isProd) log("Loaded env")
+    log("Online");
+    dotenv.config();
+    if (!isProd) log("Loaded env");
 }
 start()
 
 schedule.scheduleJob('0 0 * * * *', async () => { // 0 0 * * * *
     try {
         // Email count watcher
-        await resetLimit()
+        await resetLimit();
 
         // Ticket payment watcher
-        await ticketLimitWatcher()
+        await ticketLimitWatcher();
 
         // Room hogging watcher
-        await roomHoggingWatcher()
+        await roomHoggingWatcher();
     }
     catch(e) {
-        log(`Error: ${e}`)
+        log(`Error: ${e}`);
     }
 }); // Trigger every hour
 

@@ -7,18 +7,19 @@ const resetLimit = async () => {
         log("Error: No MAIL_LIMIT set");
         return;
     }
-    const defaultLimit = parseInt(process.env.MAIL_LIMIT)
+    const defaultLimit = parseInt(process.env.MAIL_LIMIT);
 
     const dataToWrite = {
         mailCount: defaultLimit
     }
 
     try {
-        const filePath = path.join(`${process.cwd()}`, "utils/shared.json")
+        const filePath = path.join(`${process.cwd()}`, "utils/shared.json");
         const data = JSON.stringify(dataToWrite, null, 2);
         fs.writeFileSync(filePath, data);
         
-        if (!isProd) log(`Mail Limit reset to ${defaultLimit}`)
+        if (!isProd)
+            log(`Mail Limit reset to ${defaultLimit}`);
     }
     catch(e) {
         log(`Error: ${e}`);

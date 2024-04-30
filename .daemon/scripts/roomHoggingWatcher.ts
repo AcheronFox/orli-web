@@ -5,8 +5,12 @@ import * as mysql from "mysql";
 import { IAccomodationRaw } from "@/models/accomodation.model";
 import _ from "lodash";
 import { IRoomRaw } from "@/models/room.model";
-import { removeAttendeeAccomodationId } from "@/services/attendee/service.attendee.update";
-import { getAccomodationByAccountKey, getAccomodationById } from "@/services/accomodation/service.accomodation.select";
+import { IAccomodation } from "@/models/newDbModels/accomodation.model";
+import { getAllAccomodations } from "@/services/accomodation/service.accomodation.select";
+import { IRoom } from "@/models/newDbModels/room.model";
+import { getAllRooms } from "@/services/room/service.room.select";
+import { IAttendee } from "@/models/newDbModels/attendee.model";
+import { getAttendees } from "@/services/attendee/service.attendee.select";
 
 const runLeave = async (accountKey: string) => {
     return await new Promise<boolean>(async (mainResolve) => {
@@ -30,33 +34,12 @@ const runLeave = async (accountKey: string) => {
 
                 const removeCurrentAccomodation = async () => {
                     return new Promise<boolean>(async (resolve) => {
-                        // Remove the id from attendee first, otherwise delete will fail.
-
-                        const accomodationIdToRemove = (await getAccomodationByAccountKey(accountKey))?.id;
-
-                        if (accomodationIdToRemove == undefined) {
-                            console.log("No accomodation to remove with that accountKey!")
-                            rollback(connection);
-                            resolve(false);
-                            return;
-                        }
-
-                        const result = await removeAttendeeAccomodationId(accountKey, connection);
-
-                        if (!result) {
-                            console.log("ERROR: Failed to remove accomodation id from attendee");
-                            rollback(connection);
-                            resolve(false);
-                            return;
-                        }
-
                         const query = 
                         `
-                        DELETE FROM accomodation
-                        WHERE id = ?;
+                        DELETE FROM accomodation WHERE AccountKey = '${accountKey}'
                         `
 
-                        connection.query(query, [accomodationIdToRemove], (err: any) => {
+                        connection.query(query, (err: any) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 rollback(connection);
@@ -65,7 +48,7 @@ const runLeave = async (accountKey: string) => {
                                 return;
                             }
                             else {  
-                                resolve(true);
+                                resolve(true)
                             }   
                         });
                     })
@@ -75,10 +58,10 @@ const runLeave = async (accountKey: string) => {
                     return new Promise<boolean>(async (resolve) => {
                         const query = 
                         `
-                        SELECT * FROM room WHERE adminKey = ?;
+                        SELECT * FROM room WHERE adminKey = '${accountKey}'
                         `
 
-                        connection.query(query, [accountKey], (err: any, room: any[]) => {
+                        connection.query(query, (err: any, room: any[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 rollback(connection);
@@ -89,10 +72,10 @@ const runLeave = async (accountKey: string) => {
                             else if (room.length) {  
                                 const query = 
                                 `
-                                SELECT * FROM accomodation WHERE roomId = ? ORDER BY creationDate ASC
+                                SELECT * FROM accomodation WHERE roomId = ${room[0].id} ORDER BY creationDate ASC
                                 `
 
-                                connection.query(query, [room[0].id],async (err: any, accomodations: IAccomodationRaw[]) => {
+                                connection.query(query, async (err: any, accomodations: IAccomodationRaw[]) => {
                                     if (err) {
                                         console.log("ERROR: ", err);
                                         rollback(connection);
@@ -176,72 +159,46 @@ const runLeave = async (accountKey: string) => {
 }
 
 const roomHoggingWatcher = async () => {
-    const accomodationQuery = async () => {
-        return new Promise<AccomodationDatabase[] | undefined>(async (resolve) => {
-            const query = 
-            `
-            SELECT * FROM accomodation;
-            `
-
-            database.query(query, async (err: any, result: AccomodationDatabase[]) => {
-                if (err) {
-                    log(`Error: ${err}`);
-                    resolve(undefined);
-                }
-                resolve(result);
-            });
-        });
-    }
-    const roomQuery = async () => {
-        return new Promise<IRoomRaw[] | undefined>(async (resolve) => {
-            const query = 
-            `
-            SELECT * FROM room;
-            `
-
-            database.query(query, async (err: any, result: IRoomRaw[]) => {
-                if (err) {
-                    log(`Error: ${err}`);
-                    resolve(undefined);
-                }
-                resolve(result);
-            });
-        });
-    }
     
-    const accomodations: AccomodationDatabase[] | undefined = await accomodationQuery()
-    const rooms: IRoomRaw[] | undefined = await roomQuery()
-    const currentDate = new Date()
-    let isError: boolean = false
+    const accomodations: IAccomodation[] | undefined = await getAllAccomodations();
+    const rooms: IRoom[] | undefined = await getAllRooms();
+    const currentDate = new Date();
 
-    if (accomodations != undefined && accomodations.length && rooms != undefined && rooms.length) {
-        let removedCount = 0;
+    if (!(accomodations?.length && rooms?.length))
+        return;
 
-        for (let i=0; i < rooms.length; i++) {
-            if (isError) continue
-            const roomAccomodations = accomodations.filter((o) => o.roomId == rooms[i].id)
-            if (!roomAccomodations.length) continue
 
-            for (let j=0; j < roomAccomodations.length; j++) {
-                if (!isError && accomodations[i]) {
-                    const accomodationDate = new Date(roomAccomodations[j].creationDate!)
-                
-                    if (((accomodationDate.getTime() + (1000 * 60 * 60 * 24 * 3)) <= currentDate.getTime() &&
-                        roomAccomodations.length == 1)) {
-                        const removalStatus = await runLeave(roomAccomodations[j].AccountKey!)
-                        if (!removalStatus) isError = true
-                        else removedCount++
-                    }
+    let removedCount = 0;
+
+    for (let i = 0; i < rooms.length; i++)
+    {
+        const roomAccomodations = accomodations.filter((o) => o.roomId == rooms[i].id);
+
+        if (!roomAccomodations.length)
+            continue;
+
+        for (let j = 0; j < roomAccomodations.length; j++)
+        {
+            const accomodationDate = new Date(roomAccomodations[j].createdAt!)
+        
+            if (((accomodationDate.getTime() + (1000 * 60 * 60 * 24 * 3)) <= currentDate.getTime() &&
+                roomAccomodations.length == 1))
+            {
+                const removalStatus = await runLeave(roomAccomodations[j].id!)
+                if (!removalStatus)
+                {
+
+                }
+                else
+                {
+                    removedCount++
                 }
             }
         }
-
-        if (!isError && !isProd) {
-            log(`${removedCount? removedCount : 'No'} accomodations have been removed.`)
-        }
     }
-    else {
-        return;
+
+    if (!isProd) {
+        log(`${removedCount? removedCount : 'No'} accomodations have been removed.`);
     }
 }
 
