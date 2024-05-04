@@ -1,8 +1,7 @@
-import dotenv from "dotenv"
+import 'dotenv/config'; // Let it be known, I've suffered for this.
 import schedule from "node-schedule"
-import resetLimit from "./scripts/resetMailLimit"
-import ticketLimitWatcher from "./scripts/ticketLimitWatcher"
-import roomHoggingWatcher from "./scripts/roomHoggingWatcher"
+import roomHoggingWatcher from './scripts/roomHoggingWatcher';
+import resetLimit from './scripts/resetMailLimit';
 
 const isProd = process.argv[2] == "production";
 const log = (message: string) => {
@@ -11,28 +10,31 @@ const log = (message: string) => {
 
 const start = () => {
     log("Online");
-    dotenv.config();
     if (!isProd) log("Loaded env");
+    setUpJobs();
 }
-start()
+start();
 
-schedule.scheduleJob('*/10 * * * * *', async () => { // 0 0 * * * *
-    try {
+function setUpJobs() {
+    schedule.scheduleJob('*/10 * * * * *', async () => { // 0 0 * * * *
+        try {
 
-        console.log("USER: " + process.env.DB_USER);
-        // Email count watcher
-        //await resetLimit();
+            await resetLimit();
 
-        // Ticket payment watcher
-        //await ticketLimitWatcher();
+            const removedRoomCount = await roomHoggingWatcher();
 
-        // Room hogging watcher
-        await roomHoggingWatcher();
-    }
-    catch(e) {
-        log(`Error: ${e}`);
-    }
-}); // Trigger every hour
+            if (!isProd) {
+                log(`${removedRoomCount? removedRoomCount : 'No'} accomodations have been removed.`);
+            }
+
+
+        }
+        catch(e) {
+            log(`Error: ${e}`);
+        }
+    });
+}
+
 
 /*
                 *    *    *    *    *    *
