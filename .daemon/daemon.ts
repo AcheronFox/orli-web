@@ -16,13 +16,15 @@ const start = () => {
 }
 start()
 
-schedule.scheduleJob('0 0 * * * *', async () => { // 0 0 * * * *
+schedule.scheduleJob('*/10 * * * * *', async () => { // 0 0 * * * *
     try {
+
+        console.log("USER: " + process.env.DB_USER);
         // Email count watcher
-        await resetLimit();
+        //await resetLimit();
 
         // Ticket payment watcher
-        await ticketLimitWatcher();
+        //await ticketLimitWatcher();
 
         // Room hogging watcher
         await roomHoggingWatcher();

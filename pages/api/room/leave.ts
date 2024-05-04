@@ -33,14 +33,17 @@ export default async function handler(
         return sendResponse(400, {message: "Missing prop", e_code: "room_leave_1"})
     }
 
-    let connection: mysql.PoolConnection | null = null;;
+    const roomId = req.body.roomId;
+    const accountKey = tokenPayload.accountKey;
+    const roomCount = req.body.roomCount;
+    let connection: mysql.PoolConnection | null = null;
 
     try {
         connection = await getDbConnection();
         await beginDbTransaction(connection);
 
-        const occupants = await getAccomodationsByRoomId(req.body.roomId, connection);
-        const attendee = await getAttendeeByAccountKey(tokenPayload.accountKey, connection);
+        const occupants = await getAccomodationsByRoomId(roomId, connection);
+        const attendee = await getAttendeeByAccountKey(accountKey, connection);
         if (attendee == undefined) {
             throw new DatabaseError(400, "Attendee with account key not found", "room_leave_2")
         }
@@ -49,7 +52,7 @@ export default async function handler(
             throw new DatabaseError(400, "No attendees in room", "room_leave_3");
         }
     
-        if (occupants.length != req.body.roomCount) {
+        if (occupants.length != roomCount) {
             throw new DatabaseError(409, "Data changed", "room_leave_4");
         }
         if (!occupants.find((o) => o.id == attendee.accomodationId)) {
@@ -69,7 +72,7 @@ export default async function handler(
         const result = await leaveRoom(accomodation, connection);
     
         if (result)
-            sendResponse(201, {message: "Room left"});
+            return sendResponse(201, {message: "Room left"});
 
     } catch (err) {
         if (connection) {
@@ -80,9 +83,9 @@ export default async function handler(
         }
 
         if (err instanceof DatabaseError) {
-            sendResponse(err.return_code, { message: err.message, e_code: err.e_code });
+            return sendResponse(err.return_code, { message: err.message, e_code: err.e_code });
         } else {
-            sendResponse(500, { message: `Unknown error occured: ${err}`, e_code: "room_leave_8" });
+            return sendResponse(500, { message: `Unknown error occured: ${err}`, e_code: "room_leave_8" });
         }
     } finally {
         if (connection) {
@@ -91,5 +94,5 @@ export default async function handler(
     }
 
     // We should not get here at all.
-    sendResponse(500, { message: "Unknown error", e_code: "room_leave_9" });
+    return sendResponse(500, { message: "Unknown error", e_code: "room_leave_9" });
 }
