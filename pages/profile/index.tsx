@@ -293,7 +293,7 @@ const Profile: NextPage<Props> = (props: Props) => {
   // ===============================================
   const handleButton = async () => {
     const isPassChanged = password.trim() != ""
-    const isTelegramChanged = user?.attendee.telegram != telegram.trim()
+    const isTelegramChanged = user?.attendee.telegram != 'https://t.me/'+telegram.trim()
     const isSuiterChanged = user?.fursona.hasFursuit != isFursuiter
     const isFusronaNameChanged = user?.fursona.name != fursonaName.trim()
     const isSpeciesChanged = user?.fursona.species != species.trim()

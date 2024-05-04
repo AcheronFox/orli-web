@@ -12,8 +12,7 @@ const en: Language = {
 
     // WARNINGS
     warnOverload: "The server is experiencing higher load than usual, please wait...",
-    warnDateLimit1: "Only available between",
-    warnDateLimit2: "",
+    warnDateLimit: "Ticket Purchase is not available anymore.",
 
     // NOTIF
     notifError: "Error",
@@ -271,6 +270,8 @@ const en: Language = {
     profImageLimit2: "will not be displayed on the badge.",
 
     // TICKETS
+    ticketWACC: "Festival pass",
+    ticketTENT: "Camping pass",
     ticketTickets: "Tickets",
     ticketTicket: "Ticket",
     ticketExtra: "Extensions",
@@ -290,8 +291,7 @@ const en: Language = {
     ticketOverviewTicket: "Selected ticket",
     ticketNoTicket: "Please select ticket",
     ticketNoExtra: "No extra ticket(s)",
-    ticketDay: "Selected day",
-    ticketDays: "Selected days",
+    ticketDay: "Selected Ticket",
     ticketNoDay: "Please choose which day you would like to come",
     ticketNoDays: "Please choose which days you would like to come",
     ticketSponsorLevel: "Sponsor level",

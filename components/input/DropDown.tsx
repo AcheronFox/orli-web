@@ -2,10 +2,10 @@
 import { NextPage } from "next";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { VariableSizeList as List } from "react-window";
-import SecondaryButton from "./SecondaryButton";
-import styles from "@/styles/components/FilterableDropDown.module.scss";
+import styles from "@/styles/components/input/FilterableDropDown.module.scss";
 import UseWindowDimensions from "@/hooks/utils/useWindowDimensions";
 import { RiArrowRightSLine } from "react-icons/ri"
+import Button from "../button/Button";
 
 type Props = {
   label?: string;
@@ -146,10 +146,12 @@ const DropDown: NextPage<Props> = ({
         {(label != undefined) &&
           <span className={styles.Selector__Label}>{label}</span>
         }
-        <SecondaryButton
-          onClick={openDropDown} type={buttonType}
-          text={<span className={styles.Selector__Button}>{selected || buttonPlaceholder} <RiArrowRightSLine size={18} className={`${styles.Selector__Button__Icon} ${open && styles.Selector__Button__Open}`} /></span>}
-        />
+        <Button
+          onClick={openDropDown}
+          variant="outlined"
+        >
+          <span className={styles.Selector__Button}>{selected || buttonPlaceholder} <RiArrowRightSLine size={18} className={`${styles.Selector__Button__Icon} ${open && styles.Selector__Button__Open}`} /></span>
+        </Button>
       </div>
       <div className={`${styles.Selector__DropDown} ${open && styles.Selector__Open} ${switchFlyOut && styles.Selector__Reversed}`}>
         <List

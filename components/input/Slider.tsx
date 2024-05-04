@@ -3,7 +3,7 @@ import ReactSlider from "react-slider";
 import styles from "@/styles/components/Slider.module.scss"
 import { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
-import Tippy from "@tippyjs/react";
+import { Tooltip } from "react-tippy";
 
 type Props = {
     value: number;
@@ -44,9 +44,22 @@ const Slider: NextPage<Props> = (props: Props) => {
         }
         renderThumb={
             (thumbProps, state) =>
-            <Tippy key={state.index} visible={visible} content={`${props.value} ${props.tooltipText}`}>
+            <Tooltip
+                html={
+                <span style={{ fontSize: "1.4rem" }}>
+                    {`${props.value} ${props.tooltipText}`}
+                </span>
+                }
+                arrow
+                arrowSize="big"
+                size="big"
+                inertia
+                style={{
+                fontSize: '1.6rem'
+                }}
+            >
                 <div onMouseEnter={show} onMouseLeave={hide} {...thumbProps} />
-            </Tippy>
+            </Tooltip>
         }
         renderMark={
             (markProps) => {

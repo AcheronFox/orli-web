@@ -5,7 +5,7 @@ import styles from "@/styles/components/PaginationTable.module.scss";
 import getNationality from "../functions/getNationality";
 import createDatePatternFromDate from "@/root/functions/createDatePattern";
 import { useTranslate } from "@/hooks/useTranslate";
-import DropDown from "./DropDown";
+import DropDown from "./input/DropDown";
 import SecondaryButton from "./SecondaryButton";
 import { RiArrowRightSLine, RiArrowLeftSLine } from "react-icons/ri"
 import Link from "next/link";
