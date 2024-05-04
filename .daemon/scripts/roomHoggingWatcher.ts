@@ -12,151 +12,151 @@ import { getAllRooms } from "@/services/room/service.room.select";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
 import { getAttendees } from "@/services/attendee/service.attendee.select";
 
-const runLeave = async (accountKey: string) => {
-    return await new Promise<boolean>(async (mainResolve) => {
-        database.getConnection((err, connection) => {
-            if (err) {
-                log(`Error: ${err}`);
-                mainResolve(false);
-            }
-            connection.beginTransaction(async (err) => {
-                if (err) {
-                    console.log("ERROR: ", err);
-                    connection.release();
-                    log(`Error: ${err}`);
-                    mainResolve(false);
-                }
-                const rollback = (con: mysql.PoolConnection) => {
-                    con.rollback(() => {
-                        con.release();
-                    });
-                }
+// const runLeave = async (accountKey: string) => {
+//     return await new Promise<boolean>(async (mainResolve) => {
+//         database.getConnection((err, connection) => {
+//             if (err) {
+//                 log(`Error: ${err}`);
+//                 mainResolve(false);
+//             }
+//             connection.beginTransaction(async (err) => {
+//                 if (err) {
+//                     console.log("ERROR: ", err);
+//                     connection.release();
+//                     log(`Error: ${err}`);
+//                     mainResolve(false);
+//                 }
+//                 const rollback = (con: mysql.PoolConnection) => {
+//                     con.rollback(() => {
+//                         con.release();
+//                     });
+//                 }
 
-                const removeCurrentAccomodation = async () => {
-                    return new Promise<boolean>(async (resolve) => {
-                        const query = 
-                        `
-                        DELETE FROM accomodation WHERE AccountKey = '${accountKey}'
-                        `
+//                 const removeCurrentAccomodation = async () => {
+//                     return new Promise<boolean>(async (resolve) => {
+//                         const query = 
+//                         `
+//                         DELETE FROM accomodation WHERE AccountKey = '${accountKey}'
+//                         `
 
-                        connection.query(query, (err: any) => {
-                            if (err) {
-                                console.log("ERROR: ", err);
-                                rollback(connection);
-                                log(`Error: ${err}`);
-                                resolve(false);
-                                return;
-                            }
-                            else {  
-                                resolve(true)
-                            }   
-                        });
-                    })
-                }
+//                         connection.query(query, (err: any) => {
+//                             if (err) {
+//                                 console.log("ERROR: ", err);
+//                                 rollback(connection);
+//                                 log(`Error: ${err}`);
+//                                 resolve(false);
+//                                 return;
+//                             }
+//                             else {  
+//                                 resolve(true)
+//                             }   
+//                         });
+//                     })
+//                 }
 
-                const resolveAdminReassign = async () => {
-                    return new Promise<boolean>(async (resolve) => {
-                        const query = 
-                        `
-                        SELECT * FROM room WHERE adminKey = '${accountKey}'
-                        `
+//                 const resolveAdminReassign = async () => {
+//                     return new Promise<boolean>(async (resolve) => {
+//                         const query = 
+//                         `
+//                         SELECT * FROM room WHERE adminKey = '${accountKey}'
+//                         `
 
-                        connection.query(query, (err: any, room: any[]) => {
-                            if (err) {
-                                console.log("ERROR: ", err);
-                                rollback(connection);
-                                log(`Error: ${err}`);
-                                resolve(false);
-                                return;
-                            }
-                            else if (room.length) {  
-                                const query = 
-                                `
-                                SELECT * FROM accomodation WHERE roomId = ${room[0].id} ORDER BY creationDate ASC
-                                `
+//                         connection.query(query, (err: any, room: any[]) => {
+//                             if (err) {
+//                                 console.log("ERROR: ", err);
+//                                 rollback(connection);
+//                                 log(`Error: ${err}`);
+//                                 resolve(false);
+//                                 return;
+//                             }
+//                             else if (room.length) {  
+//                                 const query = 
+//                                 `
+//                                 SELECT * FROM accomodation WHERE roomId = ${room[0].id} ORDER BY creationDate ASC
+//                                 `
 
-                                connection.query(query, async (err: any, accomodations: IAccomodationRaw[]) => {
-                                    if (err) {
-                                        console.log("ERROR: ", err);
-                                        rollback(connection);
-                                        log(`Error: ${err}`);
-                                        resolve(false);
-                                        return;
-                                    }
-                                    else if (accomodations.length) {  
-                                        const payload = {
-                                            adminKey: accomodations[0].AccountKey
-                                        }
-                                        resolve(await updateRoom(payload, room[0].id))
-                                    }
-                                    else {
-                                        const defaultData = {
-                                            roomPin: null,
-                                            customName: null,
-                                            adminKey: null
-                                        }
-                                        resolve(await updateRoom(defaultData, room[0].id))
-                                    }
-                                });
-                            }
-                            else {
-                                resolve(true)
-                            }
-                        });
-                    })
-                }
+//                                 connection.query(query, async (err: any, accomodations: IAccomodationRaw[]) => {
+//                                     if (err) {
+//                                         console.log("ERROR: ", err);
+//                                         rollback(connection);
+//                                         log(`Error: ${err}`);
+//                                         resolve(false);
+//                                         return;
+//                                     }
+//                                     else if (accomodations.length) {  
+//                                         const payload = {
+//                                             adminKey: accomodations[0].AccountKey
+//                                         }
+//                                         resolve(await updateRoom(payload, room[0].id))
+//                                     }
+//                                     else {
+//                                         const defaultData = {
+//                                             roomPin: null,
+//                                             customName: null,
+//                                             adminKey: null
+//                                         }
+//                                         resolve(await updateRoom(defaultData, room[0].id))
+//                                     }
+//                                 });
+//                             }
+//                             else {
+//                                 resolve(true)
+//                             }
+//                         });
+//                     })
+//                 }
     
-                const updateRoom = async (data: any, id: number) => {
-                    if (_.isEmpty(data)) return true
-                    return new Promise<boolean>(async (resolve) => {
-                        Object.keys(data).forEach(k => {
-                            try {
-                                (typeof data[k] == 'string')? (data[k] = data[k].trim()) : {};
-                            } catch {
-                                rollback(connection);
-                                log(`Error: ${err}`);
-                                resolve(false);
-                            }
-                        })
+//                 const updateRoom = async (data: any, id: number) => {
+//                     if (_.isEmpty(data)) return true
+//                     return new Promise<boolean>(async (resolve) => {
+//                         Object.keys(data).forEach(k => {
+//                             try {
+//                                 (typeof data[k] == 'string')? (data[k] = data[k].trim()) : {};
+//                             } catch {
+//                                 rollback(connection);
+//                                 log(`Error: ${err}`);
+//                                 resolve(false);
+//                             }
+//                         })
 
-                        connection.query(mysql.format(`UPDATE room SET ? WHERE id = ${id}`, [data]), (err: any) => {
-                            if (err) {
-                                console.log("ERROR: ", err);
-                                rollback(connection);
-                                log(`Error: ${err}`);
-                                resolve(false);
-                                return;
-                            }
-                            else {
-                                resolve(true);
-                            }
-                        });
-                    })
-                }
+//                         connection.query(mysql.format(`UPDATE room SET ? WHERE id = ${id}`, [data]), (err: any) => {
+//                             if (err) {
+//                                 console.log("ERROR: ", err);
+//                                 rollback(connection);
+//                                 log(`Error: ${err}`);
+//                                 resolve(false);
+//                                 return;
+//                             }
+//                             else {
+//                                 resolve(true);
+//                             }
+//                         });
+//                     })
+//                 }
                 
-                const accomodationDeletionState: boolean = await removeCurrentAccomodation();
-                if (!accomodationDeletionState) return;
-                const adminReassignState: boolean = await resolveAdminReassign();
-                if (!adminReassignState) return;
+//                 const accomodationDeletionState: boolean = await removeCurrentAccomodation();
+//                 if (!accomodationDeletionState) return;
+//                 const adminReassignState: boolean = await resolveAdminReassign();
+//                 if (!adminReassignState) return;
 
-                if (adminReassignState && accomodationDeletionState) {
-                    connection.commit(async function (err) {
-                        if (err) {
-                            console.log(err)
-                            connection.rollback(function () {
-                                log(`Error: ${err}`);
-                                mainResolve(false);
-                            });
-                        } else {
-                            connection.release();
-                            mainResolve(true);
-                        }
-                    });
-                }
-            });
-        });
-    });
-}
+//                 if (adminReassignState && accomodationDeletionState) {
+//                     connection.commit(async function (err) {
+//                         if (err) {
+//                             console.log(err)
+//                             connection.rollback(function () {
+//                                 log(`Error: ${err}`);
+//                                 mainResolve(false);
+//                             });
+//                         } else {
+//                             connection.release();
+//                             mainResolve(true);
+//                         }
+//                     });
+//                 }
+//             });
+//         });
+//     });
+// }
 
 const roomHoggingWatcher = async () => {
     
@@ -174,6 +174,8 @@ const roomHoggingWatcher = async () => {
     {
         const roomAccomodations = accomodations.filter((o) => o.roomId == rooms[i].id);
 
+        console.log(roomAccomodations);
+
         if (!roomAccomodations.length)
             continue;
 
@@ -184,7 +186,8 @@ const roomHoggingWatcher = async () => {
             if (((accomodationDate.getTime() + (1000 * 60 * 60 * 24 * 3)) <= currentDate.getTime() &&
                 roomAccomodations.length == 1))
             {
-                const removalStatus = await runLeave(roomAccomodations[j].id!)
+                //const removalStatus = await runLeave(roomAccomodations[j].id!);
+                const removalStatus = true;
                 if (!removalStatus)
                 {
 
