@@ -2,6 +2,7 @@ import 'dotenv/config'; // Let it be known, I've suffered for this.
 import schedule from "node-schedule"
 import roomHoggingWatcher from './scripts/roomHoggingWatcher';
 import resetLimit from './scripts/resetMailLimit';
+import ticketLimitWatcher from './scripts/ticketLimitWatcher';
 
 const isProd = process.argv[2] == "production";
 const log = (message: string) => {
@@ -19,7 +20,15 @@ function setUpJobs() {
     schedule.scheduleJob('*/10 * * * * *', async () => { // 0 0 * * * *
         try {
 
-            await resetLimit();
+            if (!process.env.MAIL_LIMIT) {
+                log("Error: No MAIL_LIMIT set");
+            }
+            else {
+                const defaultLimit = await resetLimit(process.env.MAIL_LIMIT);
+
+                if (!isProd)
+                    log(`Mail Limit reset to ${defaultLimit}`);
+            }
 
             const removedRoomCount = await roomHoggingWatcher();
 
@@ -27,6 +36,11 @@ function setUpJobs() {
                 log(`${removedRoomCount? removedRoomCount : 'No'} accomodations have been removed.`);
             }
 
+            const removedTicketCount = await ticketLimitWatcher();
+
+            if (!isProd) {
+                log(`${removedTicketCount? removedTicketCount : 'No'} unpaid tickets have been deleted.`)
+            }
 
         }
         catch(e) {
@@ -34,7 +48,6 @@ function setUpJobs() {
         }
     });
 }
-
 
 /*
                 *    *    *    *    *    *
