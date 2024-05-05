@@ -1,100 +1,30 @@
-import { isProd, log } from ".daemon/daemon";
-import { TicketDatabase } from "@/models/database.model";
-import database from "./daemonMysql";
-import { sendMail } from "@/functions/mail/mail-controller";
-import { findTemplate } from "@/functions/mail/mail-controller";
-import { getAccountByKey, getUserByAccountKey } from "@/utils/getData";
-import handlebars from "handlebars";
+import { ITicket } from "@/models/newDbModels/ticket.model";
+import { getTicketsBasedOnPaymentStatus } from "@/services/ticket/service.ticket.select";
+import { removeTicket } from "@/services/ticket/service.ticket.delete";
 
-const ticketLimitWatcher = async () => {
-    const ticketQuery = async () => {
-        return new Promise<TicketDatabase[] | undefined>(async (resolve) => {
-            const query = 
-            `
-            SELECT * FROM ticket
-            WHERE isPaid = 'false';
-            `
+export async function ticketLimitWatcher(): Promise<number>
+{
+    const unpaidTickets: ITicket[] | undefined = await getTicketsBasedOnPaymentStatus(false);
 
-            database.query(query, async (err: any, result: TicketDatabase[]) => {
-                if (err) {
-                    log(`Error: ${err}`);
-                    resolve(undefined);
-                }
-                resolve(result);
-            });
-        });
-    }
-    const deleteTicket = async (ticketKey: string, accountKey: string) => {
-        return new Promise<boolean>(async (resolve) => {
-            const accountData = await getAccountByKey(accountKey)
-            const userData = await getUserByAccountKey(accountKey)
-            if (!accountData || !userData) {
-                log(`Error: Failed to get data`);
-                return resolve(false)
-            }
-            const template = await findTemplate(accountData.nationality, "ticketDelete")
-            if (!template) {
-                log(`Error: Failed to get template`);
-                return resolve(false)
-            }
+    if (!unpaidTickets?.length)
+        return 0;
 
-            const compiled = handlebars.compile(template.mail);
-            const replacements = {
-                fursonaName: userData.fursonaName,
-            };
-            const htmlToSend = compiled(replacements);
-            template.mail = htmlToSend
-
-            await sendMail({...template, address: accountData.email}, (err: string, result: string) => {
-                if (err) {
-                    log(`Error: Failed to send email`);
-                    return resolve(false)
-                }
-            })
-
-            const query = 
-            `
-            DELETE FROM ticket WHERE TicketKey = ?;
-            `
-
-            database.query(query, [ticketKey], async (err: any) => {
-                if (err) {
-                    log(`Error: ${err}`);
-                    resolve(false);
-                }
-                resolve(true);
-            });
-        });
-    }
-    
-    const unpaidTickets: TicketDatabase[] | undefined = await ticketQuery()
-    const currentDate = new Date()
-    let isError: boolean = false
-
-    if (unpaidTickets != undefined && unpaidTickets.length) {
-        let deletionCount = 0;
-        for (let i=0; i < unpaidTickets.length; i++) {
-            if (unpaidTickets[i].creationDate && unpaidTickets[i].TicketKey && !isError) {
-                const ticketDate = new Date(unpaidTickets[i].creationDate!)
-                
-                if ((ticketDate.getTime() + (1000 * 60 * 60 * 24 * 8)) <= currentDate.getTime()) {
-                    const deletionStatus = await deleteTicket(unpaidTickets[i].TicketKey!, unpaidTickets[i].AccountKey!)
-                    if (!deletionStatus) isError = true
-                    else deletionCount++
-                }
-            } 
-        }
-
-        if (!isError && !isProd) {
-            log(`${deletionCount? deletionCount : 'No'} unpaid tickets have been deleted.`)
+    const currentDate = new Date();
+    let deletionCount = 0;
+    for (let i = 0; i < unpaidTickets.length; i++)
+    {
+        const ticketDate = new Date(unpaidTickets[i].createdAt!)
+        
+        if ((ticketDate.getTime() + (1000 * 60 * 60 * 24 * 8)) <= currentDate.getTime())
+        {
+            const result = await removeTicket(unpaidTickets[i]);
+            if (result)
+                deletionCount++;
+            else
+                throw (`Failed to remove ticket with id: ${unpaidTickets[i].id}`);
         }
     }
-    else if (!unpaidTickets?.length && !isProd) {
-        log(`No unpaid tickets have been deleted.`)
-    }
-    else {
-        return;
-    }
+
+    return deletionCount;
 }
-
 export default ticketLimitWatcher;
