@@ -20,28 +20,20 @@ function setUpJobs() {
     schedule.scheduleJob('*/10 * * * * *', async () => { // 0 0 * * * *
         try {
 
-            if (!process.env.MAIL_LIMIT) {
-                log("Error: No MAIL_LIMIT set");
-            }
-            else {
-                const defaultLimit = await resetLimit(process.env.MAIL_LIMIT);
-
-                if (!isProd)
-                    log(`Mail Limit reset to ${defaultLimit}`);
-            }
+            const defaultLimit = await resetLimit(process.env.MAIL_LIMIT);
 
             const removedRoomCount = await roomHoggingWatcher();
-
-            if (!isProd) {
-                log(`${removedRoomCount? removedRoomCount : 'No'} accomodations have been removed.`);
-            }
 
             const removedTicketCount = await ticketLimitWatcher();
 
             if (!isProd) {
-                log(`${removedTicketCount? removedTicketCount : 'No'} unpaid tickets have been deleted.`)
-            }
+                log((defaultLimit == undefined) ? "Error: No MAIL_LIMIT set" : 
+                `Mail Limit reset to ${defaultLimit}`);
 
+                log(`${removedRoomCount? removedRoomCount : 'No'} accomodations have been removed.`);
+
+                log(`${removedTicketCount? removedTicketCount : 'No'} unpaid tickets have been deleted.`);
+            }
         }
         catch(e) {
             log(`Error: ${e}`);
