@@ -4,10 +4,11 @@ import {IAccomodationUpdatable} from "@/models/newDbModels/updateModels/updatabl
 import { clearPinAndCustomName } from "../room/service.room.update";
 import { removeAccomodation } from "./service.accomodation.delete";
 import { getAccomodationsByRoomId } from "./service.accomodation.select";
+import { PoolConnection } from "mysql";
 
 const TABLE: string = "accomodation";
 
-export async function updateAccomodation(accomodation: IAccomodation): Promise<number | undefined>
+export async function updateAccomodation(accomodation: IAccomodation, connectionToUse?: PoolConnection): Promise<number | undefined>
 {
     let updatable: IAccomodationUpdatable = {
         ownerContact: accomodation.ownerContact,
@@ -17,58 +18,58 @@ export async function updateAccomodation(accomodation: IAccomodation): Promise<n
 
     const query = `UPDATE ${TABLE} SET ? WHERE id = ?;`;
 
-    return await executeUpdateQuery(query, [updatable, accomodation.id]);
+    return await executeUpdateQuery(query, [updatable, accomodation.id], connectionToUse);
 }
 
-export async function makeAccomodationAdmin(accomodationId: number): Promise<number | undefined>
+export async function makeAccomodationAdmin(accomodationId: number, connectionToUse?: PoolConnection): Promise<number | undefined>
 {
     const query = `UPDATE ${TABLE} SET isOwner = 1 WHERE id = ?;`
 
-    return await executeUpdateQuery(query, [accomodationId]);
+    return await executeUpdateQuery(query, [accomodationId], connectionToUse);
 }
 
-export async function leaveRoom(accomodation: IAccomodation): Promise<number | undefined>
+export async function leaveRoom(accomodation: IAccomodation, connectionToUse?: PoolConnection): Promise<number | undefined>
 {
     if (accomodation.roomId == undefined) {
         return 0;
     }
 
-    let occupants = await getAccomodationsByRoomId(accomodation.roomId);
+    let occupants = await getAccomodationsByRoomId(accomodation.roomId, connectionToUse);
     if (occupants == undefined) {
         return undefined;
     }
 
     if (accomodation.isOwner == false) {
         if (occupants.length <= 1) {
-            await clearPinAndCustomName(accomodation.roomId);
+            await clearPinAndCustomName(accomodation.roomId, connectionToUse);
         }
-        return await removeAccomodation(accomodation) ? 1 : 0;
+        return await removeAccomodation(accomodation, connectionToUse) ? 1 : 0;
     }
 
     if (occupants.length > 1) {
         occupants = occupants.filter(function(arr) {
             return arr.id !== accomodation.id;
         });
-        resolveAdminReassign(occupants);
-        return await removeAccomodation(accomodation) ? 1 : 0;
+        resolveAdminReassign(occupants, connectionToUse);
+        return await removeAccomodation(accomodation, connectionToUse) ? 1 : 0;
     }
 }
 
-export async function enterRoom(accomodation: IAccomodation, roomId: number): Promise<number | undefined>
+export async function enterRoom(accomodation: IAccomodation, roomId: number, connectionToUse?: PoolConnection): Promise<number | undefined>
 {
     const query = `UPDATE ${TABLE} SET roomId = ? WHERE id = ?;`;
 
-    return await executeUpdateQuery(query, [roomId, accomodation.id]);
+    return await executeUpdateQuery(query, [roomId, accomodation.id], connectionToUse);
 }
 
-async function resolveAdminReassign(occupants: IAccomodation[])
+async function resolveAdminReassign(occupants: IAccomodation[], connectionToUse?: PoolConnection)
 {
     const mostRecentOccupant = occupants.reduce((latest, current) => {
         return current.createdAt! > latest.createdAt! ? current : latest;
     });
     
     if (mostRecentOccupant.id != undefined) {
-        await makeAccomodationAdmin(mostRecentOccupant.id);
+        await makeAccomodationAdmin(mostRecentOccupant.id, connectionToUse);
     }
 }
 

@@ -1,36 +1,44 @@
-import dotenv from "dotenv"
+import 'dotenv/config'; // Let it be known, I've suffered for this.
 import schedule from "node-schedule"
-import resetLimit from "./scripts/resetMailLimit"
-import ticketLimitWatcher from "./scripts/ticketLimitWatcher"
-import roomHoggingWatcher from "./scripts/roomHoggingWatcher"
+import roomHoggingWatcher from './scripts/roomHoggingWatcher';
+import resetLimit from './scripts/resetMailLimit';
+import ticketLimitWatcher from './scripts/ticketLimitWatcher';
 
-const isProd = process.argv[2] == "production"
+const isProd = process.argv[2] == "production";
 const log = (message: string) => {
-    console.log(`\x1b[96mdaemon\x1b[0m - ${message}`)
+    console.log(`\x1b[96mdaemon\x1b[0m - ${message}`);
 }
 
 const start = () => {
-    log("Online")
-    dotenv.config()
-    if (!isProd) log("Loaded env")
+    log("Online");
+    if (!isProd) log("Loaded env");
+    setUpJobs();
 }
-start()
+start();
 
-schedule.scheduleJob('0 0 * * * *', async () => { // 0 0 * * * *
-    try {
-        // Email count watcher
-        await resetLimit()
+function setUpJobs() {
+    schedule.scheduleJob('*/10 * * * * *', async () => { // 0 0 * * * *
+        try {
+            const defaultLimit = await resetLimit(process.env.MAIL_LIMIT);
 
-        // Ticket payment watcher
-        await ticketLimitWatcher()
+            const removedRoomCount = await roomHoggingWatcher();
 
-        // Room hogging watcher
-        await roomHoggingWatcher()
-    }
-    catch(e) {
-        log(`Error: ${e}`)
-    }
-}); // Trigger every hour
+            const removedTicketCount = await ticketLimitWatcher();
+
+            if (!isProd) {
+                log((defaultLimit == undefined) ? "Error: No MAIL_LIMIT set" : 
+                `Mail Limit reset to ${defaultLimit}`);
+
+                log(`${removedRoomCount? removedRoomCount : 'No'} accomodations have been removed.`);
+
+                log(`${removedTicketCount? removedTicketCount : 'No'} unpaid tickets have been deleted.`);
+            }
+        }
+        catch(e) {
+            log(`Error: ${e}`);
+        }
+    });
+}
 
 /*
                 *    *    *    *    *    *
