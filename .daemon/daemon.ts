@@ -19,7 +19,6 @@ start();
 function setUpJobs() {
     schedule.scheduleJob('*/10 * * * * *', async () => { // 0 0 * * * *
         try {
-
             const defaultLimit = await resetLimit(process.env.MAIL_LIMIT);
 
             const removedRoomCount = await roomHoggingWatcher();
