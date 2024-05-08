@@ -11,15 +11,16 @@ const ticketLimitQuery = async () => {
         const query = 
         `
         SELECT
-            COUNT(CASE WHEN ticket.extra1 = '1' THEN 1 END) AS extra1Count,
-            COUNT(CASE WHEN ticket.ticketType = '1' THEN 1 END) AS ticket1Count,
-            COUNT(CASE WHEN ticket.ticketType = '2' THEN 1 END) AS ticket2Count
+            COUNT(CASE WHEN ticket.earlyArrival = '1' THEN 1 END) AS early,
+            COUNT(CASE WHEN ticket.lateDeparture = '1' THEN 1 END) AS late,
+            COUNT(CASE WHEN ticket.type = 'WACC' THEN 1 END) AS countWACC,
+            COUNT(CASE WHEN ticket.type = 'TENT' THEN 1 END) AS countTENT
         FROM 
             ticket
         RIGHT JOIN 
-            account ON ticket.TicketKey = account.TicketKey
+            attendee ON ticket.id = attendee.ticketId
         WHERE 
-            account.isStaff = '0';
+            attendee.staff = '0';
         `
 
         /*
@@ -47,8 +48,7 @@ const ticketLimitQuery = async () => {
         FROM ticket
         RIGHT JOIN account ON ticket.TicketKey = account.TicketKey
         WHERE account.isStaff = "0"
-
-         */
+        */
 
         database.query(query, async (err: any, result: ITicketCount[]) => {
             if (err) {
@@ -78,7 +78,7 @@ export default async function handler(
     }
 
     const response: ITicketCount | undefined = await ticketLimitQuery();
-
+    response!.countWACC = 800
     if (response != undefined) {
         sendResponse(200, response);
     }
