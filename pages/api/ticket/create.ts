@@ -1,5 +1,3 @@
-import { getAccountByKey, getUserByAccountKey } from '@/utils/getData';
-import { TicketDatabase } from './../../../models/database.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/functions/utils/mysql'
@@ -7,46 +5,18 @@ import verifyToken from '@/functions/auth/veryifToken';
 import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import * as mysql from "mysql";
 import _ from 'lodash';
-import { v4 as uuidv4 } from 'uuid';
-import { getPrices } from '../defaults/ticket/prices';
 import { findTemplate, sendMail } from '@/functions/mail/mail-controller';
 import handlebars from 'handlebars';
-import i18n from '@/i18n';
-import { getEarlyBirdExpDate, getStartDate } from '../defaults/ticket';
-import { IFood } from '@/models/food.model';
-import createDatePatternFromDate from "@/functions/utils/createDatePattern";
-import { ticketDates } from '../defaults/ticket/date';
 import { ticketLimitQuery } from './limits';
 import { ITicketForm } from '@/models/ticket-form.model';
-import { ticketMax } from '../defaults/ticket/max';
-import { IAccount } from '@/models/account.model';
+import { getFursona } from '@/services/fursona/service.fursona.select';
+import { IAttendee } from '@/models/newDbModels/attendee.model';
+import { getAttendeeByAccountKey } from '@/services/attendee/service.attendee.select';
+import {configuration} from "@/private/app.config"
+import { ITicket } from '@/models/newDbModels/ticket.model';
+import { getNationality } from '@/services/nationality/service.nationality';
+import { getTicketById } from '@/services/ticket/service.ticket.select';
 
-const toSqlDatetime = (inputDate: Date) => {
-    const date = new Date(inputDate)
-    const dateWithOffest = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
-    return dateWithOffest
-        .toISOString()
-        .slice(0, 19)
-        .replace('T', ' ')
-}
-const createDatePatternWithOffset = (date: Date, index: number) => {
-    const year = date.getFullYear();
-    const month = ('0' + (date.getMonth() + 1)).slice(-2);
-    const day = ('0' + (date.getDate()+(index-1))).slice(-2);
-    
-    return `${year}.${month}.${day}.`
-}
-const evalAmountOfDays = (input: Date[]) => {
-    if (!input.length) return 0
-    if (input.length == 1 || (input[0].valueOf() == input[1].valueOf())) {
-      return 1
-    }
-    else {
-      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-      const diffDays = Math.round(Math.abs((input[0].valueOf() - input[1].valueOf()) / oneDay));
-      return diffDays
-    }
-}
 
 export default async function handler(
   req: NextApiRequest,
@@ -63,52 +33,32 @@ export default async function handler(
 
     if (tokenPayload) {
         const serverDate = new Date()
-        if (!((serverDate.getTime() > ticketDates.from.getTime()) && (serverDate.getTime() < ticketDates.to.getTime()))) {
+        if (!((serverDate.getTime() > configuration.registration.start.getTime()) && (serverDate.getTime() < configuration.registration.end.getTime()))) {
             sendResponse(400, {message: "Time limit exceeded", e_code: "tcrt_17"});
             return;
         }
 
-        const conflict = async () => {
+        const limitQuery = async (queryData: ITicketForm, attendee: IAttendee) => {
             return new Promise<boolean>(async (resolve) => {
-                const query = 
-                `
-                SELECT * FROM ticket
-                WHERE AccountKey = ?
-                LIMIT 1;
-                `
-
-                database.query(query, [tokenPayload.accountKey],async (err: any, result: any) => {
-                    if (err) {
-                        console.log("ERROR: ", err);
-                        sendResponse(500, {message: "Unknown Error", e_code: "tcrt_1"}); 
-                        resolve(true);
-                    }
-                    if (result.length) {
-                        sendResponse(400, {message: "User already has ticket", e_code: "tcrt_16"})
-                        resolve(true)
-                    }
-                    else resolve(false);
-                });
-            }).catch(() => {
-                sendResponse(500, {message: "Unknown Error", e_code: "tcrt_2"}); 
-            });
-        }
-
-        const limitQuery = async (queryData: ITicketForm, account: IAccount) => {
-            return new Promise<boolean>(async (resolve) => {
-                if (account.isStaff) return resolve(false)
+                if (attendee.staff) return resolve(false)
                 
                 const currentState = await ticketLimitQuery()
                 if (!currentState) return resolve(true)
                 let result = false
 
+                if (queryData.early) {
+                    if (currentState.early >= (configuration.ticket.types.find((o) => o.name == "EARLY")?.limit || 0)) return result = false
+                }
+                if (queryData.late) {
+                    if (currentState.late >= (configuration.ticket.types.find((o) => o.name == "LATE")?.limit || 0)) return result = false
+                }
+
                 switch (queryData.ticketType) {
-                    case '1':
-                        if (currentState.ticket1Count >= ticketMax.ticket1Count) result = true
+                    case 'WACC':
+                        if (currentState.countWACC >= (configuration.ticket.types.find((o) => o.name == "WACC")?.limit || 0)) result = true
                         break;
-                    case '2':
-                        if (currentState.ticket2Count >= ticketMax.ticket2Count) result = true
-                        if (queryData.extra1 && currentState.extra1Count >= ticketMax.extra1Count) result = true
+                    case 'TENT':
+                        if (currentState.countTENT >= (configuration.ticket.types.find((o) => o.name == "TENT")?.limit || 0)) result = true
                         break;
                     default:
                         break;
@@ -117,11 +67,26 @@ export default async function handler(
             })
         }
 
-        const account = await getAccountByKey(tokenPayload.accountKey);
-        const user = await getUserByAccountKey(tokenPayload.accountKey)
+        const calcPrice = (queryData: ITicketForm) => {
+            let price = 
+            (queryData.ticketType=="WACC"? parseInt(configuration.ticket.types.find((o) => o.name == 'WACC')!.price.toString().replaceAll(' ', '')) : 0)
+            +
+            (queryData.ticketType=="TENT"? parseInt(configuration.ticket.types.find((o) => o.name == 'TENT')!.price.toString().replaceAll(' ', '')) : 0)
+            + 
+            (queryData.early? parseInt(configuration.ticket.types.find((o) => o.name == 'EARLY')!.price.toString().replaceAll(' ', '')) : 0) 
+            +
+            (queryData.late? parseInt(configuration.ticket.types.find((o) => o.name == 'LATE')!.price.toString().replaceAll(' ', '')) : 0)
+            +
+            (queryData.sponsorPrice)
 
-        if (await conflict() || !account || !user) return;
-        const hasReachedLimit = await limitQuery(req.body, account)
+            return price
+        }
+
+        const attendee = await getAttendeeByAccountKey(tokenPayload.accountKey);
+        const fursona = await getFursona(attendee!.id!)
+
+        if (await getTicketById(attendee!.id!) || !attendee || !fursona) return;
+        const hasReachedLimit = await limitQuery(req.body, attendee)
     
         if (!hasReachedLimit) {
             const runCreate = async () => {
@@ -144,41 +109,54 @@ export default async function handler(
                                 });
                             }
                 
-                            const createTicket = async (data: any) => {
-                                return new Promise<boolean>(async (resolve) => {
+                            const createTicket = async (data: ITicketForm) => {
+                                return new Promise<number>(async (resolve) => {
                                     Object.keys(data).forEach(k => {
                                         try {
-                                            (typeof data[k] == 'string')? (data[k] = data[k].trim()) : {};
+                                            (typeof (data[k as keyof typeof data]) == 'string')? ((data[k as any as keyof typeof data] as any) = (data[k as keyof typeof data] as any).trim()) : {};
                                         } catch {
                                             rollback(connection);
                                             sendResponse(500, {message: "Unknown Error", e_code: "tcrt_5"});
-                                            resolve(false);
+                                            resolve(0);
                                         }
                                     })
+
+                                    const payload: ITicket = {
+                                        type: data.ticketType,
+                                        earlyArrival: data.early,
+                                        lateDeparture: data.late,
+                                        sponsorLevel: ((data.sponsorLevel == '0') ? 'None' : ((data.sponsorLevel == '1') ? 'Regular' : 'Super')),
+                                        shirtSize: data.shirt || undefined,
+                                        sponsorPrice: data.sponsorPrice,
+                                        totalPrice: calcPrice(req.body),
+                                        isPaid: false,
+                                        arrivalDate: '',
+                                        departureDate: ''
+                                    }
     
-                                    connection.query(mysql.format(`INSERT INTO ticket (${Object.keys(data).join(",")}) VALUES (?)`, [Object.values(data)]), (err: any, res: { insertId: any; }) => {
+                                    connection.query(mysql.format(`INSERT INTO ticket (${Object.keys(payload).join(",")}) VALUES (?)`, [Object.values(payload)]), (err: any, res: any) => {
                                         if (err) {
                                             console.log("ERROR: ", err);
                                             rollback(connection);
                                             sendResponse(500, {message: "Unknown Error", e_code: "tcrt_6"});
-                                            resolve(false);
+                                            resolve(0);
                                             return;
                                         }
                                         else {
-                                            resolve(true)
+                                            resolve(res.insertId)
                                         }
                                     });
                                 }).catch(() => {
                                     rollback(connection);
                                     sendResponse(500, {message: "Unknown Error", e_code: "tcrt_7"});
-                                    return false;
+                                    return 0;
                                 });
                             }
                 
-                            const updateAccount = async (data: string) => {
+                            const updateAccount = async (data: number) => {
                                 return new Promise<boolean>(async (resolve) => {
                                     
-                                    connection.query(`UPDATE account SET TicketKey = ? WHERE AccountKey = ?;`, [data, tokenPayload.accountKey], (err: any) => {
+                                    connection.query(`UPDATE attendee SET ticketId = ? WHERE AccountKey = ?;`, [data, tokenPayload.accountKey], (err: any) => {
                                         if (err) {
                                             console.log("ERROR: ", err);
                                             rollback(connection);
@@ -197,90 +175,40 @@ export default async function handler(
                                 });
                             }
 
-                            const ticketKey = uuidv4()
-                            
-                            let ticketPayload = new TicketDatabase();
-                            _.assign(ticketPayload , _.pick(req.body, _.keys(ticketPayload)));
-                            ticketPayload = JSON.parse(JSON.stringify(ticketPayload))
-
                             const now = new Date()
-                            const prices = getPrices(now)
-                            let startDay = new Date(ticketPayload.startDay!)
-                            let endDay = new Date(ticketPayload.endDay!)
-                            if (ticketPayload.ticketType == '1') {
-                                if (ticketPayload.extra0) startDay.setDate(startDay.getDate() +1)
-                            }
-
-                            let amountOfDays = evalAmountOfDays([startDay, endDay])
-                            if (ticketPayload.ticketType == '1') {
-                                amountOfDays = amountOfDays-1
-                            }
-                            const price =
-                                (ticketPayload.ticketType==='0'? (prices[0].hu * amountOfDays) : 0) +
-                                (ticketPayload.ticketType==='1'? (prices[1].hu * amountOfDays) : 0) +
-                                (ticketPayload.ticketType==='2'? prices[2].hu : 0) +
-                                (ticketPayload.extra0? prices.extra0.hu : 0) +
-                                (ticketPayload.extra1? prices.extra1.hu : 0) +
-                                (ticketPayload.sponsorLevel != '0'? ticketPayload.sponsorPrice! : 0)
-
-                            ticketPayload = {
-                                ...ticketPayload,
-                                sponsorPrice: ticketPayload.sponsorLevel != '0'? ticketPayload.sponsorPrice! : 0,
-                                AccountKey: tokenPayload.accountKey,
-                                TicketKey: ticketKey,
-                                totalPrice: price,
-                                foodData: ticketPayload.foodData? JSON.stringify(ticketPayload.foodData) : ticketPayload.foodData,
-                                startDay: toSqlDatetime(new Date(ticketPayload.startDay!)),
-                                endDay: toSqlDatetime(new Date(ticketPayload.endDay!)),
-                                creationDate: toSqlDatetime(now),
-                            }
     
-                            const ticketInsertionState: boolean = await createTicket(ticketPayload);
+                            const ticketInsertionState: number = await createTicket(req.body);
                             let accountUpdatestate: boolean = false
-                            if (ticketInsertionState && ticketKey) accountUpdatestate = await updateAccount(ticketKey);
+                            if (ticketInsertionState) accountUpdatestate = await updateAccount(ticketInsertionState);
                             let mailState: boolean = false
 
-                            if (!account || !user) {
+                            if (!attendee || !fursona) {
                                 rollback(connection);
                                 sendResponse(500, { message: "Unknown Error", e_code: "tcrt_10" });
                                 return
                             }
 
                             // SEND EMAIL
-                            const props = await findTemplate(account.nationality, 'ticketCreate')
-                            if (!props) {
+                            const nat = await getNationality(attendee.nationalityId!)
+                            const props = await findTemplate(nat?.iso2!, 'ticketCreate')
+                            if (!props || !nat) {
                                 rollback(connection);
                                 sendResponse(500, {message: "Failed to get email template.", e_code: "tcrt_11"}); 
                                 return
                             }
                             else {
                                 // Create Summary Table
-                                interface CustomFoodDataInterface {[index: number]: IFood[];}
-                                const startDate = getStartDate()
-                                const translationTable = (account.nationality == "hu")? i18n.i18n.languages.hu : i18n.i18n.languages.en
+                                const translationTable: Language = (nat.iso2 == "hu")? require("@/locales/hu/hu.lang.ts") : require("@/locales/en/en.lang.ts")
                                 
                                 let ticketRow = '';
-                                let foodRow = '';
                                 try {
-                                    const foodTable: CustomFoodDataInterface = (account.nationality == "hu")? require("@/root/locales/hu.food.json") : require("@/root/locales/en.food.json")
-                                    switch (ticketPayload.ticketType) {
-                                        case '0':
-                                            ticketRow = `<tr><td>${translationTable.ticket0Title} * ${amountOfDays} (${amountOfDays==1? createDatePatternFromDate(new Date(ticketPayload.startDay!)) : `${createDatePatternFromDate(new Date(ticketPayload.startDay!))} - ${createDatePatternFromDate(new Date(ticketPayload.endDay!))}`})</td><td>${(prices[0].hu * amountOfDays)} HUF</td></tr>`
+                                    switch (req.body.ticketType) {
+                                        case 'WACC':
+                                            ticketRow = `<tr><td>${translationTable.ticketWACC}</td><td>${configuration.ticket.types.find((o) => o.name == 'WACC')?.price} HUF</td></tr>`
                                             break;
-                                        case '1':
-                                            ticketRow = `<tr><td>${translationTable.ticket1Title} * ${amountOfDays} (${createDatePatternFromDate(new Date(ticketPayload.startDay!))} - ${createDatePatternFromDate(new Date(ticketPayload.endDay!))})</td><td>${prices[1].hu * amountOfDays} HUF</td></tr>`
+                                        case 'TENT':
+                                            ticketRow = `<tr><td>${translationTable.ticketTENT}</td><td>${configuration.ticket.types.find((o) => o.name == 'TENT')?.price} HUF</td></tr>`
                                             break;
-                                        case '2':
-                                            ticketRow = `<tr><td>${translationTable.ticket2Title}</td><td>${prices[2].hu} HUF</td></tr>`
-                                            break;
-                                    }
-
-                                    if (req.body.foodData) {
-                                        for (const [key, value] of Object.entries(req.body.foodData as CustomFoodDataInterface)) {
-                                            const foodName = foodTable[parseInt(key)].find((o) => o.id == parseInt(value))
-                                            const offsetIndex = Object.keys(foodTable).findIndex((e) => e == key)
-                                            foodRow = foodRow + `<tr><td>${createDatePatternWithOffset(startDate, offsetIndex+1)}</td><td>${foodName?.value}</td></tr>`
-                                        }
                                     }
                                 }
                                 catch(e) {
@@ -292,29 +220,27 @@ export default async function handler(
                                 
 
                                 const summaryTable = `
-                                    ${(now.valueOf() < getEarlyBirdExpDate().valueOf())? `<tr style="color: #F741D5"><td colspan="2">${translationTable.ticketEarlyBird}</td></tr>` : '' }
-                                    <tr style="color: #F741D5"><td colspan="2">${translationTable.ticketPrice}</td></tr>
+                                    ${(now.valueOf() < configuration.ticket.dates.earlyBirdEnd.valueOf())? `<tr style="color: #ffae00"><td colspan="2">${translationTable.ticketEarlyBird}</td></tr>` : '' }
+                                    <tr style="color: #ffae00"><td colspan="2">${translationTable.ticketPrice}</td></tr>
                                     ${ticketRow}
-                                    ${ticketPayload.extra0? `<tr><td>${translationTable.ticketExtra0}</td><td>+${prices.extra0.hu} HUF</td></tr>` : ''}
-                                    ${ticketPayload.extra1? `<tr><td>${translationTable.ticketExtra1}</td><td>+${prices.extra1.hu} HUF</td></tr>` : ''}
-                                    ${(ticketPayload.sponsorLevel && parseInt(ticketPayload.sponsorLevel) > 0)? `<tr><td>${translationTable.ticketSponsor}</td><td>+${ticketPayload.sponsorPrice} HUF</td></tr>` : ''}
-                                    <tr style="color: #F741D5"><td>${translationTable.ticketFinalPrice}</td><td>${ticketPayload.totalPrice} HUF</td></tr>
-                                    ${req.body.foodData? `<tr style="color: #F741D5"><td colspan="2">${translationTable.ticketFood}</td></tr>` : ''}
-                                    ${foodRow}
-                                    ${(req.body.shirt && ticketPayload.sponsorLevel && parseInt(ticketPayload.sponsorLevel) == 2)? `<tr style="color: #F741D5"><td colspan="2">${translationTable.ticketSponsorShirt}</td></tr>` : ''}
-                                    ${(req.body.shirt && ticketPayload.sponsorLevel && parseInt(ticketPayload.sponsorLevel) == 2)? `<tr><td>${translationTable.ticketShirtSize}</td><td>${req.body.shirt}</td></tr>` : ''}
+                                    ${req.body.early? `<tr><td>${nat.iso2=='hu'? '0. nap' : 'Early Arrival'}</td><td>+${configuration.ticket.types.find((o) => o.name == 'EARLY')?.price} HUF</td></tr>` : ''}
+                                    ${req.body.late? `<tr><td>${nat.iso2=='hu'? 'Ráadás' : 'Late Departure'}</td><td>+${configuration.ticket.types.find((o) => o.name == 'LATE')?.price} HUF</td></tr>` : ''}
+                                    ${(req.body.sponsorLevel && parseInt(req.body.sponsorLevel) > 0)? `<tr><td>${translationTable.ticketSponsor}</td><td>+${req.body.sponsorPrice} HUF</td></tr>` : ''}
+                                    <tr style="color: #ffae00"><td>${translationTable.ticketFinalPrice}</td><td>${calcPrice(req.body)} HUF</td></tr>
+                                    ${(req.body.shirt && req.body.sponsorLevel && parseInt(req.body.sponsorLevel) == 2)? `<tr style="color: #ffae00"><td colspan="2">${translationTable.ticketSponsorShirt}</td></tr>` : ''}
+                                    ${(req.body.shirt && req.body.sponsorLevel && parseInt(req.body.sponsorLevel) == 2)? `<tr><td>${translationTable.ticketShirtSize}</td><td>${req.body.shirt}</td></tr>` : ''}
                                 `
 
                                 const template = handlebars.compile(props.mail);
                                 const replacements = {
-                                    fursonaName: user.fursonaName,
+                                    fursonaName: fursona.name,
                                     summaryTable: summaryTable,
-                                    accountID: account.id
+                                    accountID: attendee.id
                                 };
                                 const htmlToSend = template(replacements);
                                 props.mail = htmlToSend
 
-                                await sendMail({...props, address: account.email}, (err: string, result: string) => {
+                                await sendMail({...props, address: attendee.email}, (err: string, result: string) => {
                                     if (err) {
                                         sendResponse(500, {message: "Failed to send email.", e_code: "tcrt_13"}); 
                                     }
@@ -345,6 +271,7 @@ export default async function handler(
 
 
             const result = await runCreate();
+            console.log(result)
             if (result) {
                 sendResponse(201, {message: "Ticket Created"});
             }
