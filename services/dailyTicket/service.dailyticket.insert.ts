@@ -1,12 +1,12 @@
 import { IDailyTicket } from "@/models/newDbModels/dailyticket.model";
 import { executeInsertQuery } from "@/functions/utils/databaseHelpers";
+import { PoolConnection } from "mysql";
 
 const TABLE: string = "dailyTicket";
 
-// TODO: How is this supposed to work anyway?
-export async function insertDailyTicket(dailyTicket: IDailyTicket): Promise<number | undefined>
+export async function insertDailyTicket(dailyTicket: IDailyTicket, connectionToUse?: PoolConnection): Promise<number | undefined>
 {
     const query = `INSERT INTO ${TABLE} SET ?;`;
 
-    return await executeInsertQuery(query, dailyTicket);
+    return await executeInsertQuery(query, dailyTicket, connectionToUse);
 }
