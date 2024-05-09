@@ -24,10 +24,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const from = Math.max(0, Number(req.query.from) || 0);
             const limit = Math.min(200, Math.max(1, Number(req.query.limit) || 200));
 
-            const attendees = await getAttendees(from, limit);
+            let attendees = await getAttendees(from, limit);
 
             if (attendees === undefined)
                 return res.status(404).json({ message: "Item not found", e_code: "nat_03" });
+            else if (!Array.isArray(attendees)) {
+                attendees = [attendees]
+            }
 
             return res.status(200).json(attendees);
         }
