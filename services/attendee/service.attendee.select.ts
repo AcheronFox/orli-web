@@ -9,6 +9,7 @@ import { getNationality } from "../nationality/service.nationality";
 import { getRoomById } from "../room/service.room.select";
 import { getTicketById } from "../ticket/service.ticket.select";
 import { getDailyTicketById } from "../dailyTicket/service.dailyticket.select";
+import { PoolConnection } from "mysql";
 
 const TABLE: string = "attendee";
 const MAX_NUM_OF_ATTENDEES: number = 500;
@@ -21,36 +22,36 @@ const enum AttendeeType {
 }
 
 export async function getAttendees(from: number = 0,
-                                   limit: number = MAX_NUM_OF_ATTENDEES) : Promise<IAttendee[] | undefined>
+                                   limit: number = MAX_NUM_OF_ATTENDEES, connectionToUse?: PoolConnection) : Promise<IAttendee[] | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} LIMIT ?, ?;`;
 
-    return await executeSelectQuery<IAttendee[]>(queryString, [from, limit]);
+    return await executeSelectQuery<IAttendee[]>(queryString, [from, limit], connectionToUse);
 }
 
-export async function getAttendeeById(id: number) : Promise<IAttendee | undefined>
+export async function getAttendeeById(id: number, connectionToUse?: PoolConnection) : Promise<IAttendee | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE id = ?;`;
 
-    return await executeSelectQuery<IAttendee>(queryString, id);
+    return await executeSelectQuery<IAttendee>(queryString, id, connectionToUse);
 }
 
-export async function getAttendeeByAccountKey(accountKey: string) : Promise<IAttendee | undefined>
+export async function getAttendeeByAccountKey(accountKey: string, connectionToUse?: PoolConnection) : Promise<IAttendee | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE accountKey = ?;`;
 
-    return await executeSelectQuery<IAttendee>(queryString, accountKey);
+    return await executeSelectQuery<IAttendee>(queryString, accountKey, connectionToUse);
 }
 
-export async function getAttendeeByEmail(email: string) : Promise<IAttendee | undefined>
+export async function getAttendeeByEmail(email: string, connectionToUse?: PoolConnection) : Promise<IAttendee | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE email = ?;`;
 
-    return await executeSelectQuery<IAttendee>(queryString, email);
+    return await executeSelectQuery<IAttendee>(queryString, email, connectionToUse);
 }
 
 export async function getAttendeesByType(attendeeType: AttendeeType, from: number = 0,
-                                         limit: number = MAX_NUM_OF_ATTENDEES) : Promise<IAttendee[] | undefined>
+                                         limit: number = MAX_NUM_OF_ATTENDEES, connectionToUse?: PoolConnection) : Promise<IAttendee[] | undefined>
 {
     const fieldMap = {
         [AttendeeType.Admin]: ' admin = 1 ',
@@ -63,18 +64,18 @@ export async function getAttendeesByType(attendeeType: AttendeeType, from: numbe
 
     const queryString = `SELECT * FROM ${TABLE} WHERE ${field} LIMIT ?, ?;`;
 
-    return await executeSelectQuery<IAttendee[]>(queryString, [from, limit]);
+    return await executeSelectQuery<IAttendee[]>(queryString, [from, limit], connectionToUse);
 }
 
 export async function getAttendeeByNationality(nationality: INationality, from: number = 0,
-                                               limit: number = MAX_NUM_OF_ATTENDEES) : Promise<IAttendee[] | undefined>
+                                               limit: number = MAX_NUM_OF_ATTENDEES, connectionToUse?: PoolConnection) : Promise<IAttendee[] | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE nationalityId = ?;`;
 
-    return await executeSelectQuery<IAttendee[]>(queryString, nationality.id);
+    return await executeSelectQuery<IAttendee[]>(queryString, nationality.id, connectionToUse);
 }
 
-export async function getAttendeeFullData(attendeeId: number): Promise<IAttendeeFullData | undefined>
+export async function getAttendeeFullData(attendeeId: number, connectionToUse?: PoolConnection): Promise<IAttendeeFullData | undefined>
 {
     const attendee = await getAttendeeById(attendeeId) as Omit<IAttendee, 'password'>;
     return getAttendeeData(attendee);

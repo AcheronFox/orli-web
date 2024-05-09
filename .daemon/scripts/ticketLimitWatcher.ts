@@ -1,100 +1,74 @@
-import { isProd, log } from ".daemon/daemon";
-import { TicketDatabase } from "@/models/database.model";
-import database from "./daemonMysql";
-import { sendMail } from "@/functions/mail/mail-controller";
-import { findTemplate } from "@/functions/mail/mail-controller";
-import { getAccountByKey, getUserByAccountKey } from "@/utils/getData";
+import { ITicket } from "@/models/newDbModels/ticket.model";
+import { getTicketsBasedOnPaymentStatus } from "@/services/ticket/service.ticket.select";
+import { removeTicket } from "@/services/ticket/service.ticket.delete";
+import { findTemplate, sendMail } from "@/functions/mail/mail-controller";
+import { IAttendee } from "@/models/newDbModels/attendee.model";
+import { getAttendees } from "@/services/attendee/service.attendee.select";
+import { INationality } from "@/models/newDbModels/nationality.model";
 import handlebars from "handlebars";
+import { getFursona } from "@/services/fursona/service.fursona.select";
 
-const ticketLimitWatcher = async () => {
-    const ticketQuery = async () => {
-        return new Promise<TicketDatabase[] | undefined>(async (resolve) => {
-            const query = 
-            `
-            SELECT * FROM ticket
-            WHERE isPaid = 'false';
-            `
+export async function ticketLimitWatcher(): Promise<number>
+{
+    const unpaidTickets: ITicket[] | undefined = await getTicketsBasedOnPaymentStatus(false);
+    const attendees: IAttendee[] | undefined = await getAttendees();
 
-            database.query(query, async (err: any, result: TicketDatabase[]) => {
-                if (err) {
-                    log(`Error: ${err}`);
-                    resolve(undefined);
-                }
-                resolve(result);
-            });
-        });
-    }
-    const deleteTicket = async (ticketKey: string, accountKey: string) => {
-        return new Promise<boolean>(async (resolve) => {
-            const accountData = await getAccountByKey(accountKey)
-            const userData = await getUserByAccountKey(accountKey)
-            if (!accountData || !userData) {
-                log(`Error: Failed to get data`);
-                return resolve(false)
-            }
-            const template = await findTemplate(accountData.nationality, "ticketDelete")
-            if (!template) {
-                log(`Error: Failed to get template`);
-                return resolve(false)
+    if (!unpaidTickets?.length)
+        return 0;
+
+    const attendeesWithTickets: IAttendee[] = attendees?.filter(attendee => 
+        unpaidTickets?.some(ticket => ticket.id === attendee.ticketId)) ?? [];
+
+    const currentDate = new Date();
+    let deletionCount = 0;
+    for (let i = 0; i < unpaidTickets.length; i++)
+    {
+        const ticketDate = new Date(unpaidTickets[i].createdAt!)
+        
+        if ((ticketDate.getTime() + (1000 * 60 * 60 * 24 * 8)) <= currentDate.getTime())
+        {
+            const attendee = attendeesWithTickets?.find(attendee => attendee.ticketId ===
+                unpaidTickets[i].id) ?? null;
+            
+            if (attendee == null) {
+                throw ("Cannot find attendee with this ticket!");
             }
 
-            const compiled = handlebars.compile(template.mail);
-            const replacements = {
-                fursonaName: userData.fursonaName,
-            };
-            const htmlToSend = compiled(replacements);
-            template.mail = htmlToSend
+            const fursona = await getFursona(attendee.fursonaId);
+            if (fursona == undefined)
+                throw ("Fursona not found");
 
-            await sendMail({...template, address: accountData.email}, (err: string, result: string) => {
-                if (err) {
-                    log(`Error: Failed to send email`);
-                    return resolve(false)
-                }
-            })
+            await sendEmail((attendee.nationalityId == 25) ? "hu" : "en", attendee.email, fursona.name);
 
-            const query = 
-            `
-            DELETE FROM ticket WHERE TicketKey = ?;
-            `
-
-            database.query(query, [ticketKey], async (err: any) => {
-                if (err) {
-                    log(`Error: ${err}`);
-                    resolve(false);
-                }
-                resolve(true);
-            });
-        });
-    }
-    
-    const unpaidTickets: TicketDatabase[] | undefined = await ticketQuery()
-    const currentDate = new Date()
-    let isError: boolean = false
-
-    if (unpaidTickets != undefined && unpaidTickets.length) {
-        let deletionCount = 0;
-        for (let i=0; i < unpaidTickets.length; i++) {
-            if (unpaidTickets[i].creationDate && unpaidTickets[i].TicketKey && !isError) {
-                const ticketDate = new Date(unpaidTickets[i].creationDate!)
-                
-                if ((ticketDate.getTime() + (1000 * 60 * 60 * 24 * 8)) <= currentDate.getTime()) {
-                    const deletionStatus = await deleteTicket(unpaidTickets[i].TicketKey!, unpaidTickets[i].AccountKey!)
-                    if (!deletionStatus) isError = true
-                    else deletionCount++
-                }
-            } 
-        }
-
-        if (!isError && !isProd) {
-            log(`${deletionCount? deletionCount : 'No'} unpaid tickets have been deleted.`)
+            const result = await removeTicket(unpaidTickets[i]);
+            if (result)
+                deletionCount++;
+            else
+                throw (`Failed to remove ticket with id: ${unpaidTickets[i].id}`);
         }
     }
-    else if (!unpaidTickets?.length && !isProd) {
-        log(`No unpaid tickets have been deleted.`)
+
+    return deletionCount;
+}
+
+async function sendEmail(nationality: string, email: string, fursonaName: string) {
+    const template = await findTemplate(nationality, "ticketDelete")
+    if (!template) {
+        throw (`Error: Failed to get template, ticketLimitWatcher 02`);
     }
-    else {
-        return;
-    }
+
+    const compiled = handlebars.compile(template.mail);
+    const replacements = {
+        fursonaName: fursonaName,
+    };
+    const htmlToSend = compiled(replacements);
+    template.mail = htmlToSend
+
+    await sendMail({ ...template, address: email }, (err: string, result: string) => {
+        if (err) {
+            throw (`Error: Failed to send email, ticketLimitWatcher 03`);
+        }
+    })
 }
 
 export default ticketLimitWatcher;

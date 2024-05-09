@@ -24,6 +24,7 @@ import Input from "@/comp/input/Input";
 import Checkbox from "@/comp/input/Checkbox";
 import Slider from "@/comp/input/Slider";
 import { Tooltip } from "react-tippy";
+import { ITicketCount } from "@/models/ticket-count.model";
 
 type Props = {}
 
@@ -44,6 +45,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
   })
 
   const [configData, setConfigData] = useState<IAppConfig['ticket']>()
+  const [ticcketLimits, setTicketLimits] = useState<ITicketCount>()
 
   const ticketData: ITicket = useLocaleSwitch(currLang, 'ticket.ts')
 
@@ -78,14 +80,21 @@ const Tickets: NextPage<Props> = (props: Props) => {
   // TICKETS
   // ===============================================
   const getDefaults = async () => {
+    await getConfig()
     await getLimits()
     setIsLoading(false)
   }
 
-  const getLimits = async () => {
+  const getConfig = async () => {
     axiosInstance.get<IAppConfig["ticket"]>('/api/v2/defaults/ticket')
       .then((res) => {
         setConfigData(res.data)
+      })
+  }
+  const getLimits = async () => {
+    axiosInstance.get<ITicketCount>('/api/ticket/limits')
+      .then((res) => {
+        setTicketLimits(res.data)
       })
   }
 
@@ -200,7 +209,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
       <div className={styles.Tickets__Background} />
       <div className={styles.Tickets}>
         {
-          (user && configData) &&
+          (user && configData && ticcketLimits) &&
           <> 
             <div className={styles.Tickets__Content}>
               <section className={styles.Tickets__Prices}>
@@ -250,13 +259,29 @@ const Tickets: NextPage<Props> = (props: Props) => {
                               })()
                           }
                           <div className={styles.Tickets__Button}>
+                          <Tooltip
+                            html={
+                              <span style={{ fontSize: "1.4rem" }}>
+                                {lang.ticketNotAvailable}
+                              </span>
+                            }
+                            arrow
+                            arrowSize="big"
+                            size="big"
+                            inertia
+                            style={{
+                              fontSize: '1.6rem'
+                            }}
+                            disabled={!((o.priceKey=='WACC' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'WACC')?.limit || 0)) || (o.priceKey=='TENT' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'TENT')?.limit || 0)))}
+                          >
                             <Button
                               variant="contained"
-                              disabled={selectedTicket==(o.priceKey as "WACC" | "TENT")}
+                              disabled={(selectedTicket==(o.priceKey as "WACC" | "TENT") && ((o.priceKey=='WACC' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'WACC')?.limit || 0)) || (o.priceKey=='TENT' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'TENT')?.limit || 0))))}
                               onClick={() => selectTicket(o.priceKey as "WACC" | 'TENT')}
                             >
                               {lang.ticketSelect}
                             </Button>
+                          </Tooltip>
                           </div>
                           </TextCard>
                       )

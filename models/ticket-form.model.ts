@@ -3,6 +3,6 @@ export interface ITicketForm {
     late: boolean;
     early: boolean;
     sponsorLevel: '0' | '1' | '2';
-    shirt: 'S' | 'M' | 'L' | 'XL' | 'XXL' | '3XL' | null;
+    shirt: 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL' | null;
     sponsorPrice: number;
 }

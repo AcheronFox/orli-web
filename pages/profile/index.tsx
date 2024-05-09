@@ -73,19 +73,15 @@ const Profile: NextPage<Props> = (props: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [uploadLimit, setUploadLimit] = useState<Date>()
-  const [telegram, setTelegram] = useState<string>("");
   const [errorStates, setErrorStates] = useState<any>({
     password: '',
     fursonaName: '',
     species: '',
-    telegram: '',
-    phone: '',
   });
 
   useEffect(() => {
     if (user) {
       setIsFursuiter(user.fursona.hasFursuit)
-      setTelegram(user.attendee.telegram?.replace("https://t.me/", "") || "")
       setFursonaName(user.fursona.name)
       setSpecies(user.fursona.species)
       setIsLoading(false)
@@ -138,11 +134,7 @@ const Profile: NextPage<Props> = (props: Props) => {
     if (errorStates.species != "") validateSpecies()
   }, [species]);
   useEffect(() => {
-    if (errorStates.telegram != "") validateTelegram()
-  }, [telegram]);
-  useEffect(() => {
     errorStates.password && validatePass()
-    errorStates.telegram && validateTelegram()
     errorStates.fursonaName && validateFursonaName()
     errorStates.species && validateSpecies()
   }, [currLang])
@@ -172,9 +164,6 @@ const Profile: NextPage<Props> = (props: Props) => {
   }
   const validateSpecies = () => {
     return updateState(species.trim() == "", "species", lang.regSonaSpeciesError)
-  }
-  const validateTelegram = () => {
-    return updateState(telegram.trim() == "", "telegram", lang.regContactErr)
   }
 
   // ===============================================
@@ -293,11 +282,10 @@ const Profile: NextPage<Props> = (props: Props) => {
   // ===============================================
   const handleButton = async () => {
     const isPassChanged = password.trim() != ""
-    const isTelegramChanged = user?.attendee.telegram != 'https://t.me/'+telegram.trim()
     const isSuiterChanged = user?.fursona.hasFursuit != isFursuiter
     const isFusronaNameChanged = user?.fursona.name != fursonaName.trim()
     const isSpeciesChanged = user?.fursona.species != species.trim()
-    if (!isFusronaNameChanged && !isSpeciesChanged && !isSuiterChanged && !isTelegramChanged && !isPassChanged || isDisabled || !user) {
+    if (!isFusronaNameChanged && !isSpeciesChanged && !isSuiterChanged && !isPassChanged || isDisabled || !user) {
       setIsChanged(false)
       return
     }
@@ -305,7 +293,6 @@ const Profile: NextPage<Props> = (props: Props) => {
     const finalCheck: boolean[] = []
     finalCheck.push(
       isPassChanged? validatePass() : true,
-      isTelegramChanged? validateTelegram() : true,
     )
 
     if (finalCheck.includes(false)) {
@@ -315,7 +302,6 @@ const Profile: NextPage<Props> = (props: Props) => {
     setIsLoading(true)
 
     const form: IUpdateForm = {
-      telegram: isTelegramChanged? 'https://t.me/'+telegram : undefined,
       fursonaName: isFusronaNameChanged? fursonaName : undefined,
       fursonaSpecies: isSpeciesChanged? species : undefined,
       isFursuiter: isSuiterChanged? isFursuiter : undefined,
@@ -540,6 +526,7 @@ const Profile: NextPage<Props> = (props: Props) => {
               <div className={styles.Profile__Body__Form}>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
+                    disabled
                     label={lang.regFursonaName}
                     list="autoCompleteOff"
                     autoComplete="disabled"
@@ -553,6 +540,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                 </span>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
+                    disabled
                     label={lang.regSpecies}
                     list="autoCompleteOff"
                     autoComplete="disabled"
@@ -566,6 +554,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                 </span>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
+                    disabled
                     label={lang.profPassword}
                     type={"password"}
                     list="autoCompleteOff"
@@ -578,31 +567,9 @@ const Profile: NextPage<Props> = (props: Props) => {
                   ></Input>
                   <p className={styles.Profile__Body__Error__Text}>{errorStates.password}</p>
                 </span>
-                <span className={styles.Profile__Body__Form__Row}>
-                  <Input
-                    id={"in-7"}
-                    label={lang.regTelegram}
-                    type={"text"}
-                    list="autoCompleteOff"
-                    autoComplete="nope"
-                    value={telegram}
-                    onChange={(e) => setTelegram(e)}
-                    onBlur={() => validateTelegram()}
-                    error={!!errorStates.telegram}
-                    maxLength={100}
-                    startAdornment={
-                      <>
-                        <span
-                          style={{marginLeft: '1rem', whiteSpace: "nowrap"}}
-                        >
-                          https://t.me/
-                        </span>
-                      </>
-                    }
-                  />
-                </span>
                 <span className={styles.Profile__Body__Form__Checkbox}>
                   <Checkbox
+                    disabled
                     checked={(e) => {setIsFursuiter(e); setIsChanged(true);}}
                     checkBoxValue={isFursuiter}
                     id="chk-3"
@@ -612,12 +579,19 @@ const Profile: NextPage<Props> = (props: Props) => {
                 <div className={styles.Profile__Body__Button}>
                   <Button
                     variant="contained"
-                    disabled={!isChanged}
+                    disabled={!isChanged || true}
                     onClick={handleButton}
                   >
                     {lang.profSave}
                   </Button>
                 </div>
+                <p style={{color:"red"}}>
+                  {currLang=="en"?
+                    "Not available at the moment."
+                    :
+                    "Jelenleg nem elérhető"
+                  }
+                </p>
               </div>
             </div>
             <div className={styles.Profile__Body__Right}>

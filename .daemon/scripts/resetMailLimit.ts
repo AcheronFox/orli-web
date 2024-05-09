@@ -1,29 +1,22 @@
 import path from "path";
 import fs from "fs";
-import { isProd, log } from ".daemon/daemon";
 
-const resetLimit = async () => {
-    if (!process.env.MAIL_LIMIT) {
-        log("Error: No MAIL_LIMIT set");
-        return;
-    }
-    const defaultLimit = parseInt(process.env.MAIL_LIMIT)
+export async function resetMailLimit(mailLimit: any): Promise<number | undefined>
+{
+    if (mailLimit == undefined)
+        return undefined;
+    
+    const defaultLimit = parseInt(mailLimit);
 
     const dataToWrite = {
         mailCount: defaultLimit
     }
 
-    try {
-        const filePath = path.join(`${process.cwd()}`, "utils/shared.json")
-        const data = JSON.stringify(dataToWrite, null, 2);
-        fs.writeFileSync(filePath, data);
-        
-        if (!isProd) log(`Mail Limit reset to ${defaultLimit}`)
-    }
-    catch(e) {
-        log(`Error: ${e}`);
-        return;
-    }
+    const filePath = path.join(`${process.cwd()}`, "utils/shared.json");
+    const data = JSON.stringify(dataToWrite, null, 2);
+    fs.writeFileSync(filePath, data);
+
+    return defaultLimit;
 }
 
-export default resetLimit;
+export default resetMailLimit;
