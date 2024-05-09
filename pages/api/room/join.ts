@@ -46,6 +46,9 @@ export default async function handler(
     if (!tokenPayload)
         return;
 
+    console.log(req.body)
+    console.log(isJoinForm(req.body))
+    console.log(isValidForm(req.body))
     if (!isJoinForm(req.body) && !isValidForm(req.body)) {
         return sendResponse(400, { message: "Invalid form", e_code: "room_join_1" });
     }
@@ -75,7 +78,6 @@ export default async function handler(
                 }
             }
         }
-
         const newAccomodationId = await CreateNewAccomodationForAttendee(connection);
         const changeAccomodationResult = await changeAttendeeAccomodationId(attendee, newAccomodationId, connection);
         if (!changeAccomodationResult) {
@@ -116,12 +118,15 @@ export default async function handler(
             throw new DatabaseError(401, "Wrong pin", "room_join_63");
         }
 
+        console.log('A')
         const result = await enterRoom(accomodation, req.body.roomId);
+        console.log(result)
         if (result == undefined) {
             throw new DatabaseError(500, "Failed entering the room", "room_join_64");
         }
 
     } catch (err) {
+        console.log(err)
         if (connection) {
             await new Promise<void>(resolve => connection!.rollback(() => {
                 connection!.release();

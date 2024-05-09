@@ -2,14 +2,14 @@
 import { NextPage } from "next";
 import React, { MouseEventHandler, useEffect, useRef } from "react";
 import styles from "@/styles/components/RoomCard.module.scss"
-import { useTranslate } from "@/hooks/useTranslate";
-import PrimaryButton from "./PrimaryButton";
 import { IOccupant } from "@/models/occupant.model";
 import AdminIcon from "./svg/AdminIcon";
-import Tippy from "@tippyjs/react";
 import { useIsOverflow } from "@/hooks/utils/useIsOverflow";
 import { IRoom } from "@/models/room.model";
-import { useUser } from "@/hooks/useUser";
+import useTranslate from "@/hooks/translate/useTranslate";
+import { Tooltip } from "react-tippy";
+import { useUser } from "@/hooks/user/useUser";
+import Button from "./button/Button";
 
 type Props = {
     room: IRoom;
@@ -28,7 +28,7 @@ type RowProps= {
 }
 
 const Row = ({occupant, props}: RowProps) => {
-    const { t } = useTranslate();
+    const { lang } = useTranslate();
     const titleRef = useRef<any>()
     const isTitleOverflow = useIsOverflow(titleRef);
 
@@ -44,24 +44,53 @@ const Row = ({occupant, props}: RowProps) => {
                     <img srcSet={`${occupant.picture? (`/uploads/${occupant.picture.split('.')[0]}_thumb.${occupant.picture.split('.')[1]} 1x`) : '/Default_profile_thumb.jpg 1x,'}`} alt="User Image" src="/Default_profile_thumb.jpg" loading="lazy"/>
                 </picture>
             </span>
-            <Tippy disabled={!isTitleOverflow} content={occupant.fursonaName}>
+            <Tooltip
+                html={
+                    <span style={{ fontSize: "1.4rem" }}>
+                        {occupant.fursonaName}
+                    </span>
+                }
+                arrow
+                arrowSize="big"
+                size="big"
+                inertia
+                style={{
+                    fontSize: '1.6rem'
+                }}
+                disabled={!isTitleOverflow}
+            >
                 <span className={`${styles.RoomCard__Name}`}>
                     <span ref={titleRef} className={`${styles.RoomCard__Name__Text}`}>{occupant.fursonaName}</span>
                     {(occupant.isRoomAdmin) &&
-                        <Tippy className={styles.Tooltip} content={t("roomAdmin")}>
-                            <span className={styles.RoomCard__Name__Icon}>
-                                <AdminIcon style={{"fill": styles.primaryColor}} />
-                            </span> 
-                        </Tippy>
+                        <Tooltip
+                            html={
+                                <span style={{ fontSize: "1.4rem" }}>
+                                    {lang.roomAdmin}
+                                </span>
+                            }
+                            arrow
+                            arrowSize="big"
+                            size="big"
+                            inertia
+                            style={{
+                                fontSize: '1.6rem'
+                            }}
+                        >
+                            <span className={`${styles.RoomCard__Name}`}>
+                                <span className={styles.RoomCard__Name__Icon}>
+                                    <AdminIcon style={{"fill": styles.primaryColor}} />
+                                </span> 
+                            </span>
+                        </Tooltip>
                     }
                 </span>
-            </Tippy>
+            </Tooltip>
         </div>
     );
 }
 
 const RoomCard: NextPage<Props> = (props: Props) => {
-    const { t } = useTranslate();
+    const { lang } = useTranslate();
     const { user } = useUser();
 
     const clickHandler = () => {
@@ -75,7 +104,7 @@ const RoomCard: NextPage<Props> = (props: Props) => {
         <div className={`${styles.RoomCard} ${props.customClass}`}>
             <div className={`${styles.RoomCard__Title} ${!props.room.customName && styles.RoomCard__Title_small}`}>
                 <h3>
-                    {props.room.customName? (props.room.customName) : (t("roomRoom"))}
+                    {props.room.customName? (props.room.customName) : (lang.roomRoom)}
                 </h3>
             </div>
             <div className={`${styles.RoomCard__Title} ${props.room.customName && styles.RoomCard__Title_small}`}>
@@ -92,16 +121,22 @@ const RoomCard: NextPage<Props> = (props: Props) => {
             </div>
             <div className={styles.RoomCard__Footer}>
                 {
-                    (!props.occupants.find((o) => o.AccountKey == user?.AccountKey)) &&
-                    <PrimaryButton disabled={(props.currentAmount >= props.maxSize)}
-                    text={`${t("roomJoin")} (${props.currentAmount} / ${props.maxSize})`}
-                    onClick={() => clickHandler()} />
+                    (!props.occupants.find((o) => o.AccountKey == user?.attendee.accountKey)) &&
+                    <Button
+                        variant="contained"
+                        onClick={() => clickHandler()}
+                    >
+                        {`${lang.roomJoin} (${props.currentAmount} / ${props.maxSize})`}
+                    </Button>
                 }
                 {
-                    (props.occupants.find((o) => o.AccountKey == user?.AccountKey)) &&
-                    <PrimaryButton
-                    text={`${t("roomLeave")} (${props.currentAmount} / ${props.maxSize})`}
-                    onClick={() => leaveHandler()} />
+                    (props.occupants.find((o) => o.AccountKey == user?.attendee.accountKey)) &&
+                    <Button
+                        variant="contained"
+                        onClick={() => leaveHandler()}
+                    >
+                        {`${lang.roomLeave} (${props.currentAmount} / ${props.maxSize})`}
+                    </Button>
                 }
             </div>
         </div>
