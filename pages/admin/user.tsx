@@ -369,15 +369,74 @@ const AdminUser: NextPage<Props> = (props: Props) => {
 export default AdminUser;
 */
 
-import TempWIP from "@/comp/TempWIP";
+import { useEffect, useState, useRef } from "react";
+import axiosInstance from "@/functions/utils/axiosConfig";
+import Button from "@/comp/button/Button";
+import Toggle from "@/comp/input/Toggle";
 import { NextPage } from "next";
+import Router from 'next/router'
+import AttendeeDetails from "@/comp/admin/AttendeeDetails";
+import { IAttendee } from "@/models/newDbModels/attendee.model";
 
 type Props = {}
 
 const AdminUser: NextPage<Props> = (props: Props) => {
+  const [verifiedStatus, setVerifiedStatus] = useState<boolean>(false);
+
+  const [attendee, setAttendee] = useState<IAttendee>()
+  const { selectedAttendeeId } = Router.query
+
+  useEffect(() => {
+    getDefaults();
+  }, [])
+
+  const getDefaults = async () => {
+    await axiosInstance.get('/api/v2/attendee/', { params: {id: selectedAttendeeId}})
+      .then((res) => {
+        setAttendee(res.data);
+        if(res.data.verified === 1){
+            setVerifiedStatus(true);
+        } else {
+            setVerifiedStatus(false);
+        }
+    })
+    .catch((err) => {
+      return
+    })
+  }
+
+  const routerBackToAdmin = () => {
+    Router.push(
+        '/admin'
+    )
+  }
+
+  const updateAttendee = async () => {
+    if(attendee === undefined){
+        return;
+    } else {
+        await axiosInstance.post('/api/v2/attendee/updateAttendee', {params: {id: attendee.id, verifiedStatus: verifiedStatus}})
+        .then((res) => {
+            Router.push('/admin');
+        })
+        .catch((err) =>{
+            return;
+        })
+    }
+  }
 
   return (
-    <TempWIP/>
+    <>
+        <Button onClick={routerBackToAdmin}>BACK</Button>
+        <Toggle 
+            id={"verifiedToggle"} 
+            label={"Verified?"} 
+            checked={verifiedStatus}
+            stateChanger={setVerifiedStatus}
+            ></Toggle>
+        <AttendeeDetails attendee={attendee}></AttendeeDetails>
+        <Button onClick={updateAttendee}>UPDATE</Button>
+    </>
   );
 }
 export default AdminUser

@@ -1,0 +1,56 @@
+.AttendeeList {
+    position: relative;
+    display: block;
+    z-index: 1;
+    width: 80vw;
+    left: 50vw;
+    transform: translateX(-50%);
+    top: 20px;
+
+    &__Table {
+        color: white;
+        border-collapse: collapse;
+
+        th{
+            border-bottom: 2px solid white;
+            text-align: left;
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-bottom: 4px;
+        }
+
+        td{
+            border-bottom: 1px solid white;
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-bottom: 2px;
+        }
+    }
+
+    &__Button {
+        font-weight: 700;
+        cursor: pointer;
+        position: relative;
+        border: none;
+        text-transform: capitalize;
+        border-radius: 0.3rem;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        overflow: hidden;
+        padding: 0.5rem 1rem;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        text-align: center;
+        font-size: 1.6rem !important;
+        width: max-content;
+        display: inline-flex;
+        background-color: rgba(255,255,255,0.5);
+        color: black;
+
+        &:hover{
+            background-color: white;
+        }
+    }
+}
