@@ -4,8 +4,8 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import database from '@/functions/utils/mysql'
 import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import { IPasswordResetToken } from '@/models/password-reset-token.model';
-import { IAccount } from '@/models/account.model';
-import { getAccountByKey } from '@/utils/getData';
+import { getAttendeeByResetToken } from '@/services/attendee/service.attendee.select';
+import { IAttendee } from '@/models/newDbModels/attendee.model';
 
 
 export default async function handler(
@@ -23,7 +23,7 @@ export default async function handler(
         return new Promise<IPasswordResetToken | undefined>(async (resolve) => {
             const query = 
             `
-            SELECT * FROM password_reset_tokens
+            SELECT * FROM passwordresettoken
             WHERE token = ?
             LIMIT 1;
             `
@@ -44,21 +44,21 @@ export default async function handler(
     const token = await getToken()
 
     if (token) {
-        if (token.token_exp > Math.floor(Date.now() / 1000)) {
-            const account = await getAccountByKey(token.AccountKey)
+        if (token.tokenExpireTime > Math.floor(Date.now() / 1000)) {
+            const attendee = await getAttendeeByResetToken(token.id)
 
-            if (account) {
-                const result = await resetPassword(req.body.password, account.AccountKey)
+            if (attendee) {
+                const result = await resetPassword(req.body.password, attendee.accountKey)
 
                 const clearToken = () => {
                     return new Promise(async (resolve) => {
                         const query = 
                         `
-                        DELETE FROM password_reset_tokens
-                        WHERE AccountKey = ?;
+                        DELETE FROM passwordresettoken
+                        WHERE id = ?;
                         `
             
-                        database.query(query, [account.AccountKey], async (err: any, result: IAccount[]) => {
+                        database.query(query, [attendee.passwordResetTokenId], async (err: any, result: IAttendee[]) => {
                             if (err) {
                                 console.log("ERROR: ", err);
                                 sendResponse(500, {message: "Unknown Error", e_code: "reset_3"}); 

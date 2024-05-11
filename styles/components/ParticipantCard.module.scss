@@ -10,10 +10,10 @@
     padding: 1rem;
     border-radius: 2rem;
 
-    border: .2rem solid $primary-color;
+    border: .2rem solid $color-primary;
     box-shadow:
     0 .5rem 1rem .5rem rgba($black, .5),
-    inset 0 0 2rem .5rem rgba($primary-color, .5);
+    inset 0 0 2rem .5rem rgba($color-primary, .5);
 
     &__Title {
         width: 100%;

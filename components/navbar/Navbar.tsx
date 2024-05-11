@@ -206,7 +206,8 @@ const Navbar = ({
                                 title: lang.navLogout,
                                 iconPlacement: "right",
                                 icon: <RiLogoutBoxLine />,
-                                click: () => {logout();}
+                                click: () => {logout();},
+                                style: {color: "red"}
                             },
                         ]
                     },
@@ -242,7 +243,8 @@ const Navbar = ({
                                 title: lang.navLogout,
                                 iconPlacement: "right",
                                 icon: <RiLogoutBoxLine />,
-                                click: () => {logout();}
+                                click: () => {logout();},
+                                style: {color: "red"}
                             },
                         ]
                     },
@@ -298,6 +300,7 @@ const Navbar = ({
                         iconPlacement={item.iconPlacement}
                         target={item.target}
                         click={item.click}
+                        style={item.style}
                         onClick={() => setIsOpen(false)}
                     >
                         {item.title}

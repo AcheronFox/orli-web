@@ -43,6 +43,13 @@ export async function getAttendeeByAccountKey(accountKey: string, connectionToUs
     return await executeSelectQuery<IAttendee>(queryString, accountKey, connectionToUse);
 }
 
+export async function getAttendeeByResetToken(resetId: number, connectionToUse?: PoolConnection) : Promise<IAttendee | undefined>
+{
+    const queryString = `SELECT * FROM ${TABLE} WHERE passwordResetTokenId = ?;`;
+
+    return await executeSelectQuery<IAttendee>(queryString, resetId, connectionToUse);
+}
+
 export async function getAttendeeByEmail(email: string, connectionToUse?: PoolConnection) : Promise<IAttendee | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE email = ?;`;

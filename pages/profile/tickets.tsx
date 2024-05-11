@@ -272,7 +272,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
                             style={{
                               fontSize: '1.6rem'
                             }}
-                            disabled={!((o.priceKey=='WACC' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'WACC')?.limit || 0)) || (o.priceKey=='TENT' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'TENT')?.limit || 0)))}
+                            disabled={((o.priceKey=='WACC' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'WACC')?.limit || 0)) || (o.priceKey=='TENT' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'TENT')?.limit || 0)))}
                           >
                             <Button
                               variant="contained"

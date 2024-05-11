@@ -17,6 +17,7 @@ interface Props {
   iconPlacement?: 'left' | 'right' | 'both'
   click?: () => void 
   onClick?: () => void
+  style?: React.CSSProperties
 }
 
 interface ContentProps {
@@ -28,6 +29,7 @@ interface ContentProps {
   icon?: React.ReactElement<IconType>
   iconPlacement?: 'left' | 'right' | 'both'
   isActive: boolean
+  style?: React.CSSProperties
 }
 
 const NavContent = ({
@@ -38,12 +40,14 @@ const NavContent = ({
   isDropDownItem,
   icon,
   iconPlacement = 'left',
+  style,
 }: ContentProps) => {
   const itemRef = useRef<HTMLDivElement>(null)
   const ripples = useRipple(itemRef)
 
   return (
     <div
+      style={style}
       ref={itemRef}
       className={`
         ${styles.NavItem} ${className? className : ''}
@@ -81,13 +85,14 @@ const NavItem = ({
     iconPlacement = 'left',
     click,
     onClick,
+    style,
   }: Props) => {
   const currentPath = useRouter();
   const [isActive, setIsActive] = useState<boolean>(false);
 
 
   useEffect(() => {
-    if (currentPath.asPath.split("/")[1] == linkTo.replace('/', "") && (linkTo || target)) {
+    if (currentPath.asPath.split(/\/(.*)/s)[1] == linkTo.replace('/', "") && (linkTo || target)) {
       setIsActive(true);
     } else {
       setIsActive(false)
@@ -113,6 +118,7 @@ const NavItem = ({
             isDropDownItem={isDropDownItem}
             icon={icon}
             iconPlacement={iconPlacement}
+            style={style}
           >
             {children}
           </NavContent>
@@ -129,6 +135,7 @@ const NavItem = ({
             isDropDownItem={isDropDownItem}
             icon={icon}
             iconPlacement={iconPlacement}
+            style={style}
           >
             {children}
           </NavContent>
