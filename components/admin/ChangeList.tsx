@@ -31,7 +31,7 @@ const ChangeList: NextPage<Props> = (props: Props) => {
                 provisionalUpdateList.push(<p key="imageDeleteFlag">Profile image will be deleted</p>)
             }
             if (changes.indexOf("deleteFlag") > -1){
-                provisionalUpdateList = [<p>Attendee will be REJECTED and DELETED</p>]
+                provisionalUpdateList = [<p key={0}>Attendee will be REJECTED and DELETED</p>]
             }
         return(provisionalUpdateList)
     }
