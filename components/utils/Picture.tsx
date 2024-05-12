@@ -15,7 +15,7 @@ const Picture: NextPage<Props> = (props: Props) => {
   return (
     <Image
       className={`${props.className? props.className : ''} ${styles.Picture}`}
-      src={"/" + props.defaultSrc}
+      src={process.env.NODE_ENV=="development"? "/" + props.defaultSrc : props.defaultSrc}
       alt={props.alt}
       sizes={props.sizes}
       width={0}
