@@ -763,7 +763,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                 {
                   (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
                   <p style={{ color: 'red' }}>
-                    {`${lang.warnDateLimit1} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${lang.warnDateLimit2}`}
+                    {`${lang.warnDateLimitReg}`}
                   </p>
                 }
                 <Button
