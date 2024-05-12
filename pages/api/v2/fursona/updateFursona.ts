@@ -1,5 +1,4 @@
-import { getAttendees, getAttendeeById } from "@/services/attendee/service.attendee.select";
-import { changeAttendeeVerification } from "@/services/attendee/service.attendee.update";
+import { removeFursonaPicture } from "@/services/fursona/service.fursona.update";
 import { getRequestPropertyAsNumber } from "@/functions/utils/databaseHelpers";
 import { INationality } from "@/models/newDbModels/nationality.model";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -11,20 +10,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
     
     try {
-        if ("id" in req.body.params && "verifiedStatus" in req.body.params) {
+        if ("id" in req.body.params) {
             const requestId = getRequestPropertyAsNumber(req.body.params.id);
-            const requestVerifiedStatus = req.body.params.verifiedStatus;
             if (requestId === undefined)
                 return res.status(400).json({ message: "Invalid request", e_code: "nat_01" });
 
-            const result = await changeAttendeeVerification(requestId, requestVerifiedStatus);
+            const result = await removeFursonaPicture(requestId);
             if (result === undefined)
                 return res.status(404).json({ message: "Item not updated", e_code: "nat_02" });
 
-            if (requestVerifiedStatus === true){
-                //ADD EMAIL FUNCTION HERE SOMEWHERE
-            }
-            
             return res.status(200).json(result);
         } else {
             return res.status(400).json({ message: "Invalid request", e_code: "nat_01" });

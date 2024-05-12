@@ -3,6 +3,7 @@ import axiosInstance from "@/functions/utils/axiosConfig";
 import { NextPage } from "next";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
 import AttendeeList from "@/comp/admin/AttendeeList";
+import styles from "@/styles/pages/Admin.module.scss"
 
 type Props = {}
 
@@ -28,11 +29,11 @@ const AdminPage: NextPage<Props> = (props: Props) => {
   }
 
   return (
-    <>
-    <div>
-      <AttendeeList attendees={attendees}></AttendeeList>
+    <div className={styles.Admin}>
+      <div className={styles.Admin__Content}>
+        <AttendeeList attendees={attendees}></AttendeeList>
+      </div>
     </div>
-    </>
   );
 }
 export default AdminPage

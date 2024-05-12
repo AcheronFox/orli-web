@@ -1,29 +1,30 @@
 .AttendeeList {
-    position: relative;
-    display: block;
-    z-index: 1;
-    width: 80vw;
-    left: 50vw;
-    transform: translateX(-50%);
-    top: 20px;
+    width: 100%;
 
     &__Table {
         color: white;
         border-collapse: collapse;
+        min-width: 100%;
 
         th{
-            border-bottom: 2px solid white;
+            border: 2px solid white;
             text-align: left;
-            padding-left: 2px;
-            padding-right: 2px;
+            padding-left: 4px;
+            padding-right: 4px;
+            padding-top: 4px;
             padding-bottom: 4px;
         }
 
         td{
-            border-bottom: 1px solid white;
+            border: 1px solid white;
             padding-left: 2px;
             padding-right: 2px;
             padding-bottom: 2px;
+
+            a{
+                text-decoration: underline;
+                color: cyan;
+            }
         }
     }
 

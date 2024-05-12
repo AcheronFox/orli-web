@@ -18,3 +18,10 @@ export async function updateFursona(fursona: IFursona, connectionToUse?: PoolCon
 
     return await executeUpdateQuery(query, [updatable, fursona.id], connectionToUse);
 }
+
+export async function removeFursonaPicture(fursonaId: number, connectionToUse?: PoolConnection): Promise<number>
+{
+    const query: string = `UPDATE ${TABLE} SET pathToPictureFile = '' WHERE id = ?;`;
+
+    return await executeUpdateQuery(query, [fursonaId], connectionToUse);
+}

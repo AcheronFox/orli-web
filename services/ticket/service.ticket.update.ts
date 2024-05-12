@@ -45,3 +45,21 @@ export async function setTicketPaymentStatus(arg1: ITicket | number, isPaid: boo
 
     return await executeUpdateQuery(query, [isPaid, id], connectionToUse);
 }
+
+export async function setTicketPaymentMethod(ticket: ITicket, paymentMethod: string, connectionToUse?: PoolConnection): Promise<number | undefined>;
+export async function setTicketPaymentMethod(ticketId: number, paymentMethod: string, connectionToUse?: PoolConnection): Promise<number | undefined>;
+export async function setTicketPaymentMethod(arg1: ITicket | number, paymentMethod: string, connectionToUse?: PoolConnection): Promise<number | undefined>
+{
+    const query: string = `UPDATE ${TABLE} SET paymentMethod = ? WHERE id = ?;`;
+
+    const id: number | undefined = typeof arg1 == 'number' ? arg1 : arg1.id;
+
+    if (id == undefined)
+    {
+        const errorMessage = "ID cannot be undefined!";
+        console.error(errorMessage);
+        throw new Error(errorMessage);
+    }
+
+    return await executeUpdateQuery(query, [paymentMethod, id], connectionToUse);
+}
