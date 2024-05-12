@@ -152,7 +152,8 @@ async function CreateNewAccomodationForAttendee(room: IRoom, data: IJoinForm, co
     }
 
     const accomodaton: IAccomodation = {
-        isOwner: isOwner
+        isOwner: isOwner,
+        ownerContact: data.telegram
     };
 
     return await insertAccomodation(accomodaton, connectionToUse);

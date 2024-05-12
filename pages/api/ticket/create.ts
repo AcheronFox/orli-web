@@ -68,15 +68,41 @@ export default async function handler(
             })
         }
 
+        const isEarlyBird: boolean = new Date() < configuration.ticket.dates.earlyBirdEnd;
+
         const calcPrice = (queryData: ITicketForm) => {
             let price = 
-            (queryData.ticketType=="WACC"? parseInt(configuration.ticket.types.find((o) => o.name == 'WACC')!.price.toString().replaceAll(' ', '')) : 0)
+            (queryData.ticketType=="WACC"?
+                ((isEarlyBird == true && configuration.ticket.types.find((o) => o.name == 'WACC')!.earlyBirdPrice != undefined)?
+                    parseInt(configuration.ticket.types.find((o) => o.name == 'WACC')!.earlyBirdPrice!.toString().replaceAll(' ', ''))
+                    :
+                    parseInt(configuration.ticket.types.find((o) => o.name == 'WACC')!.price.toString().replaceAll(' ', ''))
+                )
+                : 0)
             +
-            (queryData.ticketType=="TENT"? parseInt(configuration.ticket.types.find((o) => o.name == 'TENT')!.price.toString().replaceAll(' ', '')) : 0)
+            (queryData.ticketType=="TENT"?
+                ((isEarlyBird == true && configuration.ticket.types.find((o) => o.name == 'TENT')!.earlyBirdPrice != undefined)?
+                    parseInt(configuration.ticket.types.find((o) => o.name == 'TENT')!.earlyBirdPrice!.toString().replaceAll(' ', ''))
+                    :
+                    parseInt(configuration.ticket.types.find((o) => o.name == 'TENT')!.price.toString().replaceAll(' ', ''))
+                )
+                : 0)
             + 
-            (queryData.early? parseInt(configuration.ticket.types.find((o) => o.name == 'EARLY')!.price.toString().replaceAll(' ', '')) : 0) 
+            (queryData.early?
+                ((isEarlyBird == true && configuration.ticket.types.find((o) => o.name == 'EARLY')!.earlyBirdPrice != undefined)?
+                    parseInt(configuration.ticket.types.find((o) => o.name == 'EARLY')!.earlyBirdPrice!.toString().replaceAll(' ', ''))
+                    :
+                    parseInt(configuration.ticket.types.find((o) => o.name == 'EARLY')!.price.toString().replaceAll(' ', ''))
+                )
+                : 0) 
             +
-            (queryData.late? parseInt(configuration.ticket.types.find((o) => o.name == 'LATE')!.price.toString().replaceAll(' ', '')) : 0)
+            (queryData.late?
+                ((isEarlyBird == true && configuration.ticket.types.find((o) => o.name == 'LATE')!.earlyBirdPrice != undefined)?
+                    parseInt(configuration.ticket.types.find((o) => o.name == 'LATE')!.earlyBirdPrice!.toString().replaceAll(' ', ''))
+                    :
+                    parseInt(configuration.ticket.types.find((o) => o.name == 'LATE')!.price.toString().replaceAll(' ', ''))
+                )
+                : 0) 
             +
             (queryData.sponsorPrice)
 

@@ -35,7 +35,15 @@ const FursonaDetails: NextPage<Props> = (props: Props) => {
                 <tr>
                     <th>Picture</th>
                     <td><Picture 
-                        defaultSrc={currentFursona.pathToPictureFile? ('uploads/' + currentFursona.pathToPictureFile) : ('Default_profile.jpg')}
+                        defaultSrc={currentFursona.pathToPictureFile? (
+                                process.env.NODE_ENV == "development"
+                                ?
+                                `uploads/${currentFursona.pathToPictureFile}`
+                                :
+                                `${process.env.DOMAIN_ROOT}uploads/${currentFursona.pathToPictureFile}`
+                            )
+                            : "Default_profile.jpg"
+                        }
                         sizes="(max-width: 9999px) 300px"
                         alt="User Image"
                         >

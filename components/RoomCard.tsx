@@ -43,7 +43,15 @@ const Row = ({occupant, props}: RowProps) => {
             <span className={styles.RoomCard__Image}>
                 <Picture
                     alt={"User Thumb"}
-                    defaultSrc={`${occupant.pathToPictureFile? `uploads/${occupant.pathToPictureFile}_thumb.jpg` : "Default_profile_thumb.jpg"}`}
+                        defaultSrc={occupant.pathToPictureFile? (
+                            process.env.NODE_ENV == "development"
+                            ?
+                            `uploads/${occupant.pathToPictureFile.slice(0, occupant.pathToPictureFile.lastIndexOf('.'))}_thumb.${occupant.pathToPictureFile.slice(occupant.pathToPictureFile.lastIndexOf('.')+1)}`
+                            :
+                            `${process.env.DOMAIN_ROOT}uploads/${occupant.pathToPictureFile.slice(0, occupant.pathToPictureFile.lastIndexOf('.'))}_thumb.${occupant.pathToPictureFile.slice(occupant.pathToPictureFile.lastIndexOf('.')+1)}`
+                        )
+                        : "Default_profile_thumb.jpg"
+                    }
                     sizes={"20vw"}
                 />
             </span>
