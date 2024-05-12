@@ -58,7 +58,7 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
                 }}
                 disabled={!isTitleOverflow}
                 className={styles.ParticipantCard__Title}
-                >
+            >
                 <div ref={titleRef} className={`${isTitleOverflow && styles.ParticipantCard__Title_overflow}`}>
                     <h2>
                         {props.name}
