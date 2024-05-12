@@ -169,10 +169,16 @@ const Registration: NextPage<Props> = (props: Props) => {
     if (errorStates.confPassword != "") validateConfPass()
   }, [confPassword]);
   useEffect(() => {
-    if (errorStates.telegram != "") validateTelegram()
+    if (errorStates.telegram != "") {
+      validateTelegram()
+      validatePhone()
+    }
   }, [telegram]);
   useEffect(() => {
-    if (errorStates.phone != "") validatePhone()
+    if (errorStates.phone != "")  {
+      validatePhone()
+      validateTelegram()
+    }
   }, [phone, selectedPhoneExt]);
 
   useEffect(() => {
@@ -242,10 +248,10 @@ const Registration: NextPage<Props> = (props: Props) => {
     return updateState(password.trim() != confPassword.trim(), "confPassword", lang.regPassConfError)
   }
   const validateTelegram = () => {
-    return updateState(telegram.trim() == "", "telegram", lang.regContactErr)
+    return updateState((phone.trim() == "" && telegram.trim() == ""), "telegram", lang.regContactErr)
   }
   const validatePhone = () => {
-    return updateState((phone.trim() == "" || selectedPhoneExt.trim() == ""), "phone", lang.regContactErr)
+    return updateState((telegram.trim() == "" && (phone.trim() == "" || selectedPhoneExt.trim() == "")), "phone", lang.regContactErr)
   }
 
   const validateAge = (state: boolean, strict = false) => {
