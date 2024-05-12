@@ -385,6 +385,7 @@ import { ITicket } from "@/models/newDbModels/ticket.model";
 import { IFursona } from "@/models/newDbModels/fursona.model";
 import styles from "@/styles/pages/Admin.module.scss"
 import { defaultPadding } from "ol/render/canvas";
+import { useUser } from "@/hooks/user/useUser";
 
 type Props = {}
 
@@ -415,9 +416,37 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   const [deleteFlag, setDeleteFlag] = useState<boolean>(false);
   const [imageDeleteFlag, setImageDeleteFlag] = useState<boolean>(false);
 
+  const { user, didUserInit } = useUser()
+  const [isAuthenTicated, setIsAuthenticated] = useState<boolean>(false)
+  
+  // ===============================================
+  // AUTHENTICATION
+  // ===============================================
   useEffect(() => {
-    getAttendee();
-  }, [])
+    if (!didUserInit) return
+    if (!user || !user.attendee.admin) {
+        Router.push('/')
+    }
+    else if (user && user.attendee.admin) {
+        runAuth()
+    }
+}, [didUserInit])
+
+  const runAuth = async () => {
+    await axiosInstance.get(`/api/admin/auth`)
+      .then((res) => {
+          setIsAuthenticated(res.data)
+          getAttendee();
+      })
+      .catch((err) => {
+          setIsAuthenticated(false)
+          Router.push('/')
+      })
+      .finally(() => {
+        // If using loading  
+        // setIsLoading(false)
+      })
+  }
 
   useEffect(() =>{
     getTicket();
@@ -639,56 +668,61 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   }, [verifiedStatus, paymentStatus, paymentMethod, deleteFlag, imageDeleteFlag])
 
   return (
-    <div className={styles.Admin}>
-        <Button onClick={routerBackToAdmin}>BACK</Button>
-        <div className={styles.Admin__Content}>
-            <div className={styles.Admin__Content__TableContainer}>
-                <h2>ATTENDEE</h2>
-                <AttendeeDetails attendee={attendee}></AttendeeDetails>
+    <>
+        {
+            (isAuthenTicated == true) &&
+            <div className={styles.Admin}>
+                <Button onClick={routerBackToAdmin}>BACK</Button>
+                <div className={styles.Admin__Content}>
+                    <div className={styles.Admin__Content__TableContainer}>
+                        <h2>ATTENDEE</h2>
+                        <AttendeeDetails attendee={attendee}></AttendeeDetails>
+                    </div>
+                    <div className={styles.Admin__Content__TableContainer}>
+                        <h2>TICKET</h2>
+                        <TicketDetails ticket={ticket}></TicketDetails>
+                    </div>
+                    <div className={styles.Admin__Content__TableContainer}>
+                        <h2>FURSONA</h2>
+                        <FursonaDetails fursona={fursona}></FursonaDetails>
+                    </div>
+                </div>
+                <div className={styles.Admin__Content}>
+                    <Button onClick={flagAttendeeForDelete}>Reject & Delete Attendee</Button>
+                    ||
+                    <Button onClick={flagImageForDelete}>Remove Image</Button>
+                    <Toggle 
+                        id={"verifiedToggle"} 
+                        label={"Verified?"} 
+                        checked={verifiedStatus}
+                        stateChanger={setVerifiedStatus}
+                        ></Toggle>
+                    <Toggle 
+                        id={"paymentToggle"} 
+                        label={"Paid?"} 
+                        checked={paymentStatus}
+                        stateChanger={setPaymentStatus}
+                        ></Toggle>
+                    <DropDown
+                        label={"Payment method"}
+                        buttonPlaceholder={"Select payment method"}
+                        data={paymentMethods}
+                        onChange={(e: PaymentMethodInterface) => setPaymentMethod(e)}
+                        selected={paymentMethod}
+                        setSelected={(e: PaymentMethodInterface) => setPaymentMethod(e)}
+                        setValue={(e: PaymentMethodInterface) => setPaymentMethod(e)}></DropDown>
+                </div>
+                <hr></hr>
+                <div className={styles.Admin__Content}>
+                    <span>
+                        <b>CHANGELIST:</b><br></br>
+                        <ChangeList changes={provisionalUpdates}></ChangeList>
+                    </span>
+                    <Button onClick={finalizeChanges}>FINALIZE CHANGES</Button>
+                </div>
             </div>
-            <div className={styles.Admin__Content__TableContainer}>
-                <h2>TICKET</h2>
-                <TicketDetails ticket={ticket}></TicketDetails>
-            </div>
-            <div className={styles.Admin__Content__TableContainer}>
-                <h2>FURSONA</h2>
-                <FursonaDetails fursona={fursona}></FursonaDetails>
-            </div>
-        </div>
-        <div className={styles.Admin__Content}>
-            <Button onClick={flagAttendeeForDelete}>Reject & Delete Attendee</Button>
-            ||
-            <Button onClick={flagImageForDelete}>Remove Image</Button>
-            <Toggle 
-                id={"verifiedToggle"} 
-                label={"Verified?"} 
-                checked={verifiedStatus}
-                stateChanger={setVerifiedStatus}
-                ></Toggle>
-            <Toggle 
-                id={"paymentToggle"} 
-                label={"Paid?"} 
-                checked={paymentStatus}
-                stateChanger={setPaymentStatus}
-                ></Toggle>
-            <DropDown
-                label={"Payment method"}
-                buttonPlaceholder={"Select payment method"}
-                data={paymentMethods}
-                onChange={(e: PaymentMethodInterface) => setPaymentMethod(e)}
-                selected={paymentMethod}
-                setSelected={(e: PaymentMethodInterface) => setPaymentMethod(e)}
-                setValue={(e: PaymentMethodInterface) => setPaymentMethod(e)}></DropDown>
-        </div>
-        <hr></hr>
-        <div className={styles.Admin__Content}>
-            <span>
-                <b>CHANGELIST:</b><br></br>
-                <ChangeList changes={provisionalUpdates}></ChangeList>
-            </span>
-            <Button onClick={finalizeChanges}>FINALIZE CHANGES</Button>
-        </div>
-    </div>
+        }
+    </>
   );
 }
 export default AdminUser

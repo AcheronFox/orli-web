@@ -1,9 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import axiosInstance from "@/functions/utils/axiosConfig";
 import { NextPage } from "next";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
 import AttendeeList from "@/comp/admin/AttendeeList";
 import styles from "@/styles/pages/Admin.module.scss"
+import Router from "next/router";
+import { useUser } from "@/hooks/user/useUser";
 
 type Props = {}
 
@@ -14,9 +17,37 @@ const AdminPage: NextPage<Props> = (props: Props) => {
   const [toDate, setToDate] = useState<Date>();
   const [serverDate, setServerDate] = useState<Date>();
 
+  const { user, didUserInit } = useUser()
+  const [isAuthenTicated, setIsAuthenticated] = useState<boolean>(false)
+  
+  // ===============================================
+  // AUTHENTICATION
+  // ===============================================
   useEffect(() => {
-    getDefaults()
-  }, [])
+    if (!didUserInit) return
+    if (!user || !user.attendee.admin) {
+        Router.push('/')
+    }
+    else if (user && user.attendee.admin) {
+        runAuth()
+    }
+}, [didUserInit])
+
+  const runAuth = async () => {
+    await axiosInstance.get(`/api/admin/auth`)
+      .then((res) => {
+          setIsAuthenticated(res.data)
+          getDefaults()
+      })
+      .catch((err) => {
+          setIsAuthenticated(false)
+          Router.push('/')
+      })
+      .finally(() => {
+        // If using loading  
+        // setIsLoading(false)
+      })
+  }
 
   const getDefaults = async () => {
     await axiosInstance.get('/api/v2/attendee/')
@@ -29,11 +60,16 @@ const AdminPage: NextPage<Props> = (props: Props) => {
   }
 
   return (
-    <div className={styles.Admin}>
-      <div className={styles.Admin__Content}>
-        <AttendeeList attendees={attendees}></AttendeeList>
-      </div>
-    </div>
+    <>
+      {
+        (isAuthenTicated == true) &&
+        <div className={styles.Admin}>
+          <div className={styles.Admin__Content}>
+            <AttendeeList attendees={attendees}></AttendeeList>
+          </div>
+        </div>
+      }
+    </>
   );
 }
 export default AdminPage

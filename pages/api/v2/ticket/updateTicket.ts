@@ -5,13 +5,25 @@ import isMethodAllowed from "@/functions/auth/isMethodAllowed";
 import { getNationality } from "@/services/nationality/service.nationality";
 import { findTemplate, sendMail } from "@/functions/mail/mail-controller";
 import handlebars from "handlebars";
-import { getAttendeeById } from "@/services/attendee/service.attendee.select";
+import { getAttendeeByAccountKey, getAttendeeById } from "@/services/attendee/service.attendee.select";
 import { getFursona } from "@/services/fursona/service.fursona.select";
+import verifyToken from "@/functions/auth/veryifToken";
+import { IAttendee } from "@/models/newDbModels/attendee.model";
+import { isAdminAccount } from "../../admin/auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!await isMethodAllowed(req, res, 'POST')) {
         return;
     }
+
+    const tokenPayload = await verifyToken(req, res);
+
+    if (tokenPayload) {
+        const account: IAttendee | undefined = await getAttendeeByAccountKey(tokenPayload.accountKey);
+        if (account) {
+            if (!await isAdminAccount(account)) return res.status(401).json({ message: "Unauthorized" });
+        } else return res.status(401).json({ message: "Unauthorized" });
+    } else return res.status(401).json({ message: "Unauthorized" });
     
     try {
         if ("id" in req.body.params && "paymentStatus" in req.body.params && "paymentMethod" in req.body.params) {

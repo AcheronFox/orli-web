@@ -1,12 +1,26 @@
-import { getAttendees, getAttendeeById } from "@/services/attendee/service.attendee.select";
+import { getAttendees, getAttendeeById, getAttendeeByAccountKey } from "@/services/attendee/service.attendee.select";
 import { getRequestPropertyAsNumber } from "@/functions/utils/databaseHelpers";
 import { NextApiRequest, NextApiResponse } from "next";
 import isMethodAllowed from "@/functions/auth/isMethodAllowed";
+import { IAttendee } from "@/models/newDbModels/attendee.model";
+import verifyToken from "@/functions/auth/veryifToken";
+import { isAdminAccount } from "../../admin/auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!await isMethodAllowed(req, res, 'GET')) {
         return;
     }
+
+    const tokenPayload = await verifyToken(req, res);
+
+    if (tokenPayload) {
+        const account: IAttendee | undefined = await getAttendeeByAccountKey(tokenPayload.accountKey);
+        if (account) {
+            if (!await isAdminAccount(account)) {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
+        } else return res.status(401).json({ message: "Unauthorized" });
+    } else return res.status(401).json({ message: "Unauthorized" });
 
     try {
         if ("id" in req.query) {

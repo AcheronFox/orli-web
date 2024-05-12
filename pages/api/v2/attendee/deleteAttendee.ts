@@ -1,4 +1,4 @@
-import { getAttendees, getAttendeeById } from "@/services/attendee/service.attendee.select";
+import { getAttendees, getAttendeeById, getAttendeeByAccountKey } from "@/services/attendee/service.attendee.select";
 import { removeAttendee } from "@/services/attendee/service.attendee.delete";
 import { removeFursona } from "@/services/fursona/service.fursona.delete";
 import { removeTicket } from "@/services/ticket/service.ticket.delete";
@@ -10,11 +10,25 @@ import { findTemplate, sendMail } from "@/functions/mail/mail-controller";
 import { getNationality } from "@/services/nationality/service.nationality";
 import handlebars from "handlebars";
 import { getFursona } from "@/services/fursona/service.fursona.select";
+import verifyToken from "@/functions/auth/veryifToken";
+import { IAttendee } from "@/models/newDbModels/attendee.model";
+import { isAdminAccount } from "../../admin/auth";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!await isMethodAllowed(req, res, 'DELETE')) {
         return;
     }
+
+    const tokenPayload = await verifyToken(req, res);
+
+    if (tokenPayload) {
+        const account: IAttendee | undefined = await getAttendeeByAccountKey(tokenPayload.accountKey);
+        if (account) {
+            if (!await isAdminAccount(account)) {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
+        } else return res.status(401).json({ message: "Unauthorized" });
+    } else return res.status(401).json({ message: "Unauthorized" });
 
     try {
         if ("id" in req.body) {
