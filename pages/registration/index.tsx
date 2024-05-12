@@ -24,6 +24,7 @@ import Checkbox from "@/comp/input/Checkbox";
 import useNotification from "@/hooks/notification/useNotification";
 import { INationality } from "@/models/newDbModels/nationality.model";
 import PhoneCodeSelector from "@/comp/input/PhoneCodeSelector";
+import { useHTMLString } from "@/hooks/utils/useHTMLString";
 
 const isEmailValid = (email: string) => {
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
@@ -56,6 +57,7 @@ type Props = {};
 const Registration: NextPage<Props> = (props: Props) => {
   const { lang, currLang } = useTranslate();
   const { addNotification, closeNotification } = useNotification()
+  const parse = useHTMLString()
 
   const [nationalities, setNationalities] = useState<INationality[]>([])
 
@@ -633,7 +635,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       <Tooltip
                         html={
                           <span style={{ fontSize: "1.4rem" }}>
-                            {lang.regContactExp}
+                            {parse(lang.regContactExp)}
                           </span>
                         }
                         arrow
@@ -678,7 +680,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       <Tooltip
                         html={
                           <span style={{ fontSize: "1.4rem" }}>
-                            {lang.regContactExp}
+                            {parse(lang.regContactExp)}
                           </span>
                         }
                         arrow
@@ -696,7 +698,14 @@ const Registration: NextPage<Props> = (props: Props) => {
                       <span
                         style={{marginLeft: '1rem', whiteSpace: "nowrap"}}
                       >
-                        +36
+                        <span style={{display: "flex"}}>
+                          +
+                          <PhoneCodeSelector
+                            label={""}
+                            onChange={(o) => setSelectedPhoneExt(o)}
+                            value={selectedPhoneExt}                        
+                          />
+                        </span>
                       </span>
                     </>
                   }
