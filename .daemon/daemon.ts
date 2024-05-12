@@ -17,7 +17,7 @@ const start = () => {
 start();
 
 function setUpJobs() {
-    schedule.scheduleJob('*/10 * * * * *', async () => { // 0 0 * * * *
+    schedule.scheduleJob('0 0 * * * *', async () => { // 0 0 * * * *
         try {
             const defaultLimit = await resetLimit(process.env.MAIL_LIMIT);
 

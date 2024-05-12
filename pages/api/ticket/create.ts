@@ -16,6 +16,7 @@ import {configuration} from "@/private/app.config"
 import { ITicket } from '@/models/newDbModels/ticket.model';
 import { getNationality } from '@/services/nationality/service.nationality';
 import { getTicketById } from '@/services/ticket/service.ticket.select';
+import getLocaleFile from '@/functions/utils/getLocaleFile';
 
 
 export default async function handler(
@@ -130,8 +131,8 @@ export default async function handler(
                                         sponsorPrice: data.sponsorPrice,
                                         totalPrice: calcPrice(req.body),
                                         isPaid: false,
-                                        arrivalDate: '',
-                                        departureDate: ''
+                                        arrivalDate: "1970-01-01",
+                                        departureDate: "1970-01-01"
                                     }
     
                                     connection.query(mysql.format(`INSERT INTO ticket (${Object.keys(payload).join(",")}) VALUES (?)`, [Object.values(payload)]), (err: any, res: any) => {
@@ -198,7 +199,7 @@ export default async function handler(
                             }
                             else {
                                 // Create Summary Table
-                                const translationTable: Language = (nat.iso2 == "hu")? require("@/locales/hu/hu.lang.ts") : require("@/locales/en/en.lang.ts")
+                                const translationTable: Language = getLocaleFile(nat.iso2=="hu"? "hu" : "en", "lang.ts")
                                 
                                 let ticketRow = '';
                                 try {

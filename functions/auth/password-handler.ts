@@ -40,7 +40,7 @@ const resetPassword = async (password: string, oldKey: string) => {
 
     const hasAccountConflict = async () => {
         return new Promise<boolean>(async (resolve) => {
-            database.query(`SELECT * FROM account WHERE AccountKey = '${newAccountKey}'`, async (err: any, result: string | any[]) => {
+            database.query(`SELECT * FROM attendee WHERE accountKey = '${newAccountKey}'`, async (err: any, result: string | any[]) => {
                 if (err) {
                     console.log("ERROR: ", err);
                     response = {error: "Unknown Error"}
@@ -64,11 +64,11 @@ const resetPassword = async (password: string, oldKey: string) => {
         const updateKeys = async () => {
             return new Promise<boolean>(async (resolve) => {
                 const query = `
-                UPDATE account SET
-                account.AccountKey = '${newAccountKey}',
-                account.password = '${encryptedPass}'
+                UPDATE attendee SET
+                attendee.accountKey = '${newAccountKey}',
+                attendee.password = '${encryptedPass}'
                 WHERE
-                account.AccountKey = '${oldKey}'
+                attendee.accountKey = '${oldKey}'
                 `
                 database.query(query, async (err: any, result: string | any[]) => {
                     if (err) {

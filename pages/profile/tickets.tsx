@@ -28,7 +28,7 @@ import { ITicketCount } from "@/models/ticket-count.model";
 
 type Props = {}
 
-type ShirtSizeInterface = 'S' | 'M' | 'L' | 'XL' | 'XXL' | '3XL' | null;
+type ShirtSizeInterface = 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL' | null;
 
 const Tickets: NextPage<Props> = (props: Props) => {
   const { lang, currLang } = useTranslate();
@@ -57,7 +57,7 @@ const Tickets: NextPage<Props> = (props: Props) => {
     'L',
     'XL',
     'XXL',
-    '3XL'
+    'XXXL'
   ])
   const [sponsorAmount, setSponsorAmount] = useState<number>(0)
   const [isExtraAllowed, setIsExtraAllowed] = useState<boolean>(false)
@@ -272,11 +272,27 @@ const Tickets: NextPage<Props> = (props: Props) => {
                             style={{
                               fontSize: '1.6rem'
                             }}
-                            disabled={!((o.priceKey=='WACC' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'WACC')?.limit || 0)) || (o.priceKey=='TENT' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'TENT')?.limit || 0)))}
+                            disabled={(() => {
+                              switch (o.priceKey) {
+                                case 'WACC':
+                                  return !(ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'WACC')?.limit || 0))
+                                case 'TENT':
+                                  return !(ticcketLimits.countTENT >= (configData.types.find((o) => o.name == 'TENT')?.limit || 0))
+                              }
+                            })()}
                           >
                             <Button
                               variant="contained"
-                              disabled={(selectedTicket==(o.priceKey as "WACC" | "TENT") && ((o.priceKey=='WACC' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'WACC')?.limit || 0)) || (o.priceKey=='TENT' && ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'TENT')?.limit || 0))))}
+                              disabled={(() => {
+                                if (selectedTicket==(o.priceKey as "WACC" | "TENT")) return true
+
+                                switch (o.priceKey) {
+                                  case "WACC":
+                                    return (ticcketLimits.countWACC >= (configData.types.find((o) => o.name == 'WACC')?.limit || 0));
+                                  case "TENT":
+                                    return (ticcketLimits.countTENT >= (configData.types.find((o) => o.name == 'TENT')?.limit || 0))
+                                }
+                              })()}
                               onClick={() => selectTicket(o.priceKey as "WACC" | 'TENT')}
                             >
                               {lang.ticketSelect}

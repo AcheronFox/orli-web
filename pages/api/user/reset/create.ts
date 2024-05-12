@@ -7,7 +7,9 @@ import {IAccount} from '@/models/account.model';
 import * as mysql from "mysql";
 import {findTemplate, sendMail} from '@/functions/mail/mail-controller';
 import handlebars from "handlebars";
-import {getAccountByEmail, getUserByAccountKey} from '@/utils/getData';
+import { getAttendeeByEmail } from '@/services/attendee/service.attendee.select';
+import { getFursona } from '@/services/fursona/service.fursona.select';
+import { changeAttendeePasswordResetTokenId, updateAttendee } from '@/services/attendee/service.attendee.update';
 
 
 export default async function handler(
@@ -21,20 +23,20 @@ export default async function handler(
         res.status(code).json(data)
     }
 
-    const account = await getAccountByEmail(req.body.email.toLowerCase())
-    let user = undefined
-    if (account) user = await getUserByAccountKey(account.AccountKey)
+    const attendee = await getAttendeeByEmail(req.body.email.toLowerCase())
+    let fursona = undefined
+    if (attendee) fursona = await getFursona(attendee.fursonaId)
 
-    if (account && user) {
+    if (attendee && fursona) {
         const clearPreviousToken = () => {
             return new Promise(async (resolve) => {
                 const query = 
                 `
-                DELETE FROM password_reset_tokens
-                WHERE AccountKey = ?;
+                DELETE FROM passwordresettoken
+                WHERE id = ?;
                 `
     
-                database.query(query, [account.AccountKey], async (err: any, result: IAccount[]) => {
+                database.query(query, [attendee.passwordResetTokenId], async (err: any, result: IAccount[]) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "resCreate_1"}); 
@@ -64,17 +66,18 @@ export default async function handler(
         const createEntry = async (token: string) => {
             return new Promise<boolean>(async (resolve) => {
                 const payload = {
-                    AccountKey: account.AccountKey,
                     token: token,
-                    token_exp: Math.floor((Date.now() / 1000) + 600),
+                    tokenExpireTime: Math.floor((Date.now() / 1000) + 600),
                 }
     
-                database.query(mysql.format(`INSERT INTO password_reset_tokens (${Object.keys(payload).join(",")}) VALUES (?)`, [Object.values(payload)]), (err: any) => {
+                database.query(mysql.format(`INSERT INTO passwordresettoken (${Object.keys(payload).join(",")}) VALUES (?)`, [Object.values(payload)]), async (err: any, res: any) => {
                     if (err) {
                         console.log("ERROR: ", err);
                         sendResponse(500, {message: "Unknown Error", e_code: "resCreate_3"}); 
                         resolve(false);
                     }
+
+                    await changeAttendeePasswordResetTokenId(attendee, res.insertId)
                     resolve(true);
                 });
             }).catch(() => {
@@ -88,19 +91,19 @@ export default async function handler(
 
         if (tokenResult) {
             // SEND EMAIL
-            const props = await findTemplate(account.nationality, 'passwordReset')
+            const props = await findTemplate(attendee.nationalityId==25? "hu" : "en", 'passwordReset')
             if (!props) {
                 sendResponse(500, {message: "Failed to get email template.", e_code: "resCreate_5"}); 
             }
             else {
                 const template = handlebars.compile(props.mail);
                 const replacements = {
-                    fursonaName: user.fursonaName,
+                    fursonaName: fursona.name,
                     resetURL: `${process.env.DOMAIN_ROOT}reset?token=${token}`,
                 };
                 props.mail = template(replacements)
 
-                await sendMail({...props, address: account.email}, (err: string, result: string) => {
+                await sendMail({...props, address: attendee.email}, (err: string, result: string) => {
                     if (err) {
                         sendResponse(500, {message: "Failed to send email.", e_code: "resCreate_6"}); 
                     }

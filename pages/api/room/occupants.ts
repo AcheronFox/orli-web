@@ -38,6 +38,7 @@ export default async function handler(
                     fursona.id,
                     accomodation.ownerContact,
                     accomodation.roomId,
+                    accomodation.isOwner,
                     ticket.sponsorLevel,
                     attendee.registeredAt,
                     attendee.accountKey
@@ -96,8 +97,8 @@ export default async function handler(
 
         if (await query() && await getRooms()) {
             let result: IOccupant[] = response.map((item) => {
-                const isAdmin = !!item.adminKey
-                return {...item, isRoomAdmin: isAdmin, adminKey: undefined}
+                const isAdmin = !!item.isOwner
+                return {...item, isOwner: isAdmin}
             })
 
             const tempArr: IOccupant[] = [...result]
@@ -107,15 +108,15 @@ export default async function handler(
                 for (let j=0; j < roomSize; j++) {
                     if (tempArr.filter((o) => o.roomId == rooms[i].id).length < roomSize) {
                         tempArr.push({
-                            fursonaName: '',
-                            isRoomAdmin: false,
+                            name: '',
+                            isOwner: false,
                             roomId: rooms[i].id,
-                            fursonaSpecies: '',
-                            picture: '',
-                            isFursuiter: false,
-                            sponsorLevel: '0',
+                            species: '',
+                            pathToPictureFile: '',
+                            hasFursuit: false,
+                            sponsorLevel: 'None',
                             registeredAt: '',
-                            AccountKey: '',
+                            id: 0,
                         })
                     }
                 }

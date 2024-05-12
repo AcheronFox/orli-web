@@ -125,7 +125,6 @@ export async function changeAttendeeAccomodationId(arg1: IAttendee | number, acc
 {
     const query: string = `UPDATE ${TABLE} SET accomodationId = ? WHERE id = ?;`;
     const id: number | undefined = typeof arg1 == 'number' ? arg1 : arg1.id;
-
     if (id == undefined)
     {
         console.error("ID cannot be undefined!");
@@ -133,7 +132,6 @@ export async function changeAttendeeAccomodationId(arg1: IAttendee | number, acc
     }
 
     const result: number = await executeUpdateQuery(query, [accomodationId, id], connectionToUse);
-
     return result >= 1;
 }
 

@@ -1,25 +1,20 @@
-import { IRoomRaw } from '@/models/room.model';
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/functions/utils/mysql'
 import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import verifyToken from '@/functions/auth/veryifToken';
 import { IJoinForm } from '@/models/join-form.model';
-import { IAccomodationRaw } from '@/models/accomodation.model';
 import * as mysql from "mysql";
-import { AccomodationDatabase, RoomDatabase, TicketDatabase } from '@/models/database.model';
 import _ from 'lodash';
-import { getTicketByAccountKey } from '@/utils/getData';
-import { beginDbTransaction, getDbConnection, getTodayInIsoFormat } from '@/functions/utils/databaseHelpers';
+import { beginDbTransaction, getDbConnection } from '@/functions/utils/databaseHelpers';
 import { IAttendee } from '@/models/newDbModels/attendee.model';
 import { getAttendeeByAccountKey } from '@/services/attendee/service.attendee.select';
-import { ITicket } from '@/models/newDbModels/ticket.model';
-import { getTicketById } from '@/services/ticket/service.ticket.select';
 import { IAccomodation } from '@/models/newDbModels/accomodation.model';
 import { getAccomodationById, getAccomodationsByRoomId } from '@/services/accomodation/service.accomodation.select';
 import { insertAccomodation } from '@/services/accomodation/service.accomodation.insert';
 import { changeAttendeeAccomodationId } from '@/services/attendee/service.attendee.update';
 import { getRoomById } from '@/services/room/service.room.select';
 import { enterRoom, leaveRoom } from '@/services/accomodation/service.accomodation.update';
+import { setCustomName, setPin } from '@/services/room/service.room.update';
+import { IRoom } from '@/models/newDbModels/room.model';
 
 export default async function handler(
     req: NextApiRequest,
@@ -46,9 +41,6 @@ export default async function handler(
     if (!tokenPayload)
         return;
 
-    console.log(req.body)
-    console.log(isJoinForm(req.body))
-    console.log(isValidForm(req.body))
     if (!isJoinForm(req.body) && !isValidForm(req.body)) {
         return sendResponse(400, { message: "Invalid form", e_code: "room_join_1" });
     }
@@ -60,8 +52,6 @@ export default async function handler(
 
     if (attendee.ticketId == undefined)
         return sendResponse(400, { message: "Attendee does not have a ticket", e_code: "room_join_3" });
-
-    const ticket: ITicket | undefined = await getTicketById(attendee.ticketId);
 
     let connection: mysql.PoolConnection | null = null;;
 
@@ -78,11 +68,20 @@ export default async function handler(
                 }
             }
         }
-        const newAccomodationId = await CreateNewAccomodationForAttendee(connection);
+
+        const room = await getRoomById(req.body.roomId);
+
+        if (room == undefined) {
+            throw new DatabaseError(500, "Invalid room ID", "room_join_59");
+        }
+
+        const newAccomodationId = await CreateNewAccomodationForAttendee(room, req.body, connection);
         const changeAccomodationResult = await changeAttendeeAccomodationId(attendee, newAccomodationId, connection);
         if (!changeAccomodationResult) {
             throw new DatabaseError(500, "Failed to change accomodation ID for attendee", "room_join_57");
         }
+
+        connection.commit()
 
         attendee.accomodationId = newAccomodationId;
 
@@ -93,12 +92,6 @@ export default async function handler(
         }
 
         const occupants = await getAccomodationsByRoomId(req.body.roomId);
-
-        const room = await getRoomById(req.body.roomId);
-
-        if (room == undefined) {
-            throw new DatabaseError(500, "Invalid room ID", "room_join_59");
-        }
 
         if (occupants != undefined) {
             if (occupants.length != req.body.roomCount) {
@@ -117,10 +110,9 @@ export default async function handler(
         if (room.pin && room.pin != req.body.pin) {
             throw new DatabaseError(401, "Wrong pin", "room_join_63");
         }
-
-        console.log('A')
+        
         const result = await enterRoom(accomodation, req.body.roomId);
-        console.log(result)
+
         if (result == undefined) {
             throw new DatabaseError(500, "Failed entering the room", "room_join_64");
         }
@@ -148,9 +140,19 @@ export default async function handler(
     sendResponse(201, { message: "Joined Room" });
 }
 
-async function CreateNewAccomodationForAttendee(connectionToUse: mysql.PoolConnection): Promise<number> {
+async function CreateNewAccomodationForAttendee(room: IRoom, data: IJoinForm, connectionToUse: mysql.PoolConnection): Promise<number> {
+    const occupants = await getAccomodationsByRoomId(room.id!)
+    let isOwner = false;
+
+    if (!occupants?.length) {
+        isOwner = true
+
+        if (data.customName) await setCustomName(room.id!, data.customName, undefined, connectionToUse)
+        if (data.pin) await setPin(room.id!, parseInt(data.pin), undefined, connectionToUse)
+    }
+
     const accomodaton: IAccomodation = {
-        isOwner: false
+        isOwner: isOwner
     };
 
     return await insertAccomodation(accomodaton, connectionToUse);

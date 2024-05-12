@@ -10,6 +10,7 @@ import useTranslate from "@/hooks/translate/useTranslate";
 import { Tooltip } from "react-tippy";
 import { useUser } from "@/hooks/user/useUser";
 import Button from "./button/Button";
+import Picture from "./utils/Picture";
 
 type Props = {
     room: IRoom;
@@ -37,17 +38,18 @@ const Row = ({occupant, props}: RowProps) => {
     }
 
     return (
-        <div className={occupant.fursonaName && styles.RoomCard__Row} onClick={occupant.fursonaName? () => clickHandler() : undefined}>
+        <div className={occupant.name && styles.RoomCard__Row} onClick={occupant.name? () => clickHandler() : undefined}>
             <span className={styles.RoomCard__Image}>
-                <picture>
-                    <source srcSet={`${occupant.picture? (`/uploads/${occupant.picture.split('.')[0]}_thumb.${occupant.picture.split('.')[1]} 1x`) : '/Default_profile_thumb.jpg 1x,'}`} media="(max-width: 37.5em)" />
-                    <img srcSet={`${occupant.picture? (`/uploads/${occupant.picture.split('.')[0]}_thumb.${occupant.picture.split('.')[1]} 1x`) : '/Default_profile_thumb.jpg 1x,'}`} alt="User Image" src="/Default_profile_thumb.jpg" loading="lazy"/>
-                </picture>
+                <Picture
+                    alt={"User Thumb"}
+                    defaultSrc={`${occupant.pathToPictureFile? `uploads/${occupant.pathToPictureFile}_thumb.jpg` : "Default_profile_thumb.jpg"}`}
+                    sizes={"20vw"}
+                />
             </span>
             <Tooltip
                 html={
                     <span style={{ fontSize: "1.4rem" }}>
-                        {occupant.fursonaName}
+                        {occupant.name}
                     </span>
                 }
                 arrow
@@ -60,8 +62,8 @@ const Row = ({occupant, props}: RowProps) => {
                 disabled={!isTitleOverflow}
             >
                 <span className={`${styles.RoomCard__Name}`}>
-                    <span ref={titleRef} className={`${styles.RoomCard__Name__Text}`}>{occupant.fursonaName}</span>
-                    {(occupant.isRoomAdmin) &&
+                    <span ref={titleRef} className={`${styles.RoomCard__Name__Text}`}>{occupant.name}</span>
+                    {(occupant.isOwner) &&
                         <Tooltip
                             html={
                                 <span style={{ fontSize: "1.4rem" }}>
@@ -121,7 +123,7 @@ const RoomCard: NextPage<Props> = (props: Props) => {
             </div>
             <div className={styles.RoomCard__Footer}>
                 {
-                    (!props.occupants.find((o) => o.AccountKey == user?.attendee.accountKey)) &&
+                    (!props.occupants.find((o) => o.id == user?.attendee.id)) &&
                     <Button
                         variant="contained"
                         onClick={() => clickHandler()}
@@ -130,7 +132,7 @@ const RoomCard: NextPage<Props> = (props: Props) => {
                     </Button>
                 }
                 {
-                    (props.occupants.find((o) => o.AccountKey == user?.attendee.accountKey)) &&
+                    (props.occupants.find((o) => o.id == user?.attendee.id)) &&
                     <Button
                         variant="contained"
                         onClick={() => leaveHandler()}

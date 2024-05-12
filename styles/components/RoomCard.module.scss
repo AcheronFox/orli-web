@@ -5,6 +5,7 @@
     justify-content: space-between;
     flex-direction: column;
     z-index: 1;
+    min-width: 13vw;
 
     background-color: $grey-2;
     padding: .5rem 2rem;
@@ -127,6 +128,7 @@
             height: 2rem;
             width: 2rem;
             margin-left: 1rem;
+            fill: $color-primary;
 
             & > * {
                 height: 2rem;

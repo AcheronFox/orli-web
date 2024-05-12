@@ -2,29 +2,29 @@
 import { NextPage } from "next";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/styles/components/ParticipantCard.module.scss"
-import { useTranslate } from "@/hooks/useTranslate";
 import FursuiterIcon from "./svg/FursuiterIcon";
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
 import SponsorIcon from "./svg/SponsorIcon";
 import ReactCountryFlag from "react-country-flag";
-import getNationality from "functions/getNationality";
 import { useIsOverflow } from "@/hooks/utils/useIsOverflow";
+import useTranslate from "@/hooks/translate/useTranslate";
+import { INationality } from "@/models/newDbModels/nationality.model";
+import { Tooltip } from "react-tippy";
+import Picture from "./utils/Picture";
+import variables from "@/styles/abstracts/exports.module.scss"
 
 type Props = {
     name: string;
     species?: string;
-    nationality?: string;
+    nationality?: number;
     picture?: string;
     isSponsor?: boolean;
     isSuperSponsor?: boolean;
     isFursuiter?: boolean;
-    description?: string | React.ReactNode;
-    isStaffMode?: boolean;
+    nationalities: INationality[]
 };
 
 const ParticipantCard: NextPage<Props> = (props: Props) => {
-    const { t, locale } = useTranslate();
+    const { lang, currLang } = useTranslate();
     const [nationalityName, setNationalityName] = useState<string>("")
     const titleRef = useRef<any>()
     const isTitleOverflow = useIsOverflow(titleRef);
@@ -35,18 +35,31 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
 
     useEffect(() => {
         refreshNationality()
-    }, [locale])
+    }, [currLang])
 
     const refreshNationality = () => {
         if (!props.nationality) return;
-        const val = getNationality(props.nationality, locale)
-        if (val) setNationalityName(val.name)
+        const val = props.nationalities.find((o) => o.id === props.nationality)
+        if (val) setNationalityName(currLang=="hu"? val.countryNameHungarian : val.countryNameEnglish)
     }
 
     return (
         <div className={styles.ParticipantCard}>
-            <Tippy disabled={!isTitleOverflow} content={<span>{props.name}<br />{props.species}</span>}>
-                <div ref={titleRef} className={`${styles.ParticipantCard__Title} ${isTitleOverflow && styles.ParticipantCard__Title_overflow}`}>
+            <Tooltip
+                html={
+                    <span>{props.name}<br />{props.species}</span>
+                }
+                arrow
+                arrowSize="big"
+                size="big"
+                inertia
+                style={{
+                    fontSize: '1.6rem'
+                }}
+                disabled={!isTitleOverflow}
+                className={styles.ParticipantCard__Title}
+                >
+                <div ref={titleRef} className={`${isTitleOverflow && styles.ParticipantCard__Title_overflow}`}>
                     <h2>
                         {props.name}
                     </h2>
@@ -54,52 +67,78 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
                         {props.species}
                     </h3>
                 </div>
-            </Tippy>
-            <div className={styles.ParticipantCard__Picture}>
+            </Tooltip>
+            <div className={styles.ParticipantCard__Picture}>   
+                <Picture
+                    alt={"User Profile Picture"}
+                    defaultSrc={`${props.picture? `uploads/${props.picture}` : "Default_profile.jpg"}`}
+                    sizes={"20vw"}
+                />
                 {
-                    (props.isStaffMode == true) &&
-                    <picture>
-                        <source srcSet={`${props.picture? (`${props.picture}_x1.jpg 1x, ${props.picture}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                        <img srcSet={`${props.picture? (`${props.picture}_x1.jpg 1x, ${props.picture}_x2.jpg 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy"/>
-                    </picture>
+                    (props.nationalities.length) && 
+                    <div className={styles.ParticipantCard__Flag}>
+                        <Tooltip
+                            html={
+                                <span>{nationalityName}</span>
+                            }
+                            arrow
+                            arrowSize="big"
+                            size="big"
+                            inertia
+                            style={{
+                                fontSize: '1.6rem'
+                            }}
+                            >
+                            <span>
+                                {props.nationality && <ReactCountryFlag countryCode={ props.nationalities.find((o) => o.id === props.nationality)!.iso2 } svg />}
+                            </span>
+                        </Tooltip>
+                    </div>
                 }
-                {   
-                    (!props.isStaffMode) &&
-                    <picture>
-                        <source srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.${props.picture.split('.')[1]} 1x, /uploads/${props.picture.split('.')[0]}_x2.${props.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                        <img srcSet={`${props.picture? (`/uploads/${props.picture.split('.')[0]}_x1.${props.picture.split('.')[1]} 1x, /uploads/${props.picture.split('.')[0]}_x2.${props.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="Participant Picture" src="/Default_profile_x2.jpg" loading="lazy"/>
-                    </picture>
-                }
-                <div className={styles.ParticipantCard__Flag}>
-                    <Tippy className={styles.Tooltip} content={nationalityName}>
-                        <span>
-                            {props.nationality && <ReactCountryFlag countryCode={ props.nationality } svg />}
-                        </span>
-                    </Tippy>
-                </div>
             </div>
             {
                 (props.isFursuiter || props.isSponsor) &&
                 <div className={styles.ParticipantCard__Footer}>
                     {
                         props.isFursuiter &&
-                        <Tippy className={styles.Tooltip} content={t("partSuiter")}>
+                        <Tooltip
+                            html={
+                                <span>{lang.partSuiter}</span>
+                            }
+                            arrow
+                            arrowSize="big"
+                            size="big"
+                            inertia
+                            style={{
+                                fontSize: '1.6rem'
+                            }}
+                        >
                             <span>
-                                <FursuiterIcon style={{"fill": "#F741D5"}} />
+                                <FursuiterIcon style={{fill: variables.primaryColor}} />
                             </span>
-                        </Tippy>
+                        </Tooltip>
                     }
                     {
                         props.isSponsor &&
-                        <Tippy className={styles.Tooltip} content={(props.isSuperSponsor)? t("ticketSuperSponsor") : t("partSponsor")}>
+                        <Tooltip
+                            html={
+                                <span>{(props.isSuperSponsor)? lang.ticketSuperSponsor : lang.partSponsor}</span>
+                            }
+                            arrow
+                            arrowSize="big"
+                            size="big"
+                            inertia
+                            style={{
+                                fontSize: '1.6rem'
+                            }}
+                        >
                             <span>
-                                <SponsorIcon style={{"fill": "#F741D5"}} />
+                                <SponsorIcon style={{fill: variables.primaryColor}} />
                             </span>
-                        </Tippy>
+                        </Tooltip>
                     }
                 </div>
             }
-            <span className={styles.ParticipantCard__Description}>{props.description}</span>
         </div>
     );
 };

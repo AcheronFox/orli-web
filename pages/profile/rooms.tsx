@@ -28,6 +28,7 @@ import { Tooltip } from "react-tippy";
 import Input from "@/comp/input/Input";
 import Checkbox from "@/comp/input/Checkbox";
 import ButtonGroup from "@/comp/button/ButtonGroup";
+import Picture from "@/comp/utils/Picture";
 let socket: any;
 
 
@@ -134,8 +135,9 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
     await axiosInstance.get<IOccupant[]>("api/room/occupants", {signal: abortController.signal})
     .then((res) => {
-      setOccupants(res.data.sort((a, b) => Number(b.isRoomAdmin) - Number(a.isRoomAdmin)))
-      setCurrentUserOccupant(res.data.find((o) => o.AccountKey == user?.attendee?.accountKey))
+      console.log(res.data)
+      setOccupants(res.data.sort((a, b) => Number(b.isOwner) - Number(a.isOwner)))
+      setCurrentUserOccupant(res.data.find((o) => o.id == user?.attendee?.id))
     })
     .catch((err) => {
       if (err.code == "ERR_CANCELED") return;
@@ -162,7 +164,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
     setShouldLock(false)
     setRoomPin('')
     setCustomName('')
-    setTelegram(currentUserOccupant?.telegram? currentUserOccupant.telegram : '')
+    setTelegram(currentUserOccupant?.ownerContact? currentUserOccupant.ownerContact : '')
     if (joinData) setShowJoin(true)
     else setShowJoin(false)
   }, [joinData])
@@ -179,14 +181,14 @@ const Rooms: NextPage<Props> = (props: Props) => {
   const evalTelegram = () => {
     if (!overlayData) return;
 
-    if (overlayData.telegram && isValidUrl(overlayData.telegram)) {
+    if (overlayData.ownerContact && isValidUrl(overlayData.ownerContact)) {
       return (
-        <span className={styles.Modal__Header__Title_inline}><span>{`${lang.roomTelegram}: `}</span><Button startIcon={<RiTelegramLine />} link={overlayData.telegram} >{overlayData.telegram}</Button></span>
+        <span className={styles.Modal__Header__Title_inline}><span>{`${lang.roomTelegram}: `}</span><Button startIcon={<RiTelegramLine />} link={overlayData.ownerContact} >{overlayData.ownerContact}</Button></span>
       );
     }
-    else if (overlayData.telegram) {
+    else if (overlayData.ownerContact) {
       return (
-        `${lang.roomTelegram}: ${overlayData.telegram}`
+        `${lang.roomTelegram}: ${overlayData.ownerContact}`
       );
     }
     else {
@@ -384,6 +386,10 @@ const Rooms: NextPage<Props> = (props: Props) => {
     .post("api/room/leave", formData)
     .then(async () => {
       socket.emit('room-change')
+      addNotification({
+        type: "success",
+        message: currLang=='hu'? "Szoba elhagyva." : "Room left."
+      })
       await getDefaults()
     })
     .catch((err) => {
@@ -438,19 +444,20 @@ const Rooms: NextPage<Props> = (props: Props) => {
         <div className={styles.Modal}>
           <section ref={overlayRef} className={styles.Modal__Header}>
             <div className={styles.Modal__Header__Picture}>
-              <picture>
-                <source srcSet={`${overlayData.picture? (`/uploads/${overlayData.picture.split('.')[0]}_x1.${overlayData.picture.split('.')[1]} 1x, /uploads/${overlayData.picture.split('.')[0]}_x2.${overlayData.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                <img srcSet={`${overlayData.picture? (`/uploads/${overlayData.picture.split('.')[0]}_x1.${overlayData.picture.split('.')[1]} 1x, /uploads/${overlayData.picture.split('.')[0]}_x2.${overlayData.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="User Picture" src="/Default_profile_x2.jpg" loading="lazy" />
-              </picture>
+              <Picture
+                  alt={"User Thumb"}
+                  defaultSrc={`${overlayData.pathToPictureFile? `uploads/${overlayData.pathToPictureFile}.jpg` : "Default_profile.jpg"}`}
+                  sizes={"20vw"}
+              />
             </div>
             <div className={styles.Modal__Header__Content}>
               <div className={styles.Modal__Header__Top}>
                 <div className={styles.Modal__Header__Title}>
                   <h2>
-                    {overlayData.fursonaName}
+                    {overlayData.name}
                   </h2>
                   <h3>
-                    {overlayData.fursonaSpecies}
+                    {overlayData.species}
                   </h3>
                   <span className={styles.Modal__Header__Title_text}>
                     {`${lang.roomRegDate}: ${createDatePatternFromDate(new Date(overlayData.registeredAt))}`}
@@ -461,10 +468,10 @@ const Rooms: NextPage<Props> = (props: Props) => {
                     }
                   </span>
                 </div>
-                { (overlayData.isFursuiter || overlayData.sponsorLevel && parseInt(overlayData.sponsorLevel) > 0) &&
+                { (overlayData.hasFursuit || overlayData.sponsorLevel && parseInt(overlayData.sponsorLevel) > 0) &&
                   <div className={styles.Modal__Header__Badges}>
                     {
-                      overlayData.isFursuiter &&
+                      overlayData.hasFursuit &&
                       <Tooltip
                         html={
                           <span style={{ fontSize: "1.4rem" }}>

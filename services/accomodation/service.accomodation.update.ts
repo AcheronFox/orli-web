@@ -1,5 +1,5 @@
 import { IAccomodation } from "@/models/newDbModels/accomodation.model";
-import { executeUpdateQuery, getDateObjectInIsoFormat, getTodayInIsoFormat } from "@/functions/utils/databaseHelpers";
+import { executeUpdateQuery } from "@/functions/utils/databaseHelpers";
 import {IAccomodationUpdatable} from "@/models/newDbModels/updateModels/updatable.accomodation.model";
 import { clearPinAndCustomName } from "../room/service.room.update";
 import { removeAccomodation } from "./service.accomodation.delete";
@@ -39,9 +39,14 @@ export async function leaveRoom(accomodation: IAccomodation, connectionToUse?: P
         return undefined;
     }
 
-    if (accomodation.isOwner == false) {
+    if (!Array.isArray(occupants)) occupants = [occupants]
+
+    if (accomodation.isOwner == true) {
         if (occupants.length <= 1) {
             await clearPinAndCustomName(accomodation.roomId, connectionToUse);
+        }
+        else {
+            resolveAdminReassign(occupants, connectionToUse);
         }
         return await removeAccomodation(accomodation, connectionToUse) ? 1 : 0;
     }
@@ -50,7 +55,6 @@ export async function leaveRoom(accomodation: IAccomodation, connectionToUse?: P
         occupants = occupants.filter(function(arr) {
             return arr.id !== accomodation.id;
         });
-        resolveAdminReassign(occupants, connectionToUse);
         return await removeAccomodation(accomodation, connectionToUse) ? 1 : 0;
     }
 }
@@ -63,7 +67,7 @@ export async function enterRoom(accomodation: IAccomodation, roomId: number, con
 }
 
 async function resolveAdminReassign(occupants: IAccomodation[], connectionToUse?: PoolConnection)
-{
+{   
     const mostRecentOccupant = occupants.reduce((latest, current) => {
         return current.createdAt! > latest.createdAt! ? current : latest;
     });

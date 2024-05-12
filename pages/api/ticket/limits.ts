@@ -78,7 +78,6 @@ export default async function handler(
     }
 
     const response: ITicketCount | undefined = await ticketLimitQuery();
-    response!.countWACC = 800
     if (response != undefined) {
         sendResponse(200, response);
     }
