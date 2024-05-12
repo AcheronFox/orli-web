@@ -98,7 +98,7 @@ const Row = ({attendee}: RowProps) => {
         })
     }
 
-    let rowAttendeeId;
+    let rowAttendeeId: any;
     if (attendee.id === undefined){
         rowAttendeeId = 0;
     } else {
