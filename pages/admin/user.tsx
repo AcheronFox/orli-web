@@ -435,7 +435,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   const runAuth = async () => {
     await axiosInstance.get(`/api/admin/auth`)
       .then((res) => {
-          setIsAuthenticated(res.data)
+          setIsAuthenticated(true)
           getAttendee();
       })
       .catch((err) => {
