@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/*import CustomDatePicker from "@/comp/input/CustomDatePicker";
+import CustomDatePicker from "@/comp/input/CustomDatePicker";
 import NationalitySelector from "@/comp/input/NationalitySelector";
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import styles from "@/styles/pages/Registration.module.scss"
@@ -784,17 +784,3 @@ const Registration: NextPage<Props> = (props: Props) => {
 }
 
 export default Registration;
-*/
-
-import TempWIP from "@/comp/TempWIP";
-import { NextPage } from "next";
-
-type Props = {}
-
-const Registration: NextPage<Props> = (props: Props) => {
-
-  return (
-    <TempWIP/>
-  );
-}
-export default Registration

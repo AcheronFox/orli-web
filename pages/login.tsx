@@ -1,7 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/*
-import { FloatingMessageContext } from "@/hooks/FloatingMessageContext"
-import Input from "@/comp/Input"
 import crypto from "crypto";
 import styles from "@/styles/pages/Login.module.scss"
 import { NextPage } from "next"
@@ -210,17 +207,3 @@ const Login: NextPage<Props> = (props: Props) => {
 }
 
 export default Login;
-*/
-
-import TempWIP from "@/comp/TempWIP";
-import { NextPage } from "next";
-
-type Props = {}
-
-const Login: NextPage<Props> = (props: Props) => {
-
-  return (
-    <TempWIP/>
-  );
-}
-export default Login
