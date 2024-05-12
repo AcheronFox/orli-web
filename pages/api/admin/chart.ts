@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
-import { IAccount } from '@/models/account.model';
-import { getAccountByKey } from '@/utils/getData';
 import verifyToken from '@/functions/auth/veryifToken';
 import { isAdminAccount } from './auth';
 import database from '@/functions/utils/mysql';
 import { IAdminChart } from '@/models/admin.model';
+import { IAttendee } from '@/models/newDbModels/attendee.model';
+import { getAttendeeByAccountKey } from '@/services/attendee/service.attendee.select';
 
 export default async function handler(
     req: NextApiRequest,
@@ -22,7 +22,7 @@ export default async function handler(
     }
 
     if (tokenPayload) {
-        const account: IAccount | undefined = await getAccountByKey(tokenPayload.accountKey);
+        const account: IAttendee | undefined = await getAttendeeByAccountKey(tokenPayload.accountKey);
         if (account) {
             if (await isAdminAccount(account)) {
                 const getTickets = async () => {
