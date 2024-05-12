@@ -41,7 +41,13 @@ const Images: NextPage<Props> = (props: Props) => {
                                     <Picture
                                         sizes="(max-width: 1000px) 100vw, 45vw"
                                         className={styles.Images__Item__Img}
-                                        defaultSrc={`gallery/${img}`}
+                                        defaultSrc={
+                                            process.env.NODE_ENV == "development"
+                                            ?
+                                            `gallery/${img}`
+                                            :
+                                            `${process.env.DOMAIN_ROOT}gallery/${img}`
+                                        }
                                         alt={`${img} (Img_${i})`}
                                     />
                                 </Link>
