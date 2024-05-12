@@ -8,30 +8,12 @@ import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { VariableSizeList as List } from "react-window";
 import { AutoSizerProps, WindowScroller as _WindowScroller } from "react-virtualized";
 import ParticipantCard from "@/comp/ParticipantCard";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
 import useTranslate from "@/hooks/translate/useTranslate";
 import { INationality } from "@/models/newDbModels/nationality.model";
 import CustomHead from "@/comp/utils/CustomHead";
 import LoadingOverlay from "@/comp/utils/LoadingOverlay";
 import { BarLoader } from "react-spinners";
 import variables from "@/styles/abstracts/exports.module.scss"
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
 const WindowScroller = _WindowScroller as unknown as FC<AutoSizerProps>;
 type Props = {}
@@ -127,144 +109,6 @@ const Participants: NextPage<Props> = (props: Props) => {
     .catch((err) => {return})
     .finally(() => setIsLoading(false))
   }
-
-  /*
-const [options, setOptions] = useState({
-    maintainAspectRatio: false,
-    indexAxis: 'y' as const,
-    elements: {
-      bar: {
-        borderWidth: 2,
-      },
-    },
-    responsive: true,
-    scales: {
-      x: {
-        stacked: true,
-        ticks: {
-          display: false,
-        },
-      },
-      y: {
-        stacked: true,
-        ticks: {
-          display: false,
-        },
-      }
-    },
-    plugins: {
-      legend: {
-        display: false
-      }
-    }
-  });
-
-  useEffect(() => {
-    if (size.width <= parseInt(styles.tinyDesktop)) {
-      setOptions({
-        maintainAspectRatio: false,
-        indexAxis: 'y' as const,
-        elements: {
-          bar: {
-            borderWidth: 2,
-          },
-        },
-        responsive: true,
-        scales: {
-          x: {
-            stacked: true,
-            ticks: {
-              display: false,
-            },
-          },
-          y: {
-            stacked: true,
-            ticks: {
-              display: false,
-            },
-          }
-        },
-        plugins: {
-          legend: {
-            display: true
-          }
-        }
-      })
-    }
-    else {
-      setOptions({
-        maintainAspectRatio: false,
-        indexAxis: 'y' as const,
-        elements: {
-          bar: {
-            borderWidth: 2,
-          },
-        },
-        responsive: true,
-        scales: {
-          x: {
-            stacked: true,
-            ticks: {
-              display: false,
-            },
-          },
-          y: {
-            stacked: true,
-            ticks: {
-              display: true,
-            },
-          }
-        },
-        plugins: {
-          legend: {
-            display: false
-          }
-          
-        }
-      })
-    }
-  }, [size])
-
-  const getChartData = () => {
-    setIsLoading2(true)
-    axiosInstance.get<INationalityCount[]>("api/participants/chart")
-    .then((res) => {
-      setRawChartData(res.data)
-      constructChartData(res.data)
-    })
-    .catch((err) => {return})
-    .finally(() => setIsLoading2(false))
-  }
-
-  useEffect(() => {
-    constructChartData()
-  }, [currLang])
-
-
-  const constructChartData = (data = rawChartData) => {
-    if (!data) return
-    let tempArr: { label: string | undefined; data: number[]; }[] = []
-      data.forEach((item) => {
-        const nationalityRaw = nationalities.find((o) => o.id == item.nationality)
-        const nationality = currLang=="hu"? nationalityRaw?.countryNameHungarian : nationalityRaw?.countryNameEnglish
-
-        if (nationality) {
-          const tempObj = {
-            label: nationality,
-            data: [item.count],
-            backgroundColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`,
-          }
-          tempArr.push(tempObj)
-        }
-      })
-
-      const response = {
-        labels,
-        datasets: tempArr
-      }
-      setChartData(response)
-  }
-  */
   
   const getSize = (index: number) => {
     //fallback

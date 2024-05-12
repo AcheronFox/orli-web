@@ -34,7 +34,6 @@ export default async function handler(
                         sendResponse(500, {message: "Unknown Error", e_code: "accom_1"}); 
                         resolve(false);
                     }
-                    console.log(result)
                     response = result;
                     resolve(true);
                 });

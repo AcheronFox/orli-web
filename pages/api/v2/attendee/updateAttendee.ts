@@ -4,6 +4,10 @@ import { getRequestPropertyAsNumber } from "@/functions/utils/databaseHelpers";
 import { INationality } from "@/models/newDbModels/nationality.model";
 import { NextApiRequest, NextApiResponse } from "next";
 import isMethodAllowed from "@/functions/auth/isMethodAllowed";
+import { getNationality } from "@/services/nationality/service.nationality";
+import { findTemplate, sendMail } from "@/functions/mail/mail-controller";
+import handlebars from "handlebars";
+import { getFursona } from "@/services/fursona/service.fursona.select";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!await isMethodAllowed(req, res, 'POST')) {
@@ -21,8 +25,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if (result === undefined)
                 return res.status(404).json({ message: "Item not updated", e_code: "nat_02" });
 
-            if (requestVerifiedStatus === true){
-                //ADD EMAIL FUNCTION HERE SOMEWHERE
+            const attendee = await getAttendeeById(requestId)
+            const fursona = await getFursona(attendee?.fursonaId!)
+
+            if (requestVerifiedStatus === true && attendee && fursona){
+                // EMAIL
+                try {
+                    const nat = await getNationality(attendee!.nationalityId!)
+                    const props = await findTemplate(nat?.iso2!, 'regVerification')
+                    
+                    if (props) {
+                        const template = handlebars.compile(props.mail);
+                        const replacements = {
+                            fursonaName: fursona.name,
+                            loginUrl: `${process.env.DOMAIN_ROOT}login`
+                        };
+
+                        const htmlToSend = template(replacements);
+                        props.mail = htmlToSend
+
+                        await sendMail({...props, address: attendee.email}, (err: string, result: string) => {
+                            if (err) {
+                                throw new Error("Failed to send email.")
+                            }
+                        })
+                    }
+                    else {
+                        throw new Error('Failed to find template or data.')
+                    }
+                }
+                catch (e) {
+                    console.log(e)
+                    return res.status(500).json({ message: "Failed to send email", e_code: "nat_20" });
+                }
             }
             
             return res.status(200).json(result);

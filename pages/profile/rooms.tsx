@@ -135,7 +135,6 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
     await axiosInstance.get<IOccupant[]>("api/room/occupants", {signal: abortController.signal})
     .then((res) => {
-      console.log(res.data)
       setOccupants(res.data.sort((a, b) => Number(b.isOwner) - Number(a.isOwner)))
       setCurrentUserOccupant(res.data.find((o) => o.id == user?.attendee?.id))
     })

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { NextPage } from "next";
-import React, { MouseEventHandler, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styles from "@/styles/components/RoomCard.module.scss"
 import { IOccupant } from "@/models/occupant.model";
 import AdminIcon from "./svg/AdminIcon";
@@ -29,6 +29,7 @@ type RowProps= {
 }
 
 const Row = ({occupant, props}: RowProps) => {
+    const { user } = useUser()
     const { lang } = useTranslate();
     const titleRef = useRef<any>()
     const isTitleOverflow = useIsOverflow(titleRef);
@@ -38,7 +39,7 @@ const Row = ({occupant, props}: RowProps) => {
     }
 
     return (
-        <div className={occupant.name && styles.RoomCard__Row} onClick={occupant.name? () => clickHandler() : undefined}>
+        <div className={`${occupant.name && styles.RoomCard__Row} ${occupant.id === user?.attendee.id? styles.RoomCard__Row_self : ''}`} onClick={occupant.name? () => clickHandler() : undefined}>
             <span className={styles.RoomCard__Image}>
                 <Picture
                     alt={"User Thumb"}

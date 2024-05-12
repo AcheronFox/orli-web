@@ -32,6 +32,7 @@
     }
 
     input:placeholder-shown ~ & {
+        user-select: none;
         &__Label {
             font-size: 1.8rem;
             cursor: text;
@@ -40,6 +41,7 @@
     }
 
     input::placeholder {
+        user-select: none;
         color: transparent;
     }
 

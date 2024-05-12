@@ -141,6 +141,10 @@
         position: relative;
         display: flex;
 
+        &_self {
+            border: .1rem solid $color-secondary;
+        }
+
         &:before {
             content: "";
             position: absolute;

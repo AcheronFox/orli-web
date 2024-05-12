@@ -1,0 +1,90 @@
+.Statistics {
+    @include DefaultLayout;
+
+    &__Background {
+        @include DefaultBackground;
+    }
+
+    &__Chart {
+        height: 8rem;
+
+        @include respond(tiny-desktop) {
+            height: 10rem;
+        }
+        @include respond(phone) {
+            height: 20rem;
+        }
+
+        &_Donut {
+            height: 18rem;
+
+            @include respond(tiny-desktop) {
+                height: 20rem;
+            }
+            @include respond(phone) {
+                height: 30rem;
+            }
+
+            border-bottom: .1rem solid $grey-2;
+            padding-bottom: 1rem;
+        }
+    }
+
+    &__Title {
+        color: $color-primary;
+        font-family: $styled-font-family;
+
+        &_Secondary {
+            color: $color-secondary;
+            font-family: $styled-font-family;
+            font-size: 2rem;
+        }
+
+        &_Tertiary {
+            font-size: 2rem;
+        }
+    }
+
+    &__Body {
+        width: 100%;
+
+        & > * {
+            width: 100%;
+        }
+    }
+
+    &__Counter {
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+
+        &_Border {
+            border-top: .1rem solid $grey-2;
+            padding-top: 1rem;
+        }
+
+        @include respond(tiny-desktop) {
+            flex-direction: column;
+        }
+
+        &__Title {
+            @include SecondaryTitle;
+            background-image: none;
+            color: $color-primary;
+            border-image: none;
+            border-color: $color-primary;
+        }
+
+        &__Count {
+            @include TertiaryTitle;
+            
+            h3 {
+                background-image: none;
+                color: $color-primary;
+                font-size: 2rem;
+            }
+
+            justify-content: center;
+        }
+    }
+}
