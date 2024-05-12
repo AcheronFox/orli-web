@@ -65,6 +65,16 @@ const nextConfig = {
     API_SECRET: process.env.API_SECRET,
     TEMP_LOGIN_STATE: process.env.TEMP_LOGIN_STATE
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+        port: '8001',
+        pathname: '',
+      },
+    ],
+  },
   transpilePackages: ['ol', 'rlayers']
 }
 
