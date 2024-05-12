@@ -33,10 +33,10 @@ export default async function handler(
                 attendee
                     INNER JOIN
                 fursona ON attendee.fursonaId = fursona.id
-                    AND attendee.verified = TRUE
+                    AND attendee.verified = 1
                     INNER JOIN
                 ticket ON attendee.ticketId = ticket.id
-                    AND ticket.isPaid = TRUE;
+                    AND ticket.isPaid = 1;
             `;
 
             database.query(query, async (err: any, result: IParticipant[]) => {

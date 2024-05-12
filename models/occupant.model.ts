@@ -1,25 +1,25 @@
 export interface IOccupant {
-    fursonaName: string;
-    fursonaSpecies: string;
-    picture: string;
-    isFursuiter: boolean;
-    sponsorLevel: '0' | '1' | '2';
+    name: string;
+    species: string;
+    pathToPictureFile: string;
+    hasFursuit: boolean;
+    sponsorLevel: 'None' | 'Regular' | 'Super';
     registeredAt: string;
-    telegram?: string;
-    isRoomAdmin: boolean;
+    ownerContact?: string;
+    isOwner: boolean;
     roomId: number;
-    AccountKey: string;
+    id: number;
 }
 
 export interface IOccupantRaw {
-    fursonaName: string;
-    fursonaSpecies: string;
-    picture: string;
-    isFursuiter: boolean;
-    sponsorLevel: '0' | '1' | '2';
+    name: string;
+    species: string;
+    pathToPictureFile: string;
+    hasFursuit: boolean;
+    sponsorLevel: 'None' | 'Regular' | 'Super';
     registeredAt: string;
-    telegram?: string;
-    adminKey: string;
+    ownerContact?: string;
+    isOwner: false;
     roomId: number;
-    AccountKey: string;
+    id: number;
 }

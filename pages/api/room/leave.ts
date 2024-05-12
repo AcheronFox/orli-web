@@ -1,9 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/functions/utils/mysql'
 import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import verifyToken from '@/functions/auth/veryifToken';
-import { IAccomodationRaw } from '@/models/accomodation.model';
 import * as mysql from "mysql";
 import _ from 'lodash';
 import { getAccomodationById, getAccomodationsByRoomId } from '@/services/accomodation/service.accomodation.select';
@@ -42,16 +40,21 @@ export default async function handler(
         connection = await getDbConnection();
         await beginDbTransaction(connection);
 
-        const occupants = await getAccomodationsByRoomId(roomId, connection);
+        let occupants = await getAccomodationsByRoomId(roomId, connection);
+
         const attendee = await getAttendeeByAccountKey(accountKey, connection);
         if (attendee == undefined) {
             throw new DatabaseError(400, "Attendee with account key not found", "room_leave_2")
         }
-    
+
         if (!occupants) {
             throw new DatabaseError(400, "No attendees in room", "room_leave_3");
         }
-    
+
+        if (!Array.isArray(occupants)) {
+            occupants = [occupants]
+        }
+        
         if (occupants.length != roomCount) {
             throw new DatabaseError(409, "Data changed", "room_leave_4");
         }
@@ -68,13 +71,18 @@ export default async function handler(
         if (accomodation == undefined) {
             throw new DatabaseError(400, "Can't find accomodation for attendee", "room_leave_7");
         }
+
+        connection.commit()
     
         const result = await leaveRoom(accomodation, connection);
-    
-        if (result)
+        if (result) {
+            connection.commit()
             return sendResponse(201, {message: "Room left"});
+        }
+            
 
     } catch (err) {
+        console.log(err)
         if (connection) {
             await new Promise<void>(resolve => connection!.rollback(() => {
                 connection!.release();

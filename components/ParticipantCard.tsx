@@ -11,17 +11,15 @@ import { INationality } from "@/models/newDbModels/nationality.model";
 import { Tooltip } from "react-tippy";
 import Picture from "./utils/Picture";
 import variables from "@/styles/abstracts/exports.module.scss"
-import TextCard from "./TextCard";
 
 type Props = {
     name: string;
     species?: string;
-    nationality?: string;
+    nationality?: number;
     picture?: string;
     isSponsor?: boolean;
     isSuperSponsor?: boolean;
     isFursuiter?: boolean;
-    description?: string | React.ReactNode;
     nationalities: INationality[]
 };
 
@@ -59,8 +57,9 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
                     fontSize: '1.6rem'
                 }}
                 disabled={!isTitleOverflow}
+                className={styles.ParticipantCard__Title}
                 >
-                <div ref={titleRef} className={`${styles.ParticipantCard__Title} ${isTitleOverflow && styles.ParticipantCard__Title_overflow}`}>
+                <div ref={titleRef} className={`${isTitleOverflow && styles.ParticipantCard__Title_overflow}`}>
                     <h2>
                         {props.name}
                     </h2>
@@ -75,24 +74,27 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
                     defaultSrc={`${props.picture? `uploads/${props.picture}` : "Default_profile.jpg"}`}
                     sizes={"20vw"}
                 />
-                <div className={styles.ParticipantCard__Flag}>
-                    <Tooltip
-                        html={
-                            <span>{nationalityName}</span>
-                        }
-                        arrow
-                        arrowSize="big"
-                        size="big"
-                        inertia
-                        style={{
-                            fontSize: '1.6rem'
-                        }}
-                        >
-                        <span>
-                            {props.nationality && <ReactCountryFlag countryCode={ props.nationality } svg />}
-                        </span>
-                    </Tooltip>
-                </div>
+                {
+                    (props.nationalities.length) && 
+                    <div className={styles.ParticipantCard__Flag}>
+                        <Tooltip
+                            html={
+                                <span>{nationalityName}</span>
+                            }
+                            arrow
+                            arrowSize="big"
+                            size="big"
+                            inertia
+                            style={{
+                                fontSize: '1.6rem'
+                            }}
+                            >
+                            <span>
+                                {props.nationality && <ReactCountryFlag countryCode={ props.nationalities.find((o) => o.id === props.nationality)!.iso2 } svg />}
+                            </span>
+                        </Tooltip>
+                    </div>
+                }
             </div>
             {
                 (props.isFursuiter || props.isSponsor) &&
@@ -137,7 +139,6 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
                     }
                 </div>
             }
-            <span className={styles.ParticipantCard__Description}>{props.description}</span>
         </div>
     );
 };

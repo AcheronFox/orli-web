@@ -21,21 +21,28 @@
         & > * {
             max-width: 26%;
             margin: 2rem;
+            margin-bottom: 3rem;
             flex: 1 1 0;
 
             @include respond(small-desktop) {
                 max-width: 35%;
                 margin: 1rem;
+                margin-bottom: 2rem;
             }
 
             @include respond(tiny-desktop) {
                 max-width: 37.5%;
                 margin: 1rem;
+                margin-bottom: 5rem;
             }
 
             @include respond(phone) {
                 max-width: 80%;
                 margin: 0;
+            }
+
+            @include respond(big-desktop) {
+                margin-bottom: 6rem;
             }
         }
     }

@@ -158,7 +158,6 @@ const Navbar = ({
                 },
             )
 
-
             if (didUserInit && !user?.attendee) {
                 layout.push(
                     {

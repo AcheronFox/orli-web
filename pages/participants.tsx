@@ -17,15 +17,12 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-import { INationalityCount } from "@/models/nationality-count.model";
 import useTranslate from "@/hooks/translate/useTranslate";
 import { INationality } from "@/models/newDbModels/nationality.model";
 import CustomHead from "@/comp/utils/CustomHead";
 import LoadingOverlay from "@/comp/utils/LoadingOverlay";
 import { BarLoader } from "react-spinners";
 import variables from "@/styles/abstracts/exports.module.scss"
-import TextCard from "@/comp/TextCard";
 
 ChartJS.register(
   CategoryScale,
@@ -68,9 +65,9 @@ const Row = ({index, setSize, windowWidth, participants, size, nationalities}: a
 
   for (let i = fromIndex; i < toIndex; i++) {
     items.push(
-      <ParticipantCard key={i} name={participants[i].fursonaName} species={participants[i].fursonaSpecies} nationality={participants[i].nationality}
-                       isFursuiter={!!participants[i].isFursuiter} isSponsor={parseInt(participants[i].sponsorLevel) > 0} picture={participants[i].picture}
-                       isSuperSponsor={parseInt(participants[i].sponsorLevel) == 2} nationalities={nationalities}></ParticipantCard>
+      <ParticipantCard key={i} name={participants[i].name} species={participants[i].species} nationality={participants[i].nationalityId}
+                       isFursuiter={!!participants[i].hasFursuit} isSponsor={participants[i].sponsorLevel != "None"} picture={participants[i].pathToPictureFile}
+                       isSuperSponsor={participants[i].sponsorLevel == "Super"} nationalities={nationalities}></ParticipantCard>
     )
   }
 
@@ -108,7 +105,31 @@ const Participants: NextPage<Props> = (props: Props) => {
 
   const listRef = useRef<any>(null);
 
-  const [options, setOptions] = useState({
+  useEffect(() => {
+    if (didInit) return
+    setDidInit(true);
+    getParticipants()
+    getNationalities()
+  }, [])
+
+  const getNationalities = () => {
+    axiosInstance.get('/api/v2/nationality/').then((res) => {
+      setNationalities(res.data)
+    })
+  }
+
+  const getParticipants = () => {
+    setIsLoading(true)
+    axiosInstance.get<IParticipant[]>("api/participants/")
+    .then((res) => {
+      setParticipants(res.data)
+    })
+    .catch((err) => {return})
+    .finally(() => setIsLoading(false))
+  }
+
+  /*
+const [options, setOptions] = useState({
     maintainAspectRatio: false,
     indexAxis: 'y' as const,
     elements: {
@@ -204,30 +225,6 @@ const Participants: NextPage<Props> = (props: Props) => {
     }
   }, [size])
 
-  useEffect(() => {
-    if (didInit) return
-    setDidInit(true);
-    getParticipants()
-    getNationalities()
-  }, [])
-
-  const getNationalities = () => {
-    axiosInstance.get('/api/v2/nationality/').then((res) => {
-      setNationalities(res.data)
-    })
-  }
-
-  const getParticipants = () => {
-    setIsLoading(true)
-    axiosInstance.get<IParticipant[]>("api/participants/")
-    .then((res) => {
-      setParticipants(res.data)
-    })
-    .catch((err) => {return})
-    .finally(() => setIsLoading(false))
-  }
-
-  /*
   const getChartData = () => {
     setIsLoading2(true)
     axiosInstance.get<INationalityCount[]>("api/participants/chart")
