@@ -1,12 +1,13 @@
-import { getAccountByEmail, getUserByAccountKey } from '@/utils/getData';
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ILoginForm } from '@/models/login-form.model';
-import { IAccount } from '@/models/account.model';
-import { IUser, UserData } from '@/models/user.model';
 import * as bcrypt from 'bcrypt';
 import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
 import { generateCookies } from '@/functions/auth/token-handler';
+import { getAttendeeByEmail, getAttendeeFullData } from '@/services/attendee/service.attendee.select';
+import { IAttendee } from '@/models/newDbModels/attendee.model';
+import { getFursona } from '@/services/fursona/service.fursona.select';
+import { IFursona } from '@/models/newDbModels/fursona.model';
 
 export default async function handler(
     req: NextApiRequest,
@@ -34,31 +35,29 @@ export default async function handler(
     }
 
     if (isLoginForm(req.body) && isValidForm(req.body)) {
-        const authorize = async (account: IAccount, user: IUser) => {
+        const authorize = async (attendee: IAttendee) => {
             return new Promise<void>(async (resolve) => {
-                const isValid = await bcrypt.compare(req.body.password.trim(), account.password)
+                const isValid = await bcrypt.compare(req.body.password.trim(), attendee.password)
 
                 if (isValid) {
-                    if (account.isVerified == 0) {
+                    if (attendee.verified == false) {
                         sendResponse(401, { message: `Unverified`, e_code: "login_1" });
                         resolve();
                     }
                     else {
-                        let userData = new UserData()
-                        _.assign(userData , _.pick({...user, ...account}, _.keys(userData)));
-                        userData = JSON.parse(JSON.stringify(userData))
+                        const userData = await getAttendeeFullData(attendee.id as number)
 
                         if (req.body.remember) {
                             res.status(200)
                             .setHeader('Set-Cookie',
-                                generateCookies("NEWREMEMBER", account.AccountKey)
+                                generateCookies("NEWREMEMBER", attendee.accountKey)
                                 )
                             .json(userData)
                             resolve();
                         } else {
                             res.status(200)
                             .setHeader('Set-Cookie',
-                                generateCookies("NEW", account.AccountKey)
+                                generateCookies("NEW", attendee.accountKey)
                                 )
                             .json(userData)
                             resolve();
@@ -66,7 +65,7 @@ export default async function handler(
                     }
                 }
                 else {
-                    sendResponse(401, { message: `Wrong password`, e_code: "login_2" });
+                    sendResponse(401, { message: `Wrong credentials`, e_code: "login_2" });
                     resolve();
                 }
             }).catch(() => {
@@ -74,14 +73,14 @@ export default async function handler(
             });
         }
 
-        const account: IAccount | undefined = await getAccountByEmail(req.body.email.toLowerCase());
-        let user: IUser | undefined;
-        if (account) user = await getUserByAccountKey(account.AccountKey)
+        const attendee: IAttendee | undefined = await getAttendeeByEmail(req.body.email.toLowerCase());
+        let fursona: IFursona | undefined;
+        if (attendee) fursona = await getFursona(attendee.fursonaId)
         
-        if (account && user) {
-            await authorize(account, user);
+        if (attendee && fursona) {
+            await authorize(attendee);
         }
-        else sendResponse(404, { message: "User Not Found:", e_code: "login_4"});
+        else sendResponse(401, { message: `Wrong credentials`, e_code: "login_2" });
     }
     else sendResponse(400, { message: "Malformed request:", data: req.body });
 }

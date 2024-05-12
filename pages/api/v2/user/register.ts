@@ -89,8 +89,7 @@ function validateFormContent(form: any): IRegistrationForm | undefined {
             typeof x.nationalityId === 'number' &&
             typeof x.allergy === 'string' &&
             typeof x.telegram === 'string' &&
-            typeof x.phone === 'string' &&
-            typeof x.storage === 'boolean'
+            typeof x.phone === 'string'
     };
 
     // Validate required fields

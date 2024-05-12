@@ -1,7 +1,8 @@
 import { executeUpdateQuery } from "@/functions/utils/databaseHelpers";
 import console from "console";
+import { PoolConnection } from "mysql";
 
-export async function removeItemFromDatabase(arg1: any, tableName: string)
+export async function removeItemFromDatabase(arg1: any, tableName: string, connectionToUse?: PoolConnection)
 {
     const query: string = `DELETE FROM ${tableName} WHERE id = ?;`;
 
@@ -13,7 +14,7 @@ export async function removeItemFromDatabase(arg1: any, tableName: string)
         return false;
     }
 
-    const result: number = await executeUpdateQuery(query, [id]);
+    const result: number = await executeUpdateQuery(query, [id], connectionToUse);
 
     return result >= 1;
 }

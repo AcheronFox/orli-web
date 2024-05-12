@@ -4,9 +4,10 @@ import _ from 'lodash';
 import { IAccount } from '@/models/account.model';
 import { getAccountByKey } from '@/utils/getData';
 import verifyToken from '@/functions/auth/veryifToken';
+import { IAttendee } from '@/models/newDbModels/attendee.model';
 
-const isAdminAccount = async (account: IAccount) => {
-    return account.isAdmin;
+const isAdminAccount = async (account: IAttendee) => {
+    return account.admin;
 }
 
 export default async function handler(

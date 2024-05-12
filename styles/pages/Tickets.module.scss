@@ -1,39 +1,47 @@
 .Tickets {
-    color: $white;
-    min-height: 100vh;
-    height: 100%;
-    padding: 7rem 10rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    transition: all .2s;
+    @include DefaultLayout;
 
-    @include respond(small-desktop) {
-        padding: 4rem 10rem;
-    }
-    
-    @include respond(tiny-desktop) {
-        padding: 3rem 3rem;
-    }
-    
-    @include respond(phone) {
-        padding: 5rem 2rem;
-    }
-    
-    @include respond(small-phone) {
-        padding: 5rem 1rem;
+    &__Background {
+        @include DefaultBackground;
     }
 
-    @include respond(big-desktop) {
-        padding: 10rem 10rem;
+    &__Button {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+
+        & > * {
+            margin-top: auto;
+        }
     }
 
-    @include centerNoLayer;
+    &__Item {
+        position: relative;
+        height: 100%;
+        transition: all .5s;
 
+        & > * {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+
+            & > * {
+                flex: 1;
+
+                &:not(:first-child) {
+                    padding-top: 2rem;
+                }
+                &:not(:last-child) {
+                    padding-bottom: 2rem;
+                }
+            }
+        }
+    }
 
     &__Content {
-        width: 75%;
         flex-direction: column;
 
         display: flex;
@@ -47,14 +55,6 @@
 
         &:not(:last-child) {
             margin-bottom: 1.5rem;
-        }
-
-        @include respond(small-desktop) {
-            width: 80%;
-        }
-        
-        @include respond(tiny-desktop) {
-            width: 100%;
         }
     }
 
@@ -72,20 +72,11 @@
         }
 
         &__List {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-
-            @include respond(small-desktop) {
-                grid-template-columns: repeat(1, 1fr);
-                width: 85%;
-            }
-            @include respond(tiny-desktop) {
-                width: 100%;
-            }
+            display: flex;
+            justify-content: center;
+            align-items: stretch;
+            flex-wrap: wrap;
             
-            &_2col {
-                grid-template-columns: repeat(2, 1fr);
-            }
 
             ul {
                 margin-left: 3rem;
@@ -93,6 +84,16 @@
 
             & > * {
                 margin: 1rem;
+                max-width: 45%;
+            }
+
+            @include respond(tiny-desktop) {
+                flex-direction: column;
+                align-items: center;
+
+                & > * {
+                    max-width: 100%;
+                }
             }
         }
 
@@ -139,19 +140,6 @@
         }
     }
 
-    &__Foods {
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-direction: column;
-
-        & > * {
-            width: 100%;
-            margin-top: 2rem;
-        }
-    }
-
     &__Overview {
         border-radius: 1rem;
         border: .3rem solid $grey-3;
@@ -170,7 +158,7 @@
         }
 
         &__Price {
-            color: $primary-color;
+            color: $color-primary;
         }
 
         &__Buy {
@@ -247,7 +235,7 @@
         &__Center {
             background-color: rgba($background-color, .8);
             box-shadow: 0 .5rem .5rem .25rem rgba($black, .5);
-            border-radius: 2rem;
+            border-radius: .3rem;
             width: 50%;
             display: flex;
             flex-direction: column;
@@ -273,10 +261,7 @@
 
     &__Selected {
         background-color: rgba(darken($grey-2, 10%), .8) !important;
-        box-shadow:
-        0 1rem 2rem .5rem rgba($black, .5),
-        inset 0 0 2rem .5rem rgba($primary-color, .5),
-        0 0 1rem .5rem rgba($primary-color, .5) !important;
+        box-shadow: 0 1rem 2rem .5rem rgba($black, .5);
         transform: translateY(-.5rem);
         transition: all .3s;
     }

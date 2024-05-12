@@ -90,7 +90,7 @@ const programs: IProgram = {
             title: "Társasjáték sarok",
             body: [
                 `<span>
-                    Fursuitot fel! A fénypont, amikor összegyűlik minden bundás, készülnek a fotók, videók és csoportképek, elkápráztatjuk a környéket.
+                    Hozd el kedvenc játékod és üljetek össze versengeni vagy szövetkezni valamelyik teraszon vagy épp kalandozzatok egy eldugott pihenő árnyai alatt.
                 </span>`,
                 "<br/>",
             ]

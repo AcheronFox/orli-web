@@ -1,7 +1,6 @@
 const hu: Language = {
     // ERRORS
-    errLoginPass: "Kérlek ellenőrízd hogy jól írtad be a jelszót.",
-    errLoginNotFound: "Nincs fiók a megadott e-mail cím alatt.",
+    errLoginPass: "Kérlek ellenőrízd hogy jól írtad be az adatokat.",
     errLoginUnverified: "A regisztrációd ellenőrzése még folyamatban van. Az értesítésig türelmed kérjük!",
     errResetNotFound: "Ez az e-mail cím nincs regisztrálva",
     errResetToken: "Érvénytelen token",
@@ -13,8 +12,7 @@ const hu: Language = {
 
     // WARNINGS
     warnOverload: "A szerver a szokásosnál nagyobb terhelést tapasztal, kérlek várj...",
-    warnDateLimit1: "Csak",
-    warnDateLimit2: "elérhető",
+    warnDateLimit: "Jegyvásárlás már nem elérhető.",
 
     // NOTIF
     notifError: "Hiba",
@@ -273,6 +271,8 @@ const hu: Language = {
     profImageLimit2: "után feltöltött képek nem kerülnek fel a badge-re.",
     
     // TICKETS
+    ticketWACC: "Fesztiválbérlet",
+    ticketTENT: "Sátras Bérlet",
     ticketTickets: "Jegyek",
     ticketTicket: "Jegy",
     ticketExtra: "Hosszabbítás",
@@ -292,8 +292,7 @@ const hu: Language = {
     ticketOverviewTicket: "Kiválasztott jegy",
     ticketNoTicket: "Kérlek válassz jegyet",
     ticketNoExtra: "Nincs extra jegy(ek)",
-    ticketDay: "Kiválaszott nap",
-    ticketDays: "Kiválasztott napok",
+    ticketDay: "Kiválaszott jegy",
     ticketNoDay: "Kérlek válaszd ki melyik napon szeretnél jönni",
     ticketNoDays: "Kérlek válaszd ki melyik napokon szeretnél jönni",
     ticketSponsorLevel: "Szponzor szint",

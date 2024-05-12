@@ -12,7 +12,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <p class="text">You are receiving this e-mail because you have purchased a ticket for the event.<br />Purchased items:</p>
+                        <p class="text">You are receiving this e-mail because you have recently initiated a ticket purchase for our "Örli Försztivál - Tiki Fever" event.<br />Your purchased items are the following: </p>
                         <table class="overview">
                             <tbody>
                                 {{{summaryTable}}}
@@ -22,26 +22,26 @@
                 </tr>
                 <tr>
                     <td>
-                        <p class="text"><b>Your registration number: </b><span style="color: red"><b>ORLI_{{accountID}}</b></span><br />
-                        Remember this code well, as this is how we can identify your payment and you can easily refer to it when contacting us.</p>
+                        <p class="text"><b>Your registration number: </b><span style="color: red"><b>ORLI5_{{accountID}}</b></span><br />
+                        This code serves identification purposes in the event's registration and payment system. Please, refer to this code when you contact us!</p>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <p style="color: red" class="text">
                             Important!<br />
-                            You have <b>7 days</b> from the delivery of this email to make the full payment.<br />
-                            Without this, the selected items will be deleted.<br />
-                            Please send the <b>exact amount</b> in all cases!<br />
-                            In the case of every transaction, please <b>include the identification number provided above</b>! Without it, we cannot identify and process the payment.
+                            You have <b>7 calendar days</b> from the deliver of this email to complete your purchase. Failiure to completing your purchase results in the deletion of your selected items.<br/>
+                            If the paid amount is lower than the price of your items, your payment will not be processed. We accept no responsibility for incorrectly initiated transfers.<br />
+                            Payment can only be credited to the <b>code</b> indicated in the reference of your payment.<br/>
                         </p>
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <p class="text">
-                            If the payment has been completed, there is no possibility for refund or exchange for lower-value items.<br />
-                            We offer the following payment options:
+                            After payment completion, the paid amount cannot be refunded or modified for a lover price.<br />
+                            If you have further questions about payment, please, read our FAQ page.<br/><br/>
+                            The following payment options are available
                         </p>
                         <ul class="list">
                             <li>
@@ -49,12 +49,10 @@
                                     <b>Bank Transfer:</b><br />
                                     <br />
                                     Gellert Ádám András<br />
-                                    OTP Bank Nyrt.<br />
-                                    HU47 1177 3195 0049 3394 0000 0000<br />
-                                    OTPVHUHB<br />
-                                    1138. Budapest, Váci út 135-139. D. ép.<br />
+                                    MBH Bank Nyrt.<br />
+                                    10300002-10834468-00014904<br />
                                     <br />
-                                    Please note that the bank transfer may take several days
+                                    Please note that bank transfers may take multiple days!
                                 </p>
                             </li>
                             <li>
@@ -63,8 +61,8 @@
                                     <br />
                                     Identifier: PayPal.Me/furryterminal<br />
                                     Make sure you send the exact amount!<br />
-                                    When initiating a transaction, it is advisable to choose the "send money to a friend" option, so that the recipient will not be charged with fees.<br />
-                                    <span style="color: red">If the exact amount is not received, we cannot credit it and the selected items will be deleted.</span><br />
+                                    When starting a transaction, it is advisable to choose the "send money to a friend" option so that the recipient is not burdened with commissions.<br />
+                                    <span style="color: red">If the paid amount is lower than the price of your items, your payment cannot be credited and your items are deleted.</span><br />
                                 </p>
                             </li>
                             <li>
@@ -72,16 +70,6 @@
                                     <b>Revolut:</b><br />
                                     <br />
                                     Identifier: @furryterminal<br />
-                                    One of the fastest and easiest ways to pay.<br />
-                                </p>
-                            </li>
-                            <li>
-                                <p class="text">
-                                    <b>Wise:</b><br />
-                                    <br />
-                                    Gellert Ádám András<br />
-                                    MKB Bank Zrt.<br />
-                                    10300002-10834468-00014904<br />
                                 </p>
                             </li>
                         </ul>
@@ -91,8 +79,7 @@
                     <td>
                         <p class="text">
                             Thank you in advance for your payment!<br />
-                            Sincerely:<br />
-                            The team of Örli Försztivál
+                            The Örli Försztivál team
                         </p>
                     </td>
                 </tr>
@@ -169,16 +156,7 @@
 
     .title {
         text-align: center;
-        color: #ffffff;
-    }
-
-    @supports (background-clip: text) {
-        .title {
-            background-image: linear-gradient(to right, #F741D5, #0BBFFC);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
+        color: #ffae00;
     }
 
     .text {

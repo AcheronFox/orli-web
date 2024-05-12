@@ -4,12 +4,12 @@ export interface ITicket {
     earlyArrival: boolean;
     lateDeparture: boolean;
     sponsorLevel: 'None' | 'Regular' | 'Super';
-    shirtSize: 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
+    shirtSize?: 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
     sponsorPrice: number;
     totalPrice: number;
-    paymentMethod: 'Bank' | 'PayPal' | 'Revolut';
+    paymentMethod?: 'Bank' | 'PayPal' | 'Revolut';
     isPaid: boolean;
-    foodData: string;
+    foodData?: string;
     arrivalDate: string;
     departureDate: string;
     createdAt?: string;

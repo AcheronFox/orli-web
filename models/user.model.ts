@@ -1,46 +1,54 @@
 export interface IUser {
-    firstName: string
-    lastName: string
-    email: string
-    nationality: string
-    contact: string
-    registeredAt: string
-    isAdmin: boolean
-    isStaff: boolean
-    AccomodationKey: string | null
-    TicketKey: string | null
-    ticketType: string | null
+    accountKey: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    dateOfBirth: string;
+    phone?: number;
+    telegram?: string;
+    allergy?: string;
+    registeredAt?: string;
+    verified: boolean;
+    admin: boolean;
+    staff: boolean;
+    fursonaId: number;
+    nationalityId?: number;
+    accomodationId?: number;
+    passwordResetTokenId?: number;
+    ticketId?: number;
+    dailyTicketId?: number;
 
-    UserKey: string
-    AccountKey: string
-    fursonaName: string
-    fursonaSpecies: string
-    picture: string
-    isFursuiter: boolean
+    name: string;
+    species: string;
+    pathToPictureFile: string;
+    hasFursuit: boolean;
 
     sponsorLevel?: number
     isPaid?: boolean
 }
 
 export class UserData {
+    accountKey: string | undefined = undefined
     firstName: string | undefined = undefined
     lastName: string | undefined = undefined
     email: string | undefined = undefined
-    nationality: string | undefined = undefined
-    contact: string | undefined = undefined
-    registeredAt: string | undefined = undefined
-    isAdmin: boolean | undefined = undefined
-    isStaff: boolean | undefined = undefined
-    AccomodationKey: string | null | undefined = undefined
-    TicketKey: string | null | undefined = undefined
-    ticketType: string | null | undefined = undefined
+    dateOfBirth: string | undefined = undefined
+    phone?: number | undefined = undefined
+    telegram?: string | undefined = undefined
+    allergy?: string | undefined = undefined
+    registeredAt?: string | undefined = undefined
+    verified: boolean | undefined = undefined
+    admin: boolean | undefined = undefined
+    staff: boolean | undefined = undefined
+    fursonaId: number | undefined = undefined
+    nationalityId?: number | undefined = undefined
+    accomodationId?: number | undefined = undefined
+    passwordResetTokenId?: number | undefined = undefined
 
-    UserKey: string | undefined = undefined
-    AccountKey: string | undefined = undefined
-    fursonaName: string | undefined = undefined
-    fursonaSpecies: string | undefined = undefined
-    picture: string | undefined = undefined
-    isFursuiter: boolean | undefined = undefined
+    name: string | undefined = undefined
+    species: string | undefined = undefined
+    pathToPictureFile: string | undefined = undefined
+    hasFursuit: boolean | undefined = undefined;
 
     sponsorLevel: number | undefined = undefined
     isPaid: boolean | undefined = undefined

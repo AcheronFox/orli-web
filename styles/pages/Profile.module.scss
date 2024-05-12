@@ -8,7 +8,7 @@
     width: 100vw;
     height: 100vh;
     background-color: rgba($black, .6);
-    z-index: 1000;
+    z-index: 100000;
     left: 0;
     top: 0;
     opacity: 1;
@@ -84,35 +84,29 @@
 }
 
 .Profile {
-    color: $white;
-    min-height: 100vh;
-    height: 100%;
-    padding: 7rem 10rem;
+    @include DefaultLayout;
+
+    &__Background {
+        @include DefaultBackground;
+    }
+    width: 65%;
 
     @include respond(small-desktop) {
-        padding: 4rem 10rem;
+        width: 70%;
     }
     
     @include respond(tiny-desktop) {
-        padding: 3rem 3rem;
+        width: 90%;
     }
     
     @include respond(phone) {
-        padding: 5rem 2rem;
-    }
-    
-    @include respond(small-phone) {
-        padding: 5rem 1rem;
+        width: 100%;
     }
 
-    @include respond(big-desktop) {
-        padding: 10rem 10rem;
-    }
-
-    @include centerNoLayer;
+    display: flex;
+    flex-direction: column;
 
     &__Content {
-        width: 65%;
         display: flex;
         flex-direction: column;
 
@@ -120,18 +114,6 @@
             &:not(:last-child) {
                 margin-bottom: .5rem;
             }
-        }
-
-        @include respond(small-desktop) {
-            width: 70%;
-        }
-        
-        @include respond(tiny-desktop) {
-            width: 90%;
-        }
-        
-        @include respond(phone) {
-            width: 100%;
         }
     }
 
@@ -168,15 +150,8 @@
                 height: 25rem;
             }
     
-            picture {   
-                img {
-                    border-radius: 0;
-        
-                    border-width: .2rem .2rem .2rem .2rem;
-                    border-style: solid;
-                    border-color: $white;
-                    border-image: linear-gradient(90deg, $primary-color, $secondary-color) 20 stretch;
-                }
+            img {
+                border: .2rem solid $color-primary;
             }
 
             &__Overlay {
@@ -233,6 +208,7 @@
 
             margin-top: auto;
             display: flex;
+            align-items: flex-end;
             justify-content: space-evenly;
 
             &__Input {
@@ -240,14 +216,8 @@
                 
                 & > * {
                     display: flex;
-                    height: 100%;
-                    width: 100%;
                     justify-content: center;
                     align-items: center;
-                }
-
-                &:first-child {
-                    margin-right: 2rem;
                 }
             }
         }
@@ -314,11 +284,11 @@
         align-items: stretch;
 
         &__Error {
-            border-color: $default-red !important;
+            border-color: $color-red !important;
             border-image: none !important;
     
             &__Text {
-                color: $default-red;
+                color: $color-red;
                 font-size: calc($default-font-size / 1.2);
             }
         }
@@ -353,11 +323,9 @@
                     justify-content: space-between;
                     align-items: flex-start;
                     flex-direction: column;
-                    width: 100%;
                     
                     & > * {
                         flex: 1;
-                        width: 100%;
                     }
                 }
             }

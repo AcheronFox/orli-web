@@ -369,15 +369,360 @@ const AdminUser: NextPage<Props> = (props: Props) => {
 export default AdminUser;
 */
 
-import TempWIP from "@/comp/TempWIP";
+import { useEffect, useState, useRef, JSXElementConstructor } from "react";
+import axiosInstance from "@/functions/utils/axiosConfig";
+import Button from "@/comp/button/Button";
+import Toggle from "@/comp/input/Toggle";
+import DropDown from "@/comp/input/DropDown";
 import { NextPage } from "next";
+import Router from 'next/router'
+import AttendeeDetails from "@/comp/admin/AttendeeDetails";
+import TicketDetails from "@/comp/admin/TicketDetails";
+import FursonaDetails from "@/comp/admin/FursonaDetails";
+import ChangeList from "@/comp/admin/ChangeList";
+import { IAttendee } from "@/models/newDbModels/attendee.model";
+import { ITicket } from "@/models/newDbModels/ticket.model";
+import { IFursona } from "@/models/newDbModels/fursona.model";
+import styles from "@/styles/pages/Admin.module.scss"
+import { defaultPadding } from "ol/render/canvas";
+import { useUser } from "@/hooks/user/useUser";
 
 type Props = {}
 
+type PaymentMethodInterface = 'Bank' | 'PayPal' | 'Revolut' | null;
+
 const AdminUser: NextPage<Props> = (props: Props) => {
+  const { selectedAttendeeId } = Router.query
+
+  const [verifiedStatus, setVerifiedStatus] = useState<boolean>(false);
+  const [defaultVerifiedStatus, setDefaultVerifiedStatus] = useState<boolean>(false);
+  const [paymentStatus, setPaymentStatus] = useState<boolean>(false);
+  const [defaultPaymentStatus, setDefaultPaymentStatus] = useState<boolean>(false);
+
+  const [attendee, setAttendee] = useState<IAttendee>()
+  const [ticket, setTicket] = useState<ITicket>()
+  const [fursona, setFursona] = useState<IFursona>()
+
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodInterface>(null)
+  const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<PaymentMethodInterface>(null)
+  const [paymentMethods] = useState<PaymentMethodInterface[]>([
+    null,
+    'Bank',
+    'PayPal',
+    'Revolut'
+  ])
+  const [provisionalUpdates, setProvisionalUpdates] = useState<string[]>([])
+
+  const [deleteFlag, setDeleteFlag] = useState<boolean>(false);
+  const [imageDeleteFlag, setImageDeleteFlag] = useState<boolean>(false);
+
+  const { user, didUserInit } = useUser()
+  const [isAuthenTicated, setIsAuthenticated] = useState<boolean>(false)
+  
+  // ===============================================
+  // AUTHENTICATION
+  // ===============================================
+  useEffect(() => {
+    if (!didUserInit) return
+    if (!user || !user.attendee.admin) {
+        Router.push('/')
+    }
+    else if (user && user.attendee.admin) {
+        runAuth()
+    }
+}, [didUserInit])
+
+  const runAuth = async () => {
+    await axiosInstance.get(`/api/admin/auth`)
+      .then((res) => {
+          setIsAuthenticated(res.data)
+          getAttendee();
+      })
+      .catch((err) => {
+          setIsAuthenticated(false)
+          Router.push('/')
+      })
+      .finally(() => {
+        // If using loading  
+        // setIsLoading(false)
+      })
+  }
+
+  useEffect(() =>{
+    getTicket();
+    getFursona();
+  }, [attendee])
+
+  const getAttendee = async () => {
+    await axiosInstance.get('/api/v2/attendee/', { params: {id: selectedAttendeeId}})
+      .then((res) => {
+        setAttendee(res.data);
+        if(res.data.verified === 1){
+            setVerifiedStatus(true);
+            setDefaultVerifiedStatus(true);
+        } else {
+            setVerifiedStatus(false);
+            setDefaultVerifiedStatus(false);
+        }
+    })
+    .catch((err) => {
+      return
+    })
+  }
+
+  const getTicket = async () => {
+    if (attendee !== undefined && ticket === undefined){
+        await axiosInstance.get('/api/v2/ticket/', { params: {id: attendee.ticketId}})
+            .then((res) => {
+                setTicket(res.data);
+                if(res.data.isPaid === 1){
+                    setPaymentStatus(true);
+                    setDefaultPaymentStatus(true);
+                } else {
+                    setPaymentStatus(false);
+                    setDefaultPaymentStatus(false);
+                }
+                if(res.data.paymentMethod === undefined) {
+                    setPaymentMethod(null)
+                    setDefaultPaymentMethod(null)
+                } else {
+                    setPaymentMethod(res.data.paymentMethod)
+                    setDefaultPaymentMethod(res.data.paymentMethod)
+                }
+            })
+            .catch((err) => {
+                return
+        })
+    }
+  }
+
+  const getFursona = async () => {
+    if (attendee !== undefined && fursona === undefined){
+        await axiosInstance.get('/api/v2/fursona/', { params: {id: attendee.fursonaId}})
+            .then((res) => {
+                setFursona(res.data);
+            })
+            .catch((err) => {
+                return
+        })
+    }
+  }
+
+  const routerBackToAdmin = () => {
+    Router.push(
+        '/admin'
+    )
+  }
+
+  const finalizeDeleteAttendee = async () =>{
+    if (attendee === undefined){
+        return;
+    } else {
+        axiosInstance.delete('/api/v2/attendee/deleteAttendee', {data: {id: attendee.id, fursonaId: attendee.fursonaId, ticketId: attendee.ticketId, attendeeEmail: attendee.email}})
+    }
+  }
+
+  const finalizeVerifiedStatus = async () =>{
+    if (attendee === undefined){
+        return;
+    } else {
+        axiosInstance.post('/api/v2/attendee/updateAttendee', {params: {id: attendee.id, verifiedStatus: verifiedStatus}})
+    }
+  }
+
+  const finalizePaymentStatusAndMethod = async () =>{
+    if (attendee === undefined){
+        return;
+    } else {
+        axiosInstance.post('/api/v2/ticket/updateTicket', {params: {id: attendee.ticketId, paymentStatus: paymentStatus, paymentMethod: paymentMethod}})
+    }
+  }
+
+  const finalizeDeleteImage = async () => {
+    if (attendee === undefined){
+        return;
+    } else {
+        axiosInstance.post('/api/v2/fursona/updateFursona', {params: {id: attendee.fursonaId, pathToPictureFile: null}})
+    }
+  }
+
+  const finalizeChanges = async () => {
+    if(attendee === undefined){
+        return;
+    } else {
+        if (provisionalUpdates.indexOf("deleteFlag") > -1){
+            await finalizeDeleteAttendee()
+            .then((res) => {
+                Router.push('/admin');
+            })
+            .catch((err) => {
+                return;
+            })
+        } else {
+            if (provisionalUpdates.indexOf("verifiedStatus") > -1){
+                await finalizeVerifiedStatus()
+                .then(async (res) => {
+                    if (provisionalUpdates.indexOf("paymentStatus") > -1 || provisionalUpdates.indexOf("paymentMethod") > -1){
+                        await finalizePaymentStatusAndMethod()
+                        .then(async (res) => {
+                            if (provisionalUpdates.indexOf("imageDeleteFlag") > -1){
+                                await finalizeDeleteImage()
+                                .then((res) => {
+                                    Router.push('/admin');
+                                })
+                                .catch((err) => {
+                                    return;
+                                })
+                            } else {
+                                Router.push('/admin');
+                            }
+                        })
+                        .catch((err) => {
+                            return;
+                        })
+                    } else {
+                        if (provisionalUpdates.indexOf("imageDeleteFlag") > -1){
+                            await finalizeDeleteImage()
+                            .then((res) => {
+                                Router.push('/admin');
+                            })
+                            .catch((err) => {
+                                return;
+                            })
+                        } else {
+                            Router.push('/admin');
+                        }
+                    }
+                })
+                .catch((err) =>{
+                    return;
+                })
+            } else {
+                if (provisionalUpdates.indexOf("paymentStatus") > -1 || provisionalUpdates.indexOf("paymentMethod") > -1){
+                    await finalizePaymentStatusAndMethod()
+                    .then(async (res) => {
+                        if (provisionalUpdates.indexOf("imageDeleteFlag") > -1){
+                            await finalizeDeleteImage()
+                            .then((res) => {
+                                Router.push('/admin');
+                            })
+                            .catch((err) => {
+                                return;
+                            })
+                        } else {
+                            Router.push('/admin');
+                        }
+                    })
+                    .catch((err) => {
+                        return;
+                    })
+                } else {
+                    if (provisionalUpdates.indexOf("imageDeleteFlag") > -1){
+                        await finalizeDeleteImage()
+                        .then((res) => {
+                            Router.push('/admin');
+                        })
+                        .catch((err) => {
+                            return;
+                        })
+                    } else {
+                        return;
+                    }
+                }
+            }
+        }
+        
+    }
+  }
+
+  const flagAttendeeForDelete = () => {
+        setDeleteFlag(!deleteFlag);
+    }
+
+    const flagImageForDelete = () => {
+        setImageDeleteFlag(!imageDeleteFlag);
+    }
+
+    const getProvisionalUpdates = () => {
+        let provisionalUpdateList = [];
+        if (defaultVerifiedStatus !== verifiedStatus){
+            provisionalUpdateList.push("verifiedStatus")
+        }
+        if (defaultPaymentStatus !== paymentStatus){
+            provisionalUpdateList.push("paymentStatus")
+        }
+        if (defaultPaymentMethod !== paymentMethod){
+            provisionalUpdateList.push("paymentMethod")
+        }
+        if (imageDeleteFlag === true){
+            provisionalUpdateList.push("imageDeleteFlag")
+        }
+        if (deleteFlag === true){
+            provisionalUpdateList.push("deleteFlag")
+        }
+        setProvisionalUpdates([...provisionalUpdateList]);
+    }
+
+  useEffect(() =>{
+    getProvisionalUpdates();
+  }, [verifiedStatus, paymentStatus, paymentMethod, deleteFlag, imageDeleteFlag])
 
   return (
-    <TempWIP/>
+    <>
+        {
+            (isAuthenTicated == true) &&
+            <div className={styles.Admin}>
+                <Button onClick={routerBackToAdmin}>BACK</Button>
+                <div className={styles.Admin__Content}>
+                    <div className={styles.Admin__Content__TableContainer}>
+                        <h2>ATTENDEE</h2>
+                        <AttendeeDetails attendee={attendee}></AttendeeDetails>
+                    </div>
+                    <div className={styles.Admin__Content__TableContainer}>
+                        <h2>TICKET</h2>
+                        <TicketDetails ticket={ticket}></TicketDetails>
+                    </div>
+                    <div className={styles.Admin__Content__TableContainer}>
+                        <h2>FURSONA</h2>
+                        <FursonaDetails fursona={fursona}></FursonaDetails>
+                    </div>
+                </div>
+                <div className={styles.Admin__Content}>
+                    <Button onClick={flagAttendeeForDelete}>Reject & Delete Attendee</Button>
+                    ||
+                    <Button onClick={flagImageForDelete}>Remove Image</Button>
+                    <Toggle 
+                        id={"verifiedToggle"} 
+                        label={"Verified?"} 
+                        checked={verifiedStatus}
+                        stateChanger={setVerifiedStatus}
+                        ></Toggle>
+                    <Toggle 
+                        id={"paymentToggle"} 
+                        label={"Paid?"} 
+                        checked={paymentStatus}
+                        stateChanger={setPaymentStatus}
+                        ></Toggle>
+                    <DropDown
+                        label={"Payment method"}
+                        buttonPlaceholder={"Select payment method"}
+                        data={paymentMethods}
+                        onChange={(e: PaymentMethodInterface) => setPaymentMethod(e)}
+                        selected={paymentMethod}
+                        setSelected={(e: PaymentMethodInterface) => setPaymentMethod(e)}
+                        setValue={(e: PaymentMethodInterface) => setPaymentMethod(e)}></DropDown>
+                </div>
+                <hr></hr>
+                <div className={styles.Admin__Content}>
+                    <span>
+                        <b>CHANGELIST:</b><br></br>
+                        <ChangeList changes={provisionalUpdates}></ChangeList>
+                    </span>
+                    <Button onClick={finalizeChanges}>FINALIZE CHANGES</Button>
+                </div>
+            </div>
+        }
+    </>
   );
 }
 export default AdminUser

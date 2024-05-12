@@ -36,7 +36,7 @@ const NationalitySelector: NextPage<Props> = ({
 
   useEffect(() => {
     if (!nationalityList) {
-      axiosInstance.get('/api/v2/nationality/get/').then((res) => {
+      axiosInstance.get('/api/v2/nationality/').then((res) => {
         setNationalities(res.data)
       })
     }

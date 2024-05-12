@@ -1,5 +1,6 @@
 export interface ITicketCount {
-    extra1Count: number;
-    ticket1Count: number;
-    ticket2Count: number;
+    early: number;
+    late: number;
+    countWACC: number;
+    countTENT: number;
 }

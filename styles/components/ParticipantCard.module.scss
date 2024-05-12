@@ -6,14 +6,22 @@
     flex-direction: column;
     z-index: 1;
 
-    background-color: $grey-2;
     padding: 1rem;
-    border-radius: 2rem;
+    border-radius: .8rem;
 
-    border: .2rem solid $primary-color;
-    box-shadow:
-    0 .5rem 1rem .5rem rgba($black, .5),
-    inset 0 0 2rem .5rem rgba($primary-color, .5);
+    border: .2rem solid $grey-0;
+    background: linear-gradient(180deg,rgba($grey-1, .5), rgba($grey-1, .1));
+    box-shadow: 0 .2rem 1rem rgba($black, .8);
+
+    &:before {
+        content: '';
+        backdrop-filter: blur(.2rem);
+        display: block;
+        position: absolute;
+        z-index: -1;
+        height: 100%;
+        width: 100%;
+    }
 
     &__Title {
         width: 100%;
@@ -26,7 +34,7 @@
         overflow-x: clip;
         h2 {
             @include SecondaryTitle();
-            text-align: center;
+            text-align: left;
             overflow-x: hidden;
         }
 
@@ -40,31 +48,17 @@
     }
 
     &__Picture {
-        @include picture;
+        align-self: stretch;
+        min-width: 30%;
+        position: relative;
 
-        margin-top: 1rem;
-        width: 17rem;
-        height: 17rem;
-
-        @include respond(phone) {
-            width: 18rem;
-            height: 18rem;
-        }
-
-        @include respond(big-desktop) {
-            width: 20rem;
-            height: 20rem;
-        }
-
-        @include respond(4k-desktop) {
-            width: 25rem;
-            height: 25rem;
-        }
+        border-bottom: .2rem solid $grey-0;
+        width: 100%;
     }
 
     &__Flag {
         position: absolute;
-        bottom: -.4rem;
+        bottom: -.2rem;
         right: 0;
         font-size: calc($styled-font-size * 1.05);
 
@@ -72,34 +66,23 @@
         display: flex;
         justify-content: flex-start;
         align-items: flex-end;
-
-        img {
-            border-bottom-right-radius: 1rem;
-        }
     }
 
     &__Footer {
-        margin-top: 1rem;
+        position: absolute;
         display: flex;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: stretch;
-        height: 100%;
         width: 100%;
-
+        top: 100%;
+        background-color: $grey-0;
+        padding: .5rem;
+        clip-path: polygon(100% 0, 80% 0, 60% 100%, 0 100%, 0 0);
+        
         & > * {
             margin: .1rem;
-            height: 6vh;
-            width: 6vh;
-        }
-    }
-
-    &__Description {
-        margin-top: 1rem;
-        width: 90%;
-        height: 100%;
-
-        ul {
-            margin-left: 1.5rem;
+            height: 3vh;
+            width: 3vh;
         }
     }
 }
