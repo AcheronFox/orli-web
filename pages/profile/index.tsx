@@ -376,7 +376,7 @@ const Profile: NextPage<Props> = (props: Props) => {
               {
                 (user.fursona.pathToPictureFile)?
                 <Picture
-                  defaultSrc={`uploads/${user.fursona.pathToPictureFile}`}
+                  defaultSrc={`${process.env.NODE_ENV == "development"? `uploads/${user.fursona.pathToPictureFile}` : `${process.env.DOMAIN_ROOT}uploads/${user.fursona.pathToPictureFile}`}`}
                   sizes="(max-width: 1400px) 100vw, 40vw"
                   alt="User Image"
                 />
