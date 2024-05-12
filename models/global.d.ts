@@ -13,6 +13,7 @@ declare interface Language {
     // WARNINGS
     warnOverload: string;
     warnDateLimit: string;
+    warnDateLimitReg: string;
 
     // NOTIF
     notifError: string;
