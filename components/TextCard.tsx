@@ -54,14 +54,12 @@ const TextCard: NextPage<Props> = ({
                 <div className={styles.TextCard__Image}>
                     <Picture
                         sizes={image.sizes}
-                        defaultSrc={image.imgPath? (
-                                process.env.NODE_ENV == "development"
-                                ?
-                                `uploads/${image.imgPath}`
-                                :
-                                `${process.env.DOMAIN_ROOT}uploads/${image.imgPath}`
-                            )
-                            : "Default_profile.jpg"
+                        defaultSrc={
+                            process.env.NODE_ENV == "development"
+                            ?
+                            `${image.imgPath}`
+                            :
+                            `${process.env.DOMAIN_ROOT}${image.imgPath}`
                         }
                         alt={image.alt || "Text Card Image"}
                         className={`${styles.TextCard__Image_top} ${image.customStyle? image.customStyle : ''}`}
@@ -91,14 +89,12 @@ const TextCard: NextPage<Props> = ({
                             <Picture
                                 sizes={image.sizes || '100vw'}
                                 alt={image.alt || "Text Card Image"}
-                                defaultSrc={image.imgPath? (
-                                        process.env.NODE_ENV == "development"
-                                        ?
-                                        `uploads/${image.imgPath}`
-                                        :
-                                        `${process.env.DOMAIN_ROOT}uploads/${image.imgPath}`
-                                    )
-                                    : "Default_profile.jpg"
+                                defaultSrc={
+                                    process.env.NODE_ENV == "development"
+                                    ?
+                                    `${image.imgPath}`
+                                    :
+                                    `${process.env.DOMAIN_ROOT}${image.imgPath}`
                                 }
                                 className={`${image.customStyle? image.customStyle : ''}`}
                             />
@@ -112,14 +108,12 @@ const TextCard: NextPage<Props> = ({
                         <Picture
                             sizes={image.sizes || '100vw'}
                             alt={image.alt || "Text Card Image"}
-                            defaultSrc={image.imgPath? (
-                                    process.env.NODE_ENV == "development"
-                                    ?
-                                    `uploads/${image.imgPath}`
-                                    :
-                                    `${process.env.DOMAIN_ROOT}uploads/${image.imgPath}`
-                                )
-                                : "Default_profile.jpg"
+                            defaultSrc={
+                                process.env.NODE_ENV == "development"
+                                ?
+                                `${image.imgPath}`
+                                :
+                                `${process.env.DOMAIN_ROOT}${image.imgPath}`
                             }
                             className={`${styles.TextCard__Image_right} ${image.customStyle? image.customStyle : ''}`}
                         />

@@ -38,7 +38,13 @@ const TempWIP: NextPage<Props> = (props: Props) => {
             <div className={styles.WIP}>
                 <Picture
                     alt={"Dusk Pc Sticker"}
-                    defaultSrc={"stickers/st_pc.png"}
+                    defaultSrc={
+                        process.env.NODE_ENV == "development"
+                        ?
+                        `stickers/st_pc.png`
+                        :
+                        `${process.env.DOMAIN_ROOT}stickers/st_pc.png`
+                    }
                     sizes={"(max-width: 1000px) 100vw, 60vw"}
                     className={styles.WIP__Image}
                 />

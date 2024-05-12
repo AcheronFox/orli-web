@@ -20,7 +20,23 @@ const Home: NextPage<Props> = (props: Props) => {
       <section className={styles.Home}>
         <Picture
           alt={"Main art"}
-          defaultSrc={isMobile? "main_phone.jpg" : "main.jpg"}
+          defaultSrc={isMobile?
+            (
+              process.env.NODE_ENV == "development"
+              ?
+              `main_phone.jpg`
+              :
+              `${process.env.DOMAIN_ROOT}main_phone.jpg`
+            )
+            :
+            (
+              process.env.NODE_ENV == "development"
+              ?
+              `main.jpg`
+              :
+              `${process.env.DOMAIN_ROOT}main.jpg`
+            )
+          }
           sizes={"100wv"}
           className={styles.Home__Background}
         />
