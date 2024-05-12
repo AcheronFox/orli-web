@@ -35,8 +35,8 @@ const FursonaDetails: NextPage<Props> = (props: Props) => {
                 <tr>
                     <th>Picture</th>
                     <td><Picture 
-                        defaultSrc={currentFursona.pathToPictureFile}
-                        sizes="(max-width: 1400px) 100vw, 40vw"
+                        defaultSrc={'uploads/' + currentFursona.pathToPictureFile}
+                        sizes="(max-width: 9999px) 300px"
                         alt="User Image"
                         >
                         </Picture></td>
