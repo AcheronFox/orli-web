@@ -407,7 +407,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                 { (user.fursona.hasFursuit || user.ticket?.sponsorLevel && user.ticket.sponsorLevel != "None") &&
                   <div className={styles.Profile__Header__Badges}>
                     {
-                      user.fursona.hasFursuit &&
+                      (user.fursona.hasFursuit == true) &&
                       <Tooltip
                         html={
                           <span style={{ fontSize: "1.4rem" }}>

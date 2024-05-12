@@ -71,7 +71,15 @@ const ParticipantCard: NextPage<Props> = (props: Props) => {
             <div className={styles.ParticipantCard__Picture}>   
                 <Picture
                     alt={"User Profile Picture"}
-                    defaultSrc={`${props.picture? `uploads/${props.picture}` : "Default_profile.jpg"}`}
+                    defaultSrc={props.picture? (
+                            process.env.NODE_ENV == "development"
+                            ?
+                            `uploads/${props.picture}`
+                            :
+                            `${process.env.DOMAIN_ROOT}uploads/${props.picture}`
+                        )
+                        : "Default_profile.jpg"
+                    }
                     sizes={"20vw"}
                 />
                 {

@@ -445,7 +445,17 @@ const Rooms: NextPage<Props> = (props: Props) => {
             <div className={styles.Modal__Header__Picture}>
               <Picture
                   alt={"User Thumb"}
-                  defaultSrc={`${overlayData.pathToPictureFile? `uploads/${overlayData.pathToPictureFile}.jpg` : "Default_profile.jpg"}`}
+                  defaultSrc={
+                    overlayData.pathToPictureFile? (
+                      process.env.NODE_ENV == "development"
+                      ?
+                      `uploads/${overlayData.pathToPictureFile}`
+                      :
+                      `${process.env.DOMAIN_ROOT}uploads/${overlayData.pathToPictureFile}`
+                    )
+                    :
+                    'Default_profile.jpg'
+                  }
                   sizes={"20vw"}
               />
             </div>
