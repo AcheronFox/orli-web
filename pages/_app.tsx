@@ -137,7 +137,6 @@ const Orli = ({ Component, pageProps }: AppProps) => {
             ></input>
             <br></br>
             <Button
-              disabled={isLocked}
               onClick={() => handleLogin()}
             >
               Login
