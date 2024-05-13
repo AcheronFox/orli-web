@@ -526,7 +526,6 @@ const Profile: NextPage<Props> = (props: Props) => {
               <div className={styles.Profile__Body__Form}>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
-                    disabled
                     label={lang.regFursonaName}
                     list="autoCompleteOff"
                     autoComplete="disabled"
@@ -540,7 +539,6 @@ const Profile: NextPage<Props> = (props: Props) => {
                 </span>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
-                    disabled
                     label={lang.regSpecies}
                     list="autoCompleteOff"
                     autoComplete="disabled"
@@ -554,7 +552,6 @@ const Profile: NextPage<Props> = (props: Props) => {
                 </span>
                 <span className={styles.Profile__Body__Form__Row}>
                   <Input
-                    disabled
                     label={lang.profPassword}
                     type={"password"}
                     list="autoCompleteOff"
@@ -569,7 +566,6 @@ const Profile: NextPage<Props> = (props: Props) => {
                 </span>
                 <span className={styles.Profile__Body__Form__Checkbox}>
                   <Checkbox
-                    disabled
                     checked={(e) => {setIsFursuiter(e); setIsChanged(true);}}
                     checkBoxValue={isFursuiter}
                     id="chk-3"
@@ -579,19 +575,12 @@ const Profile: NextPage<Props> = (props: Props) => {
                 <div className={styles.Profile__Body__Button}>
                   <Button
                     variant="contained"
-                    disabled={!isChanged || true}
+                    disabled={!isChanged}
                     onClick={handleButton}
                   >
                     {lang.profSave}
                   </Button>
                 </div>
-                <p style={{color:"red"}}>
-                  {currLang=="en"?
-                    "Not available at the moment."
-                    :
-                    "Jelenleg nem elérhető"
-                  }
-                </p>
               </div>
             </div>
             <div className={styles.Profile__Body__Right}>
