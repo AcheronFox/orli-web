@@ -14,6 +14,7 @@ import Footer from "@/comp/footer/Footer";
 import CustomHead from "@/comp/utils/CustomHead";
 import { deleteCookie, getCookie } from "cookies-next";
 import MainProvider from "@/hooks/MainProvider";
+import Button from '@/comp/button/Button';
 
 const Orli = ({ Component, pageProps }: AppProps) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(
@@ -135,13 +136,12 @@ const Orli = ({ Component, pageProps }: AppProps) => {
               value={pass}
             ></input>
             <br></br>
-            <button
-              className={styles.content}
+            <Button
               disabled={isLocked}
               onClick={() => handleLogin()}
             >
               Login
-            </button>
+            </Button>
             {logInAttempts > 0 && (
               <p style={{ color: "red" }}>Invalid Attempts: {logInAttempts}</p>
             )}
