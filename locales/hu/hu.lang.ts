@@ -13,7 +13,7 @@ const hu: Language = {
     // WARNINGS
     warnOverload: "A szerver a szokásosnál nagyobb terhelést tapasztal, kérlek várj...",
     warnDateLimit: "Jegyvásárlás már nem elérhető.",
-    warnDateLimitReg: "Regisztráció már nem elérhető.",
+    warnDateLimitReg: "Regisztráció pillanatnyilag nem elérhető.",
 
     // NOTIF
     notifError: "Hiba",
