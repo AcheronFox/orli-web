@@ -61,6 +61,20 @@ const staff: IStaff[] = [
         picture: "staff/tib.jpg"
     },
     {
+        name: "Viren",
+        description: [
+            "I help with the website too, mainly working on the staff-facing side of it for now.<br/>",
+            `
+            <ul>
+                <li>Web Development</li>
+                <li>IT Helper</li>
+            </ul>
+            `,
+        ],
+        link: "https://t.me/LapnLook",
+        picture: "staff/viren.jpg"
+    },
+    {
         name: "Monti",
         description: [
             "Monti, the hooded rat! I work as a fursuit maker and artist in national and international circles.<br/>",
