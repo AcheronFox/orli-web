@@ -39,7 +39,7 @@ const calculateIndex = (index: number, listLength: number, size: any) => {
   return {fromIndex, toIndex}
 }
 
-const Row = ({index, setSize, windowWidth, participants, size, nationalities}: any) => {
+const Row = ({index, participants, size, nationalities}: any) => {
   const items = [];
   const {fromIndex, toIndex} = calculateIndex(index, participants.length, size)
 
@@ -52,11 +52,6 @@ const Row = ({index, setSize, windowWidth, participants, size, nationalities}: a
                        isSuperSponsor={participants[i].sponsorLevel == "Super"} nationalities={nationalities}></ParticipantCard>
     )
   }
-
-  useEffect(() => {
-    const calc = (rowRef.current?.getBoundingClientRect().height? (rowRef.current.getBoundingClientRect().height+50) : 0)
-    setSize(index, calc);
-  }, [setSize, index, windowWidth]);
 
   if (!items.length) return null
 
@@ -79,13 +74,6 @@ const Participants: NextPage<Props> = (props: Props) => {
   const size = UseWindowDimensions()
   const [didInit, setDidInit] = useState<boolean>(false);
 
-  const sizeMap = useRef<any>();
-  const setSize = useCallback((index: any, size: any) => {
-    sizeMap.current = { ...sizeMap.current, [index]: size };
-    listRef.current.resetAfterIndex(index);
-  }, []);
-
-  const listRef = useRef<any>(null);
 
   useEffect(() => {
     if (didInit) return
@@ -109,18 +97,7 @@ const Participants: NextPage<Props> = (props: Props) => {
     .catch((err) => {return})
     .finally(() => setIsLoading(false))
   }
-  
-  const getSize = (index: number) => {
-    //fallback
-    if (!sizeMap.current) return 500
-    return sizeMap.current[index]? sizeMap.current[index] : null
-  };
 
-  const handleScroll = ({scrollTop}: any) => {
-    if (listRef.current) {
-      listRef.current.scrollTo(scrollTop);
-    }
-  }
 
   return (
     <> 
@@ -134,36 +111,18 @@ const Participants: NextPage<Props> = (props: Props) => {
       <div className={styles.Participants}>
         { (didInit) &&
           <div className={styles.Participants__List}>
-            <WindowScroller onScroll={handleScroll}>
-              {() => <div />}
-            </WindowScroller>
-            { participants &&
-              <List
-              className={styles.Participants__List__Overwrite}
-              itemCount={participants.length}
-              itemSize={getSize}
-              height={window.innerHeight}
-              width={"100%"}
-              ref={listRef}
-              >
-              {({ index, style }) => {
-                return (
-                  <div
-                    style={style}
-                    key={index}
-                  >
-                    <Row
-                    index={index}
-                    setSize={setSize}
-                    windowWidth={size.width}
+            { (participants != undefined) &&
+              participants.map((item, i) => {
+                return(
+                  <Row
+                    key={i}
+                    index={i}
                     participants={participants}
                     size={size}
                     nationalities={nationalities}
-                    />
-                  </div>
+                  />
                 )
-              }}
-            </List>
+              })
             }
           </div>
         }

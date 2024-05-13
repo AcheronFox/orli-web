@@ -88,6 +88,29 @@ export default async function handler(
             throw new Error("Wrong pin")
         }
 
+        let occupants = await getAccomodationsByRoomId(req.body.roomId);
+
+        if (occupants != undefined) {
+            if (!Array.isArray(occupants)) {
+                occupants = [occupants]
+            }
+
+            if (occupants.length != req.body.roomCount) {
+                sendResponse(409, { message: "Data changed", e_code: "room_join_60" });
+                throw new Error("Data changed")
+            }
+
+            if (occupants.find((o) => o.id == attendee.accomodationId)) {
+                sendResponse(400, { message: "Already joined", e_code: "room_join_61" });
+                throw new Error("Already joined")
+            }
+
+            if (occupants.length >= room.size) {
+                sendResponse(409, { message: "Room full", e_code: "room_join_62" });
+                throw new Error("Room full")
+            }
+        }
+
         const newAccomodationId = await CreateNewAccomodationForAttendee(room, req.body, connection);
         const changeAccomodationResult = await changeAttendeeAccomodationId(attendee, newAccomodationId, connection);
         if (!changeAccomodationResult) {
@@ -105,25 +128,6 @@ export default async function handler(
             sendResponse(500, { message: "Accomodation creation failed", e_code: "room_join_58" });
             throw new Error("Accomodation creation failed")
         }
-
-        const occupants = await getAccomodationsByRoomId(req.body.roomId);
-
-        if (occupants != undefined) {
-            if (occupants.length != req.body.roomCount) {
-                sendResponse(409, { message: "Data changed", e_code: "room_join_60" });
-                throw new Error("Data changed")
-            }
-
-            if (occupants.find((o) => o.id == attendee.accomodationId)) {
-                sendResponse(400, { message: "Already joined", e_code: "room_join_61" });
-                throw new Error("Already joined")
-            }
-
-            if (occupants.length >= room.size) {
-                sendResponse(409, { message: "Room full", e_code: "room_join_62" });
-                throw new Error("Room full")
-            }
-        }
         
         const result = await enterRoom(accomodation, req.body.roomId);
 
@@ -136,11 +140,9 @@ export default async function handler(
         console.log(err)
         if (connection) {
             await new Promise<void>(resolve => connection!.rollback(() => {
-                connection!.release();
                 resolve();
             }));
         }
-
     } finally {
         if (connection) {
             connection.release();
@@ -151,9 +153,12 @@ export default async function handler(
 }
 
 async function CreateNewAccomodationForAttendee(room: IRoom, data: IJoinForm, connectionToUse: mysql.PoolConnection): Promise<number> {
-    const occupants = await getAccomodationsByRoomId(room.id!)
+    let occupants = await getAccomodationsByRoomId(room.id!)
     let isOwner = false;
 
+    if (occupants && !Array.isArray(occupants)) {
+        occupants = [occupants]
+    }
     if (!occupants?.length) {
         isOwner = true
 

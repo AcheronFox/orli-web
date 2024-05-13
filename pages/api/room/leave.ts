@@ -91,7 +91,6 @@ export default async function handler(
         console.log(err)
         if (connection) {
             await new Promise<void>(resolve => connection!.rollback(() => {
-                connection!.release();
                 resolve();
             }));
         }

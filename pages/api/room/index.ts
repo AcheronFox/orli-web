@@ -45,8 +45,8 @@ export default async function handler(
 
         if (await query()) {
             let finalData: IRoom[] = response.map((item) => {
-                const hasPin = !!item.roomPin;
-                return {...item, hasRoomPin: hasPin, roomPin: undefined, adminKey: undefined};
+                const hasPin = (item.pin !== null);
+                return {...item, hasRoomPin: hasPin, pin: undefined, adminKey: undefined};
             })
 
             const unique = Array.from(new Set(finalData.map(item => item.building)));
