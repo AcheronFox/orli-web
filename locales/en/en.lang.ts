@@ -13,7 +13,7 @@ const en: Language = {
     // WARNINGS
     warnOverload: "The server is experiencing higher load than usual, please wait...",
     warnDateLimit: "Ticket Purchase is not available anymore.",
-    warnDateLimitReg: "Registration is not available anymore.",
+    warnDateLimitReg: "Registration is not available at the moment.",
 
     // NOTIF
     notifError: "Error",

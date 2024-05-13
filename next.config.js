@@ -49,7 +49,6 @@ const webpack = (config) => {
 
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   headers: headers,
   webpack: webpack,
   sassOptions: {
