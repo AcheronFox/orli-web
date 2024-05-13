@@ -49,8 +49,12 @@ export default async function handler(
                 COUNT(attendee.nationalityId) AS natCount
             FROM
                 attendee
-            WHERE
-                attendee.verified = TRUE
+                    INNER JOIN
+                fursona ON attendee.fursonaId = fursona.id
+                    AND attendee.verified = 1
+                    INNER JOIN
+                ticket ON attendee.ticketId = ticket.id
+                    AND ticket.isPaid = 1
             GROUP BY attendee.nationalityId;
             `;
 
@@ -76,8 +80,12 @@ export default async function handler(
                 attendee.dateOfBirth
             FROM
                 attendee
-            WHERE
-                attendee.verified = TRUE;
+                    INNER JOIN
+                fursona ON attendee.fursonaId = fursona.id
+                    AND attendee.verified = 1
+                    INNER JOIN
+                ticket ON attendee.ticketId = ticket.id
+                    AND ticket.isPaid = 1;
             `;
 
             database.query(query, async (err: any, result: {dateOfBirth: string}[]) => {

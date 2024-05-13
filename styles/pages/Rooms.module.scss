@@ -302,6 +302,10 @@
 .Rooms {
     @include DefaultLayout;
 
+    @include respond(tiny-desktop) {
+        margin: none;
+    }
+ 
     &__Background {
         @include DefaultBackground;
     }

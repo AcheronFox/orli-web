@@ -7,6 +7,16 @@
     z-index: 1;
     min-width: 13vw;
 
+    @include respond(small-desktop) {
+        min-width: 30vw;
+    }
+    @include respond(tiny-desktop) {
+        min-width: 40vw;
+    }
+    @include respond(phone) {
+        min-width: 75vw;
+    }
+
     background-color: $grey-2;
     padding: .5rem 2rem;
     border-radius: 1rem;

@@ -5,7 +5,7 @@ import isMethodAllowed from "@/functions/auth/isMethodAllowed";
 import { getNationality } from "@/services/nationality/service.nationality";
 import { findTemplate, sendMail } from "@/functions/mail/mail-controller";
 import handlebars from "handlebars";
-import { getAttendeeByAccountKey, getAttendeeById } from "@/services/attendee/service.attendee.select";
+import { getAttendeeByAccountKey, getAttendeeById, getAttendeeByTicketId } from "@/services/attendee/service.attendee.select";
 import { getFursona } from "@/services/fursona/service.fursona.select";
 import verifyToken from "@/functions/auth/veryifToken";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
@@ -35,8 +35,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             } else {
                 requestPaymentMethod = req.body.params.paymentMethod;
             }
+
             if (requestId === undefined)
                 return res.status(400).json({ message: "Invalid request", e_code: "nat_01" });
+
+            const attendee = await getAttendeeByTicketId(requestId)
+            const fursona = await getFursona(attendee?.fursonaId!)
+
+            if (!attendee || !fursona) {
+                return res.status(400).json({ message: "Item not updated", e_code: "nat_02" });
+            }
 
             const paymentMethodResult = await setTicketPaymentMethod(requestId, requestPaymentMethod);
             if (paymentMethodResult === undefined)
@@ -45,9 +53,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const paymentStatusResult = await setTicketPaymentStatus(requestId, requestPaymentStatus);
             if (paymentStatusResult === undefined)
                 return res.status(404).json({ message: "Item not updated", e_code: "nat_02" });
-
-            const attendee = await getAttendeeById(requestId)
-            const fursona = await getFursona(attendee?.fursonaId!)
 
             if (requestPaymentStatus === true && attendee && fursona){
                 // EMAIL
