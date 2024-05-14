@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 return res.status(404).json({ message: "Item not found" });
 
             return res.status(200).json(ticket);
-        } else {
+        } else if ("all" in req.query) {
             const from = Math.max(0, Number(req.query.from) || 0);
             const limit = Math.min(200, Math.max(1, Number(req.query.limit) || 200));
 
@@ -46,6 +46,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             }
 
             return res.status(200).json(fursonas);
+        } else {
+            return res.status(400).json({ message: "Invalid request" });
         }
     } catch (e) {
         return res.status(500).send({ message: "Internal server error." });

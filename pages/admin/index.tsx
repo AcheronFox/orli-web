@@ -87,7 +87,7 @@ const AdminPage: NextPage<Props> = (props: Props) => {
   }
   
   const getFursonas = async () => {
-    await axiosInstance.get('/api/v2/fursona/')
+    await axiosInstance.get('/api/v2/fursona/', {params: {all: true}})
     .then((res) => {
       setFursonas(res.data)
     })
@@ -97,7 +97,7 @@ const AdminPage: NextPage<Props> = (props: Props) => {
   }
 
   const getTickets = async () => {
-    await axiosInstance.get('/api/v2/ticket/')
+    await axiosInstance.get('/api/v2/ticket/', {params: {all: true}})
     .then((res) => {
       setTickets(res.data)
     })

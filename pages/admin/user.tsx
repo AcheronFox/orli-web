@@ -496,7 +496,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   }
 
   const getTicket = async () => {
-    if (attendee !== undefined && ticket === undefined){
+    if (attendee !== undefined && ticket === undefined && attendee.ticketId !== undefined){
         await axiosInstance.get('/api/v2/ticket/', { params: {id: attendee.ticketId}})
             .then((res) => {
                 setTicket(res.data);
@@ -522,7 +522,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   }
 
   const getFursona = async () => {
-    if (attendee !== undefined && fursona === undefined){
+    if (attendee !== undefined && fursona === undefined && attendee.fursonaId !== undefined){
         await axiosInstance.get('/api/v2/fursona/', { params: {id: attendee.fursonaId}})
             .then((res) => {
                 setFursona(res.data);
