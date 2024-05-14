@@ -34,7 +34,7 @@ const FursonaDetails: NextPage<Props> = (props: Props) => {
                 <tbody>
                 <tr>
                     <th>Picture</th>
-                    <td><Picture 
+                    <td><div className={styles.AttendeeList__Table__ImageContainer}><Picture 
                         defaultSrc={currentFursona.pathToPictureFile? (
                                 process.env.NODE_ENV == "development"
                                 ?
@@ -44,10 +44,10 @@ const FursonaDetails: NextPage<Props> = (props: Props) => {
                             )
                             : "Default_profile.jpg"
                         }
-                        sizes="(max-width: 9999px) 300px"
+                        sizes="(max-width: 768px) 150px, (max-width: 1200px) 150px, 150px"
                         alt="User Image"
                         >
-                        </Picture></td>
+                        </Picture></div></td>
                 </tr>
                 <tr>
                     <th>Fursona ID</th>

@@ -1,9 +1,10 @@
-import { getFursona } from "@/services/fursona/service.fursona.select";
+import { getFursona, getAllFursonas } from "@/services/fursona/service.fursona.select";
 import { getRequestPropertyAsNumber } from "@/functions/utils/databaseHelpers";
 import { NextApiRequest, NextApiResponse } from "next";
 import isMethodAllowed from "@/functions/auth/isMethodAllowed";
 import verifyToken from "@/functions/auth/veryifToken";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
+import { IFursona } from "@/models/newDbModels/fursona.model";
 import { getAttendeeByAccountKey } from "@/services/attendee/service.attendee.select";
 import { isAdminAccount } from "../../admin/auth";
 
@@ -32,8 +33,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 return res.status(404).json({ message: "Item not found" });
 
             return res.status(200).json(ticket);
+        } else if ("all" in req.query) {
+            const from = Math.max(0, Number(req.query.from) || 0);
+            const limit = Math.min(200, Math.max(1, Number(req.query.limit) || 200));
+
+            let fursonas = await getAllFursonas(from, limit);
+
+            if (fursonas === undefined)
+                return res.status(404).json({ message: "Item not found", e_code: "nat_03" });
+            else if (!Array.isArray(fursonas)) {
+                fursonas = [fursonas]
+            }
+
+            return res.status(200).json(fursonas);
         } else {
-            return res.status(404).json({ message: "Item not found" });
+            return res.status(400).json({ message: "Invalid request" });
         }
     } catch (e) {
         return res.status(500).send({ message: "Internal server error." });

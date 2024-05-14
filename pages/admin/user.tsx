@@ -411,10 +411,17 @@ const AdminUser: NextPage<Props> = (props: Props) => {
     'PayPal',
     'Revolut'
   ])
+
+  const [deleteControlsHidden, setDeleteControlsHidden] = useState<boolean>(true);
+  const [paymentControlsHidden, setPaymentControlsHidden] = useState<boolean>(true);
+  const [fursonaControlsHidden, setFursonaControlsHidden] = useState<boolean>(true);
+
   const [provisionalUpdates, setProvisionalUpdates] = useState<string[]>([])
 
   const [deleteFlag, setDeleteFlag] = useState<boolean>(false);
   const [imageDeleteFlag, setImageDeleteFlag] = useState<boolean>(false);
+
+  const [emailCount, setEmailCount] = useState<number>(0);
 
   const { user, didUserInit } = useUser()
   const [isAuthenTicated, setIsAuthenticated] = useState<boolean>(false)
@@ -453,6 +460,22 @@ const AdminUser: NextPage<Props> = (props: Props) => {
     getFursona();
   }, [attendee])
 
+  useEffect(() =>{
+    if(ticket === undefined){
+        setPaymentControlsHidden(true);
+    } else {
+        setPaymentControlsHidden(false);
+    }
+  }, [ticket])
+
+  useEffect(() =>{
+    if(fursona === undefined){
+        setFursonaControlsHidden(true);
+    } else {
+        setFursonaControlsHidden(false);
+    }
+  }, [fursona])
+
   const getAttendee = async () => {
     await axiosInstance.get('/api/v2/attendee/', { params: {id: selectedAttendeeId}})
       .then((res) => {
@@ -460,9 +483,11 @@ const AdminUser: NextPage<Props> = (props: Props) => {
         if(res.data.verified === 1){
             setVerifiedStatus(true);
             setDefaultVerifiedStatus(true);
+            setDeleteControlsHidden(true);
         } else {
             setVerifiedStatus(false);
             setDefaultVerifiedStatus(false);
+            setDeleteControlsHidden(false);
         }
     })
     .catch((err) => {
@@ -471,7 +496,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   }
 
   const getTicket = async () => {
-    if (attendee !== undefined && ticket === undefined){
+    if (attendee !== undefined && ticket === undefined && attendee.ticketId !== undefined){
         await axiosInstance.get('/api/v2/ticket/', { params: {id: attendee.ticketId}})
             .then((res) => {
                 setTicket(res.data);
@@ -497,7 +522,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   }
 
   const getFursona = async () => {
-    if (attendee !== undefined && fursona === undefined){
+    if (attendee !== undefined && fursona === undefined && attendee.fursonaId !== undefined){
         await axiosInstance.get('/api/v2/fursona/', { params: {id: attendee.fursonaId}})
             .then((res) => {
                 setFursona(res.data);
@@ -643,6 +668,16 @@ const AdminUser: NextPage<Props> = (props: Props) => {
         setImageDeleteFlag(!imageDeleteFlag);
     }
 
+    const getEmailCount = async () => {
+        await axiosInstance.get('/api/admin/email-limit')
+            .then((res) => {
+                setEmailCount(res.data);
+            })
+            .catch((err) => {
+                setEmailCount(0);
+        })
+    }
+
     const getProvisionalUpdates = () => {
         let provisionalUpdateList = [];
         if (defaultVerifiedStatus !== verifiedStatus){
@@ -661,6 +696,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
             provisionalUpdateList.push("deleteFlag")
         }
         setProvisionalUpdates([...provisionalUpdateList]);
+        getEmailCount();
     }
 
   useEffect(() =>{
@@ -688,9 +724,14 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                     </div>
                 </div>
                 <div className={styles.Admin__Content}>
-                    <Button onClick={flagAttendeeForDelete}>Reject & Delete Attendee</Button>
+                    <Button 
+                        disabled={deleteControlsHidden}
+                        onClick={flagAttendeeForDelete}>Reject & Delete Attendee</Button>
                     ||
-                    <Button onClick={flagImageForDelete}>Remove Image</Button>
+                    <Button 
+                        disabled={fursonaControlsHidden}
+                        onClick={flagImageForDelete}
+                        >Remove Image</Button>
                     <Toggle 
                         id={"verifiedToggle"} 
                         label={"Verified?"} 
@@ -698,12 +739,14 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                         stateChanger={setVerifiedStatus}
                         ></Toggle>
                     <Toggle 
+                        hidden={paymentControlsHidden}
                         id={"paymentToggle"} 
                         label={"Paid?"} 
                         checked={paymentStatus}
                         stateChanger={setPaymentStatus}
                         ></Toggle>
                     <DropDown
+                        hidden={paymentControlsHidden}
                         label={"Payment method"}
                         buttonPlaceholder={"Select payment method"}
                         data={paymentMethods}
@@ -717,6 +760,10 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                     <span>
                         <b>CHANGELIST:</b><br></br>
                         <ChangeList changes={provisionalUpdates}></ChangeList>
+                    </span>
+                    <span>
+                        <b>CURRENT EMAIL COUNTER:</b><br></br>
+                        <p>{emailCount}/50 remaining</p>
                     </span>
                     <Button onClick={finalizeChanges}>FINALIZE CHANGES</Button>
                 </div>

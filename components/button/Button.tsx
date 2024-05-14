@@ -39,7 +39,7 @@ const ContainedButton: NextPage<ContainedProps> = ({
     endIcon,
     disabled,
     id,
-    type,
+    type
 }: ContainedProps) =>{
     const buttonRef = useRef<any>(null)
     const ripples = useRipple(buttonRef)
@@ -136,7 +136,7 @@ const OutlinedButton: NextPage<OutlinedProps> = ({
     endIcon,
     disabled,
     id,
-    type,
+    type
 }: OutlinedProps) =>{
     const buttonRef = useRef<any>(null)
     const ripples = useRipple(buttonRef)
@@ -239,7 +239,7 @@ const TextButon: NextPage<TextProps> = ({
     endIcon,
     disabled,
     id,
-    type,
+    type
 }: TextProps) =>{
     const buttonRef = useRef<any>(null)
     const ripples = useRipple(buttonRef)
@@ -349,7 +349,7 @@ const Button: NextPage<Props> = ({
     endIcon,
     disabled,
     id,
-    type,
+    type
 }: Props) => {
     const [buttonColor, setButtonColor] = useState<Color>(Color('#fff'))
     const [buttonSize, setButtonSize] = useState<string>('')

@@ -8,6 +8,7 @@ type Props = {
     label?: String;
     checked: boolean,
     stateChanger: (checkedVal: boolean) => void;
+    hidden?: boolean
 }
 
 const Toggle: NextPage<Props> = ({
@@ -16,10 +17,14 @@ const Toggle: NextPage<Props> = ({
     id,
     label,
     checked,
-    stateChanger
+    stateChanger,
+    hidden
 }: Props) => {
+    if (hidden === undefined){
+        hidden = false;
+    }
     return (
-        <span className={styles.Toggle}>
+        <span className={styles.Toggle} hidden={hidden}>
             <label className={styles.Toggle__Label}>{label}</label>
             <label className={styles.Toggle__Switch}>
                 <input 
