@@ -6,11 +6,11 @@ const TABLE: string = "fursona";
 const MAX_NUM_OF_FURSONAS: number = 500;
 
 export async function getAllFursonas(from: number = 0,
-                                             limit: number = MAX_NUM_OF_FURSONAS, connectionToUse?: PoolConnection) : Promise<IFursona | undefined>
+                                             limit: number = MAX_NUM_OF_FURSONAS, connectionToUse?: PoolConnection) : Promise<IFursona[] | undefined>
 {
     const query = `SELECT * FROM ${TABLE} LIMIT ?, ?;`;
 
-    return await executeSelectQuery<IFursona>(query, [from, limit], connectionToUse);
+    return await executeSelectQuery<IFursona[]>(query, [from, limit], connectionToUse);
 }
 
 export async function getFursona(id: number, connectionToUse?: PoolConnection): Promise<IFursona | undefined>

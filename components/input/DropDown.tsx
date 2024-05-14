@@ -20,6 +20,7 @@ type Props = {
   inputClass?: string;
   buttonType?: string;
   customSelectorClass?: string;
+  hidden?: boolean
 };
 
 const DropDown: NextPage<Props> = ({
@@ -33,6 +34,7 @@ const DropDown: NextPage<Props> = ({
   setValue,
   buttonType,
   customSelectorClass,
+  hidden
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [switchFlyOut, setSwitchFlyOut] = useState<boolean>(false);
@@ -140,8 +142,12 @@ const DropDown: NextPage<Props> = ({
     else return tempHeight
   }
 
+  if (hidden === undefined){
+    hidden = false;
+  }
+
   return (
-    <div ref={InputRef} className={styles.Selector}>
+    <div ref={InputRef} className={styles.Selector} hidden={hidden}>
       <div className={`${styles.Selector__Selection} ${customSelectorClass}`} ref={dropdownAnchor}>
         {(label != undefined) &&
           <span className={styles.Selector__Label}>{label}</span>

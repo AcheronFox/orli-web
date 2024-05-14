@@ -6,9 +6,15 @@ import { IAttendee } from "@/models/newDbModels/attendee.model";
 import { format, differenceInYears } from 'date-fns'
 import { useState, useEffect } from "react"
 import { INationality } from "@/models/newDbModels/nationality.model";
+import { IFursona } from "@/models/newDbModels/fursona.model";
+import { ITicket } from "@/models/newDbModels/ticket.model";
 
 type Props = {
     attendees: IAttendee[];
+    sortColumn: string;
+    setSortColumn: any;
+    sortDirection: number;
+    setSortDirection: any;
 };
 
 type RowProps = {
@@ -41,7 +47,7 @@ const formatDateTime = (inputDateTime: any) => {
 }
 
 const formatBooleanYesNo = (inputBoolean: any) => {
-    if (typeof inputBoolean === "number" && inputBoolean in [1,2]){
+    if (typeof inputBoolean === "number"){
         switch(inputBoolean){
             case 1: return("Yes");
             case 0: return("No");
@@ -81,10 +87,18 @@ const emptyStringYesNo = (inputString: any) => {
 
 const Row = ({attendee}: RowProps) => {
     const [nationality, setNationality] = useState<INationality>()
+    const [fursona, setFursona] = useState<IFursona>()
+    const [ticket, setTicket] = useState<ITicket>()
 
     useEffect(() => {
         if(attendee.nationalityId !== undefined){
             getNationality(attendee.nationalityId);
+        }
+        if(attendee.fursonaId !== undefined){
+            getFursona(attendee.fursonaId);
+        }
+        if(attendee.ticketId !== undefined){
+            getTicket(attendee.ticketId);
         }
       }, [attendee])
     
@@ -98,26 +112,41 @@ const Row = ({attendee}: RowProps) => {
         })
     }
 
-    let rowAttendeeId: any;
-    if (attendee.id === undefined){
-        rowAttendeeId = 0;
-    } else {
-        rowAttendeeId = attendee.id;
+    const getFursona = async (fursonaId: number) => {
+        await axiosInstance.get('/api/v2/fursona', {params: {id: fursonaId}})
+            .then((res) => {
+            setFursona(res.data)
+        })
+        .catch((err) => {
+            return
+        })
     }
+
+    const getTicket = async (ticketId: number) => {
+        await axiosInstance.get('/api/v2/ticket', {params: {id: ticketId}})
+            .then((res) => {
+            setTicket(res.data)
+        })
+        .catch((err) => {
+            return
+        })
+    }
+
+    const rowAttendeeId = (attendee.id === undefined) ? 0 : attendee.id;
+
     const dateOfBirth = formatDate(attendee.dateOfBirth);
     const age = calculateAge(attendee.dateOfBirth);
     const telegram = trimTelegram(attendee.telegram);
     const allergy = emptyStringYesNo(attendee.allergy);
     const registeredAt = formatDateTime(attendee.registeredAt);
     const verified = formatBooleanYesNo(attendee.verified);
+    const staff = formatBooleanYesNo(attendee.staff);
     const admin = formatBooleanYesNo(attendee.admin);
 
-    let nationalityDisplayed;
-    if (nationality === undefined){
-        nationalityDisplayed = "Loading"
-    } else {
-        nationalityDisplayed = nationality.countryNameEnglish
-    }
+    const nationalityDisplayed = (nationality === undefined) ? "-" : nationality.countryNameEnglish;
+    const fursonaDisplayed = (fursona === undefined) ? "-" : fursona.name;
+    const isPaidDisplayed = formatBooleanYesNo((ticket === undefined || ticket.isPaid === undefined) ? 0 : ticket.isPaid);
+    const paymentMethodDisplayed = (ticket === undefined || ticket.paymentMethod === undefined) ? "-" : ticket.paymentMethod;
 
     return(
         <tr>
@@ -130,6 +159,7 @@ const Row = ({attendee}: RowProps) => {
             </td>
             <td>{attendee.firstName}</td>
             <td>{attendee.lastName}</td>
+            <td>{fursonaDisplayed}</td>
             <td>{attendee.email}</td>
             <td>{nationalityDisplayed}</td>
             <td>{dateOfBirth}</td>
@@ -138,29 +168,68 @@ const Row = ({attendee}: RowProps) => {
             <td>{allergy}</td>
             <td>{registeredAt}</td>
             <td>{verified}</td>
+            <td>{isPaidDisplayed}</td>
+            <td>{paymentMethodDisplayed}</td>
+            <td>{staff}</td>
             <td>{admin}</td>
         </tr>
     );
 }
 
-const AttendeeList: NextPage<Props> = (props: Props) => {  
+const AttendeeList: NextPage<Props> = (props: Props) => {
+    const [sortColumn, setSortColumn] = useState<string>(props.sortColumn)
+    const [sortDirection, setSortDirection] = useState<number>(props.sortDirection)
+    
+    useEffect(() => {
+        props.setSortColumn(sortColumn)
+    }, [sortColumn])
+
+    useEffect(() => {
+        props.setSortDirection(sortDirection)
+    }, [sortDirection])
+
+    const handleClick = (col:string) => {
+        if (col === sortColumn){
+            setSortDirection(sortDirection * -1)
+        } else {
+            setSortColumn(col)
+            setSortDirection(1)
+        }
+    }
+
+    const displaySort = (col:string) => {
+        if (col === sortColumn){
+            if (sortDirection === 1){
+                return (<b>🡻</b>)
+            } else {
+                return (<b>🡹</b>)
+            }
+        } else {
+            return (<b> </b>)
+        }
+    }
+
     return (
         <div className={styles.AttendeeList}>
             <table id="test" className={styles.AttendeeList__Table}>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>E-mail</th>
-                        <th>Nationality</th>
-                        <th>D.o.B.</th>
-                        <th>Age</th>
-                        <th>Telegram</th>
-                        <th>Allergy</th>
-                        <th>Registered at</th>
-                        <th>Verified?</th>
-                        <th>Is Admin?</th>
+                        <th onClick={() => handleClick("id")}>ID{displaySort("id")}</th>
+                        <th onClick={() => handleClick("firstName")}>First Name{displaySort("firstName")}</th>
+                        <th onClick={() => handleClick("lastName")}>Last Name{displaySort("lastName")}</th>
+                        <th onClick={() => handleClick("fursona")}>Fursona{displaySort("fursona")}</th>
+                        <th onClick={() => handleClick("email")}>E-mail{displaySort("email")}</th>
+                        <th onClick={() => handleClick("nationalityId")}>Nationality{displaySort("nationalityId")}</th>
+                        <th onClick={() => handleClick("dateOfBirth")}>D.o.B.{displaySort("dateOfBirth")}</th>
+                        <th onClick={() => handleClick("dateOfBirth")}>Age{displaySort("dateOfBirth")}</th>
+                        <th onClick={() => handleClick("telegram")}>Telegram{displaySort("telegram")}</th>
+                        <th onClick={() => handleClick("allergy")}>Allergy{displaySort("allergy")}</th>
+                        <th onClick={() => handleClick("registeredAt")}>Registered at{displaySort("registeredAt")}</th>
+                        <th onClick={() => handleClick("verified")}>Verified?{displaySort("verified")}</th>
+                        <th onClick={() => handleClick("isPaid")}>Paid?{displaySort("isPaid")}</th>
+                        <th onClick={() => handleClick("paymentMethod")}>Payment Method{displaySort("paymentMethod")}</th>
+                        <th onClick={() => handleClick("staff")}>Is Staff?{displaySort("staff")}</th>
+                        <th onClick={() => handleClick("admin")}>Is Admin?{displaySort("admin")}</th>
                     </tr>
                 </thead>
                 <tbody>
