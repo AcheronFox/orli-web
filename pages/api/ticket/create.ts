@@ -110,9 +110,9 @@ export default async function handler(
         }
 
         const attendee = await getAttendeeByAccountKey(tokenPayload.accountKey);
-        const fursona = await getFursona(attendee!.id!)
+        const fursona = await getFursona(attendee!.fursonaId!)
 
-        if (await getTicketById(attendee!.id!) || !attendee || !fursona) return;
+        if (await getTicketById(attendee!.ticketId!) || !attendee || !fursona) return;
         const hasReachedLimit = await limitQuery(req.body, attendee)
     
         if (!hasReachedLimit) {

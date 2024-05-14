@@ -14,8 +14,7 @@ export interface IRoomRaw {
     roomNumber: string;
     size: number;
     customName?: string;
-    roomPin?: string;
-    adminKey?: string;
+    pin?: string;
     freeSpots?: number;
 }
 

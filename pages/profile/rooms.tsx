@@ -84,10 +84,10 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
   useEffect(() => {
     if (!didUserInit) return
-    if (!user || (user && (!user.ticket || !user.ticket.isPaid))) {
+    if (!user || (user && (!user.ticket || !user.ticket.isPaid || !(user.ticket.type == "WACC")))) {
       Router.push('/profile')
     }
-    else if (user && user.ticket && user.ticket.isPaid) {
+    else if (user && user.ticket && user.ticket.isPaid && user.ticket.type == "WACC") {
       socketInitializer()
       getDefaults()
     }

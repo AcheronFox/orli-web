@@ -98,8 +98,8 @@ export default async function handler(
 
     if (response && count != undefined) {
         const transformData = (data: IRoomRaw) => {
-            const hasPin = !!data.roomPin;
-            return {...data, hasRoomPin: hasPin, roomPin: undefined, adminKey: undefined, occupantCount: count};
+            const hasPin = (data.pin !== null);
+            return {...data, hasRoomPin: hasPin, pin: undefined, adminKey: undefined, occupantCount: count};
         }
         const finalData: IRoom = transformData(response);
 

@@ -61,6 +61,20 @@ const staff: IStaff[] = [
         picture: "staff/tib.jpg"
     },
     {
+        name: "Viren",
+        description: [
+            "Szintén a weboldal fejlesztésében segédkezek, egyelőre leginkább a szervezői oldalán.<br/>",
+            `
+            <ul>
+                <li>Webfejlesztés</li>
+                <li>IT Segéd</li>
+            </ul>
+            `,
+        ],
+        link: "https://t.me/LapnLook",
+        picture: "staff/viren.jpg"
+    },
+    {
         name: "Monti",
         description: [
             "Monti, a csuklyás patkány! Fursuit készítőként és artistként tevékenykedem a hazai és egyaránt külföldikörökben.<br/>",

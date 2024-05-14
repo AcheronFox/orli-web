@@ -259,7 +259,7 @@ export default async function handler(
                                                     else if (roomRes.length) {
                                                         const room = roomRes[0]
                                                         if (await updateData({AccomodationKey: aKey}, 'account')) {
-                                                            if (room.adminKey) resolve(true);
+                                                            if (false) null//if (room.adminKey) resolve(true);
                                                             else {
                                                                 const newRoomData = {
                                                                     roomPin: null,

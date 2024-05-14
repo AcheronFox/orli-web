@@ -176,6 +176,7 @@ const Navbar = ({
                         align: 'right',
                         iconPlacement: "right",
                         icon: <RiProfileLine />,
+                        style: (currLang=='en')? {minWidth: "10rem"} : {minWidth: "18rem"},
                         children: [
                             {
                                 title: lang.navMe,
@@ -219,6 +220,7 @@ const Navbar = ({
                         align: 'right',
                         iconPlacement: "right",
                         icon: <RiProfileLine />,
+                        style: (currLang=='en')? {minWidth: "10rem"} : {minWidth: "18rem"},
                         children: [
                             {
                                 title: lang.navMe,
