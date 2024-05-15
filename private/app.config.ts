@@ -2,7 +2,7 @@ import {IAppConfig} from "@/models/app.config.model";
 
 const configuration: IAppConfig = {
     profile: {
-        uploadToDate: new Date(2024, 5, 6)
+        uploadToDate: new Date(2024, 5, 2)
     },
     registration: {
         start: new Date(2024, 0, 1), // LIVE -> new Date(2024, 4, 15, 20, 0, 0)
