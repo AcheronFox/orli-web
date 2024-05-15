@@ -5,7 +5,7 @@ const configuration: IAppConfig = {
         uploadToDate: new Date(2024, 5, 2)
     },
     registration: {
-        start: new Date(2024, 0, 1), // LIVE -> new Date(2024, 4, 15, 20, 0, 0)
+        start: new Date(2024, 4, 15, 20, 0, 0),
         end: new Date(2024, 5, 16, 0, 0, 0)
     },
     ticket: {
