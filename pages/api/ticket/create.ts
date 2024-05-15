@@ -231,10 +231,10 @@ export default async function handler(
                                 try {
                                     switch (req.body.ticketType) {
                                         case 'WACC':
-                                            ticketRow = `<tr><td>${translationTable.ticketWACC}</td><td>${configuration.ticket.types.find((o) => o.name == 'WACC')?.price} HUF</td></tr>`
+                                            ticketRow = `<tr><td>${translationTable.ticketWACC}</td><td>${isEarlyBird? (configuration.ticket.types.find((o) => o.name == 'WACC')?.earlyBirdPrice) : (configuration.ticket.types.find((o) => o.name == 'WACC')?.price)} HUF</td></tr>`
                                             break;
                                         case 'TENT':
-                                            ticketRow = `<tr><td>${translationTable.ticketTENT}</td><td>${configuration.ticket.types.find((o) => o.name == 'TENT')?.price} HUF</td></tr>`
+                                            ticketRow = `<tr><td>${translationTable.ticketTENT}</td><td>${isEarlyBird? (configuration.ticket.types.find((o) => o.name == 'TENT')?.earlyBirdPrice) : (configuration.ticket.types.find((o) => o.name == 'TENT')?.price)} HUF</td></tr>`
                                             break;
                                     }
                                 }
@@ -250,8 +250,8 @@ export default async function handler(
                                     ${(now.valueOf() < configuration.ticket.dates.earlyBirdEnd.valueOf())? `<tr style="color: #ffae00"><td colspan="2">${translationTable.ticketEarlyBird}</td></tr>` : '' }
                                     <tr style="color: #ffae00"><td colspan="2">${translationTable.ticketPrice}</td></tr>
                                     ${ticketRow}
-                                    ${req.body.early? `<tr><td>${nat.iso2=='hu'? '0. nap' : 'Early Arrival'}</td><td>+${configuration.ticket.types.find((o) => o.name == 'EARLY')?.price} HUF</td></tr>` : ''}
-                                    ${req.body.late? `<tr><td>${nat.iso2=='hu'? 'Ráadás' : 'Late Departure'}</td><td>+${configuration.ticket.types.find((o) => o.name == 'LATE')?.price} HUF</td></tr>` : ''}
+                                    ${req.body.early? `<tr><td>${nat.iso2=='hu'? '0. nap' : 'Early Arrival'}</td><td>+${isEarlyBird? (configuration.ticket.types.find((o) => o.name == 'EARLY')?.earlyBirdPrice) : (configuration.ticket.types.find((o) => o.name == 'EARLY')?.price)} HUF</td></tr>` : ''}
+                                    ${req.body.late? `<tr><td>${nat.iso2=='hu'? 'Ráadás' : 'Late Departure'}</td><td>+${isEarlyBird? configuration.ticket.types.find((o) => o.name == 'LATE')?.earlyBirdPrice : (configuration.ticket.types.find((o) => o.name == 'LATE')?.price)} HUF</td></tr>` : ''}
                                     ${(req.body.sponsorLevel && parseInt(req.body.sponsorLevel) > 0)? `<tr><td>${translationTable.ticketSponsor}</td><td>+${req.body.sponsorPrice} HUF</td></tr>` : ''}
                                     <tr style="color: #ffae00"><td>${translationTable.ticketFinalPrice}</td><td>${calcPrice(req.body)} HUF</td></tr>
                                     ${(req.body.shirt && req.body.sponsorLevel && parseInt(req.body.sponsorLevel) == 2)? `<tr style="color: #ffae00"><td colspan="2">${translationTable.ticketSponsorShirt}</td></tr>` : ''}
