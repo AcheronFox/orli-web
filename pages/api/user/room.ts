@@ -38,10 +38,10 @@ export default async function handler(
             SELECT 
                 room.id,
                 room.building,
-                room.number AS roomNumber,
+                room.number,
                 room.size,
                 room.customName,
-                room.pin AS roomPin
+                room.pin
             FROM
                 room
                     LEFT OUTER JOIN
