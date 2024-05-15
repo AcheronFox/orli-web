@@ -633,7 +633,7 @@ const Profile: NextPage<Props> = (props: Props) => {
                   {
                     (user.accomodation && userRoom) &&
                     <span style={{textAlign: "right"}}>
-                      <span>{`${userRoom.customName? (`${userRoom.customName} (${userRoom.roomNumber})`) : (`${userRoom.roomNumber}`)}`}</span><br />
+                      <span>{`${userRoom.customName? (`${userRoom.customName} (${userRoom.number})`) : (`${userRoom.number}`)}`}</span><br />
                       <span>{`${userRoom.occupantCount} / ${userRoom.size}`}</span>
                     </span>
                   }

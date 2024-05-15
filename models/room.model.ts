@@ -1,7 +1,7 @@
 export interface IRoom {
     id: number;
     building: 'Fácán' | 'Vidra' | 'Kócsag';
-    roomNumber: string;
+    number: string;
     size: number;
     customName?: string;
     hasRoomPin?: boolean;
@@ -11,7 +11,7 @@ export interface IRoom {
 export interface IRoomRaw {
     id: number;
     building: 'Fácán' | 'Vidra' | 'Kócsag';
-    roomNumber: string;
+    number: string;
     size: number;
     customName?: string;
     pin?: string;
