@@ -187,19 +187,15 @@
 @mixin SecondaryTitle {
     font-family: $styled-font-family;
     font-size: calc($styled-font-size * 1.2);
-    background-clip: text;
-    -webkit-background-clip: text;
-    background-image: linear-gradient(90deg, $color-primary, $color-secondary);
-    color: transparent;
+    color: $color-primary;
     letter-spacing: .3rem;
     text-align: left;
 
     
-    //Safari support 
+    //Safari support
     border-width: 0 0 .2rem 0;
     border-style: solid;
-    border-color: $white;
-    border-image: linear-gradient(90deg, $color-primary, $color-secondary) 20 stretch;
+    border-color: $color-primary;
     
     word-wrap: break-word;
     hyphens: manual;
@@ -293,7 +289,7 @@
             display: inline-block;
             max-height: 100%;
             max-width: 100%;
-            border-radius: 1rem;
+            border-radius: .3rem;
             background: linear-gradient(90deg, $color-primary, $color-secondary);
 
             border: .1rem solid $color-primary;

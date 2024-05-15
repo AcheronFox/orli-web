@@ -49,8 +49,8 @@ const webpack = (config) => {
 
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   headers: headers,
+  swcMinify: true,
   webpack: webpack,
   sassOptions: {
     includePaths: ['./styles'],
@@ -64,6 +64,15 @@ const nextConfig = {
     DOMAIN_ROOT: process.env.DOMAIN_ROOT,
     API_SECRET: process.env.API_SECRET,
     TEMP_LOGIN_STATE: process.env.TEMP_LOGIN_STATE
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: process.env.IMAGE_ROOT,
+        pathname: '**',
+      },
+    ],
   },
   transpilePackages: ['ol', 'rlayers']
 }

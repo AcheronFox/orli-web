@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/*import CustomDatePicker from "@/comp/input/CustomDatePicker";
+import CustomDatePicker from "@/comp/input/CustomDatePicker";
 import NationalitySelector from "@/comp/input/NationalitySelector";
 import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 import styles from "@/styles/pages/Registration.module.scss"
@@ -24,6 +24,7 @@ import Checkbox from "@/comp/input/Checkbox";
 import useNotification from "@/hooks/notification/useNotification";
 import { INationality } from "@/models/newDbModels/nationality.model";
 import PhoneCodeSelector from "@/comp/input/PhoneCodeSelector";
+import { useHTMLString } from "@/hooks/utils/useHTMLString";
 
 const isEmailValid = (email: string) => {
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
@@ -56,6 +57,7 @@ type Props = {};
 const Registration: NextPage<Props> = (props: Props) => {
   const { lang, currLang } = useTranslate();
   const { addNotification, closeNotification } = useNotification()
+  const parse = useHTMLString()
 
   const [nationalities, setNationalities] = useState<INationality[]>([])
 
@@ -73,7 +75,6 @@ const Registration: NextPage<Props> = (props: Props) => {
   const [phone, setPhone] = useState<string>("");
   const [allergy, setAllergy] = useState<string>("");
   const [otherPass, setOtherPass] = useState<string>("");
-  const [storage, setStorage] = useState<boolean>(false);
   const [selectedPhoneExt, setSelectedPhoneExt] = useState<string>('')
 
   const [fromDate, setFromDate] = useState<Date>();
@@ -130,7 +131,7 @@ const Registration: NextPage<Props> = (props: Props) => {
         return
       })
     
-    await axiosInstance.get('/api/v2/nationality/get/').then((res) => {
+    await axiosInstance.get('/api/v2/nationality/').then((res) => {
       setNationalities(res.data)
     })
   }
@@ -170,10 +171,16 @@ const Registration: NextPage<Props> = (props: Props) => {
     if (errorStates.confPassword != "") validateConfPass()
   }, [confPassword]);
   useEffect(() => {
-    if (errorStates.telegram != "") validateTelegram()
+    if (errorStates.telegram != "") {
+      validateTelegram()
+      validatePhone()
+    }
   }, [telegram]);
   useEffect(() => {
-    if (errorStates.phone != "") validatePhone()
+    if (errorStates.phone != "")  {
+      validatePhone()
+      validateTelegram()
+    }
   }, [phone, selectedPhoneExt]);
 
   useEffect(() => {
@@ -243,10 +250,10 @@ const Registration: NextPage<Props> = (props: Props) => {
     return updateState(password.trim() != confPassword.trim(), "confPassword", lang.regPassConfError)
   }
   const validateTelegram = () => {
-    return updateState(telegram.trim() == "", "telegram", lang.regContactErr)
+    return updateState((phone.trim() == "" && telegram.trim() == ""), "telegram", lang.regContactErr)
   }
   const validatePhone = () => {
-    return updateState((phone.trim() == "" || selectedPhoneExt.trim() == ""), "phone", lang.regContactErr)
+    return updateState((telegram.trim() == "" && (phone.trim() == "" || selectedPhoneExt.trim() == "")), "phone", lang.regContactErr)
   }
 
   const validateAge = (state: boolean, strict = false) => {
@@ -340,12 +347,11 @@ const Registration: NextPage<Props> = (props: Props) => {
       email: email,
       dateOfBirth: new Date(utcFormatDOB),
       nationalityId: nationality as number,
-      telegram: 'https://t.me/'+telegram,
-      phone: ``+phone,
+      telegram: telegram? 'https://t.me/'+telegram : '',
+      phone: phone? selectedPhoneExt+phone : '',
       allergy: allergy,
       password: crypto.createHash("sha256").update(password).digest("hex"),
       otherPass: otherPass,
-      storage: storage,
     };
 
     startTimer();
@@ -412,7 +418,6 @@ const Registration: NextPage<Props> = (props: Props) => {
       Phone: phone,
       Allergy: allergy,
       OtherPass: otherPass,
-      Storage: !!storage,
     }
     setCookie("registrationData", JSON.stringify(saveData));
   }
@@ -440,7 +445,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     <>
       <CustomHead title={lang.navReg} />
       <LoadingOverlay
-        isLoading={true}
+        isLoading={isLoading}
         text={`${lang.regWait}`}
       >
         <BarLoader
@@ -630,7 +635,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       <Tooltip
                         html={
                           <span style={{ fontSize: "1.4rem" }}>
-                            {lang.regContactExp}
+                            {parse(lang.regContactExp)}
                           </span>
                         }
                         arrow
@@ -675,7 +680,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                       <Tooltip
                         html={
                           <span style={{ fontSize: "1.4rem" }}>
-                            {lang.regContactExp}
+                            {parse(lang.regContactExp)}
                           </span>
                         }
                         arrow
@@ -693,7 +698,14 @@ const Registration: NextPage<Props> = (props: Props) => {
                       <span
                         style={{marginLeft: '1rem', whiteSpace: "nowrap"}}
                       >
-                        +36
+                        <span style={{display: "flex"}}>
+                          +
+                          <PhoneCodeSelector
+                            label={""}
+                            onChange={(o) => setSelectedPhoneExt(o)}
+                            value={selectedPhoneExt}                        
+                          />
+                        </span>
                       </span>
                     </>
                   }
@@ -746,15 +758,6 @@ const Registration: NextPage<Props> = (props: Props) => {
                 </span>
               }
             />
-            <Checkbox
-              checked={(e) => setStorage(e)}
-              id="chk-4"
-              label={
-                <span className={styles.Registration__Form__Label}>
-                  {lang.regStorage}
-                </span>
-              }
-            />
 
             <Input
               id={"password"}
@@ -775,7 +778,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                 {
                   (!((serverDate.getTime() > fromDate.getTime()) && (serverDate.getTime() < toDate.getTime()))) &&
                   <p style={{ color: 'red' }}>
-                    {`${lang.warnDateLimit1} ${createDatePatternFromDate(fromDate)} - ${createDatePatternFromDate(toDate)} ${lang.warnDateLimit2}`}
+                    {`${lang.warnDateLimitReg}`}
                   </p>
                 }
                 <Button
@@ -796,17 +799,3 @@ const Registration: NextPage<Props> = (props: Props) => {
 }
 
 export default Registration;
-*/
-
-import TempWIP from "@/comp/TempWIP";
-import { NextPage } from "next";
-
-type Props = {}
-
-const Registration: NextPage<Props> = (props: Props) => {
-
-  return (
-    <TempWIP/>
-  );
-}
-export default Registration

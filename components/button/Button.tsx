@@ -24,6 +24,8 @@ type ContainedProps = {
     startIcon?: React.ReactElement<IconType>
     endIcon?: React.ReactElement<IconType>
     disabled?: boolean
+    id?: string
+    type?: string
 }
 const ContainedButton: NextPage<ContainedProps> = ({
     label,
@@ -35,7 +37,9 @@ const ContainedButton: NextPage<ContainedProps> = ({
     onClick,
     startIcon,
     endIcon,
-    disabled
+    disabled,
+    id,
+    type
 }: ContainedProps) =>{
     const buttonRef = useRef<any>(null)
     const ripples = useRipple(buttonRef)
@@ -45,6 +49,8 @@ const ContainedButton: NextPage<ContainedProps> = ({
             {
                 (link != undefined)?
                 <Link
+                    id={id}
+                    type={type}
                     ref={buttonRef}
                     href={link}
                     target={target}
@@ -72,6 +78,7 @@ const ContainedButton: NextPage<ContainedProps> = ({
                 </Link>
                 :
                 <button
+                    id={id}
                     ref={buttonRef}
                     onClick={onClick}
                     style={{
@@ -114,6 +121,8 @@ type OutlinedProps = {
     startIcon?: React.ReactElement<IconType>
     endIcon?: React.ReactElement<IconType>
     disabled?: boolean
+    id?: string
+    type?: string
 }
 const OutlinedButton: NextPage<OutlinedProps> = ({
     label,
@@ -126,6 +135,8 @@ const OutlinedButton: NextPage<OutlinedProps> = ({
     startIcon,
     endIcon,
     disabled,
+    id,
+    type
 }: OutlinedProps) =>{
     const buttonRef = useRef<any>(null)
     const ripples = useRipple(buttonRef)
@@ -135,6 +146,8 @@ const OutlinedButton: NextPage<OutlinedProps> = ({
             {
                 (link != undefined)?
                 <Link
+                    id={id}
+                    type={type}
                     ref={buttonRef}
                     href={link}
                     target={target}
@@ -165,6 +178,7 @@ const OutlinedButton: NextPage<OutlinedProps> = ({
                 </Link>
                 :
                 <button
+                    id={id}
                     ref={buttonRef}
                     onClick={onClick}
                     style={{
@@ -210,6 +224,8 @@ type TextProps = {
     startIcon?: React.ReactElement<IconType>
     endIcon?: React.ReactElement<IconType>
     disabled?: boolean
+    id?: string
+    type?: string
 }
 const TextButon: NextPage<TextProps> = ({
     label,
@@ -222,6 +238,8 @@ const TextButon: NextPage<TextProps> = ({
     startIcon,
     endIcon,
     disabled,
+    id,
+    type
 }: TextProps) =>{
     const buttonRef = useRef<any>(null)
     const ripples = useRipple(buttonRef)
@@ -231,6 +249,8 @@ const TextButon: NextPage<TextProps> = ({
             {
                 (link != undefined)?
                 <Link
+                    id={id}
+                    type={type}
                     ref={buttonRef}
                     href={link}
                     target={target}
@@ -261,6 +281,7 @@ const TextButon: NextPage<TextProps> = ({
                 </Link>
                 :
                 <button
+                    id={id}
                     ref={buttonRef}
                     onClick={onClick}
                     style={{
@@ -311,6 +332,8 @@ type Props = {
     startIcon?: React.ReactElement<IconType>
     endIcon?: React.ReactElement<IconType>
     disabled?: boolean
+    id?: string
+    type?: string
 }
 const Button: NextPage<Props> = ({
     variant = 'contained',
@@ -325,6 +348,8 @@ const Button: NextPage<Props> = ({
     startIcon,
     endIcon,
     disabled,
+    id,
+    type
 }: Props) => {
     const [buttonColor, setButtonColor] = useState<Color>(Color('#fff'))
     const [buttonSize, setButtonSize] = useState<string>('')
@@ -383,17 +408,12 @@ const Button: NextPage<Props> = ({
         setButtonSize(tempSize)
     }, [children, size, startIcon, endIcon])
 
-    useEffect(() => {
-        if (!link && !onClick) {
-            throw new Error("Button Action missing")
-        }   
-    }, [link, onClick])
-
-
     switch (variant) {
         case "contained":
             return (
                 <ContainedButton
+                    id={id}
+                    type={type}
                     label={label}
                     color={buttonColor}
                     size={buttonSize}
@@ -410,6 +430,8 @@ const Button: NextPage<Props> = ({
         case "outlined":
             return (
                 <OutlinedButton 
+                    id={id}
+                    type={type}
                     label={label}
                     color={buttonColor}
                     size={buttonSize}
@@ -426,6 +448,8 @@ const Button: NextPage<Props> = ({
         case "text":
             return  (
                 <TextButon
+                    id={id}
+                    type={type}
                     label={label}
                     color={buttonColor}
                     size={buttonSize}

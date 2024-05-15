@@ -1,7 +1,6 @@
 declare interface Language {
     // ERRORS
     errLoginPass: string;
-    errLoginNotFound: string;
     errLoginUnverified: string;
     errResetNotFound: string;
     errResetToken: string;
@@ -13,8 +12,8 @@ declare interface Language {
 
     // WARNINGS
     warnOverload: string;
-    warnDateLimit1: string;
-    warnDateLimit2: string;
+    warnDateLimit: string;
+    warnDateLimitReg: string;
 
     // NOTIF
     notifError: string;
@@ -272,6 +271,8 @@ declare interface Language {
     profImageLimit2: string;
 
     // TICKETS
+    ticketWACC: string;
+    ticketTENT: string;
     ticketTickets: string;
     ticketTicket: string;
     ticketExtra: string;
@@ -292,7 +293,6 @@ declare interface Language {
     ticketNoTicket: string;
     ticketNoExtra: string;
     ticketDay: string;
-    ticketDays: string;
     ticketNoDay: string;
     ticketNoDays: string;
     ticketSponsorLevel: string;

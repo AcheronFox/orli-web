@@ -158,8 +158,7 @@ const Navbar = ({
                 },
             )
 
-
-            if (didUserInit && !user) {
+            if (didUserInit && !user?.attendee) {
                 layout.push(
                     {
                         title: lang.navLogin,
@@ -170,13 +169,14 @@ const Navbar = ({
                     },
                 )
             }
-            else if (didUserInit && user && user.isAdmin) {
+            else if (didUserInit && user?.attendee && user.attendee.admin) {
                 layout.push(
                     {
                         title: lang.navProfile,
                         align: 'right',
                         iconPlacement: "right",
                         icon: <RiProfileLine />,
+                        style: (currLang=='en')? {minWidth: "10rem"} : {minWidth: "18rem"},
                         children: [
                             {
                                 title: lang.navMe,
@@ -206,19 +206,21 @@ const Navbar = ({
                                 title: lang.navLogout,
                                 iconPlacement: "right",
                                 icon: <RiLogoutBoxLine />,
-                                click: () => {logout();}
+                                click: () => {logout();},
+                                style: {color: "red"}
                             },
                         ]
                     },
                 )
             }
-            else if (didUserInit && user && !user.isAdmin) {
+            else if (didUserInit && user?.attendee && !user.attendee.admin) {
                 layout.push(
                     {
                         title: lang.navProfile,
                         align: 'right',
                         iconPlacement: "right",
                         icon: <RiProfileLine />,
+                        style: (currLang=='en')? {minWidth: "10rem"} : {minWidth: "18rem"},
                         children: [
                             {
                                 title: lang.navMe,
@@ -242,7 +244,8 @@ const Navbar = ({
                                 title: lang.navLogout,
                                 iconPlacement: "right",
                                 icon: <RiLogoutBoxLine />,
-                                click: () => {logout();}
+                                click: () => {logout();},
+                                style: {color: "red"}
                             },
                         ]
                     },
@@ -298,6 +301,7 @@ const Navbar = ({
                         iconPlacement={item.iconPlacement}
                         target={item.target}
                         click={item.click}
+                        style={item.style}
                         onClick={() => setIsOpen(false)}
                     >
                         {item.title}

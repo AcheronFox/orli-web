@@ -1,11 +1,8 @@
 export interface ITicketForm {
-    ticketType: '0' | '1' | '2';
-    extra0: boolean;
-    extra1: boolean;
+    ticketType: 'WACC' | 'TENT';
+    late: boolean;
+    early: boolean;
     sponsorLevel: '0' | '1' | '2';
-    shirt: 'S' | 'M' | 'L' | 'XL' | 'XXL' | '3XL' | null;
+    shirt: 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL' | null;
     sponsorPrice: number;
-    foodData: {[index: number]: number; } | null;
-    startDay: string;
-    endDay: string;
 }

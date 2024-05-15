@@ -5,12 +5,12 @@ const configuration: IAppConfig = {
         uploadToDate: new Date(2024, 5, 2)
     },
     registration: {
-        start: new Date(2024, 0, 1),
-        end: new Date(2024, 5, 18)
+        start: new Date(2024, 0, 1), // LIVE -> new Date(2024, 4, 15, 20, 0, 0)
+        end: new Date(2024, 5, 16, 0, 0, 0)
     },
     ticket: {
         dates: {
-            earlyBirdEnd: new Date(2024, 3, 29),
+            earlyBirdEnd: new Date(2024, 4, 27, 0, 0, 0),
             earlyBirdStart: new Date(2024, 0, 1),
         },
         types: [
@@ -18,13 +18,13 @@ const configuration: IAppConfig = {
                 name: "WACC",
                 price: "68 000",
                 earlyBirdPrice: "58 000",
-                limit: 94
+                limit: 88,
             },
             {
                 name: "TENT",
                 price: "48 000",
                 earlyBirdPrice: "40 000",
-                limit: 80
+                limit: 80,
             },
             {
                 name: "NACC",
@@ -35,13 +35,13 @@ const configuration: IAppConfig = {
                 name: "EARLY",
                 price: "7 000",
                 earlyBirdPrice: "6 000",
-                limit: 22
+                limit: 168,
             },
             {
                 name: "LATE",
                 price: "8 000",
                 earlyBirdPrice: "7 000",
-                limit: 22
+                limit: 32,
             },
             {
                 name: "DAILY",
@@ -54,7 +54,7 @@ const configuration: IAppConfig = {
             {
                 name: "SSPONS",
                 price: "12 001",
-            }
+            },
         ]
     }
 }

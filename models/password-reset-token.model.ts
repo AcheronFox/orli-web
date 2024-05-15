@@ -1,5 +1,5 @@
 export interface IPasswordResetToken {
-    AccountKey: string
+    id: number
     token: string
-    token_exp: number
+    tokenExpireTime: number
 }

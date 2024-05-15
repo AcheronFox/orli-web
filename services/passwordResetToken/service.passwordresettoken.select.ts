@@ -1,26 +1,27 @@
 import { IPasswordResetToken } from "@/models/newDbModels/passwordresettoken.model";
 import { executeSelectQuery } from "@/functions/utils/databaseHelpers";
 import console from "console";
+import { PoolConnection } from "mysql";
 
 const TABLE: string = "passwordResetToken"
 
-export async function selectToken(token: string): Promise<IPasswordResetToken | undefined>
+export async function selectToken(token: string, connectionToUse?: PoolConnection): Promise<IPasswordResetToken | undefined>
 {
     const query = `SELECT * FROM ${TABLE} WHERE token = ?;`;
 
-    return await executeSelectQuery<IPasswordResetToken>(query, [token]);
+    return await executeSelectQuery<IPasswordResetToken>(query, [token], connectionToUse);
 }
 
-export async function selectTokenById(id: number): Promise<IPasswordResetToken | undefined>
+export async function selectTokenById(id: number, connectionToUse?: PoolConnection): Promise<IPasswordResetToken | undefined>
 {
     const query = `SELECT * FROM ${TABLE} WHERE id = ?;`;
 
-    return await executeSelectQuery<IPasswordResetToken>(query, [id]);
+    return await executeSelectQuery<IPasswordResetToken>(query, [id], connectionToUse);
 }
 
-export async function checkIfTokenIsValid(id: number): Promise<boolean>;
-export async function checkIfTokenIsValid(token: string): Promise<boolean>;
-export async function checkIfTokenIsValid(arg1: number | string): Promise<boolean>
+export async function checkIfTokenIsValid(id: number, connectionToUse?: PoolConnection): Promise<boolean>;
+export async function checkIfTokenIsValid(token: string, connectionToUse?: PoolConnection): Promise<boolean>;
+export async function checkIfTokenIsValid(arg1: number | string, connectionToUse?: PoolConnection): Promise<boolean>
 {
     let query: string = `SELECT * FROM ${TABLE} WHERE `;
 
@@ -36,7 +37,7 @@ export async function checkIfTokenIsValid(arg1: number | string): Promise<boolea
 
     query += (typeof selectBy === 'number') ? "id = ?;" : "token = ?;";
 
-    token = await executeSelectQuery<IPasswordResetToken>(query, [selectBy]);
+    token = await executeSelectQuery<IPasswordResetToken>(query, [selectBy], connectionToUse);
 
     if (token == null)
         return false;

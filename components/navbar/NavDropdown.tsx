@@ -8,7 +8,7 @@ import useRipple from "@/hooks/utils/useRipple";
 import { useRouter } from "next/router";
 
 interface Props {
-    children: React.ReactNode[]
+    children: React.ReactElement[]
     title: string | React.ReactNode
     icon?: React.ReactElement<IconType>
     iconPlacement?: 'left' | 'right' | 'both'
@@ -32,6 +32,7 @@ const NavDropdown = ({
     const navbar = (typeof window !== 'undefined')? document.getElementById('navbar') : null
     const titleRef = useRef<HTMLDivElement>(null)
     const ripples = useRipple(titleRef)
+    const [clone, setClone] = useState<React.ReactElement[]>([])
     const navbarHeight = useMemo<number>(() => {
         if (!navbar) return 0
         else {
@@ -61,6 +62,15 @@ const NavDropdown = ({
         })
         setIsActive(temp);
     }, [currentPath.asPath])
+
+    useEffect(() => {
+        const temp: React.ReactElement[] = []
+        children.forEach((child,i) => {
+            const cloned = React.cloneElement(child, {onClick: () => setIsOpen(false)})
+            temp.push(cloned)
+        })
+        setClone(temp)
+    }, [children])
 
     useEffect(() => {
         window.addEventListener("click", ClickOutside);
@@ -108,7 +118,7 @@ const NavDropdown = ({
                         className={`${styles.NavDropdown__SubItems}`}
                         style={{top: navbarHeight, height: panelHeight}}
                     >
-                        {children}
+                        {clone}
                     </div>
                 }
             </div>
@@ -119,7 +129,7 @@ const NavDropdown = ({
                     className={`${styles.NavDropdown__SubItems}`}
                     style={{top: 0, minHeight: panelHeight}}
                 >
-                    {children}
+                    {clone}
                 </div>
             }
         </>

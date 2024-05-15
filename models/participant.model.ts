@@ -1,8 +1,8 @@
 export interface IParticipant {
-    fursonaName: string;
-    fursonaSpecies: string;
-    nationality: string;
-    picture: string;
-    isFursuiter: boolean;
+    name: string;
+    species: string;
+    nationalityId: number;
+    pathToPictureFile: string;
+    hasFursuit: boolean;
     sponsorLevel: string;
 }

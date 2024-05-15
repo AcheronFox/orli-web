@@ -5,12 +5,23 @@
     justify-content: space-between;
     flex-direction: column;
     z-index: 1;
+    min-width: 13vw;
+
+    @include respond(small-desktop) {
+        min-width: 30vw;
+    }
+    @include respond(tiny-desktop) {
+        min-width: 40vw;
+    }
+    @include respond(phone) {
+        min-width: 75vw;
+    }
 
     background-color: $grey-2;
     padding: .5rem 2rem;
     border-radius: 1rem;
 
-    border: .2rem solid $primary-color;
+    border: .2rem solid $color-primary;
     box-shadow:
     0 .5rem 1rem .5rem rgba($black, .5);
     transition: all .3s;
@@ -127,6 +138,7 @@
             height: 2rem;
             width: 2rem;
             margin-left: 1rem;
+            fill: $color-primary;
 
             & > * {
                 height: 2rem;
@@ -139,6 +151,10 @@
         position: relative;
         display: flex;
 
+        &_self {
+            border: .1rem solid $color-secondary;
+        }
+
         &:before {
             content: "";
             position: absolute;
@@ -146,7 +162,7 @@
             height: 100%;
             top: 0;
             left: 0;
-            background-color: $primary-color;
+            background-color: $color-primary;
             opacity: 0;
             border-radius: .5rem;
             cursor: pointer;

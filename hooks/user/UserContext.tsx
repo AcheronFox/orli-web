@@ -1,10 +1,10 @@
-import { IUser } from '@/models/user.model';
+import { IAttendeeFullData } from '@/models/newDbModels/attendeeFullData.model';
 import { createContext } from 'react';
 
 interface UserContext {
-    user: IUser | null;
+    user: IAttendeeFullData | null;
     didUserInit: boolean;
-    setUser: (user: IUser | null) => void;
+    setUser: (user: IAttendeeFullData | null) => void;
     setDidUserInit: (val: boolean) => void;
 }
 

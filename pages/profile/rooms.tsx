@@ -1,32 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/*
-  import styles from "@/styles/pages/Rooms.module.scss"
-import { useTranslate } from "@/hooks/useTranslate";
+import styles from "@/styles/pages/Rooms.module.scss"
 import { NextPage } from "next";
-import { useUser } from "@/hooks/useUser";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Router from "next/router";
-import LoadingOverlay from "@/comp/LoadingOverlay";
 import { IRoom, IRoomStructure } from "@/models/room.model";
 import axiosInstance from "@/functions/utils/axiosConfig";
 import RoomCard from "@/comp/RoomCard";
 import { IAccomodation } from "@/models/accomodation.model";
 import { IOccupant } from "@/models/occupant.model";
-import CustomHead from "@/comp/CustomHead";
-import { FloatingMessageContext } from "@/hooks/FloatingMessageContext";
-import SecondaryButton from "@/comp/SecondaryButton";
-import Tippy from "@tippyjs/react";
 import FursuiterIcon from "@/comp/svg/FursuiterIcon";
 import SponsorIcon from "@/comp/svg/SponsorIcon";
-import LinkButton from "@/comp/LinkButton";
 import { RiTelegramLine, RiQuestionLine } from "react-icons/ri";
 import { useClickOutside } from "@/hooks/utils/useClickOutside";
-import Input from "@/comp/Input";
 import { IJoinForm } from "@/models/join-form.model";
 import { ILeaveForm } from "@/models/leave-form.model";
 import createDatePatternFromDate from "@/functions/utils/createDatePattern";
-import CustomBackground from "@/comp/CustomBackground";
+import Button from "@/comp/button/Button";
+import useTranslate from "@/hooks/translate/useTranslate";
+import { useUser } from "@/hooks/user/useUser";
+import useNotification from "@/hooks/notification/useNotification";
+import CustomHead from "@/comp/utils/CustomHead";
+import LoadingOverlay from "@/comp/utils/LoadingOverlay";
 const { io } = require("socket.io-client");
+import { BarLoader } from "react-spinners";
+import variables from "@/styles/abstracts/exports.module.scss"
+import { Tooltip } from "react-tippy";
+import Input from "@/comp/input/Input";
+import Checkbox from "@/comp/input/Checkbox";
+import ButtonGroup from "@/comp/button/ButtonGroup";
+import Picture from "@/comp/utils/Picture";
 let socket: any;
 
 
@@ -34,9 +36,9 @@ type Props = {}
 export const isBrowser = typeof window !== "undefined";
 
 const Rooms: NextPage<Props> = (props: Props) => {
-  const { t, locale } = useTranslate();
+  const { lang, currLang } = useTranslate();
   const { user, didUserInit } = useUser();
-  const { HandleClose, AddFloatingMessage } = useContext(FloatingMessageContext);
+  const { addNotification, closeNotification } = useNotification();
   const overlayRef = useRef<any>()
   const joinRef = useRef<any>()
   const leaveRef = useRef<any>()
@@ -77,19 +79,20 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
   let timer: NodeJS.Timeout | undefined = undefined;
   let time = 0;
-  let message: number | undefined = undefined;
+  let message: string | undefined = undefined;
   let abortController = new AbortController();
 
   useEffect(() => {
     if (!didUserInit) return
-    if (!user || (user && (!user.TicketKey || !user.isPaid || user.ticketType !== '2'))) {
+    if (!user || (user && (!user.ticket || !user.ticket.isPaid || !(user.ticket.type == "WACC")))) {
       Router.push('/profile')
     }
-    else if (user && user.TicketKey && user.isPaid && user.ticketType === '2') {
+    else if (user && user.ticket && user.ticket.isPaid && user.ticket.type == "WACC") {
       socketInitializer()
       getDefaults()
     }
   }, [didUserInit])
+
 
 
   // ===============================================
@@ -132,8 +135,8 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
     await axiosInstance.get<IOccupant[]>("api/room/occupants", {signal: abortController.signal})
     .then((res) => {
-      setOccupants(res.data.sort((a, b) => Number(b.isRoomAdmin) - Number(a.isRoomAdmin)))
-      setCurrentUserOccupant(res.data.find((o) => o.AccountKey == user?.AccountKey))
+      setOccupants(res.data.sort((a, b) => Number(b.isOwner) - Number(a.isOwner)))
+      setCurrentUserOccupant(res.data.find((o) => o.id == user?.attendee?.id))
     })
     .catch((err) => {
       if (err.code == "ERR_CANCELED") return;
@@ -160,7 +163,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
     setShouldLock(false)
     setRoomPin('')
     setCustomName('')
-    setTelegram(currentUserOccupant?.telegram? currentUserOccupant.telegram : '')
+    setTelegram(currentUserOccupant?.ownerContact? currentUserOccupant.ownerContact : '')
     if (joinData) setShowJoin(true)
     else setShowJoin(false)
   }, [joinData])
@@ -177,19 +180,19 @@ const Rooms: NextPage<Props> = (props: Props) => {
   const evalTelegram = () => {
     if (!overlayData) return;
 
-    if (overlayData.telegram && isValidUrl(overlayData.telegram)) {
+    if (overlayData.ownerContact && isValidUrl(overlayData.ownerContact)) {
       return (
-        <span className={styles.Modal__Header__Title_inline}><span>{`${t("roomTelegram")}: `}</span><LinkButton text={overlayData.telegram} icon={<RiTelegramLine />} link={overlayData.telegram} /></span>
+        <span className={styles.Modal__Header__Title_inline}><span>{`${lang.roomTelegram}: `}</span><Button startIcon={<RiTelegramLine />} link={overlayData.ownerContact} >{overlayData.ownerContact}</Button></span>
       );
     }
-    else if (overlayData.telegram) {
+    else if (overlayData.ownerContact) {
       return (
-        `${t("roomTelegram")}: ${overlayData.telegram}`
+        `${lang.roomTelegram}: ${overlayData.ownerContact}`
       );
     }
     else {
       return (
-        `${t("roomTelegram")}: ${t("roomNoTelegram")}`
+        `${lang.roomTelegram}: ${lang.roomNoTelegram}`
       );
     }
   }
@@ -210,7 +213,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
     errorStates.pin && validatePin()
     errorStates.customName && validateCustomName()
     errorStates.telegram && validateTelegram()
-  }, [locale])
+  }, [currLang])
 
   const updateState = (check: any, key: string, value: string) => {
     if (check) {
@@ -228,18 +231,18 @@ const Rooms: NextPage<Props> = (props: Props) => {
       return true
     }
     const isnum = /^\d+$/.test(roomPin.trim());
-    return updateState(!isnum || (roomPin.trim().length > 4 || roomPin.trim().length < 4), "pin", t("roomPINError"))
+    return updateState(!isnum || (roomPin.trim().length > 4 || roomPin.trim().length < 4), "pin", lang.roomPINError)
   }
   const validateCustomName = () => {
     if (!customName) {
       updateState(true, "customName", '')
       return true
     }
-    return updateState(customName.trim().length > 15, "customName", t("roomCustomNameError"))
+    return updateState(customName.trim().length > 15, "customName", lang.roomCustomNameError)
   }
   const validateTelegram = (externalVal?: string) => {
     if (externalVal) {
-      return updateState(!isValidUrl(externalVal.trim()), "telegram", t("roomTelegramError"))
+      return updateState(!isValidUrl(externalVal.trim()), "telegram", lang.roomTelegramError)
     }
 
     if (!telegram) {
@@ -249,10 +252,10 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
     if (telegram.includes('@')) {
       const linkTelegram = telegram.replace('@', 'https://t.me/')
-      return updateState(!isValidUrl(linkTelegram.trim()), "telegram", t("roomTelegramError"))
+      return updateState(!isValidUrl(linkTelegram.trim()), "telegram", lang.roomTelegramError)
     }
     else {
-      return updateState(!isValidUrl(telegram.trim()), "telegram", t("roomTelegramError"))
+      return updateState(!isValidUrl(telegram.trim()), "telegram", lang.roomTelegramError)
     }
   }
 
@@ -269,11 +272,16 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
   const showOverload = () => {
     clearInterval(timer);
-    message = AddFloatingMessage({"autocloses": false, "closable": false, "type": "Info", "message": t("warnOverload")})
+    message = addNotification({
+      autoClose: false,
+      closable: false,
+      type: "info",
+      message: lang.warnOverload
+    })
   };
   const closeOverload = () => {
     clearInterval(timer);
-    HandleClose(message!)
+    closeNotification(message!)
   };
 
   const joinRoom = (room: IRoom) => {
@@ -321,20 +329,29 @@ const Rooms: NextPage<Props> = (props: Props) => {
       if (err.response.status) {
         switch(err.response.status) {
           case (409):
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("roomErrConflict")})
-            break;
-          case (400):
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errBadRequest")})
+            addNotification({
+              type: "error",
+              message: lang.roomErrConflict
+            })
             break;
           case (401):
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("roomBadPIN")})
+            addNotification({
+              type: "error",
+              message: lang.roomBadPIN
+            })
             break;
           default:
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errDefault")})
+            addNotification({
+              type: "error",
+              message: lang.errDefault
+            })
             break;
         }  
       } else {
-        AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errDefault")})
+        addNotification({
+          type: "error",
+          message: lang.errDefault
+        })
       }
     })
     .finally(() => {
@@ -368,26 +385,39 @@ const Rooms: NextPage<Props> = (props: Props) => {
     .post("api/room/leave", formData)
     .then(async () => {
       socket.emit('room-change')
+      addNotification({
+        type: "success",
+        message: currLang=='hu'? "Szoba elhagyva." : "Room left."
+      })
       await getDefaults()
     })
     .catch((err) => {
       if (err.response.status) {
         switch(err.response.status) {
           case (409):
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("roomErrConflict")})
-            break;
-          case (400):
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errBadRequest")})
+            addNotification({
+              type: "error",
+              message: lang.roomErrConflict
+            })
             break;
           case (401):
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("roomBadPIN")})
+            addNotification({
+              type: "error",
+              message: lang.roomBadPIN
+            })
             break;
           default:
-            AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errDefault")})
+            addNotification({
+              type: "error",
+              message: lang.errDefault
+            })
             break;
         }  
       } else {
-        AddFloatingMessage({"autocloses": true, "type": "Error", "message": t("errDefault")})
+        addNotification({
+          type: "error",
+          message: lang.errDefault
+        })
       }
     })
     .finally(() => {
@@ -401,30 +431,45 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
   return (
     <>
-      <CustomHead title={t("navRooms")} />
-      <LoadingOverlay isLoading={isLoading} />
-      <CustomBackground />
+      <CustomHead title={lang.navRooms} />
+      <LoadingOverlay isLoading={isLoading}>
+        <BarLoader
+          color={variables.secondaryColor}
+        />
+      </LoadingOverlay>
+      <div className={styles.Rooms__Background} />
       {
         (showOverlay && overlayData) &&
         <div className={styles.Modal}>
           <section ref={overlayRef} className={styles.Modal__Header}>
             <div className={styles.Modal__Header__Picture}>
-              <picture>
-                <source srcSet={`${overlayData.picture? (`/uploads/${overlayData.picture.split('.')[0]}_x1.${overlayData.picture.split('.')[1]} 1x, /uploads/${overlayData.picture.split('.')[0]}_x2.${overlayData.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} media="(max-width: 37.5em)" />
-                <img srcSet={`${overlayData.picture? (`/uploads/${overlayData.picture.split('.')[0]}_x1.${overlayData.picture.split('.')[1]} 1x, /uploads/${overlayData.picture.split('.')[0]}_x2.${overlayData.picture.split('.')[1]} 2x`) : '/Default_profile_x1.jpg 1x, /Default_profile_x2.jpg 2x,'}`} alt="User Picture" src="/Default_profile_x2.jpg" loading="lazy" />
-              </picture>
+              <Picture
+                  alt={"User Thumb"}
+                  defaultSrc={
+                    overlayData.pathToPictureFile? (
+                      process.env.NODE_ENV == "development"
+                      ?
+                      `uploads/${overlayData.pathToPictureFile}`
+                      :
+                      `${process.env.DOMAIN_ROOT}uploads/${overlayData.pathToPictureFile}`
+                    )
+                    :
+                    'Default_profile.jpg'
+                  }
+                  sizes={"20vw"}
+              />
             </div>
             <div className={styles.Modal__Header__Content}>
               <div className={styles.Modal__Header__Top}>
                 <div className={styles.Modal__Header__Title}>
                   <h2>
-                    {overlayData.fursonaName}
+                    {overlayData.name}
                   </h2>
                   <h3>
-                    {overlayData.fursonaSpecies}
+                    {overlayData.species}
                   </h3>
                   <span className={styles.Modal__Header__Title_text}>
-                    {`${t("roomRegDate")}: ${createDatePatternFromDate(new Date(overlayData.registeredAt))}`}
+                    {`${lang.roomRegDate}: ${createDatePatternFromDate(new Date(overlayData.registeredAt))}`}
                   </span>
                   <span className={styles.Modal__Header__Title_text}>
                     {
@@ -432,29 +477,61 @@ const Rooms: NextPage<Props> = (props: Props) => {
                     }
                   </span>
                 </div>
-                { (overlayData.isFursuiter || overlayData.sponsorLevel && parseInt(overlayData.sponsorLevel) > 0) &&
+                { (overlayData.hasFursuit || overlayData.sponsorLevel && parseInt(overlayData.sponsorLevel) > 0) &&
                   <div className={styles.Modal__Header__Badges}>
                     {
-                      overlayData.isFursuiter &&
-                      <Tippy className={styles.Tooltip} content={t("partSuiter")}>
-                          <span>
-                              <FursuiterIcon style={{"fill": "#F741D5"}} />
+                      overlayData.hasFursuit &&
+                      <Tooltip
+                        html={
+                          <span style={{ fontSize: "1.4rem" }}>
+                            {lang.partSuiter}
                           </span>
-                      </Tippy>
+                        }
+                        arrow
+                        arrowSize="big"
+                        size="big"
+                        inertia
+                        style={{
+                          fontSize: '1.6rem'
+                        }}
+                      >
+                        <span>
+                            <FursuiterIcon style={{"fill": variables.primaryColor}} />
+                        </span>
+                      </Tooltip>
                     }
                     {
                       (overlayData.sponsorLevel && parseInt(overlayData.sponsorLevel) > 0) &&
-                      <Tippy className={styles.Tooltip} content={(parseInt(overlayData.sponsorLevel)==2)? t("ticketSuperSponsor") : t("partSponsor")}>
-                          <span>
-                              <SponsorIcon style={{"fill": "#F741D5"}} />
+                      <Tooltip
+                        html={
+                          <span style={{ fontSize: "1.4rem" }}>
+                            {(parseInt(overlayData.sponsorLevel)==2)? lang.ticketSuperSponsor : lang.partSponsor}
                           </span>
-                      </Tippy>
+                        }
+                        arrow
+                        arrowSize="big"
+                        size="big"
+                        inertia
+                        style={{
+                          fontSize: '1.6rem'
+                        }}
+                      >
+                        <span>
+                          <SponsorIcon style={{"fill": variables.primaryColor}} />
+                        </span>
+                      </Tooltip>
                     }
                   </div>
                 }
               </div>
               <div className={styles.Modal__Header__Bottom}>
-                <SecondaryButton text={t("roomClose")} classType={"danger"} onClick={() => setOverlayData(undefined)}/>
+                <Button
+                  type="error"
+                  variant="outlined"
+                  onClick={() => setOverlayData(undefined)}
+                >
+                  {lang.roomClose}
+                </Button>
               </div>
             </div>
           </section>
@@ -470,7 +547,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
             <div className={styles.Modal__Join__Content}>
               <div className={`${styles.Modal__Join__Title} ${!joinData.customName && styles.Modal__Join__Title_small}`}>
                 <h3>
-                    {joinData.customName? (joinData.customName) : (t("roomRoom"))}
+                    {joinData.customName? (joinData.customName) : (lang.roomRoom)}
                 </h3>
               </div>
               <div className={`${styles.Modal__Join__Title} ${joinData.customName && styles.Modal__Join__Title_small}`}>
@@ -483,20 +560,32 @@ const Rooms: NextPage<Props> = (props: Props) => {
                   (joinData.hasRoomPin == true && accomodations.filter((o) => o.roomId == joinData.id).length > 0) &&
                   <span>
                     <span className={styles.Modal__Join__Inline}>
-                      <Tippy content={t("roomLockQuestion2")}>
+                      <Tooltip
+                        html={
+                          <span style={{ fontSize: "1.4rem" }}>
+                            {lang.roomLockQuestion2}
+                          </span>
+                        }
+                        arrow
+                        arrowSize="big"
+                        size="big"
+                        inertia
+                        style={{
+                          fontSize: '1.6rem'
+                        }}
+                      >
                         <span>
                           <RiQuestionLine size={20} />
                         </span>
-                      </Tippy>
+                      </Tooltip>
                       <Input
-                        label={`${t("roomPIN")}:`}
-                        placeholder={t("roomPIN")}
+                        label={`${lang.roomPIN}:`}
                         id={"inp-1"}
                         type={"password"}
-                        maxlength={4}
+                        maxLength={4}
                         value={roomPin}
-                        onChange={(e) => setRoomPin(e.target.value)}
-                        inputClass={errorStates.pin && styles.Modal__Join__Error}
+                        onChange={(e) => setRoomPin(e)}
+                        error={errorStates.pin}
                       />
                     </span>
                     <p className={styles.Modal__Join__Error__Text}>{errorStates.pin}</p>
@@ -506,19 +595,32 @@ const Rooms: NextPage<Props> = (props: Props) => {
                   (joinData.hasRoomPin == false && accomodations.filter((o) => o.roomId == joinData.id).length == 0) &&
                   <span>
                     <span className={styles.Modal__Join__Inline}>
-                      <Tippy content={t("roomLockQuestion")}>
+                      <Tooltip
+                        html={
+                          <span style={{ fontSize: "1.4rem" }}>
+                            {lang.roomLockQuestion}
+                          </span>
+                        }
+                        arrow
+                        arrowSize="big"
+                        size="big"
+                        inertia
+                        style={{
+                          fontSize: '1.6rem'
+                        }}
+                      >
                         <span>
                           <RiQuestionLine size={20} />
                         </span>
-                      </Tippy>
-                      <Input
-                        type="checkbox"
-                        label={t("roomLock")}
-                        id={"chk-1"}
+                      </Tooltip>
+                      <Checkbox
+                        id="chk-1"
+                        label={lang.roomLock}
+                        checkBoxValue={shouldLock}
                         checked={(e) => {
                           setShouldLock(e)
                           setRoomPin('')
-                          updateState(true, "pin", '')
+                          updateState(true, 'pin', '')
                         }}
                       />
                     </span>
@@ -527,60 +629,98 @@ const Rooms: NextPage<Props> = (props: Props) => {
                       <span>
                         <Input
                           id={"inp-2"}
-                          label={`${t("roomPIN")}:`}
-                          placeholder={t("roomPIN")}
+                          label={`${lang.roomPIN}:`}
                           type={"password"}
-                          maxlength={4}
+                          maxLength={4}
                           value={roomPin}
-                          onChange={(e) => setRoomPin(e.target.value)}
+                          onChange={(e) => setRoomPin(e)}
                           onBlur={() => validatePin()}
-                          inputClass={errorStates.pin && styles.Modal__Join__Error}
+                          error={errorStates.pin}
                         />
                         <p className={styles.Modal__Join__Error__Text}>{errorStates.pin}</p>
                       </span>
                     }
                     <span className={styles.Modal__Join__Inline}>
-                      <Tippy content={t("roomCustomQuestion")}>
+                      <Tooltip
+                        html={
+                          <span style={{ fontSize: "1.4rem" }}>
+                            {lang.roomCustomQuestion}
+                          </span>
+                        }
+                        arrow
+                        arrowSize="big"
+                        size="big"
+                        inertia
+                        style={{
+                          fontSize: '1.6rem'
+                        }}
+                      >
                         <span>
                           <RiQuestionLine size={20} />
                         </span>
-                      </Tippy>
+                      </Tooltip>
                       <Input
                         id={"inp-3"}
-                        label={`${t("roomCustom")} (${t("roomOptional")}):`}
-                        maxlength={15}
-                        placeholder={`${t("roomCustom")} (${t("roomOptional")})`}
+                        label={`${lang.roomCustom} (${lang.roomOptional}):`}
+                        maxLength={15}
                         value={customName}
-                        onChange={(e) => setCustomName(e.target.value)}
+                        onChange={(e) => setCustomName(e)}
                         onBlur={() => validateCustomName()}
-                        inputClass={errorStates.customName && styles.Modal__Join__Error}
+                        error={errorStates.customName}
                       />
                     </span>
                     <p className={styles.Modal__Join__Error__Text}> {errorStates.customName}</p>
                   </span>
                 }
                 <span className={styles.Modal__Join__Inline}>
-                  <Tippy content={t("roomTelegramQuestion")}>
+                  <Tooltip
+                    html={
+                      <span style={{ fontSize: "1.4rem" }}>
+                        {lang.roomTelegramQuestion}
+                      </span>
+                    }
+                    arrow
+                    arrowSize="big"
+                    size="big"
+                    inertia
+                    style={{
+                      fontSize: '1.6rem'
+                    }}
+                  >
                     <span>
                       <RiQuestionLine size={20} />
                     </span>
-                  </Tippy>
+                  </Tooltip>
                   <Input
-                    label={`${t("roomTelegram")} (${t("roomOptional")}):`}
-                    placeholder={`${t("roomTelegram")} (${t("roomOptional")})`}
+                    label={`${lang.roomTelegram} (${lang.roomOptional}):`}
                     id={"inp-4"}
-                    maxlength={100}
+                    maxLength={100}
                     value={telegram}
-                    onChange={(e) => setTelegram(e.target.value)}
+                    onChange={(e) => setTelegram(e)}
                     onBlur={() => validateTelegram()}
-                    inputClass={errorStates.telegram && styles.Modal__Join__Error}
+                    error={errorStates.telegram}
                   />
                 </span>
                 <p className={styles.Modal__Join__Error__Text}> {errorStates.telegram}</p>
               </div>
               <div className={styles.Modal__Join__Bottom}>
-                <SecondaryButton text={t("roomCancel")} classType={"danger"} type='left' onClick={() => setJoinData(undefined)}/>
-                <SecondaryButton disabled={joinData.hasRoomPin && !roomPin} text={t("roomJoin")} classType={"success"} type='right' onClick={() => joinRoom(joinData)}/>
+                <ButtonGroup>
+                  <Button
+                    type="error"
+                    variant="outlined"
+                    onClick={() => setJoinData(undefined)}
+                  >
+                    {lang.roomCancel}
+                  </Button>
+                  <Button
+                    type="success"
+                    variant="outlined"
+                    onClick={() => joinRoom(joinData)}
+                    disabled={joinData.hasRoomPin && !roomPin}
+                  >
+                    {lang.roomJoin}
+                  </Button>
+                </ButtonGroup>
               </div>
             </div>
           </section>
@@ -596,7 +736,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
             <div className={styles.Modal__Join__Content}>
               <div className={`${styles.Modal__Join__Title} ${!leaveData.customName && styles.Modal__Join__Title_small}`}>
                 <h3>
-                    {leaveData.customName? (leaveData.customName) : (t("roomRoom"))}
+                    {leaveData.customName? (leaveData.customName) : (lang.roomRoom)}
                 </h3>
               </div>
               <div className={`${styles.Modal__Join__Title} ${leaveData.customName && styles.Modal__Join__Title_small}`}>
@@ -605,11 +745,25 @@ const Rooms: NextPage<Props> = (props: Props) => {
                   </h3>
               </div>
               <div>
-                <p>{t("roomLeaveAsk")}</p>
+                <p>{lang.roomLeaveAsk}</p>
               </div>
               <div className={styles.Modal__Join__Bottom}>
-                <SecondaryButton text={t("roomCancel")} classType={"danger"} type='left' onClick={() => setLeaveData(undefined)}/>
-                <SecondaryButton text={t("roomLeave")} classType={"success"} type='right' onClick={() => leaveRoom(leaveData)}/>
+                <ButtonGroup>
+                  <Button
+                    type="error"
+                    variant="outlined"
+                    onClick={() => setLeaveData(undefined)}
+                  >
+                    {lang.roomCancel}
+                  </Button>
+                  <Button
+                    type="success"
+                    variant="outlined"
+                    onClick={() => leaveRoom(leaveData)}
+                  >
+                    {lang.roomLeave}
+                  </Button>
+                </ButtonGroup>
               </div>
             </div>
           </section>
@@ -623,11 +777,11 @@ const Rooms: NextPage<Props> = (props: Props) => {
           (user && rooms && accomodations) &&
           <div className={styles.Rooms__Content}>
             <span>
-              {t("roomIntro1")}<br /><br />
-              {t("roomIntro2")}<br />
+              {lang.roomIntro1}<br /><br />
+              {lang.roomIntro2}<br />
               <ul className={styles.Rooms__Content__List}>
                 {
-                  (t("roomIntroList") as unknown as Array<string>).map((val, i) => {
+                  (lang.roomIntroList as unknown as Array<string>).map((val, i) => {
                     return (
                       <li key={i}>{val}</li>
                     );
@@ -641,7 +795,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
 
                 return (
                   <section className={styles.Rooms__Section} key={i}>
-                    <h2 className={styles.Rooms__Section__Title}>{key} {t("roomHouse")}</h2>
+                    <h2 className={styles.Rooms__Section__Title}>{key} {lang.roomHouse}</h2>
                     <div className={styles.Rooms__Section__Table}>
                       {
                         rooms[key].map((room, j) => {
@@ -673,17 +827,3 @@ const Rooms: NextPage<Props> = (props: Props) => {
 }
 
 export default Rooms;
-*/
-
-import TempWIP from "@/comp/TempWIP";
-import { NextPage } from "next";
-
-type Props = {}
-
-const Rooms: NextPage<Props> = (props: Props) => {
-
-  return (
-    <TempWIP/>
-  );
-}
-export default Rooms

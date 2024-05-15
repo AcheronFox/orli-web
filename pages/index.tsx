@@ -8,14 +8,11 @@ import Link from "next/link";
 import TextCard from "@/comp/TextCard";
 import Picture from "@/comp/utils/Picture";
 import useIsMobile from "@/hooks/utils/useIsMobile";
-import NoticeBoard from "@/comp/NoticeBoard";
-import { useHTMLString } from "@/hooks/utils/useHTMLString";
 
 type Props = {}
 
 const Home: NextPage<Props> = (props: Props) => {
   const { lang } = useTranslate();
-  const parse = useHTMLString()
   const isMobile = useIsMobile()
 
   return (
@@ -23,7 +20,23 @@ const Home: NextPage<Props> = (props: Props) => {
       <section className={styles.Home}>
         <Picture
           alt={"Main art"}
-          defaultSrc={isMobile? "main_phone.jpg" : "main.jpg"}
+          defaultSrc={isMobile?
+            (
+              process.env.NODE_ENV == "development"
+              ?
+              `main_phone.jpg`
+              :
+              `${process.env.DOMAIN_ROOT}main_phone.jpg`
+            )
+            :
+            (
+              process.env.NODE_ENV == "development"
+              ?
+              `main.jpg`
+              :
+              `${process.env.DOMAIN_ROOT}main.jpg`
+            )
+          }
           sizes={"100wv"}
           className={styles.Home__Background}
         />
@@ -38,13 +51,17 @@ const Home: NextPage<Props> = (props: Props) => {
             2024.06.12.-16.
           </div>
           <div className={styles.Home__Notif}>
-            <NoticeBoard
-              title={lang.homeNotif}
-              shadowEnabled
-              type="error"
-            >
-              {parse(lang.homeNotifText)}
-            </NoticeBoard>
+            {
+              /*
+              <NoticeBoard
+                title={lang.homeNotif}
+                shadowEnabled
+                type="error"
+              >
+                {parse(lang.homeNotifText)}
+              </NoticeBoard>
+              */
+            }
           </div>
         </div>
         <Link className={styles.Home__Scroll} href="/#read_more">

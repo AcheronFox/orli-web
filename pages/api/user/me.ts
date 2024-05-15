@@ -1,9 +1,9 @@
-import { IUser } from '@/models/user.model';
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import database from '@/functions/utils/mysql'
 import verifyToken from '@/functions/auth/veryifToken';
 import isMethodAllowed from '@/functions/auth/isMethodAllowed';
+import { getAttendeeFullDataByAccountKey } from '@/services/attendee/service.attendee.select';
+import { destroy } from '@/functions/auth/token-handler';
 
 
 export default async function handler(
@@ -20,42 +20,17 @@ export default async function handler(
     }
 
     if (tokenPayload) {
-        const query = async () => {
-            return new Promise<IUser | undefined>(async (resolve) => {
-                const query = 
-                `
-                SELECT
-                account.AccountKey, account.firstName, account.lastName, account.email, account.nationality, account.dateOfBirth, account.contact, account.registeredAt, account.isAdmin, account.isStaff, account.TicketKey, account.AccomodationKey,
-                user.UserKey, user.fursonaName, user.fursonaSpecies, user.picture, user.isFursuiter,
-                ticket.sponsorLevel, ticket.isPaid, ticket.ticketType
-                FROM account
-                INNER JOIN user ON account.AccountKey = user.AccountKey
-                LEFT JOIN ticket ON account.TicketKey = ticket.TicketKey
-                WHERE account.AccountKey = ?
-                LIMIT 1;
-                `
-
-                database.query(query, [tokenPayload.accountKey],async (err: any, result: IUser[]) => {
-                    if (err) {
-                        console.log("ERROR: ", err);
-                        sendResponse(500, {message: "Unknown Error", e_code: "me_1"}); 
-                        resolve(undefined);
-                    }
-                    if (result.length) {
-                        resolve(result[0]);
-                    }
-                    else resolve(undefined)
-                });
-            }).catch(() => {
-                sendResponse(500, {message: "Unknown Error", e_code: "me_2"}); 
-                return undefined
-            });
-        }
         
-        const response: IUser | undefined = await query()
-        if (response) {
-            sendResponse(200, response);
+        try {
+            let response = undefined
+            response = await getAttendeeFullDataByAccountKey(tokenPayload.accountKey)
+            if (response) {
+                sendResponse(200, response);
+            }
         }
-        else sendResponse(404, {message: "Not Found", e_code: "me_3"});
+        catch {
+            destroy(res)
+            sendResponse(404, {message: "Not Found", e_code: "me_3"});
+        } 
     } else return;
 }

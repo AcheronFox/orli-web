@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import isMethodAllowed from '@/functions/auth/isMethodAllowed';
 import _ from 'lodash';
-import { IAccount } from '@/models/account.model';
-import { getAccountByKey, getUserByAccountKey } from '@/utils/getData';
+import { getUserByAccountKey } from '@/utils/getData';
 import verifyToken from '@/functions/auth/veryifToken';
 import database from '@/functions/utils/mysql';
 import { isAdminAccount } from '../../auth';
@@ -13,6 +12,8 @@ import handlebars from 'handlebars';
 import { findTemplate, sendMail } from '@/functions/mail/mail-controller';
 import { v4 as uuidv4 } from 'uuid';
 import { IRoomRaw } from '@/models/room.model';
+import { IAttendee } from '@/models/newDbModels/attendee.model';
+import { getAttendeeByAccountKey } from '@/services/attendee/service.attendee.select';
 
 
 const toSqlDatetime = (inputDate: Date) => {
@@ -39,7 +40,7 @@ export default async function handler(
     }
 
     if (tokenPayload) {
-        const account: IAccount | undefined = await getAccountByKey(tokenPayload.accountKey);
+        const account: IAttendee | undefined = await getAttendeeByAccountKey(tokenPayload.accountKey);
         if (account) {
             if (await isAdminAccount(account)) {
                 const { id } = req.query
@@ -258,7 +259,7 @@ export default async function handler(
                                                     else if (roomRes.length) {
                                                         const room = roomRes[0]
                                                         if (await updateData({AccomodationKey: aKey}, 'account')) {
-                                                            if (room.adminKey) resolve(true);
+                                                            if (false) null//if (room.adminKey) resolve(true);
                                                             else {
                                                                 const newRoomData = {
                                                                     roomPin: null,

@@ -1,5 +1,6 @@
 export interface IUpdateForm {
-    contact?: string
+    telegram?: string
+    phone?: string
     fursonaName?: string
     fursonaSpecies?: string
     password?: string

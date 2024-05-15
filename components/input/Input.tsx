@@ -16,6 +16,7 @@ type Props = {
     onBlur?: (e: React.FocusEvent<HTMLInputElement, Element>) => void
     onClick?: (e: React.MouseEvent<HTMLInputElement, MouseEvent>) => void
     onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+    onInput?: (e: React.FormEvent<HTMLInputElement>) => void
     autoFocus?: boolean
     list?: string
     autoComplete?: string
@@ -23,6 +24,8 @@ type Props = {
     name?: string
     customClass?: string
     ref?: any
+    min?: number
+    max?: number
 }
 const Input: NextPage<Props> = ({
     id,
@@ -36,6 +39,7 @@ const Input: NextPage<Props> = ({
     onChange,
     onBlur,
     onClick,
+    onInput,
     autoFocus,
     list,
     autoComplete,
@@ -44,6 +48,8 @@ const Input: NextPage<Props> = ({
     customClass,
     ref,
     onKeyDown,
+    min,
+    max,
 }: Props) => {
     const [isActive, setIsActive] = useState<boolean>(false)
 
@@ -68,6 +74,8 @@ const Input: NextPage<Props> = ({
                     name={name}
                     autoComplete={autoComplete}
                     maxLength={maxLength}
+                    min={min}
+                    max={max}
                     onChange={(o) => {
                         if (onChange) onChange(o.target.value)
                     }}
@@ -79,6 +87,9 @@ const Input: NextPage<Props> = ({
                     }}
                     onKeyDown={(e) => {
                         if (onKeyDown) onKeyDown(e)
+                    }}
+                    onInput={(e) => {
+                        if (onInput) onInput(e)
                     }}
                     onFocus={() => setIsActive(true)}
                     onBlur={() => setIsActive(false)}
