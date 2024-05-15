@@ -4,9 +4,8 @@ import { IParticipant } from "@/models/participant.model";
 import styles from "@/styles/pages/Participants.module.scss"
 import axiosInstance from "@/functions/utils/axiosConfig";
 import { NextPage } from "next";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
-import { VariableSizeList as List } from "react-window";
-import { AutoSizerProps, WindowScroller as _WindowScroller } from "react-virtualized";
+import { useEffect, useRef, useState } from "react";
+import { WindowScroller as _WindowScroller } from "react-virtualized";
 import ParticipantCard from "@/comp/ParticipantCard";
 import useTranslate from "@/hooks/translate/useTranslate";
 import { INationality } from "@/models/newDbModels/nationality.model";
@@ -15,7 +14,6 @@ import LoadingOverlay from "@/comp/utils/LoadingOverlay";
 import { BarLoader } from "react-spinners";
 import variables from "@/styles/abstracts/exports.module.scss"
 
-const WindowScroller = _WindowScroller as unknown as FC<AutoSizerProps>;
 type Props = {}
 
 const calculateIndex = (index: number, listLength: number, size: any) => {
