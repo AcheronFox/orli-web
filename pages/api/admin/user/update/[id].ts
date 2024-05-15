@@ -404,7 +404,7 @@ export default async function handler(
                                                             fursonaName: user.fursonaName,
                                                             roomData: `
                                                                 ${room.building.charAt(0).toUpperCase() + room.building.slice(1)}<br/>
-                                                                ${room.roomNumber}
+                                                                ${room.number}
                                                                 ${room.customName? ` (<i>${room.customName}</i>)` : ''}
                                                                 `
                                                         };
