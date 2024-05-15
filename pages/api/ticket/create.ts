@@ -73,7 +73,7 @@ export default async function handler(
         const calcPrice = (queryData: ITicketForm) => {
             let price = 
             (queryData.ticketType=="WACC"?
-                ((isEarlyBird == true && configuration.ticket.types.find((o) => o.name == 'WACC')!.earlyBirdPrice != undefined)?
+                ((isEarlyBird == true)?
                     parseInt(configuration.ticket.types.find((o) => o.name == 'WACC')!.earlyBirdPrice!.toString().replaceAll(' ', ''))
                     :
                     parseInt(configuration.ticket.types.find((o) => o.name == 'WACC')!.price.toString().replaceAll(' ', ''))
@@ -81,7 +81,7 @@ export default async function handler(
                 : 0)
             +
             (queryData.ticketType=="TENT"?
-                ((isEarlyBird == true && configuration.ticket.types.find((o) => o.name == 'TENT')!.earlyBirdPrice != undefined)?
+                ((isEarlyBird == true)?
                     parseInt(configuration.ticket.types.find((o) => o.name == 'TENT')!.earlyBirdPrice!.toString().replaceAll(' ', ''))
                     :
                     parseInt(configuration.ticket.types.find((o) => o.name == 'TENT')!.price.toString().replaceAll(' ', ''))
@@ -89,7 +89,7 @@ export default async function handler(
                 : 0)
             + 
             (queryData.early?
-                ((isEarlyBird == true && configuration.ticket.types.find((o) => o.name == 'EARLY')!.earlyBirdPrice != undefined)?
+                ((isEarlyBird == true)?
                     parseInt(configuration.ticket.types.find((o) => o.name == 'EARLY')!.earlyBirdPrice!.toString().replaceAll(' ', ''))
                     :
                     parseInt(configuration.ticket.types.find((o) => o.name == 'EARLY')!.price.toString().replaceAll(' ', ''))
@@ -97,14 +97,14 @@ export default async function handler(
                 : 0) 
             +
             (queryData.late?
-                ((isEarlyBird == true && configuration.ticket.types.find((o) => o.name == 'LATE')!.earlyBirdPrice != undefined)?
+                ((isEarlyBird == true)?
                     parseInt(configuration.ticket.types.find((o) => o.name == 'LATE')!.earlyBirdPrice!.toString().replaceAll(' ', ''))
                     :
                     parseInt(configuration.ticket.types.find((o) => o.name == 'LATE')!.price.toString().replaceAll(' ', ''))
                 )
                 : 0) 
             +
-            (queryData.sponsorPrice)
+            (queryData.sponsorLevel=="0"? 0 : queryData.sponsorPrice)
 
             return price
         }
@@ -154,7 +154,7 @@ export default async function handler(
                                         lateDeparture: data.late,
                                         sponsorLevel: ((data.sponsorLevel == '0') ? 'None' : ((data.sponsorLevel == '1') ? 'Regular' : 'Super')),
                                         shirtSize: data.shirt || undefined,
-                                        sponsorPrice: data.sponsorPrice,
+                                        sponsorPrice: data.sponsorLevel=="0"? 0 : data.sponsorPrice,
                                         totalPrice: calcPrice(req.body),
                                         isPaid: false,
                                         arrivalDate: "1970-01-01",
