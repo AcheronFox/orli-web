@@ -120,7 +120,7 @@ const RoomCard: NextPage<Props> = (props: Props) => {
             </div>
             <div className={`${styles.RoomCard__Title} ${props.room.customName && styles.RoomCard__Title_small}`}>
                 <h3>
-                    {props.room.roomNumber}
+                    {props.room.number}
                 </h3>
             </div>
             <div className={styles.RoomCard__Occupants}>
