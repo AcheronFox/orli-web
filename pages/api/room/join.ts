@@ -27,13 +27,15 @@ export default async function handler(
         return;
     }
 
-    isRunning = true
-
-    const tokenPayload = await verifyToken(req, res);
-
     const sendResponse = (code: number, data: Object | String = '') => {
         res.status(code).json(data);
     }
+
+    if (isRunning) return sendResponse(409, { message: "Data Changed", e_code: "room_join_1" }); 
+
+    isRunning = true
+
+    const tokenPayload = await verifyToken(req, res);
 
     const isJoinForm = (x: any): x is IJoinForm => {
         return typeof x.roomId === 'number';
