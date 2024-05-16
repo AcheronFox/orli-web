@@ -49,7 +49,7 @@ const staff: IStaff[] = [
     {
         name: "Tib",
         description: [
-            "Tib vagyok, a backendet, főként az adatbázist csinálom! Amúgy indie játékfejlesztő főállásban ^^<br/>",
+            "Tib vagyok, a backendet, főként az adatbázist csinálom! Amúgy indie játékfejlesztő főállásban!<br/>",
             `
             <ul>
                 <li>Webfejlesztés</li>
@@ -73,6 +73,20 @@ const staff: IStaff[] = [
         ],
         link: "https://t.me/LapnLook",
         picture: "staff/viren.jpg"
+    },
+    {
+        name: "Bethlenke",
+        description: [
+            "Bethlenke vagyok, én felelek a szinpadon villogó színes fényekért, keress ha kiváncsi vagy valamire!<br/>",
+            `
+            <ul>
+                <li>Szinpad managment</li>
+                <li>Fénytechnika</li>
+            </ul>
+            `,
+        ],
+        link: "https://t.me/bethlenke",
+        picture: "staff/bethlenke.jpg"
     },
     {
         name: "Monti",

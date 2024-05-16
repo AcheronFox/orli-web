@@ -49,7 +49,7 @@ const staff: IStaff[] = [
     {
         name: "Tib",
         description: [
-            "I'm Tib, I deal with the backend, mostly with the database! I'm a full-time indie game developer by the way ^^<br/>",
+            "I'm Tib, I deal with the backend, mostly with the database! I'm a full-time indie game developer by the way!<br/>",
             `
             <ul>
                 <li>Web development</li>
@@ -73,6 +73,20 @@ const staff: IStaff[] = [
         ],
         link: "https://t.me/LapnLook",
         picture: "staff/viren.jpg"
+    },
+    {
+        name: "Bethlenke",
+        description: [
+            "Hi, I'm Bethlenke. I’m responsible for the colourful flashing lights on stage. Contact me if you're curious about anything!<br/>",
+            `
+            <ul>
+                <li>Stage management</li>
+                <li>Stage lighting design</li>
+            </ul>
+            `,
+        ],
+        link: "https://t.me/bethlenke",
+        picture: "staff/bethlenke.jpg"
     },
     {
         name: "Monti",
