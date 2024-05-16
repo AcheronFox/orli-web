@@ -338,7 +338,7 @@ const Statistics: NextPage<Props> = (props: Props) => {
                   </h2>
                   <span className={styles.Statistics__Counter__Count}>
                     <h3>
-                      {`${(100 * (participantData.filter((o) => o.hasFursuit).length || 0)) / participantData.length}%`}
+                      {`${((100 * (participantData.filter((o) => o.hasFursuit).length || 0)) / participantData.length).toFixed(2)}%`}
                     </h3>
                   </span>
                 </span>
