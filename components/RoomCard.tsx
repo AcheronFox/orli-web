@@ -39,7 +39,7 @@ const Row = ({occupant, props}: RowProps) => {
     }
 
     return (
-        <div className={`${occupant.name && styles.RoomCard__Row} ${occupant.id === user?.attendee.id? styles.RoomCard__Row_self : ''}`} onClick={occupant.name? () => clickHandler() : undefined}>
+        <div className={`${occupant.name && styles.RoomCard__Row} ${occupant.id === user?.fursona.id? styles.RoomCard__Row_self : ''}`} onClick={occupant.name? () => clickHandler() : undefined}>
             <span className={styles.RoomCard__Image}>
                 <Picture
                     alt={"User Thumb"}
@@ -132,7 +132,7 @@ const RoomCard: NextPage<Props> = (props: Props) => {
             </div>
             <div className={styles.RoomCard__Footer}>
                 {
-                    (!props.occupants.find((o) => o.id == user?.attendee.id)) &&
+                    (!props.occupants.find((o) => o.id == user?.fursona.id)) &&
                     <Button
                         variant="contained"
                         onClick={() => clickHandler()}
@@ -141,7 +141,7 @@ const RoomCard: NextPage<Props> = (props: Props) => {
                     </Button>
                 }
                 {
-                    (props.occupants.find((o) => o.id == user?.attendee.id)) &&
+                    (props.occupants.find((o) => o.id == user?.fursona.id)) &&
                     <Button
                         variant="contained"
                         onClick={() => leaveHandler()}
