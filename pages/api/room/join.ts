@@ -17,6 +17,8 @@ import { setCustomName, setPin } from '@/services/room/service.room.update';
 import { IRoom } from '@/models/newDbModels/room.model';
 import { getTicketById } from '@/services/ticket/service.ticket.select';
 
+let isRunning = false
+
 export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse
@@ -24,6 +26,8 @@ export default async function handler(
     if (!await isMethodAllowed(req, res, 'POST')) {
         return;
     }
+
+    isRunning = true
 
     const tokenPayload = await verifyToken(req, res);
 
@@ -39,27 +43,31 @@ export default async function handler(
         return x.roomId != undefined;
     }
 
-    if (!tokenPayload)
-        return;
+    if (!tokenPayload) {
+        isRunning = false
+        return sendResponse(401, { message: "Uauthenticated", e_code: "room_join_1" });
+    }
+       
 
     if (!isJoinForm(req.body) && !isValidForm(req.body)) {
+        isRunning = false
         return sendResponse(400, { message: "Invalid form", e_code: "room_join_1" });
     }
 
     const attendee: IAttendee | undefined = await getAttendeeByAccountKey(tokenPayload.accountKey);
 
     if (attendee == undefined)
-        return sendResponse(404, { message: "Attendee not found", e_code: "room_join_2" });
+        return sendResponse(404, { message: "Attendee not found", e_code: "room_join_2" }); isRunning = false;
 
     if (attendee.ticketId == undefined)
-        return sendResponse(400, { message: "Attendee does not have a ticket", e_code: "room_join_3" });
+        return sendResponse(400, { message: "Attendee does not have a ticket", e_code: "room_join_3" }); isRunning = false;
 
     const ticket = await getTicketById(attendee.ticketId)
 
     if (ticket?.type != "WACC")
-        return sendResponse(400, { message: "Attendee does not have a valid ticket", e_code: "room_join_30" });
+        return sendResponse(400, { message: "Attendee does not have a valid ticket", e_code: "room_join_30" }); isRunning = false;
 
-    let connection: mysql.PoolConnection | null = null;;
+    let connection: mysql.PoolConnection | null = null;
 
     try {
         connection = await getDbConnection();
@@ -70,6 +78,7 @@ export default async function handler(
             if (oldAccomodation != undefined) {
                 const leaveRoomResult = await leaveRoom(oldAccomodation, connection);
                 if (leaveRoomResult == undefined) {
+                    isRunning = false
                     sendResponse(500, { message: "Failed to leave room", e_code: "room_join_56" });
                     throw new Error("Failed to leave room")
                 }
@@ -79,11 +88,13 @@ export default async function handler(
         const room = await getRoomById(req.body.roomId);
 
         if (room == undefined) {
+            isRunning = false
             sendResponse(500, { message: "Invalid room ID", e_code: "room_join_59" });
             throw new Error("Invalid room ID")
         }
 
         if (room.pin && room.pin != req.body.pin) {
+            isRunning = false
             sendResponse(401, { message: "Wrong pin", e_code: "room_join_63" });
             throw new Error("Wrong pin")
         }
@@ -96,16 +107,19 @@ export default async function handler(
             }
 
             if (occupants.length != req.body.roomCount) {
+                isRunning = false
                 sendResponse(409, { message: "Data changed", e_code: "room_join_60" });
                 throw new Error("Data changed")
             }
 
             if (occupants.find((o) => o.id == attendee.accomodationId)) {
+                isRunning = false
                 sendResponse(400, { message: "Already joined", e_code: "room_join_61" });
                 throw new Error("Already joined")
             }
 
             if (occupants.length >= room.size) {
+                isRunning = false
                 sendResponse(409, { message: "Room full", e_code: "room_join_62" });
                 throw new Error("Room full")
             }
@@ -114,6 +128,7 @@ export default async function handler(
         const newAccomodationId = await CreateNewAccomodationForAttendee(room, req.body, connection);
         const changeAccomodationResult = await changeAttendeeAccomodationId(attendee, newAccomodationId, connection);
         if (!changeAccomodationResult) {
+            isRunning = false
             sendResponse(500, { message: "Failed to change accomodation ID for attendee", e_code: "room_join_57" });
             throw new Error("Failed to change accomodation ID for attendee")
         }
@@ -125,6 +140,7 @@ export default async function handler(
         const accomodation = await getAccomodationById(attendee.accomodationId, connection);
 
         if (accomodation == undefined) {
+            isRunning = false
             sendResponse(500, { message: "Accomodation creation failed", e_code: "room_join_58" });
             throw new Error("Accomodation creation failed")
         }
@@ -132,6 +148,7 @@ export default async function handler(
         const result = await enterRoom(accomodation, req.body.roomId);
 
         if (result == undefined) {
+            isRunning = false
             sendResponse(500, { message: "Failed entering the room", e_code: "room_join_64" });
             throw new Error("")
         }
@@ -144,6 +161,7 @@ export default async function handler(
             }));
         }
     } finally {
+        isRunning = false
         if (connection) {
             connection.release();
         }
