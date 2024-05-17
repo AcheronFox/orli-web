@@ -91,13 +91,13 @@ const Row = ({attendee}: RowProps) => {
     const [ticket, setTicket] = useState<ITicket>()
 
     useEffect(() => {
-        if(attendee.nationalityId !== undefined){
+        if(attendee.nationalityId !== undefined && attendee.nationalityId !== null){
             getNationality(attendee.nationalityId);
         }
-        if(attendee.fursonaId !== undefined){
+        if(attendee.fursonaId !== undefined && attendee.fursonaId !== null){
             getFursona(attendee.fursonaId);
         }
-        if(attendee.ticketId !== undefined){
+        if(attendee.ticketId !== undefined  && attendee.ticketId !== null){
             getTicket(attendee.ticketId);
         }
       }, [attendee])
@@ -132,7 +132,7 @@ const Row = ({attendee}: RowProps) => {
         })
     }
 
-    const rowAttendeeId = (attendee.id === undefined) ? 0 : attendee.id;
+    const rowAttendeeId = (attendee.id === undefined || attendee.id === null) ? 0 : attendee.id;
 
     const dateOfBirth = formatDate(attendee.dateOfBirth);
     const age = calculateAge(attendee.dateOfBirth);
@@ -143,10 +143,10 @@ const Row = ({attendee}: RowProps) => {
     const staff = formatBooleanYesNo(attendee.staff);
     const admin = formatBooleanYesNo(attendee.admin);
 
-    const nationalityDisplayed = (nationality === undefined) ? "-" : nationality.countryNameEnglish;
-    const fursonaDisplayed = (fursona === undefined) ? "-" : fursona.name;
-    const isPaidDisplayed = formatBooleanYesNo((ticket === undefined || ticket.isPaid === undefined) ? 0 : ticket.isPaid);
-    const paymentMethodDisplayed = (ticket === undefined || ticket.paymentMethod === undefined) ? "-" : ticket.paymentMethod;
+    const nationalityDisplayed = (nationality === undefined || fursona === null) ? "-" : nationality.countryNameEnglish;
+    const fursonaDisplayed = (fursona === undefined || fursona === null) ? "-" : fursona.name;
+    const isPaidDisplayed = formatBooleanYesNo((ticket === undefined || ticket === null || ticket.isPaid === undefined || ticket.isPaid === null) ? 0 : ticket.isPaid);
+    const paymentMethodDisplayed = (ticket === undefined || ticket === null || ticket.paymentMethod === undefined || ticket.paymentMethod === null) ? "-" : ticket.paymentMethod;
 
     return(
         <tr>
