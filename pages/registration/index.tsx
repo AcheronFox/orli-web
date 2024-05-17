@@ -253,7 +253,7 @@ const Registration: NextPage<Props> = (props: Props) => {
     return updateState((phone.trim() == "" && telegram.trim() == ""), "telegram", lang.regContactErr)
   }
   const validatePhone = () => {
-    return updateState((telegram.trim() == "" && (phone.trim() == "" || selectedPhoneExt.trim() == "")), "phone", lang.regContactErr)
+    return updateState((telegram.trim() == "" && (phone.trim() == "")), "phone", lang.regContactErr)
   }
 
   const validateAge = (state: boolean, strict = false) => {
@@ -348,7 +348,7 @@ const Registration: NextPage<Props> = (props: Props) => {
       dateOfBirth: new Date(utcFormatDOB),
       nationalityId: nationality as number,
       telegram: telegram? 'https://t.me/'+telegram : '',
-      phone: phone? selectedPhoneExt+phone : '',
+      phone: phone? phone : '',
       allergy: allergy,
       password: crypto.createHash("sha256").update(password).digest("hex"),
       otherPass: otherPass,
@@ -674,7 +674,7 @@ const Registration: NextPage<Props> = (props: Props) => {
                   }}
                   onBlur={() => validatePhone()}
                   error={!!errorStates.phone}
-                  maxLength={9}
+                  maxLength={64}
                   startAdornment={
                     <>
                       <Tooltip
@@ -700,11 +700,6 @@ const Registration: NextPage<Props> = (props: Props) => {
                       >
                         <span style={{display: "flex"}}>
                           +
-                          <PhoneCodeSelector
-                            label={""}
-                            onChange={(o) => setSelectedPhoneExt(o)}
-                            value={selectedPhoneExt}                        
-                          />
                         </span>
                       </span>
                     </>

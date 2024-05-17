@@ -552,7 +552,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
               </div>
               <div className={`${styles.Modal__Join__Title} ${joinData.customName && styles.Modal__Join__Title_small}`}>
                   <h3>
-                      {joinData.roomNumber}
+                      {joinData.number}
                   </h3>
               </div>
               <div>
@@ -741,7 +741,7 @@ const Rooms: NextPage<Props> = (props: Props) => {
               </div>
               <div className={`${styles.Modal__Join__Title} ${leaveData.customName && styles.Modal__Join__Title_small}`}>
                   <h3>
-                      {leaveData.roomNumber}
+                      {leaveData.number}
                   </h3>
               </div>
               <div>

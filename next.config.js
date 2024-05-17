@@ -50,6 +50,7 @@ const webpack = (config) => {
 const nextConfig = {
   reactStrictMode: true,
   headers: headers,
+  swcMinify: true,
   webpack: webpack,
   sassOptions: {
     includePaths: ['./styles'],
