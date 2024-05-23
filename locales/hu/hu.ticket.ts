@@ -4,7 +4,7 @@ const ticket: ITicket = {
     intro: [
         "Számos opcióval igyekeztünk mindenki számára biztosítani a lehetőséget, hogy meglátogathassa a rendezvényt, legyen az akár pár óra, akár a teljes Försztivál!",
         "A különböző csomagok tartalmát az alábbiakban olvashatjátok.<br/>",
-        "<b>Ne késlekedj, hiszen ha április 28. éjfél előtt választasz csomagot, annak árából körülbelül 15% kedvezményt adunk!</b>"
+        "<b>Ne késlekedj, hiszen ha május 26. éjfél előtt választasz csomagot, annak árából körülbelül 15% kedvezményt adunk!</b>"
     ],
     content: [
         {
