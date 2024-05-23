@@ -25,7 +25,7 @@ export async function ticketLimitWatcher(): Promise<number>
     {
         const ticketDate = new Date(unpaidTickets[i].createdAt!)
         
-        if ((ticketDate.getTime() + (1000 * 60 * 60 * 24 * 8)) <= currentDate.getTime())
+        if ((ticketDate.getTime() + (1000 * 60 * 60 * 24 * 7)) <= currentDate.getTime())
         {
             const attendee = attendeesWithTickets?.find(attendee => attendee.ticketId ===
                 unpaidTickets[i].id) ?? null;
