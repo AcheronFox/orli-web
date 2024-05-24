@@ -4,7 +4,7 @@ const ticket: ITicket = {
     intro: [
         "We tried to offer a wide variety of options for everyone to visiting the event, whether if it's just for a couple of hours or the whole Försztivál!",
         "You may find more about the different packages and their contents below.<br/>",
-        "<b>Don't be late, because if you choose a package before the midnight of April 28, we give you around a 15% discount off the price!</b>"
+        "<b>Don't be late, because if you choose a package before the midnight of May 26, we give you around a 15% discount off the price!</b>"
     ],
     content: [
         {

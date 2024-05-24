@@ -27,7 +27,7 @@ export default async function handler(
             return new Promise<any[] | undefined>(async (resolve) => {
                 const query = 
                 `
-                SELECT * FROM account
+                SELECT * FROM attendee
                 `
 
                 database.query(query, async (err: any, result: any[]) => {
@@ -47,7 +47,7 @@ export default async function handler(
             return new Promise<any[] | undefined>(async (resolve) => {
                 const query = 
                 `
-                SELECT * FROM user
+                SELECT * FROM fursona
                 `
 
                 database.query(query, async (err: any, result: any[]) => {
