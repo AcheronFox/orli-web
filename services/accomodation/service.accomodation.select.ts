@@ -27,6 +27,14 @@ export async function getAllAccomodations(from: number = 0,
     return await executeSelectQuery<IAccomodation[]>(query, [from, limit], connectionToUse);
 }
 
+export async function getAccomodationMaxId(from: number = 0,
+    limit: number = MAX_NUM_OF_ACCOMODATIONS, connectionToUse?: PoolConnection): Promise<number | undefined>
+{
+const query = `SELECT MAX(id) as "ID" FROM ${TABLE} LIMIT ?, ?;`;
+
+return await executeSelectQuery<number>(query, [from, limit], connectionToUse);
+}
+
 export async function getAccomodationsBasedOnRoomPresence(hasRoom: boolean, from: number = 0,
                                                 limit: number = MAX_NUM_OF_ACCOMODATIONS, connectionToUse?: PoolConnection): Promise<IAccomodation[] | undefined>
 {

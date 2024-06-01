@@ -43,6 +43,13 @@ export async function getAttendeeByTicketId(ticketId: number, connectionToUse?: 
     return await executeSelectQuery<IAttendee>(queryString, ticketId, connectionToUse);
 }
 
+export async function getAttendeeByAccomodationId(accomodationId: number, connectionToUse?: PoolConnection) : Promise<IAttendee | undefined>
+{
+    const queryString = `SELECT * FROM ${TABLE} WHERE accomodationId = ?;`;
+
+    return await executeSelectQuery<IAttendee>(queryString, accomodationId, connectionToUse);
+}
+
 export async function getAttendeeByAccountKey(accountKey: string, connectionToUse?: PoolConnection) : Promise<IAttendee | undefined>
 {
     const queryString = `SELECT * FROM ${TABLE} WHERE accountKey = ?;`;
