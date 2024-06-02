@@ -528,7 +528,13 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   const getFreeRooms = async () => {
     await axiosInstance.get('/api/v2/room/getFreeRooms')
         .then((res) => {
-            setFreeRooms(res.data);
+            let freeRoomTemp = []
+            if (typeof res.data === 'object'){
+                freeRoomTemp.push(res.data)
+            } else {
+                freeRoomTemp = res.data
+            }
+            setFreeRooms(freeRoomTemp)
             if (room !== undefined){
                 setFreeRooms(freeRooms => [room,...freeRooms] );
             }
