@@ -36,7 +36,10 @@ const RoomSelector: NextPage<Props> = ({
         setRooms(res.data)
       })
     }
-    else setRooms([...roomList])
+    else {
+        console.log(roomList);
+        setRooms([...roomList])
+    }
   }, [roomList])
 
   useEffect(() => {

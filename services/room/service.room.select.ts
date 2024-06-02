@@ -29,7 +29,7 @@ const query = `SELECT r.*
 	                (SELECT roomId, COUNT(id) as "CNT"
                     FROM accomodation
                     GROUP BY roomId) a ON a.roomId = r.id 
-                WHERE a.CNT < r.size LIMIT ?, ?;`;
+                WHERE a.CNT < r.size OR a.CNT is null LIMIT ?, ?;`;
 
 return await executeSelectQuery<IRoom[]>(query, [from, limit], connectionToUse);
 }
