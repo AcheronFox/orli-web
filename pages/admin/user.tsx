@@ -370,6 +370,7 @@ export default AdminUser;
 */
 
 import { useEffect, useState, useRef, JSXElementConstructor } from "react";
+import RoomSelector from "@/comp/input/RoomSelector";
 import axiosInstance from "@/functions/utils/axiosConfig";
 import Button from "@/comp/button/Button";
 import Toggle from "@/comp/input/Toggle";
@@ -379,10 +380,13 @@ import Router from 'next/router'
 import AttendeeDetails from "@/comp/admin/AttendeeDetails";
 import TicketDetails from "@/comp/admin/TicketDetails";
 import FursonaDetails from "@/comp/admin/FursonaDetails";
+import RoomDetails from "@/comp/admin/RoomDetails";
 import ChangeList from "@/comp/admin/ChangeList";
 import { IAttendee } from "@/models/newDbModels/attendee.model";
 import { ITicket } from "@/models/newDbModels/ticket.model";
 import { IFursona } from "@/models/newDbModels/fursona.model";
+import { IAccomodation } from "@/models/newDbModels/accomodation.model";
+import { IRoom } from "@/models/newDbModels/room.model";
 import styles from "@/styles/pages/Admin.module.scss"
 import { defaultPadding } from "ol/render/canvas";
 import { useUser } from "@/hooks/user/useUser";
@@ -402,6 +406,12 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   const [attendee, setAttendee] = useState<IAttendee>()
   const [ticket, setTicket] = useState<ITicket>()
   const [fursona, setFursona] = useState<IFursona>()
+  const [accomodation, setAccomodation] = useState<IAccomodation>()
+  const [room, setRoom] = useState<IRoom>()
+  const [roommates, setRoommates] = useState<string[]>([])
+
+  const [freeRooms, setFreeRooms] = useState<IRoom[]>([])
+  const [selectedFreeRoom, setSelectedFreeRoom] = useState<number>(0)
 
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethodInterface>(null)
   const [defaultPaymentMethod, setDefaultPaymentMethod] = useState<PaymentMethodInterface>(null)
@@ -415,11 +425,13 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   const [deleteControlsHidden, setDeleteControlsHidden] = useState<boolean>(true);
   const [paymentControlsHidden, setPaymentControlsHidden] = useState<boolean>(true);
   const [fursonaControlsHidden, setFursonaControlsHidden] = useState<boolean>(true);
+  const [roomControlsHidden, setRoomControlsHidden] = useState<boolean>(true);
 
   const [provisionalUpdates, setProvisionalUpdates] = useState<string[]>([])
 
   const [deleteFlag, setDeleteFlag] = useState<boolean>(false);
   const [imageDeleteFlag, setImageDeleteFlag] = useState<boolean>(false);
+  const [accomodationDeleteFlag, setAccomodationDeleteFlag] = useState<boolean>(false);
 
   const [emailCount, setEmailCount] = useState<number>(0);
 
@@ -458,7 +470,17 @@ const AdminUser: NextPage<Props> = (props: Props) => {
   useEffect(() =>{
     getTicket();
     getFursona();
+    getAccomodation();
   }, [attendee])
+
+  useEffect(() =>{
+    getRoom();
+  }, [accomodation])
+
+  useEffect(() =>{
+    getRoommates();
+    getFreeRooms();
+  }, [room])
 
   useEffect(() =>{
     if(ticket === undefined){
@@ -475,6 +497,14 @@ const AdminUser: NextPage<Props> = (props: Props) => {
         setFursonaControlsHidden(false);
     }
   }, [fursona])
+
+  useEffect(() =>{
+    if(accomodation === undefined || room === undefined){
+        setRoomControlsHidden(true);
+    } else {
+        setRoomControlsHidden(false);
+    }
+  }, [accomodation, room])
 
   const getAttendee = async () => {
     await axiosInstance.get('/api/v2/attendee/', { params: {id: selectedAttendeeId}})
@@ -493,6 +523,19 @@ const AdminUser: NextPage<Props> = (props: Props) => {
     .catch((err) => {
       return
     })
+  }
+
+  const getFreeRooms = async () => {
+    await axiosInstance.get('/api/v2/room/getFreeRooms')
+        .then((res) => {
+            setFreeRooms(res.data);
+            if (room !== undefined){
+                setFreeRooms(freeRooms => [room,...freeRooms] );
+            }
+        })
+        .catch((err) => {
+            return
+        })
   }
 
   const getTicket = async () => {
@@ -526,6 +569,43 @@ const AdminUser: NextPage<Props> = (props: Props) => {
         await axiosInstance.get('/api/v2/fursona/', { params: {id: attendee.fursonaId}})
             .then((res) => {
                 setFursona(res.data);
+            })
+            .catch((err) => {
+                return
+        })
+    }
+  }
+
+  const getAccomodation = async () => {
+    if (attendee !== undefined && accomodation === undefined && attendee.accomodationId !== undefined){
+        await axiosInstance.get('/api/v2/accomodation/', { params: {id: attendee.accomodationId}})
+            .then((res) => {
+                setAccomodation(res.data);
+            })
+            .catch((err) => {
+                return
+        })
+    }
+  }
+
+  const getRoom = async () => {
+    if (accomodation !== undefined && room === undefined && accomodation.roomId !== undefined){
+        await axiosInstance.get('/api/v2/room/', { params: {id: accomodation.roomId}})
+            .then((res) => {
+                setRoom(res.data);
+                setSelectedFreeRoom(res.data.id);
+            })
+            .catch((err) => {
+                return
+        })
+    }
+  }
+
+  const getRoommates = async () => {
+    if (room !== undefined && roommates.length === 0 && room.id !== undefined && attendee !== undefined && attendee.id !== undefined){
+        await axiosInstance.get('/api/v2/accomodation/getRoommates', { params: {roomId: room.id, attendeeId: attendee.id}})
+            .then((res) => {
+                setRoommates(res.data);
             })
             .catch((err) => {
                 return
@@ -571,11 +651,67 @@ const AdminUser: NextPage<Props> = (props: Props) => {
     }
   }
 
+  const finalizeDeleteRoom = async () => {
+    if (attendee === undefined){
+        return;
+    } else {
+        axiosInstance.delete('/api/v2/accomodation/deleteAccomodation', {data: {id: attendee.accomodationId}})
+    }
+  }
+
+  const finalizeAssignedRoom = async () => {
+    if (attendee === undefined){
+        return;
+    } else {
+        if (attendee.accomodationId === undefined || attendee.accomodationId === null){
+            axiosInstance.put('/api/v2/accomodation/insertAccomodation', {params: {attendeeId: attendee.id, roomId: selectedFreeRoom}})
+        } else {
+            axiosInstance.post('/api/v2/accomodation/updateAccomodation', {params: {accomodationId: attendee.accomodationId, roomId: selectedFreeRoom}})
+        }
+    }
+  }
+
   const finalizeChanges = async () => {
     if(attendee === undefined){
         return;
     } else {
+        const promiseDeleteAttendee = await finalizeDeleteAttendee;
+        const promiseVerifiedStatus = await finalizeVerifiedStatus;
+        const promisePaymentStatusAndMethod = await finalizePaymentStatusAndMethod;
+        const promiseDeleteImage = await finalizeDeleteImage;
+        const promiseDeleteRoom = await finalizeDeleteRoom;
+        const promiseAssignedRoom = await finalizeAssignedRoom;
+
+        let promises = [];
         if (provisionalUpdates.indexOf("deleteFlag") > -1){
+            promises = [promiseDeleteAttendee()]
+        } else {
+            if (provisionalUpdates.indexOf("verifiedStatus") > -1){
+                promises.push(promiseVerifiedStatus())
+            }
+            if (provisionalUpdates.indexOf("paymentStatus") > -1 || provisionalUpdates.indexOf("paymentMethod") > -1){
+                promises.push(promisePaymentStatusAndMethod())
+            }
+            if (provisionalUpdates.indexOf("imageDeleteFlag") > -1){
+                promises.push(promiseDeleteImage())
+            }
+            if (provisionalUpdates.indexOf("accomodationDeleteFlag") > -1){
+                promises.push(promiseDeleteRoom())
+            }
+            if (provisionalUpdates.indexOf("assignedRoom") > -1 && !(provisionalUpdates.indexOf("accomodationDeleteFlag") > -1)){
+                promises.push(promiseAssignedRoom())
+            }
+        }
+
+        Promise.all(promises).then((values) => {
+            Router.push('/admin');
+          })
+          .catch((err) => {
+            return;
+        })
+
+
+        /*if (provisionalUpdates.indexOf("deleteFlag") > -1){
             await finalizeDeleteAttendee()
             .then((res) => {
                 Router.push('/admin');
@@ -655,7 +791,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                     }
                 }
             }
-        }
+        }*/
         
     }
   }
@@ -666,6 +802,10 @@ const AdminUser: NextPage<Props> = (props: Props) => {
 
     const flagImageForDelete = () => {
         setImageDeleteFlag(!imageDeleteFlag);
+    }
+
+    const flagAccomodationForDelete = () => {
+        setAccomodationDeleteFlag(!accomodationDeleteFlag);
     }
 
     const getEmailCount = async () => {
@@ -689,8 +829,14 @@ const AdminUser: NextPage<Props> = (props: Props) => {
         if (defaultPaymentMethod !== paymentMethod){
             provisionalUpdateList.push("paymentMethod")
         }
+        if (room?.id !== selectedFreeRoom){
+            provisionalUpdateList.push("assignedRoom")
+        }
         if (imageDeleteFlag === true){
             provisionalUpdateList.push("imageDeleteFlag")
+        }
+        if (accomodationDeleteFlag === true){
+            provisionalUpdateList.push("accomodationDeleteFlag")
         }
         if (deleteFlag === true){
             provisionalUpdateList.push("deleteFlag")
@@ -701,7 +847,7 @@ const AdminUser: NextPage<Props> = (props: Props) => {
 
   useEffect(() =>{
     getProvisionalUpdates();
-  }, [verifiedStatus, paymentStatus, paymentMethod, deleteFlag, imageDeleteFlag])
+  }, [verifiedStatus, paymentStatus, paymentMethod, deleteFlag, imageDeleteFlag, accomodationDeleteFlag, selectedFreeRoom])
 
   return (
     <>
@@ -722,16 +868,18 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                         <h2>FURSONA</h2>
                         <FursonaDetails fursona={fursona}></FursonaDetails>
                     </div>
+                    <div className={styles.Admin__Content__TableContainer}>
+                        <h2>ROOM</h2>
+                        <RoomDetails room={room} roommates={roommates} accommodation={accomodation}></RoomDetails>
+                    </div>
                 </div>
                 <div className={styles.Admin__Content}>
                     <Button 
                         disabled={deleteControlsHidden}
                         onClick={flagAttendeeForDelete}>Reject & Delete Attendee</Button>
-                    ||
-                    <Button 
-                        disabled={fursonaControlsHidden}
-                        onClick={flagImageForDelete}
-                        >Remove Image</Button>
+                </div>
+                <hr></hr>
+                <div className={styles.Admin__Content}>
                     <Toggle 
                         id={"verifiedToggle"} 
                         label={"Verified?"} 
@@ -754,6 +902,24 @@ const AdminUser: NextPage<Props> = (props: Props) => {
                         selected={paymentMethod}
                         setSelected={(e: PaymentMethodInterface) => setPaymentMethod(e)}
                         setValue={(e: PaymentMethodInterface) => setPaymentMethod(e)}></DropDown>
+                </div>
+                <hr></hr>
+                <div className={styles.Admin__Content}>
+                    <Button 
+                        disabled={fursonaControlsHidden}
+                        onClick={flagImageForDelete}
+                        >Remove Image</Button>
+                    <Button 
+                        disabled={roomControlsHidden}
+                        onClick={flagAccomodationForDelete}
+                        >Remove from Room</Button>
+                    <RoomSelector
+                        disabled={(ticket === undefined || ticket.isPaid === undefined || ticket.isPaid === null || ticket.isPaid === false) ? true : false}
+                        label={"Assign to Room"}
+                        onChange={(e) => setSelectedFreeRoom(e)}
+                        value={room === undefined || room.id === undefined ? 0 : room.id}
+                        roomList={freeRooms}
+                    ></RoomSelector>
                 </div>
                 <hr></hr>
                 <div className={styles.Admin__Content}>

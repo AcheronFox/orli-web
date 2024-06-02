@@ -20,7 +20,9 @@ const formatDate = (inputDate: any) => {
 
 const formatDateTime = (inputDateTime: any) => {
     if (typeof inputDateTime === "string"){
-        return(format(new Date(inputDateTime), "yyyy/MM/dd hh:mm:ss"));
+        let dateTimeToFormat = new Date(inputDateTime);
+        dateTimeToFormat.setHours(dateTimeToFormat.getHours() - 2)
+        return(format(dateTimeToFormat, "yyyy/MM/dd HH:mm:ss"));
     } else {
         return("N/A")
     }
