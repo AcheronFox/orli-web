@@ -29,17 +29,21 @@ const RoomSelector: NextPage<Props> = ({
   const [selected, setSelected] = useState<string>("");
   const [rooms, setRooms] = useState<IRoom[]>([])
   const currProp ='number';
+  console.log(roomList);
 
   useEffect(() => {
     if (!roomList) {
       axiosInstance.get('/api/v2/room/getFreeRooms').then((res) => {
-        setRooms(res.data)
+        let freeRoomTemp = []
+            if (typeof res.data === 'object'){
+                freeRoomTemp.push(res.data)
+            } else {
+                freeRoomTemp = res.data
+            }
+        setRooms(freeRoomTemp)
       })
     }
-    else {
-        console.log(roomList);
-        setRooms([...roomList])
-    }
+    else setRooms([...roomList])
   }, [roomList])
 
   useEffect(() => {
