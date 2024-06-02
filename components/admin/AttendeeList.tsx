@@ -11,6 +11,9 @@ import { ITicket } from "@/models/newDbModels/ticket.model";
 
 type Props = {
     attendees: IAttendee[];
+    tickets: ITicket[];
+    fursonas: IFursona[];
+    nationalities: INationality[];
     sortColumn: string;
     setSortColumn: any;
     sortDirection: number;
@@ -18,7 +21,10 @@ type Props = {
 };
 
 type RowProps = {
-    attendee: IAttendee
+    attendee: IAttendee;
+    nationalities: INationality[];
+    tickets: ITicket[];
+    fursonas: IFursona[];
 }
 
 const navigateToSelectedAttendee = (attendeeId: number) => {
@@ -40,7 +46,9 @@ const formatDate = (inputDate: any) => {
 
 const formatDateTime = (inputDateTime: any) => {
     if (typeof inputDateTime === "string"){
-        return(format(new Date(inputDateTime), "yyyy/MM/dd hh:mm:ss"));
+        let dateTimeToFormat = new Date(inputDateTime);
+        dateTimeToFormat.setHours(dateTimeToFormat.getHours() - 2)
+        return(format(dateTimeToFormat, "yyyy/MM/dd HH:mm:ss"));
     } else {
         return("N/A")
     }
@@ -85,51 +93,27 @@ const emptyStringYesNo = (inputString: any) => {
     }
 }
 
-const Row = ({attendee}: RowProps) => {
+const Row = ({attendee, nationalities, tickets, fursonas}: RowProps) => {
     const [nationality, setNationality] = useState<INationality>()
     const [fursona, setFursona] = useState<IFursona>()
     const [ticket, setTicket] = useState<ITicket>()
 
     useEffect(() => {
-        if(attendee.nationalityId !== undefined && attendee.nationalityId !== null){
-            getNationality(attendee.nationalityId);
-        }
-        if(attendee.fursonaId !== undefined && attendee.fursonaId !== null){
-            getFursona(attendee.fursonaId);
-        }
-        if(attendee.ticketId !== undefined  && attendee.ticketId !== null){
-            getTicket(attendee.ticketId);
-        }
+        getNationality(attendee.nationalityId);
+        getFursona(attendee.fursonaId);
+        getTicket(attendee.ticketId);
       }, [attendee])
     
-    const getNationality = async (nationalityId: number) => {
-        await axiosInstance.get('/api/v2/nationality', {params: {id: nationalityId}})
-            .then((res) => {
-            setNationality(res.data)
-        })
-        .catch((err) => {
-            return
-        })
+    const getNationality = (nationalityId: number | undefined) => {
+        setNationality(nationalities.find((a) => a.id === nationalityId))
     }
 
-    const getFursona = async (fursonaId: number) => {
-        await axiosInstance.get('/api/v2/fursona', {params: {id: fursonaId}})
-            .then((res) => {
-            setFursona(res.data)
-        })
-        .catch((err) => {
-            return
-        })
+    const getFursona = (fursonaId: number | undefined) => {
+        setFursona(fursonas.find((a) => a.id === fursonaId))
     }
 
-    const getTicket = async (ticketId: number) => {
-        await axiosInstance.get('/api/v2/ticket', {params: {id: ticketId}})
-            .then((res) => {
-            setTicket(res.data)
-        })
-        .catch((err) => {
-            return
-        })
+    const getTicket = (ticketId: number | undefined) => {
+        setTicket(tickets.find((a) => a.id === ticketId))
     }
 
     const rowAttendeeId = (attendee.id === undefined || attendee.id === null) ? 0 : attendee.id;
@@ -235,7 +219,7 @@ const AttendeeList: NextPage<Props> = (props: Props) => {
                 <tbody>
                     {props.attendees.map((attendee, i) => {
                         return(
-                            <Row key={i} attendee={attendee} />
+                            <Row key={i} attendee={attendee} nationalities={props.nationalities} tickets={props.tickets} fursonas={props.fursonas}/>
                         );
                     })}
                 </tbody>

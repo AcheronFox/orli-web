@@ -37,7 +37,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const ticketId = getRequestPropertyAsNumber(req.body.ticketId);
 
             const attendeeEmail = req.body.attendeeEmail;
-            console.log(requestId + " " + fursonaId + " " + ticketId)
             if (requestId === undefined){
                 return res.status(400).json({ message: "Invalid request" });
             }
@@ -89,7 +88,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     }
                 }
                 catch (e) {
-                    console.log(e)
                     return res.status(500).json({ message: "Failed to send email", e_code: "nat_20" });
                 }
             }            

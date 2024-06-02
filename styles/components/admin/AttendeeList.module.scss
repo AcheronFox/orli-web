@@ -31,6 +31,9 @@
             padding-left: 2px;
             padding-right: 2px;
             padding-bottom: 2px;
+            max-width: 170px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
 
             a{
                 text-decoration: underline;

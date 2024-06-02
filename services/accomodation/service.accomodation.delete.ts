@@ -8,5 +8,5 @@ export async function removeAccomodation(accomodation: IAccomodation, connection
 export async function removeAccomodation(accomodationId: number, connectionToUse?: PoolConnection): Promise<boolean>;
 export async function removeAccomodation(arg1: IAccomodation | number, connectionToUse?: PoolConnection): Promise<boolean>
 {
-    return await removeItemFromDatabase(arg1, TABLE);
+    return await removeItemFromDatabase(arg1, TABLE, connectionToUse);
 }

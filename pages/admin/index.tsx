@@ -135,7 +135,6 @@ const AdminPage: NextPage<Props> = (props: Props) => {
       filter = filter.filter((a) => (fursonas.find(({ id }) => id === a.fursonaId) !== undefined && fursonas.find(({ id }) => id === a.fursonaId)!.name.toUpperCase().includes(filterFursona.toUpperCase())))
     }
     if (filterNationality !== undefined && filterNationality != ""){
-      console.log(filterNationality);
       filter = filter.filter((a) => (nationalities.find(({ id }) => id === a.nationalityId) !== undefined && (nationalities.find(({ id }) => id === a.nationalityId)!.countryNameEnglish.toUpperCase().includes(filterNationality.toUpperCase()) || nationalities.find(({ id }) => id === a.nationalityId)!.countryNameHungarian.toUpperCase().includes(filterNationality.toUpperCase()))))
     }
     if (filterDoB !== undefined && filterDoB.length === 4){
@@ -209,9 +208,8 @@ const AdminPage: NextPage<Props> = (props: Props) => {
         break;
       case "fursona":
         sort = filteredAttendees.sort((a, b) => {
-          const fursonaA = (a.fursonaId === undefined || fursonas === undefined || fursonas.find(({ id }) => id === a.fursonaId) === undefined) ? "" : fursonas.find(({ id }) => id === a.fursonaId)!.name.toUpperCase()
-          const fursonaB = (b.fursonaId === undefined || fursonas === undefined || fursonas.find(({ id }) => id === b.fursonaId) === undefined) ? "" : fursonas.find(({ id }) => id === b.fursonaId)!.name.toUpperCase()
-          console.log(fursonaA, fursonaB)
+          const fursonaA = (a.fursonaId === undefined || a.fursonaId === null || fursonas === undefined || fursonas.find(({ id }) => id === a.fursonaId) === undefined) ? "" : fursonas.find(({ id }) => id === a.fursonaId)!.name.toUpperCase()
+          const fursonaB = (b.fursonaId === undefined || b.fursonaId === null || fursonas === undefined || fursonas.find(({ id }) => id === b.fursonaId) === undefined) ? "" : fursonas.find(({ id }) => id === b.fursonaId)!.name.toUpperCase()
           if (fursonaA < fursonaB) {
             return -1 * sortDirection;
           }
@@ -314,8 +312,8 @@ const AdminPage: NextPage<Props> = (props: Props) => {
         break;
       case "isPaid":
         sort = filteredAttendees.sort((a, b) => {
-          const isPaidA = (a.ticketId === undefined || tickets === undefined || tickets.find(({ id }) => id === a.ticketId) === undefined) ? 0 : tickets.find(({ id }) => id === a.ticketId)!.isPaid
-          const isPaidB = (b.ticketId === undefined || tickets === undefined || tickets.find(({ id }) => id === b.ticketId) === undefined) ? 0 : tickets.find(({ id }) => id === b.ticketId)!.isPaid
+          const isPaidA = (a.ticketId === undefined || a.ticketId === null || tickets === undefined || tickets.find(({ id }) => id === a.ticketId) === undefined) ? 0 : tickets.find(({ id }) => id === a.ticketId)!.isPaid
+          const isPaidB = (b.ticketId === undefined || b.ticketId === null || tickets === undefined || tickets.find(({ id }) => id === b.ticketId) === undefined) ? 0 : tickets.find(({ id }) => id === b.ticketId)!.isPaid
           if (isPaidA < isPaidB) {
             return -1 * sortDirection;
           }
@@ -327,8 +325,8 @@ const AdminPage: NextPage<Props> = (props: Props) => {
         break;
       case "paymentMethod":
         sort = filteredAttendees.sort((a, b) => {
-          const paymenthMethodA = (a.ticketId === undefined || tickets === undefined || tickets.find(({ id }) => id === a.ticketId) === undefined || tickets.find(({ id }) => id === a.ticketId)!.paymentMethod === undefined) ? "" : tickets.find(({ id }) => id === a.ticketId)!.paymentMethod!.toUpperCase()
-          const paymenthMethodB = (b.ticketId === undefined || tickets === undefined || tickets.find(({ id }) => id === b.ticketId) === undefined || tickets.find(({ id }) => id === b.ticketId)!.paymentMethod === undefined) ? "" : tickets.find(({ id }) => id === b.ticketId)!.paymentMethod!.toUpperCase()
+          const paymenthMethodA = (a.ticketId === undefined || a.ticketId === null || tickets === undefined || tickets.find(({ id }) => id === a.ticketId) === undefined || tickets.find(({ id }) => id === a.ticketId)!.paymentMethod === undefined) ? "" : tickets.find(({ id }) => id === a.ticketId)!.paymentMethod!.toUpperCase()
+          const paymenthMethodB = (b.ticketId === undefined || b.ticketId === null || tickets === undefined || tickets.find(({ id }) => id === b.ticketId) === undefined || tickets.find(({ id }) => id === b.ticketId)!.paymentMethod === undefined) ? "" : tickets.find(({ id }) => id === b.ticketId)!.paymentMethod!.toUpperCase()
           if (paymenthMethodA < paymenthMethodB) {
             return -1 * sortDirection;
           }
@@ -376,161 +374,172 @@ const AdminPage: NextPage<Props> = (props: Props) => {
     setSortedAttendees([...sortAttendeeArray()]);
   }, [filteredAttendees])
 
-  return (
-    <>
-      {
-        (isAuthenTicated == true) &&
-        <div className={styles.Admin}>
-          <div className={styles.Admin__Content}><h2>FILTERS:</h2></div>
-          <hr></hr>
-          <div className={styles.Admin__Content}>
-            <Input
-              type="text"
-              onChange={(e) => {setFilterName(e)}}
-              label="Name (first or last)"
-            >
-            </Input>
+  if (attendees.length === 0 || tickets.length === 0 || fursonas.length === 0 || nationalities.length === 0){
+    return (
+      <div className={styles.Admin}>
+          <div className={styles.Admin__Content}><h2>LOADING</h2></div>
+      </div>
+    )
+  } else {
+    return (
+      <>
+        {
+          (isAuthenTicated == true) &&
+          <div className={styles.Admin}>
+            <div className={styles.Admin__Content}><h2>FILTERS:</h2></div>
+            <hr></hr>
+            <div className={styles.Admin__Content}>
+              <Input
+                type="text"
+                onChange={(e) => {setFilterName(e)}}
+                label="Name (first or last)"
+              >
+              </Input>
 
-            <Input
-              type="text"
-              onChange={(e) => {setFilterEmail(e)}}
-              label="Email"
-            >
-            </Input>
+              <Input
+                type="text"
+                onChange={(e) => {setFilterEmail(e)}}
+                label="Email"
+              >
+              </Input>
 
-            <Input
-              type="text"
-              onChange={(e) => {setFilterFursona(e)}}
-              label="Fursona Name"
-            >
-            </Input>
-          </div>
-          <div className={styles.Admin__Content}> 
-            <Input
-              type="text"
-              onChange={(e) => {setFilterNationality(e)}}
-              label="Nationality"
-            >
-            </Input>
+              <Input
+                type="text"
+                onChange={(e) => {setFilterFursona(e)}}
+                label="Fursona Name"
+              >
+              </Input>
+            </div>
+            <div className={styles.Admin__Content}> 
+              <Input
+                type="text"
+                onChange={(e) => {setFilterNationality(e)}}
+                label="Nationality"
+              >
+              </Input>
 
-            <Input
-              type="text"
-              onChange={(e) => {setFilterDoB(e)}}
-              label="Year of Birth"
-            >
-            </Input>
+              <Input
+                type="text"
+                onChange={(e) => {setFilterDoB(e)}}
+                label="Year of Birth"
+              >
+              </Input>
 
-            <Input
-              type="text"
-              onChange={(e) => {setFilterContact(e)}}
-              label="Telegram"
-            >
-            </Input>
+              <Input
+                type="text"
+                onChange={(e) => {setFilterContact(e)}}
+                label="Telegram"
+              >
+              </Input>
+            </div>
+            <div className={styles.Admin__Content}> 
+              <Input
+                type="text"
+                onChange={(e) => {setFilterPaymentMethod(e)}}
+                label="Payment Method"
+              >
+              </Input>
+            </div>
+            <hr></hr>
+            <div className={styles.Admin__Content}>
+              <span>
+              <label>
+                Show only verified:&nbsp;
+                <input
+                  type="checkbox"
+                  checked={(filterVerified == true) ? true : false}
+                  onChange={(e) => {setFilterVerified((e.target.checked) ? true : undefined)}}
+                ></input>
+              </label>
+              <br></br>
+              <label>
+                Show only unverified:&nbsp;
+                <input
+                  type="checkbox"
+                  checked={(filterVerified == false) ? true : false}
+                  onChange={(e) => {setFilterVerified((e.target.checked) ? false : undefined)}}
+                ></input>
+              </label>
+              </span>
+              ||
+              <span>
+              <label>
+                Show only paid:&nbsp;
+                <input
+                  type="checkbox"
+                  checked={(filterPaid == true) ? true : false}
+                  onChange={(e) => {setFilterPaid((e.target.checked) ? true : undefined)}}
+                ></input>
+              </label>
+              <br></br>
+              <label>
+                Show only unpaid:&nbsp;
+                <input
+                  type="checkbox"
+                  checked={(filterPaid == false) ? true : false}
+                  onChange={(e) => {setFilterPaid((e.target.checked) ? false : undefined)}}
+                ></input>
+              </label>
+              </span>
+              ||
+              <span>
+              <label>
+                Show only staff:&nbsp;
+                <input
+                  type="checkbox"
+                  checked={(filterStaff == true) ? true : false}
+                  onChange={(e) => {setFilterStaff((e.target.checked) ? true : undefined)}}
+                ></input>
+              </label>
+              <br></br>
+              <label>
+                Show only non-staff:&nbsp;
+                <input
+                  type="checkbox"
+                  checked={(filterStaff == false) ? true : false}
+                  onChange={(e) => {setFilterStaff((e.target.checked) ? false : undefined)}}
+                ></input>
+              </label>
+              </span>
+              ||
+              <span>
+              <label>
+                Show only admin:&nbsp;
+                <input
+                  type="checkbox"
+                  checked={(filterAdmin == true) ? true : false}
+                  onChange={(e) => {setFilterAdmin((e.target.checked) ? true : undefined)}}
+                ></input>
+              </label>
+              <br></br>
+              <label>
+                Show only non-admin:&nbsp;
+                <input
+                  type="checkbox"
+                  checked={(filterAdmin == false) ? true : false}
+                  onChange={(e) => {setFilterAdmin((e.target.checked) ? false : undefined)}}
+                ></input>
+              </label>
+              </span>
+            </div>
+            <hr></hr>
+            <div className={styles.Admin__Content}><h2>ATTENDEE LIST:</h2></div>
+            <div className={styles.Admin__Content}>
+              <AttendeeList 
+                sortColumn={sortColumn} 
+                setSortColumn={setSortColumn} 
+                sortDirection={sortDirection}
+                setSortDirection={setSortDirection}
+                attendees={sortedAttendees}
+                nationalities={nationalities}
+                tickets={tickets}
+                fursonas={fursonas}></AttendeeList>
+            </div>
           </div>
-          <div className={styles.Admin__Content}> 
-            <Input
-              type="text"
-              onChange={(e) => {setFilterPaymentMethod(e)}}
-              label="Payment Method"
-            >
-            </Input>
-          </div>
-          <hr></hr>
-          <div className={styles.Admin__Content}>
-            <span>
-            <label>
-              Show only verified:&nbsp;
-              <input
-                type="checkbox"
-                checked={(filterVerified == true) ? true : false}
-                onChange={(e) => {setFilterVerified((e.target.checked) ? true : undefined)}}
-              ></input>
-            </label>
-            <br></br>
-            <label>
-              Show only unverified:&nbsp;
-              <input
-                type="checkbox"
-                checked={(filterVerified == false) ? true : false}
-                onChange={(e) => {setFilterVerified((e.target.checked) ? false : undefined)}}
-              ></input>
-            </label>
-            </span>
-            ||
-            <span>
-            <label>
-              Show only paid:&nbsp;
-              <input
-                type="checkbox"
-                checked={(filterPaid == true) ? true : false}
-                onChange={(e) => {setFilterPaid((e.target.checked) ? true : undefined)}}
-              ></input>
-            </label>
-            <br></br>
-            <label>
-              Show only unpaid:&nbsp;
-              <input
-                type="checkbox"
-                checked={(filterPaid == false) ? true : false}
-                onChange={(e) => {setFilterPaid((e.target.checked) ? false : undefined)}}
-              ></input>
-            </label>
-            </span>
-            ||
-            <span>
-            <label>
-              Show only staff:&nbsp;
-              <input
-                type="checkbox"
-                checked={(filterStaff == true) ? true : false}
-                onChange={(e) => {setFilterStaff((e.target.checked) ? true : undefined)}}
-              ></input>
-            </label>
-            <br></br>
-            <label>
-              Show only non-staff:&nbsp;
-              <input
-                type="checkbox"
-                checked={(filterStaff == false) ? true : false}
-                onChange={(e) => {setFilterStaff((e.target.checked) ? false : undefined)}}
-              ></input>
-            </label>
-            </span>
-            ||
-            <span>
-            <label>
-              Show only admin:&nbsp;
-              <input
-                type="checkbox"
-                checked={(filterAdmin == true) ? true : false}
-                onChange={(e) => {setFilterAdmin((e.target.checked) ? true : undefined)}}
-              ></input>
-            </label>
-            <br></br>
-            <label>
-              Show only non-admin:&nbsp;
-              <input
-                type="checkbox"
-                checked={(filterAdmin == false) ? true : false}
-                onChange={(e) => {setFilterAdmin((e.target.checked) ? false : undefined)}}
-              ></input>
-            </label>
-            </span>
-          </div>
-          <hr></hr>
-          <div className={styles.Admin__Content}><h2>ATTENDEE LIST:</h2></div>
-          <div className={styles.Admin__Content}>
-            <AttendeeList 
-              sortColumn={sortColumn} 
-              setSortColumn={setSortColumn} 
-              sortDirection={sortDirection}
-              setSortDirection={setSortDirection}
-              attendees={sortedAttendees}></AttendeeList>
-          </div>
-        </div>
-      }
-    </>
-  );
+        }
+      </>
+    );
+  }
 }
 export default AdminPage
 

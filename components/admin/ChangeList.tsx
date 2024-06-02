@@ -18,7 +18,6 @@ const ChangeList: NextPage<Props> = (props: Props) => {
     } else {
         let provisionalUpdateList = [];
             if (changes.indexOf("verifiedStatus") > -1){
-                console.log("TEST");
                 provisionalUpdateList.push(<p key="verifiedStatus">Verified status will be changed</p>)
             }
             if (changes.indexOf("paymentStatus") > -1){
@@ -26,6 +25,12 @@ const ChangeList: NextPage<Props> = (props: Props) => {
             }
             if (changes.indexOf("paymentMethod") > -1){
                 provisionalUpdateList.push(<p key="paymentMethod">Payment method will be changed</p>)
+            }
+            if (changes.indexOf("accomodationDeleteFlag") > -1){
+                provisionalUpdateList.push(<p key="accomodationDeleteFlag">Room assignment will be removed</p>)
+            }
+            if (changes.indexOf("assignedRoom") > -1 && !(changes.indexOf("accomodationDeleteFlag") > -1)){
+                provisionalUpdateList.push(<p key="assignedRoom">Room assignment will be changed</p>)
             }
             if (changes.indexOf("imageDeleteFlag") > -1){
                 provisionalUpdateList.push(<p key="imageDeleteFlag">Profile image will be deleted</p>)
